@@ -1,5 +1,10 @@
-var opus = require('node-opus'); const
+var opus = require('node-opus');
+const
     Discord = require('discord.js'),
+    events = {
+        MESSAGE_REACTION_ADD: 'messageReactionAdd',
+        MESSAGE_REACTION_REMOVE: 'messageReactionRemove',
+    },
     ffmpeg = require('ffmpeg'),
     fs = require('fs'),
     path = require('path'),
@@ -8,10 +13,33 @@ var opus = require('node-opus'); const
     bot = new Discord.Client(),
     //token = "NDAyMjQ2NTA5MzEzMzkyNjQw.DT2PIA.W9WqU027YvKV3kLLQbjRaiUdid8"; // Dragon
     //token = "NDAzNjQ4OTMwNTE4NDAxMDI1.DrWsuA.OcUcXuC8IgCwvsXovl0zJgj4tcw"; // QuiltyPleasure
-    token = "NDQzNzgwMTA1OTk1ODEyODY0.DmCY6w.UEF0d9sdHyH8_vm7vsGomf65uWs"; // DragonDev
+    //token = "NDQzNzgwMTA1OTk1ODEyODY0.DmCY6w.UEF0d9sdHyH8_vm7vsGomf65uWs"; // DragonDev
+    token = "NDQ1OTgzNzc1NjQyNDg0NzM3.DrjurA.oOA-W3ASbD_wuyaIuxb8OsUBRtA"; // Team Fortress 2
+
+bot.on('raw', async event => {
+	if (!events.hasOwnProperty(event.t)) return;
+
+	const { d: data } = event;
+	const user = bot.users.get(data.user_id);
+	const channel = bot.channels.get(data.channel_id) || await user.createDM();
+
+	if (channel.messages.has(data.message_id)) return;
+
+	const message = await channel.fetchMessage(data.message_id);
+	const emojiKey = (data.emoji.id) ? `${data.emoji.name}:${data.emoji.id}` : data.emoji.name;
+	let reaction = message.reactions.get(emojiKey);
+
+	if (!reaction) {
+		const emoji = new Discord.Emoji(bot.guilds.get(data.guild_id), data.emoji);
+		reaction = new Discord.MessageReaction(message, emoji, 1, data.user_id === bot.user.id);
+	}
+
+	bot.emit(events[event.t], reaction, user);
+});
 
 bot.on("ready", () => {
     console.log(`Bot logged in as ${bot.user.tag}`);
+    global.bot = bot;
 });
 
 bot.on("message", msg => {
@@ -56,7 +84,7 @@ bot.on("message", msg => {
         if (fnc.IsValidDomain(cmd[0])) {
             var song = cmd[0];
             // Validate the request if the domain is a supported one
-            fnc.validateRequest(song, response => {
+            if (!fnc.validateRequest(song, response => {
                 // Invalid domain reply to requester
                 if (!response) return msg.reply("invalid url given!");
                 else {
@@ -71,14 +99,17 @@ bot.on("message", msg => {
                     }
                     // else create a queue and add the first request
                     else {
-                        music.createQueue(msg.guild.id, response, embed => {
+                        music.createQueue(msg.guild.id, response, msg.channel.id, embed => {
                             music.startQueue(msg.guild.id, voicechannel, () => {
                                 return msg.channel.send({embed});
                             });
                         });
                     }
                 }
-            });
+            })) {
+                // Invalid Youtube url
+                return msg.reply("broken link or unsupported link!");
+            }
         }
         // Otherwise try a search on it on youtube
         else {
@@ -103,27 +134,32 @@ bot.on("message", msg => {
         if (fnc.IsValidDomain(cmd[0])) {
             var song = cmd[0];
             // Validate the request if the domain is a supported one
-            fnc.validateRequest(song, response => {
+            if (!fnc.validateRequest(song, response => {
                 // Invalid domain reply to requester
                 if (!response) return msg.reply("invalid url given!");
                 else {
                     // Check if this server has a queue
                     if (music.serverExistsInQueue(msg.guild.id)) {
                         if (music.isDragonInVC(voicechannel, bot))
-                            music.playNextInQueue(msg.guild.id, response);
+                            music.playNextInQueue(msg.guild.id, response, embed => {
+                                return msg.channel.send({embed});
+                            });
                         else
                             return msg.reply("you aren't in the bot's channel!");
                     }
                     // else create a queue and add the first request
                     else {
-                        music.createQueue(msg.guild.id, response, () => {
+                        music.createQueue(msg.guild.id, response, embed => {
                             music.startQueue(msg.guild.id, voicechannel, () => {
-                                return msg.reply("music playback will start shortly!");
+                                return msg.channel.send({embed});
                             });
                         });
                     }
                 }
-            });
+            })) {
+                // Invalid Youtube url
+                return msg.reply("broken link or unsupported link!");
+            }
         }
         // Otherwise try a search on it on youtube
         else {
@@ -221,6 +257,7 @@ process.on('SIGINT', () => {
     fs.readdir("audio", (err, files) => {
         if (err) throw err;
         for (const file of files) {
+            console.log("Removing file: ./"+ path.join("audio", file));
             fs.unlink(path.join("audio", file), err => {
                 if (err) throw err;
             });

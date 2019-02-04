@@ -1,10 +1,14 @@
 const
     fs = require("fs"),
     url = require("url"),
+    events = require('events'),
+    eventEmitter = new events.EventEmitter(),
     queryString = require('query-string'),
-    validUrl = require("valid-url");
+    validUrl = require("valid-url"),
+    yt = require("./youtube");
 
 global.config = JSON.parse(fs.readFileSync("data/config.json"));
+global.users = {};
 
 exports.IsValidDomain = function (domain) {
     if (validUrl.isWebUri(domain))
@@ -19,7 +23,36 @@ exports.on_command = function (msg, command, callback) {
     return false;
 };
 
-exports.validateRequest = function (song, callback) {
+exports.on_reaction = function (message, emoji) {
+    const bot = global.bot;
+
+    bot.on('messageReactionAdd', (reaction, user) => {
+        return CheckReaction(reaction, user);
+    });
+
+    bot.on('messageReactionRemove', (reaction, user) => {
+        return CheckReaction(reaction, user);
+    });
+
+    function CheckReaction(reaction, user) {
+        if (user.id == bot.user.id) {
+            return ;
+        }
+        else if (message.id == reaction.message.id && user.id != bot.user.id) {
+            if (global.users[user.id] == undefined) {
+                global.users[user.id] = {};
+                global.users[user.id].timer = setTimeout(function () {
+                    console.log("Event fired");
+                    global.users[user.id] = undefined;
+                }, 10);
+            }
+            else
+                return ;
+        }
+    }
+};
+
+exports.validateRequest = async function (song, callback) {
     var
         videoId = "",
         parsedUrl = url.parse(song),
@@ -27,14 +60,17 @@ exports.validateRequest = function (song, callback) {
 
     if (domain.includes("youtube") || domain.includes("youtu.be")) {
         if (domain == "youtu.be")
-            videoId = parsedUrl.pathname;
+            videoId = parsedUrl.pathname.split("/")[1];
         else
             videoId = queryString.parse(parsedUrl.search).v;
+
+        if (!await yt.getSongInfoById(videoId))
+            return false;
 
         if (videoId != undefined)
             return callback({source: "youtube", id: videoId});
         else
-            return callback(false);
+            return false;
     }
-    else return callback(false);
+    return false;
 };
