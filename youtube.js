@@ -11,6 +11,10 @@ exports.getSongInfoById = async function (videoId) {
         id: videoId
     });
 
+    if (res.data.items.length == 0) {
+        return false;
+    }
+
     var
         song = res.data.items[0],
         thumbnails = song.snippet.thumbnails,
