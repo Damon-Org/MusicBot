@@ -1,0 +1,5 @@
+{
+    "prefix": "dd!",
+    "maxprequeue": 50,
+    "maxqueue": 100
+}
