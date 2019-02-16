@@ -1,5 +1,73 @@
 {
-    "prefix": "dd!",
+    "prefix": "!",
     "maxprequeue": 50,
-    "maxqueue": 100
+    "maxqueue": 100,
+
+    "pagesize": 10,
+
+    "commands": [
+        {
+            "name": "ping",
+            "aliases": [
+                "pong"
+            ]
+        },
+        {
+            "name": "play",
+            "aliases" : [
+                "p"
+            ]
+        },
+        {
+            "name": "playnext",
+            "aliases": [
+                "pn"
+            ]
+        },
+        {
+            "name": "repeat"
+        },
+        {
+            "name": "leave",
+            "aliases": [
+                "quit",
+                "exit",
+                "stop"
+            ]
+        },
+        {
+            "name": "resume"
+        },
+        {
+            "name": "pause"
+        },
+        {
+            "name": "volume",
+            "aliases": [
+                "vol",
+                "v"
+            ]
+        },
+        {
+            "name": "skip",
+            "aliases": [
+                "next"
+            ]
+        },
+        {
+            "name": "previous",
+            "aliases": [
+                "back"
+            ]
+        },
+        {
+            "name": "queue",
+            "aliases": [
+                "q"
+            ]
+        },
+        {
+            "name": "invite"
+        }
+    ]
 }
