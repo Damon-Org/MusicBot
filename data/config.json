@@ -68,6 +68,36 @@
         },
         {
             "name": "invite"
+        },
+        {
+            "name": "help",
+            "aliases": [
+                "h"
+            ]
+        },
+        {
+            "name": "stats"
+        },
+        {
+            "name": "record",
+            "aliases": [
+                "rec",
+                "r"
+            ]
+        },
+        {
+            "name": "repeatplaylist",
+            "aliases": [
+                "repeatpl",
+                "rpl"
+            ]
+        },
+        {
+            "name": "remove",
+            "aliases": [
+                "rm",
+                "removesong"
+            ]
         }
     ]
 }
