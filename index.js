@@ -1,4 +1,4 @@
-global.PATH = '/home/node/projects/music';
+global.PATH = '/home/node/music';
 const
     startTime = new Date(),
     { BotEvents } = require('./lib/botevents.js'),
