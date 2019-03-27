@@ -8,13 +8,6 @@ const
     //token = 'NDQ1OTgzNzc1NjQyNDg0NzM3.DrjurA.oOA-W3ASbD_wuyaIuxb8OsUBRtA'; // Team Fortress 2
     token = 'NTQ0NTIyMDU0OTMwNzkyNDQ5.D0MVXQ._FtN9i_PoXPjJLRSH5ftatFg3mA'; // Damon Music
 
-// Faster socket connection
-const bufferutil = require('bufferutil');
-// Faster socket (de)serialisation
-const erlpack = require('erlpack');
-// Faster voice packet (d)ecryption
-const sodium = require('sodium');
-
 bot = new BotEvents(startTime);
 
 bot.Login(token);
