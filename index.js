@@ -1,6 +1,7 @@
 global.PATH = '/home/node/music';
 const
     startTime = new Date(),
+    { HandleException } = require('./lib/functions.js'),
     { BotEvents } = require('./lib/botevents.js'),
     //token = '***REMOVED***'; // Dragon
     //token = '***REMOVED***'; // QuiltyPleasure
@@ -12,12 +13,24 @@ bot = new BotEvents(startTime);
 
 bot.Login(token);
 
-process.on('SIGINT', () => {
-    console.log('\nBot shutdown requested logging out...');
+process
+    .on('SIGINT', () => {
+        console.log('\nBot shutdown requested logging out...');
 
-    setTimeout(function () {
-        bot.Logout();
-        console.log('Bot logout done!');
-        process.exit();
-    }, 500);
-});
+        setTimeout(function () {
+            bot.Logout();
+            console.log('Bot logout done!');
+            process.exit();
+        }, 500);
+    })
+    
+    .on('uncaughtException', err => {
+        HandleException(err);
+
+        setTimeout(function () {
+            console.log('Fatal error occured, logging bot out.');
+            bot.Logout();
+            console.log('Bot logout done!');
+            process.exit();
+        }, 500);
+  });
