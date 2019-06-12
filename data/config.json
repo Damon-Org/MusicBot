@@ -7,6 +7,42 @@
 
     "commands": [
         {
+            "name": "help",
+            "aliases": [
+                "h"
+            ],
+            "description": "Gives a link to a website where you can find all the information you need.",
+            "usage": "!help",
+            "examples": []
+        },
+        {
+            "name": "invite",
+            "aliases": [],
+            "description": "Invite Damon to your Discord server.",
+            "usage": "!invite",
+            "examples": []
+        },
+        {
+            "name": "leave",
+            "aliases": [
+                "quit",
+                "exit",
+                "stop",
+		        "brexit",
+		        "no-u"
+            ],
+            "description": "Bot will stop music playback and leave channel",
+            "usage": "!leave",
+            "examples": []
+        },
+        {
+            "name": "pause",
+            "aliases": [],
+            "description": "Music playback will be paused.",
+            "usage": "!pause",
+            "examples": []
+        },
+        {
             "name": "ping",
             "aliases": [
                 "pong"
@@ -41,62 +77,6 @@
             ]
         },
         {
-            "name": "repeat",
-            "aliases": [],
-            "description": "Will repeat the currently playing song.",
-            "usage": "!repeat",
-            "examples": []
-        },
-        {
-            "name": "leave",
-            "aliases": [
-                "quit",
-                "exit",
-                "stop",
-		        "brexit",
-		        "no-u"
-            ],
-            "description": "Bot will stop music playback and leave channel",
-            "usage": "!leave",
-            "examples": []
-        },
-        {
-            "name": "resume",
-            "aliases": [],
-            "description": "Music playback will be resumed.",
-            "usage": "!resume",
-            "examples": []
-        },
-        {
-            "name": "pause",
-            "aliases": [],
-            "description": "Music playback will be paused.",
-            "usage": "!pause",
-            "examples": []
-        },
-        {
-            "name": "volume",
-            "aliases": [
-                "vol",
-                "v"
-            ],
-            "description": "Change music volume.",
-            "usage": "!volume <number ranging from 1 to 200>",
-            "examples": [
-                "!v 100",
-                "!volume 1500000"
-            ]
-        },
-        {
-            "name": "skip",
-            "aliases": [
-                "next"
-            ],
-            "description": "Will skip the currently playing song.",
-            "usage": "!skip",
-            "examples": []
-        },
-        {
             "name": "previous",
             "aliases": [
                 "back"
@@ -118,19 +98,58 @@
             ]
         },
         {
-            "name": "invite",
-            "aliases": [],
-            "description": "Invite Damon to your Discord server.",
-            "usage": "!invite",
+            "name": "record",
+            "aliases": [
+                "rec"
+            ],
+            "description": "This command will record the current voicechat after everyone has given their concent.",
+            "usage": "!record",
             "examples": []
         },
         {
-            "name": "help",
+            "name": "remove",
             "aliases": [
-                "h"
+                "rm",
+                "removesong"
             ],
-            "description": "Gives a link to a website where you can find all the information you need.",
-            "usage": "!help",
+            "description": "Removes a song from the queue",
+            "usage": "!remove <number of the song in queue>",
+            "examples": [
+                "!rm 4",
+                "!remove -2"
+            ]
+        },
+        {
+            "name": "repeat",
+            "aliases": [],
+            "description": "Will repeat the currently playing song.",
+            "usage": "!repeat",
+            "examples": []
+        },
+        {
+            "name": "repeatplaylist",
+            "aliases": [
+                "repeatpl",
+                "rpl"
+            ],
+            "description": "The entire queue is looped, when the end of queue is reached it starts over.",
+            "usage": "!repeatpl",
+            "examples": []
+        },
+        {
+            "name": "resume",
+            "aliases": [],
+            "description": "Music playback will be resumed.",
+            "usage": "!resume",
+            "examples": []
+        },
+        {
+            "name": "skip",
+            "aliases": [
+                "next"
+            ],
+            "description": "Will skip the currently playing song.",
+            "usage": "!skip",
             "examples": []
         },
         {
@@ -141,29 +160,16 @@
             "examples": []
         },
         {
-            "name": "record",
+            "name": "volume",
             "aliases": [
-                "rec"
+                "vol",
+                "v"
             ],
-            "description": "This command will record the current voicechat after everyone has given their concent.",
-            "usage": "!record",
-            "examples": []
-        },
-        {
-            "name": "repeatplaylist",
-            "aliases": [
-                "repeatpl",
-                "rpl"
-            ],
-            "description": "If the end of a music queue is reached",
-            "usage": "!repeat",
-            "examples": []
-        },
-        {
-            "name": "remove",
-            "aliases": [
-                "rm",
-                "removesong"
+            "description": "Change music volume.",
+            "usage": "!volume <number ranging from 1 to 200>",
+            "examples": [
+                "!v 100",
+                "!volume 1500000"
             ]
         }
     ]
