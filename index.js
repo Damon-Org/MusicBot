@@ -7,7 +7,8 @@ const
     //token = '***REMOVED***'; // QuiltyPleasure
     //token = '***REMOVED***'; // DragonDev
     //token = '***REMOVED***'; // Team Fortress 2
-    token = '***REMOVED***'; // Damon Music
+    //token = '***REMOVED***'; // Damon Music
+    token = '***REMOVED***'; // Devon Music
 
 bot = new BotEvents(startTime);
 
@@ -23,7 +24,7 @@ process
             process.exit();
         }, 500);
     })
-    
+
     .on('uncaughtException', err => {
         HandleException(err);
 
