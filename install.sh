@@ -5,7 +5,7 @@ echo "Updating apt and getting latest patches"
 apt update && apt upgrade -y
 apt install -y git make g++ libtool autoconf ffmpeg curl
 
-echo andreasma2013 | sudo passwd --stdin node
+useradd node
 
 git clone https://git.damon.sh/Yimura/Musicbot.git /home/node/music
 
