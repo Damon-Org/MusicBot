@@ -16,5 +16,5 @@ cd /home/node/music
 
 npm install
 
-chown node:node -R /home/node/*
+chown node:node -R /home/node/
 chown node:node -R /home/node/music/.git
