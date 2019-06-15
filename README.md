@@ -1,9 +1,4 @@
-All commands require root/sudo permissions
+Just execute install.sh
 
-Required packages
-
-`apt install git g++ libtool autoconf ffmpeg`
-
-afterwards
-
-`npm install`
+`chmod a+x install.sh
+./install.sh`
