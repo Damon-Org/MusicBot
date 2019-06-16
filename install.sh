@@ -7,7 +7,7 @@ apt install -y git make g++ libtool autoconf ffmpeg curl
 
 useradd node
 
-git clone https://git.damon.sh/Yimura/Musicbot.git /home/node/music
+git clone https://git.damon.sh/damon/Musicbot.git /home/node/music
 
 curl -sL deb.nodesource.com/setup_8.x | bash -
 apt install -y nodejs

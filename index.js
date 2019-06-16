@@ -7,8 +7,8 @@ const
     //token = '***REMOVED***'; // QuiltyPleasure
     //token = '***REMOVED***'; // DragonDev
     //token = '***REMOVED***'; // Team Fortress 2
-    //token = '***REMOVED***'; // Damon Music
-    token = '***REMOVED***'; // Devon Music
+    token = '***REMOVED***'; // Damon Music
+    //token = '***REMOVED***'; // Devon Music
 
 bot = new BotEvents(startTime);
 

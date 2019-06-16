@@ -1,5 +1,5 @@
 {
-    "prefix": "d!",
+    "prefix": "!",
     "maxprequeue": 50,
     "maxqueue": 100,
 
@@ -33,8 +33,8 @@
                     "quit",
                     "exit",
                     "stop",
-    		        "brexit",
-    		        "no-u"
+                    "brexit",
+                    "no-u"
                 ],
                 "description": "Bot will stop music playback and leave channel",
                 "usage": "!leave",
@@ -51,7 +51,7 @@
                 "name": "play",
                 "aliases" : [
                     "p",
-    		        "pbutbetter"
+                    "pbutbetter"
                 ],
                 "description": "Adds the song you request to queue and plays it.",
                 "usage": "!play <youtube url / keywords to search for>",
