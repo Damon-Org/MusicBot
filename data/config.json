@@ -24,6 +24,19 @@
                 "examples": [
                     "!lock music #music"
                 ]
+            },
+            {
+                "name": "removelock",
+                "aliases": [
+                    "remlock",
+                    "rmlock"
+                ],
+                "description": "Remove the feature lock if one was in place.",
+                "usage": "!removelock <feature>",
+                "examples": [
+                    "!rmlock music",
+                    "!remlock music"
+                ]
             }
         ],
         "music": [

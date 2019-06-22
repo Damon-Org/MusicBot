@@ -1,3 +1,5 @@
+'use strict';
+
 global.PATH = '/home/node/music';
 const
     startTime = new Date(),
@@ -10,13 +12,23 @@ const
     token = '***REMOVED***'; // Damon Music
     //token = '***REMOVED***'; // Devon Music
 
-bot = new BotEvents(startTime);
+const bot = new BotEvents(startTime);
 
 bot.Login(token);
 
 process
     .on('SIGINT', () => {
         console.log('\nBot shutdown requested logging out...');
+
+        setTimeout(function () {
+            bot.Logout();
+            console.log('Bot logout done!');
+            process.exit();
+        }, 500);
+    })
+
+    .on('SIGTERM', () => {
+        console.log('\nBot shutdown requested through SERVICE');
 
         setTimeout(function () {
             bot.Logout();
