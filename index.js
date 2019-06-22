@@ -1,3 +1,5 @@
+'use strict';
+
 global.PATH = '/home/node/music';
 const
     startTime = new Date(),
@@ -10,13 +12,23 @@ const
     token = 'NTQ0NTIyMDU0OTMwNzkyNDQ5.D0MVXQ._FtN9i_PoXPjJLRSH5ftatFg3mA'; // Damon Music
     //token = 'NTY3NzM2ODE5MzA3NzczOTYy.XQP_2w.nIbgKE5z8Lul5fEDXM3_askeMJY'; // Devon Music
 
-bot = new BotEvents(startTime);
+const bot = new BotEvents(startTime);
 
 bot.Login(token);
 
 process
     .on('SIGINT', () => {
         console.log('\nBot shutdown requested logging out...');
+
+        setTimeout(function () {
+            bot.Logout();
+            console.log('Bot logout done!');
+            process.exit();
+        }, 500);
+    })
+
+    .on('SIGTERM', () => {
+        console.log('\nBot shutdown requested through SERVICE');
 
         setTimeout(function () {
             bot.Logout();
