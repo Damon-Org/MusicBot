@@ -1,24 +1,20 @@
 {
-  "name": "musicv2",
-  "version": "0.1.0",
-  "description": "An advanced music bot for discord",
+  "name": "damon_music",
+  "version": "0.3.0",
+  "description": "The third revision of Damon Music",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
+    "test": "node ."
   },
+  "keywords": [
+    "javascript"
+  ],
   "author": "Yimura",
-  "license": "GPL-3.0-or-later",
+  "license": "ISC",
   "private": true,
   "dependencies": {
-    "bufferutil": "^4.0.1",
     "discord.js": "^11.5.1",
-    "erlpack": "github:discordapp/erlpack",
-    "googleapis": "^37.2.0",
-    "mysql": "^2.17.1",
-    "node-opus": "^0.2.9",
-    "query-string": "^6.6.0",
-    "request": "^2.88.0",
-    "valid-url": "^1.0.9",
-    "ytdl-core": "^0.29.2"
+    "mysql2": "^1.6.5",
+    "require-dir": "^1.2.0"
   }
 }
