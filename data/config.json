@@ -74,6 +74,22 @@
                 ]
             },
             {
+                "name": "playlist",
+                "aliases": [],
+                "description": "Starts playing a playlist from its share ID, this will append all the songs or if no music is playing a queue will be created and the song will be played instead.",
+                "usage": "!playlist <share ID>",
+                "examples": [
+                    "!playlist CXJ3k"
+                ]
+            },
+            {
+                "name": "playlists",
+                "aliases": [],
+                "description": "Shows all your saved playlists.",
+                "usage": "!playlists",
+                "examples": []
+            },
+            {
                 "name": "playnext",
                 "aliases": [
                     "pn"
@@ -150,6 +166,15 @@
                 ],
                 "description": "Will skip the currently playing song.",
                 "usage": "!skip",
+                "examples": []
+            },
+            {
+                "name": "saveplaylist",
+                "aliases": [
+                    "savepl"
+                ],
+                "description": "Will save the current queue as playlist.",
+                "usage": "!saveplaylist",
                 "examples": []
             },
             {
