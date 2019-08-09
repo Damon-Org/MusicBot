@@ -1,0 +1,207 @@
+{
+    "administration": [
+        {
+            "name": "updateservers",
+            "aliases": [],
+            "description": "Update servers in DB",
+            "usage": "!updateservers",
+            "examples": []
+        }
+    ],
+    "informative": [
+        {
+            "name": "help",
+            "aliases": [
+                "h"
+            ],
+            "description": "Gives a link to a website where you can find all the information you need.",
+            "usage": "!help",
+            "examples": []
+        },
+        {
+            "name": "invite",
+            "aliases": [],
+            "description": "Invite Damon to your Discord server.",
+            "usage": "!invite",
+            "examples": []
+        },
+        {
+            "name": "ping",
+            "aliases": [
+                "pong"
+            ],
+            "description": "Shows ping to Discord, response time and reply time.",
+            "usage": "!ping",
+            "examples": []
+        },
+        {
+            "name": "stats",
+            "aliases": [],
+            "description": "Shows a couple of stats about Damon.",
+            "usage": "!stats",
+            "examples": []
+        }
+    ],
+    "moderation": [
+        {
+            "name": "lock",
+            "aliases": [],
+            "description": "Lock specific feature to one channel",
+            "usage": "!lock <feature> <channel>",
+            "examples": [
+                "!lock music #music"
+            ]
+        },
+        {
+            "name": "removelock",
+            "aliases": [
+                "remlock",
+                "rmlock"
+            ],
+            "description": "Remove the feature lock if one was in place.",
+            "usage": "!removelock <feature>",
+            "examples": [
+                "!rmlock music",
+                "!remlock music"
+            ]
+        }
+    ],
+    "music": [
+        {
+            "name": "leave",
+            "aliases": [
+                "quit",
+                "exit",
+                "stop",
+                "brexit",
+                "no-u"
+            ],
+            "description": "Bot will stop music playback and leave channel",
+            "usage": "!leave",
+            "examples": []
+        },
+        {
+            "name": "pause",
+            "aliases": [],
+            "description": "Music playback will be paused.",
+            "usage": "!pause",
+            "examples": []
+        },
+        {
+            "name": "play",
+            "aliases" : [
+                "p",
+                "pbutbetter"
+            ],
+            "description": "Adds the song you request to queue and plays it.",
+            "usage": "!play <youtube url / keywords to search for>",
+            "examples": [
+                "!p https://www.youtube.com/watch?v=rVHn3GOXvzk",
+                "!play My House Flo Rida"
+            ]
+        },
+        {
+            "name": "playnext",
+            "aliases": [
+                "pn"
+            ],
+            "description": "Adds song directly after currently playing song, if no music is playing a queue will be created and the song will be played instead.",
+            "usage": "!playnext <youtube url / keywords to search for>",
+            "examples": [
+                "!pn https://www.youtube.com/watch?v=rVHn3GOXvzk",
+                "!playnext My House Flo Rida"
+            ]
+        },
+        {
+            "name": "previous",
+            "aliases": [
+                "back"
+            ],
+            "description": "Will start playing the previous song in queue.",
+            "usage": "!previous",
+            "examples": []
+        },
+        {
+            "name": "queue",
+            "aliases": [
+                "q"
+            ],
+            "description": "Will show a queue of all songs.",
+            "usage": "!queue <page number>",
+            "examples": [
+                "!queue 2",
+                "!q -1"
+            ]
+        },
+        {
+            "name": "remove",
+            "aliases": [
+                "rm",
+                "removesong"
+            ],
+            "description": "Removes a song from the queue",
+            "usage": "!remove <number of the song in queue>",
+            "examples": [
+                "!rm 4",
+                "!remove -2"
+            ]
+        },
+        {
+            "name": "repeat",
+            "aliases": [],
+            "description": "Will repeat the currently playing song.",
+            "usage": "!repeat",
+            "examples": []
+        },
+        {
+            "name": "repeatplaylist",
+            "aliases": [
+                "repeatpl",
+                "rpl"
+            ],
+            "description": "The entire queue is looped, when the end of queue is reached it starts over.",
+            "usage": "!repeatpl",
+            "examples": []
+        },
+        {
+            "name": "resume",
+            "aliases": [],
+            "description": "Music playback will be resumed.",
+            "usage": "!resume",
+            "examples": []
+        },
+        {
+            "name": "skip",
+            "aliases": [
+                "next"
+            ],
+            "description": "Will skip the currently playing song.",
+            "usage": "!skip",
+            "examples": []
+        },
+        {
+            "name": "volume",
+            "aliases": [
+                "vol",
+                "v"
+            ],
+            "description": "Change music volume.",
+            "usage": "!volume <number ranging from 1 to 200>",
+            "examples": [
+                "!v 100",
+                "!volume 1500000"
+            ]
+        }
+    ],
+    "other": [
+        {
+            "name": "record",
+            "aliases": [
+                "rec"
+            ],
+            "description": "This command will record the current voicechat after everyone has given their concent.",
+            "usage": "!record",
+            "examples": []
+        }
+    ]
+}
