@@ -8,40 +8,6 @@
             "examples": []
         }
     ],
-    "informative": [
-        {
-            "name": "help",
-            "aliases": [
-                "h"
-            ],
-            "description": "Gives a link to a website where you can find all the information you need.",
-            "usage": "!help",
-            "examples": []
-        },
-        {
-            "name": "invite",
-            "aliases": [],
-            "description": "Invite Damon to your Discord server.",
-            "usage": "!invite",
-            "examples": []
-        },
-        {
-            "name": "ping",
-            "aliases": [
-                "pong"
-            ],
-            "description": "Shows ping to Discord, response time and reply time.",
-            "usage": "!ping",
-            "examples": []
-        },
-        {
-            "name": "stats",
-            "aliases": [],
-            "description": "Shows a couple of stats about Damon.",
-            "usage": "!stats",
-            "examples": []
-        }
-    ],
     "moderation": [
         {
             "name": "lock",
@@ -99,6 +65,22 @@
                 "!p https://www.youtube.com/watch?v=rVHn3GOXvzk",
                 "!play My House Flo Rida"
             ]
+        },
+        {
+            "name": "playlist",
+            "aliases": [],
+            "description": "Starts playing a playlist from its share ID, this will append all the songs or if no music is playing a queue will be created and the song will be played instead.",
+            "usage": "!playlist <share ID>",
+            "examples": [
+                "!playlist CXJ3k"
+            ]
+        },
+        {
+            "name": "playlists",
+            "aliases": [],
+            "description": "Shows all your saved playlists.",
+            "usage": "!playlists",
+            "examples": []
         },
         {
             "name": "playnext",
@@ -180,6 +162,15 @@
             "examples": []
         },
         {
+            "name": "saveplaylist",
+            "aliases": [
+                "savepl"
+            ],
+            "description": "Will save the current queue as playlist.",
+            "usage": "!saveplaylist",
+            "examples": []
+        },
+        {
             "name": "volume",
             "aliases": [
                 "vol",
@@ -191,6 +182,40 @@
                 "!v 100",
                 "!volume 1500000"
             ]
+        }
+    ],
+    "informative": [
+        {
+            "name": "help",
+            "aliases": [
+                "h"
+            ],
+            "description": "Gives a link to a website where you can find all the information you need.",
+            "usage": "!help",
+            "examples": []
+        },
+        {
+            "name": "invite",
+            "aliases": [],
+            "description": "Invite Damon to your Discord server.",
+            "usage": "!invite",
+            "examples": []
+        },
+        {
+            "name": "ping",
+            "aliases": [
+                "pong"
+            ],
+            "description": "Shows ping to Discord, response time and reply time.",
+            "usage": "!ping",
+            "examples": []
+        },
+        {
+            "name": "stats",
+            "aliases": [],
+            "description": "Shows a couple of stats about Damon.",
+            "usage": "!stats",
+            "examples": []
         }
     ],
     "other": [
