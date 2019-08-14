@@ -14,8 +14,10 @@
   "private": true,
   "dependencies": {
     "discord.js": "^11.5.1",
+    "googleapis": "^42.0.0",
     "humanize-duration": "^3.20.1",
     "mysql2": "^1.6.5",
-    "require-dir": "^1.2.0"
+    "require-dir": "^1.2.0",
+    "ytdl-core": "^0.29.5"
   }
 }
