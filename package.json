@@ -13,10 +13,14 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
+    "bufferutil": "^4.0.1",
     "discord.js": "^11.5.1",
+    "erlpack": "github:discordapp/erlpack",
     "googleapis": "^42.0.0",
     "humanize-duration": "^3.20.1",
+    "libsodium-wrappers": "^0.7.5",
     "mysql2": "^1.6.5",
+    "node-opus": "^0.2.9",
     "require-dir": "^1.2.0",
     "ytdl-core": "^0.29.5"
   }
