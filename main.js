@@ -26,7 +26,7 @@ process
     })
 
     .on('uncaughtException', err => {
-        HandleException(err);
+        console.log(err.stack);
 
         setTimeout(function () {
             console.log('Fatal error occured, logging bot out.');
