@@ -1,5 +1,11 @@
-const ShardManager = require('discord.js').ShardingManager;
-const token = '***REMOVED***';
+'use strict';
+
+const
+    token = '***REMOVED***',
+    ShardManager = require('discord.js').ShardingManager,
+    ExternalCommunication = require('./lib/external/communication.js');
+
+const communication = new ExternalCommunication();
 
 const Manager = new ShardManager('main.js', {
     token: token,

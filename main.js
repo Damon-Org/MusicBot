@@ -8,30 +8,28 @@ process
     .on('SIGINT', () => {
         console.log('\nBot shutdown requested logging out...');
 
-        setTimeout(function () {
-            instance.logout();
-            console.log('Bot logout done!');
+        setTimeout(async () => {
+            await instance.communication.close();
+
             process.exit();
         }, 500);
     })
 
-    .on('SIGTERM', () => {
+    .on('SIGTERM', async () => {
         console.log('\nBot shutdown requested through SERVICE');
 
-        setTimeout(function () {
-            instance.logout();
-            console.log('Bot logout done!');
-            process.exit();
-        }, 500);
+        await instance.communication.close();
+
+        process.exit();
     })
 
     .on('uncaughtException', err => {
         console.log(err.stack);
 
-        setTimeout(function () {
-            console.log('Fatal error occured, logging bot out.');
-            instance.logout();
-            console.log('Bot logout done!');
+        setTimeout(async () => {
+            console.log('Fatal error occured.');
+            await instance.communication.close();
+
             process.exit();
         }, 500);
   });
