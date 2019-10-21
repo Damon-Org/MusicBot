@@ -11,10 +11,10 @@ Packages required to compile certain stuff and to make sure npm functions proper
 root@localhost:/~# apt install git g++ make build-essential autoconf libtool software-properties-common
 root@localhost:/~# add-apt-repository ppa:jonathonf/ffmpeg-4 //You can just skip this part and install the default ffmpeg3.0 but we aim to use ffmpeg4.0
 root@localhost:/~# apt install ffmpeg
-root@localhost:/~# ffmpeg -version
 root@localhost:/~# add-apt-repository --remove ppa:jonathonf/ffmpeg-4 // We remove this to make sure the PPA doesn't conflict with APT secure
+root@localhost:/~# ffmpeg -version
 
- ----- Output -----
+ ----- Output ----- // Your output may differ but check that you have version 4.x.x or 3.x.x if you didn't use the external REPO
 ffmpeg version 4.1.1-1~deb9u1 Copyright (c) 2000-2019 the FFmpeg developers
 built with gcc 7.0.0 (Debian 7.0.0-18+deb9u1) 20170516
 ```

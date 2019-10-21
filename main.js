@@ -9,7 +9,7 @@ process
         console.log('\nBot shutdown requested logging out...');
 
         setTimeout(async () => {
-            await instance.communication.close();
+            await instance.internalCommunication.close();
 
             process.exit();
         }, 500);
@@ -18,7 +18,7 @@ process
     .on('SIGTERM', async () => {
         console.log('\nBot shutdown requested through SERVICE');
 
-        await instance.communication.close();
+        await instance.internalCommunication.close();
 
         process.exit();
     })
@@ -28,7 +28,7 @@ process
 
         setTimeout(async () => {
             console.log('Fatal error occured.');
-            await instance.communication.close();
+            await instance.internalCommunication.close();
 
             process.exit();
         }, 500);

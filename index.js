@@ -5,15 +5,18 @@ const
     ShardManager = require('discord.js').ShardingManager,
     ExternalCommunication = require('./lib/external/communication.js');
 
-const communication = new ExternalCommunication();
+const externalCommunication = new ExternalCommunication();
 
-const Manager = new ShardManager('main.js', {
-    token: token,
-    respawn: false
-});
+// Wait for socket server to be ready
+externalCommunication.socketServer.on('bind', () => {
+    const Manager = new ShardManager('main.js', {
+        token: token,
+        respawn: false
+    });
 
-Manager.spawn();
+    Manager.spawn();
 
-Manager.on('launch', shard => {
-    console.log(`Shard ${shard.id + 1}/${Manager.totalShards} has started.`);
+    Manager.on('launch', shard => {
+        console.log(`Shard ${shard.id + 1}/${Manager.totalShards} has started.`);
+    });
 });
