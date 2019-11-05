@@ -67,6 +67,7 @@
             ]
         },
         {
+            "disabled": true,
             "name": "playlist",
             "aliases": [],
             "description": "Starts playing a playlist from its share ID, this will append all the songs or if no music is playing a queue will be created and the song will be played instead.",
@@ -76,6 +77,7 @@
             ]
         },
         {
+            "disabled": true,
             "name": "playlists",
             "aliases": [],
             "description": "Shows all your saved playlists.",
@@ -162,6 +164,7 @@
             "examples": []
         },
         {
+            "disabled": true,
             "name": "saveplaylist",
             "aliases": [
                 "savepl"
@@ -220,6 +223,7 @@
     ],
     "other": [
         {
+            "disabled": true,
             "name": "record",
             "aliases": [
                 "rec"
