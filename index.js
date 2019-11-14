@@ -12,5 +12,5 @@ const Manager = new ShardManager('main.js', {
 Manager.spawn();
 
 Manager.on('launch', shard => {
-    console.log(`Shard ${shard.id + 1}/${Manager.totalShards} has started.`);
+    console.log(`[SHARD_MANAGER] Shard ${shard.id + 1}/${Manager.totalShards} has started.`);
 });
