@@ -1,6 +1,7 @@
 const
     MusicBot = require('./lib/bot/main.js'),
-    token = 'NTY3NzM2ODE5MzA3NzczOTYy.XQP_2w.nIbgKE5z8Lul5fEDXM3_askeMJY';
+    //token = 'NTQ0NTIyMDU0OTMwNzkyNDQ5.XdExdA.-j0hmybYVhANIqhK6GPIY0BVXn4'; // Damon Music
+    token = 'NTY3NzM2ODE5MzA3NzczOTYy.XQP_2w.nIbgKE5z8Lul5fEDXM3_askeMJY'; // Devon Music
 
 const instance = new MusicBot(token);
 

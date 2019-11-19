@@ -1,7 +1,8 @@
 'use strict';
 
 const
-    token = '***REMOVED***',
+    //token = 'NTQ0NTIyMDU0OTMwNzkyNDQ5.XdExdA.-j0hmybYVhANIqhK6GPIY0BVXn4', // Damon Music
+    token = '***REMOVED***', // Devon Music
     ShardManager = require('discord.js').ShardingManager;
 
 const Manager = new ShardManager('main.js', {
