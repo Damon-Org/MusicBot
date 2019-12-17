@@ -24,6 +24,12 @@ process
         process.exit();
     })
 
+    .on('unhandledPromiseRejectionWarning', (err) => {
+        if (err) {
+            instance.error(err.stack);
+        }
+    })
+
     .on('uncaughtException', err => {
         console.log(err.stack);
 
