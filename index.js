@@ -5,7 +5,7 @@ const
     token = 'NTY3NzM2ODE5MzA3NzczOTYy.XQP_2w.nIbgKE5z8Lul5fEDXM3_askeMJY', // Devon Music
     ShardManager = require('discord.js').ShardingManager;
 
-const Manager = new ShardManager('main.js', {
+const Manager = new ShardManager(`${__dirname}/main.js`, {
     token: token,
     respawn: false
 });
