@@ -296,13 +296,13 @@
                     "v"
                 ],
                 "description": "Change music volume.",
-                "usage": "volume <volume>",
+                "usage": "volume [volume]",
                 "params": [
                     {
                         "name": "volume",
                         "description": "A number ranging from 1 to 200",
                         "type": "number",
-                        "required": true
+                        "default": "Will show the current volume"
                     }
                 ],
                 "examples": [
@@ -318,7 +318,8 @@
             {
                 "name": "help",
                 "aliases": [
-                    "h"
+                    "h",
+                    "info"
                 ],
                 "description": "Gives a link to a website where you can find all the information you need.",
                 "usage": "help",
@@ -345,7 +346,9 @@
             },
             {
                 "name": "stats",
-                "aliases": [],
+                "aliases": [
+                    "status"
+                ],
                 "description": "Shows a couple of stats about Damon.",
                 "usage": "stats",
                 "params": [],
