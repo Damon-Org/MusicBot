@@ -123,8 +123,7 @@
             {
                 "name": "play",
                 "aliases" : [
-                    "p",
-                    "pbutbetter"
+                    "p"
                 ],
                 "description": "Adds the song you request to queue and plays it.",
                 "usage": "play <search>",
@@ -188,6 +187,19 @@
                 "examples": [
                     "pn https://www.youtube.com/watch?v=rVHn3GOXvzk",
                     "playnext My House Flo Rida"
+                ]
+            },
+            {
+                "name": "playtime",
+                "aliases" : [
+                    "pt"
+                ],
+                "description": "Shows how long the bot has been playing.",
+                "usage": "playtime",
+                "params": [],
+                "examples": [
+                    "pt",
+                    "playtime"
                 ]
             },
             {
