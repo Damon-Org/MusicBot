@@ -1,3 +1,21 @@
 {
-    "default_prefix": "d!"
+    "default_prefix": "d!",
+    "credentials": {
+        "db": {
+            "connectionLimit": 100,
+            "host": "10.0.0.8",
+            "user": "db_admin",
+            "password": "s7E1$EA41%$vu6",
+            "database": "damon",
+            "debug": false
+        },
+        "lavalink": [
+            {
+                "name": "Damon LavaLink",
+                "host": "lavalink.damon.sh",
+                "port": 6978,
+                "auth": "3s^l82aZ2i8p^1X%"
+            }
+        ]
+    }
 }
