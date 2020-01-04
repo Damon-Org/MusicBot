@@ -11,6 +11,7 @@ process
 
         setTimeout(async () => {
             await instance.socketCommunication.close();
+            instance.logout();
 
             process.exit();
         }, 500);
@@ -20,6 +21,7 @@ process
         console.log('\nBot shutdown requested through SERVICE');
 
         await instance.socketCommunication.close();
+        instance.logout();
 
         process.exit();
     })
@@ -36,6 +38,7 @@ process
         setTimeout(async () => {
             console.log('Fatal error occured.');
             await instance.socketCommunication.close();
+            instance.logout();
 
             process.exit();
         }, 500);
