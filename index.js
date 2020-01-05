@@ -1,13 +1,21 @@
 'use strict';
 
 const
-    //token = 'NTQ0NTIyMDU0OTMwNzkyNDQ5.XdExdA.-j0hmybYVhANIqhK6GPIY0BVXn4', // Damon Music
-    token = '***REMOVED***', // Devon Music
+    fs = require('fs'),
+    config = JSON.parse(fs.readFileSync(`${__dirname}/data/config.json`)),
+    token = config.development ? config.token.dev : config.token.prod,
     ShardManager = require('discord.js').ShardingManager;
+
+if (config.development) {
+    console.log('============== Development Mode Active ==============');
+}
 
 const Manager = new ShardManager(`${__dirname}/main.js`, {
     token: token,
-    respawn: false
+    respawn: false,
+    shardArgs: [
+        token
+    ]
 });
 
 Manager.spawn();
