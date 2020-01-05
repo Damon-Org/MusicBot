@@ -19,6 +19,7 @@
     "googleapis": "^46.0.0",
     "humanize-duration": "^3.21.0",
     "mysql2": "^2.1.0",
+    "node-opus": "^0.3.3",
     "require-dir": "^1.2.0",
     "shoukaku": "^1.2.0",
     "utf-8-validate": "^5.0.2",

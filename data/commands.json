@@ -368,17 +368,28 @@
             }
         ]
     },
-    "other": {
-        "guild_only": false,
+    "recording": {
+        "guild_only": true,
         "commands": [
             {
-                "disabled": true,
+                "disabled": false,
                 "name": "record",
                 "aliases": [
                     "rec"
                 ],
                 "description": "This command will record the current voicechat after everyone has given their concent.",
                 "usage": "record",
+                "params": [],
+                "examples": []
+            },
+            {
+                "disabled": false,
+                "name": "stoprecording",
+                "aliases": [
+                    "stoprec"
+                ],
+                "description": "This command will stop the bot from recording.",
+                "usage": "stoprecording",
                 "params": [],
                 "examples": []
             }
