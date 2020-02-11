@@ -4,7 +4,7 @@
         "prod": "NTQ0NTIyMDU0OTMwNzkyNDQ5.XdExdA.-j0hmybYVhANIqhK6GPIY0BVXn4",
         "dev": "NTY3NzM2ODE5MzA3NzczOTYy.XQP_2w.nIbgKE5z8Lul5fEDXM3_askeMJY"
     },
-    "default_prefix": "d!",
+    "default_prefix": "dev!",
     "credentials": {
         "db": {
             "connectionLimit": 100,
