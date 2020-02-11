@@ -1,49 +1,39 @@
-# Damon Music ChangeLog
+# Damon Music Changelog
 
-## 2017-05-29, Version v2.0.0-beta.1, @calebboyd
+## Versioning Policy
 
-Nexe 2.0 is a rewrite to enable some new features. These include:
-  * Quick Builds!
-  * Userland build patches
-  * Resource storage/access rewrite
-  * stdin interface
-  * Optional, pluggable bundling
+Following:
+**major.minor.patch**
 
-### Breaking Changes
-  * New options -- Please see the [readme](README.md#options)
-  * Bundling is no longer enabled by default
-  * To access included resources `fs.readFile` and `fs.readFileSync` should be used
+* **major** is almost never used unless a complete rewrite happened of Damon Music
+* **minor** used whenever a single file was rewritten or significant change happened
+* **patch** may only be bumped after a bug was resolved as whole
 
-## 2015-02-20, Version v0.3.7, @jaredallard
+Following (beta):
+**0.major.minor**
 
-### Noteable Changes
+Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
-  * Fixed #103.
-  * Made not-available require not a fatal error.
-  * Stub and system to ignore certain requires.
-  * Added 'sys' to ignore list.
-  * We have a gitter!
-  * Gave win32 a 100 length progress bar.
-
-### Commits
-
-  * [**2cacd83**] Update README.md (@crcn)
-  * [**0e90ac9**] Update README.md (@crcn)
-  * [**54967d1**] Added Gitter badge (@jaredallard)
-  * [**bb489a3**] Fixes #98 by giving win32 a 100 length progress bar. (@jaredallard)
-  * [**39665a8**] Lighter weight way to accomplish the exclusion of the sys module (@CKarper)
-  * [**5aca22d**] This handles embedding 'bin' scripts with shebang interpreter... (@CKarper)
-  * [**e79b0fb**] Stub to ignore require('sys') (@CKarper)
-
-## 2015-02-15, Version v0.3.6, @jaredallard
+## 2019-12-30, Version v0.4.0, @Yimura
 
 ### Noteable Changes
 
-  * Now support .json in require.
-  * Fixed a major --python flag bug.
+  * Discord.js was updated from v11 to v12 with all the notable changes to the files following
+  * Music System was rewritten to use Lavalink instead of ytdl-core and soundcloud
+  * Code for reacting to a message was cleaned up
+  * Moved all authentication information to a configuration file
+  * The entire project was also made to be no longer reliant of an absolute path
+  * RecordingSystem was implemented (unusable until a service is setup which allows for these files to be downloadable)
 
-### Commits
+### Commits (all made by @Yimura)
 
-  * [**cac6986**] V bump to solve critical error. (@jaredallard)
-  * [**b040337**] Fixes #99, resolves #97 by warning on missing file. New examples... (@jaredallard)
-  * [**ad4da1d**] Support .json extensions in require() resolution (@CKarper)
+  * [**ac30b694923fbe2f162e7499ebe5dafa256357b2**] Rewrite of Damon Music
+  * [**14723026c7faf34d6ce976c212178802a448d14f**] Configuration file was added
+  * [**8cf5ca2f0d814856d34df6233d25d1a19917e9df**] Fixed MusicSystem to be properly reset if the queue did not start
+  * [**ac6af0b9085c8258125a70b593496b17f613808f**] Fixed repeat command not properly working whereas the repeat reaction did work
+  * [**8cf5ca2f0d814856d34df6233d25d1a19917e9df**] Fixed bug where bot wouldn't leave the voicechannel if he were the last
+  * [**21c2bd539614adc71fefd918a0a7d7ea0d0a069d**] Fixed where the default of the lock command would reset the lock instead of take the channel id as default
+
+## 2019-12-29, Version v0.3.0, @Yimura
+
+### Changelog prior to this point was not recorded.
