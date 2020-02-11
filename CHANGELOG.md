@@ -25,14 +25,14 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
   * The entire project was also made to be no longer reliant of an absolute path
   * RecordingSystem was implemented (unusable until a service is setup which allows for these files to be downloadable)
 
-### Commits
+### Commits (all made by @Yimura)
 
-  `**ac30b694923fbe2f162e7499ebe5dafa256357b2**` Rewrite of Damon Music
-  `**14723026c7faf34d6ce976c212178802a448d14f**` Configuration file was added
-  `**8cf5ca2f0d814856d34df6233d25d1a19917e9df**` Fixed MusicSystem to be properly reset if the queue did not start
-  `**ac6af0b9085c8258125a70b593496b17f613808f**` Fixed repeat command not properly working whereas the repeat reaction did work
-  `**8cf5ca2f0d814856d34df6233d25d1a19917e9df**` Fixed bug where bot wouldn't leave the voicechannel if he were the last
-  `**21c2bd539614adc71fefd918a0a7d7ea0d0a069d**` Fixed where the default of the lock command would reset the lock instead of take the channel id as default
+  * [**ac30b694923fbe2f162e7499ebe5dafa256357b2**] Rewrite of Damon Music
+  * [**14723026c7faf34d6ce976c212178802a448d14f**] Configuration file was added
+  * [**8cf5ca2f0d814856d34df6233d25d1a19917e9df**] Fixed MusicSystem to be properly reset if the queue did not start
+  * [**ac6af0b9085c8258125a70b593496b17f613808f**] Fixed repeat command not properly working whereas the repeat reaction did work
+  * [**8cf5ca2f0d814856d34df6233d25d1a19917e9df**] Fixed bug where bot wouldn't leave the voicechannel if he were the last
+  * [**21c2bd539614adc71fefd918a0a7d7ea0d0a069d**] Fixed where the default of the lock command would reset the lock instead of take the channel id as default
 
 ## 2019-12-29, Version v0.3.0, @Yimura
 
