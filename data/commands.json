@@ -291,6 +291,21 @@
                 "examples": []
             },
             {
+                "name": "skipto",
+                "aliases": [],
+                "description": "Skip to the given position in queue.",
+                "usage": "skipto <#queue-number>",
+                "params": [
+                    {
+                        "name": "queue-number",
+                        "description": "Number of a song in queue",
+                        "type": "number",
+                        "required": true
+                    }
+                ],
+                "examples": []
+            },
+            {
                 "disabled": true,
                 "name": "saveplaylist",
                 "aliases": [
