@@ -1,4 +1,5 @@
 const MusicBot = require('./lib/bot/main.js');
+global.version = require('./package.json').version;
 
 const instance = new MusicBot(process.argv[2], __dirname);
 

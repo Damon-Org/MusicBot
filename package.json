@@ -1,16 +1,18 @@
 {
   "name": "damon_music",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "The third revision of Damon Music",
   "main": "index.js",
   "scripts": {
     "test": "node ."
   },
   "keywords": [
-    "javascript"
+    "javascript",
+    "discord.js",
+    "music",
+    "recording"
   ],
   "author": "Yimura",
-  "license": "ISC",
   "private": true,
   "dependencies": {
     "bufferutil": "^4.0.1",
