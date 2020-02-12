@@ -14,6 +14,19 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-02-13, Version v0.4.2 @Yimura
+
+### Notable Changes
+
+ * Added skipTo command
+ * Fixed bug where remove command would show the old command prefix
+ * Fixed bug where remove command would say it had successfully removed a song while in fact it has silently failed
+
+### Commits
+
+ * [**this_commit**] Added skipTo command
+ * [**this_commit**] Fixed two bugs in remove command
+
 ## 2020-02-12, Version v0.4.1 @Yimura
 
 ### Notable Changes
@@ -26,11 +39,11 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
 
 ### Commits
 
- * [**this-commit**] Playlist support and cleanup of code
- * [**this-commit**] Presence rotation was added
- * [**this-commit**] Added version in source code
+ * [**38516db2d297c13c8790a0395d049c7850f2fabf**] Playlist support and cleanup of code
+ * [**38516db2d297c13c8790a0395d049c7850f2fabf**] Presence rotation was added
+ * [**38516db2d297c13c8790a0395d049c7850f2fabf**] Added version in source code
 
-## 2019-12-30 to 2020-02-11, Version v0.4.0, @Yimura
+## 2019-12-30 to 2020-02-11, Version v0.4.0 @Yimura
 
 ### Notable Changes
 
