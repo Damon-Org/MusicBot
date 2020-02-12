@@ -14,7 +14,23 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
-## 2019-12-30, Version v0.4.0, @Yimura
+## 2020-02-12, Version v0.4.1 @Yimura
+
+### Notable Changes
+
+ * Playlist support was added for all the supported Lavalink sources
+ * Code for adding to the queue and creating a new queue was cleaned up and moved into a general function
+ * Bugs were squashed related to adding a song to the queue that contained a list id
+ * Added presence rotation
+ * Added version in source code
+
+### Commits
+
+ * [**this-commit**] Playlist support and cleanup of code
+ * [**this-commit**] Presence rotation was added
+ * [**this-commit**] Added version in source code
+
+## 2019-12-30 to 2020-02-11, Version v0.4.0, @Yimura
 
 ### Notable Changes
 
@@ -38,4 +54,4 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
 
 ## 2019-12-29, Version v0.3.0, @Yimura
 
-### Changelog's prior to this point was not recorded.
+### Changelogs prior to this point were not recorded.
