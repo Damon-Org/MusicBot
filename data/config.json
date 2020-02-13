@@ -1,15 +1,15 @@
 {
-    "development": true,
+    "development": false,
     "token": {
         "prod": "NTQ0NTIyMDU0OTMwNzkyNDQ5.XdExdA.-j0hmybYVhANIqhK6GPIY0BVXn4",
         "dev": "NTY3NzM2ODE5MzA3NzczOTYy.XQP_2w.nIbgKE5z8Lul5fEDXM3_askeMJY"
     },
-    "default_prefix": "dev!",
+    "default_prefix": "d!",
     "credentials": {
         "db": {
             "connectionLimit": 100,
-            "host": "10.0.0.8",
-            "user": "db_admin",
+            "host": "188.166.11.10",
+            "user": "db_user",
             "password": "s7E1$EA41%$vu6",
             "database": "damon",
             "debug": false

@@ -1,7 +1,7 @@
 {
   "name": "damon_music",
-  "version": "0.4.2",
-  "description": "The third revision of Damon Music",
+  "version": "0.4.3",
+  "description": "The fourth revision of Damon Music",
   "main": "index.js",
   "scripts": {
     "test": "node ."
