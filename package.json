@@ -4,6 +4,7 @@
   "description": "The fourth revision of Damon Music",
   "main": "index.js",
   "scripts": {
+    "docs": "jsdoc -c jsdoc.json",
     "test": "node ."
   },
   "keywords": [
@@ -26,5 +27,8 @@
     "shoukaku": "^1.2.0",
     "utf-8-validate": "^5.0.2",
     "zlib-sync": "^0.1.6"
+  },
+  "devDependencies": {
+    "better-docs": "^1.4.7"
   }
 }

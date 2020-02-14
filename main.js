@@ -31,7 +31,8 @@ process
     })
 
     .on('uncaughtException', err => {
-        console.log(err.stack);
+        console.error(err.stack);
+        instance.error(err.stack);
 
         setTimeout(async () => {
             console.log('Fatal error occured.');
@@ -40,4 +41,4 @@ process
 
             process.exit();
         }, 500);
-  });
+    });
