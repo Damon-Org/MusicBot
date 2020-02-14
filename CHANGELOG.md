@@ -14,6 +14,18 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-02-14, Version v0.4.3 @Yimura
+
+### Notable Changes
+
+ * Modified all module exported files to support documentation generation better
+ * Added JSDoc configuration file
+ * Enhanced inline code documentation
+
+### Commits
+
+ * [**this_commit**]
+
 ## 2020-02-13, Version v0.4.2 @Yimura
 
 ### Notable Changes
