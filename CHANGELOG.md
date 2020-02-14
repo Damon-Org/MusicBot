@@ -21,10 +21,18 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
  * Modified all module exported files to support documentation generation better
  * Added JSDoc configuration file
  * Enhanced inline code documentation
+ * All commands now extend a basic command to reduce duplicate code
+ * Added proper documentation support
+ * Generated documentation is included in source code
 
 ### Commits
 
- * [**this_commit**]
+ * [**87578b08b4f053feb85c31192d7ed2994b88a6e7**] Added basic command class, updated inline code documentation, bumped project version
+ * [**this_commit**] Documentation support has been added, generated documentation is included with source code
+
+### TO-DO
+
+ * Add proper catch all error logging to the bot
 
 ## 2020-02-13, Version v0.4.2 @Yimura
 
