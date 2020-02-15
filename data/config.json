@@ -1,26 +1,8 @@
 {
     "development": true,
-    "token": {
-        "prod": "NTQ0NTIyMDU0OTMwNzkyNDQ5.XdExdA.-j0hmybYVhANIqhK6GPIY0BVXn4",
-        "dev": "NTY3NzM2ODE5MzA3NzczOTYy.XQP_2w.nIbgKE5z8Lul5fEDXM3_askeMJY"
-    },
-    "default_prefix": "dev!",
-    "credentials": {
-        "db": {
-            "connectionLimit": 100,
-            "host": "10.0.0.8",
-            "user": "db_admin",
-            "password": "s7E1$EA41%$vu6",
-            "database": "damon",
-            "debug": false
-        },
-        "lavalink": [
-            {
-                "name": "Damon LavaLink",
-                "host": "lavalink.damon.sh",
-                "port": 6978,
-                "auth": "3s^l82aZ2i8p^1X%"
-            }
-        ]
+
+    "default_prefix": {
+        "prod": "d!",
+        "dev": "dev!"
     }
 }

@@ -24,6 +24,7 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
  * All commands now extend a basic command to reduce duplicate code
  * Added proper documentation support
  * Generated documentation is included in source code
+ * Added authentication file which differentiates between production development
 
 ### Commits
 
