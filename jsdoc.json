@@ -3,7 +3,7 @@
         "allowUnknownTags": "all"
     },
     "source": {
-        "include": ["lib"],
+        "include": ["lib", "README.md"],
         "exclude": ["node_modules"],
         "includePattern": "\\.(js)$"
     },
