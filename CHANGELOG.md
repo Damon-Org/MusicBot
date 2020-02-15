@@ -14,7 +14,7 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
-## 2020-02-14, Version v0.4.3 @Yimura
+## 2020-02-15, Version v0.4.3 @Yimura
 
 ### Notable Changes
 
@@ -29,7 +29,8 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
 ### Commits
 
  * [**87578b08b4f053feb85c31192d7ed2994b88a6e7**] Added basic command class, updated inline code documentation, bumped project version
- * [**this_commit**] Documentation support has been added, generated documentation is included with source code
+ * [**e788f0ceffded2a3752b4810f374e57196b1608d**] Documentation support has been added, generated documentation is included with source code
+ * [**e685b26497ffc60a690d15517c51156cab02bd21**] Added authentication file which differentiates between production development
 
 ### TO-DO
 
