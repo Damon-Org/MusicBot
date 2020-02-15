@@ -2,8 +2,9 @@
 
 const
     fs = require('fs'),
+    auth = JSON.parse(fs.readFileSync(`${main_dir}/data/auth.json`)),
     config = JSON.parse(fs.readFileSync(`${__dirname}/data/config.json`)),
-    token = config.development ? config.token.dev : config.token.prod,
+    token = config.development ? auth.token.dev : auth.token.prod,
     ShardManager = require('discord.js').ShardingManager;
 
 if (config.development) {
