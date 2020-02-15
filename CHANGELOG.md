@@ -25,6 +25,7 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
  * Added proper documentation support
  * Generated documentation is included in source code
  * Added authentication file which differentiates between production development
+ * Remove old console.log
 
 ### Commits
 
