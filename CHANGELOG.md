@@ -14,6 +14,16 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-02-16, Version v0.4.4 @Yimura
+
+### Notable Changes
+
+ * Fixed typo where the bot was unable to get the default production prefix
+
+### Commits
+
+ * [**32747a1f999843c159a3751a7b93f6f495ba30fa**] Fixed typo where the bot was unable to get the default production prefix
+
 ## 2020-02-15, Version v0.4.3 @Yimura
 
 ### Notable Changes
