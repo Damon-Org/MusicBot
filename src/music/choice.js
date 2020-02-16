@@ -10,6 +10,10 @@ class Choice {
      */
     constructor(searchFor, exception = false) {
         /**
+         * @type {Array<*>}
+         */
+        this.rawData = [];
+        /**
          * Holds the message on which we should listen for ChoiceReactions
          * @type {external:Discord_Message}
          */
@@ -66,6 +70,8 @@ class Choice {
         this.embedDescription = '```asciidoc\n[CHOOSE A SONG]```\n'
 
         for (let i = 0; i < data.length; i++) {
+            this.rawData[i] = data[i].id.videoId;
+
             this.embedDescription += `\`\`\`asciidoc\n[${(i + 1)}] :: ${data[i].snippet.title.replace('&#39;', '\'')}\`\`\``;
         }
 
