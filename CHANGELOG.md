@@ -25,6 +25,7 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
 
  * [**32747a1f999843c159a3751a7b93f6f495ba30fa**] Fixed typo where the bot was unable to get the default production prefix
  * [**e528bc56846b5f560e3ce10a1299c6065e983f51**] Renamed lib folder to src as lib should be reserved for 3rd party sources
+ * [**0f287fda96b11e4a314e850688b4d0b8dbb9b4c5**] Fixed bug where rawData was missing in the Choice class, was removed by accident
 
 ## 2020-02-15, Version v0.4.3 @Yimura
 
