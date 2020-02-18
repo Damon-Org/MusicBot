@@ -14,6 +14,17 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-02-18, Version v0.4.4/Unreleased @Yimura
+
+### Notable Changes
+
+ * Added event based socket communication
+ * Fixed old error logging being broken, TO-DO from v0.4.3 was resolved this way
+
+### Commits
+
+ * [**f483447560a7f02fba7137cdc386d748d5688315**] Added event based socket communication
+
 ## 2020-02-16, Version v0.4.4 @Yimura
 
 ### Notable Changes
