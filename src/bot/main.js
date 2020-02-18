@@ -12,6 +12,7 @@ const
     EmbedUtils = require('../util/embed.js'),
     MusicUtils = require('../util/music.js'),
     ServerUtils = require('../util/server.js'),
+    SocketUtils = require('../util/socket.js'),
     UserUtils = require('../util/users.js');
 
 /**
@@ -90,6 +91,11 @@ class MusicBot extends BotEvents {
          */
         this.serverUtils = new ServerUtils(this);
         /**
+         * @type {SocketUtils}
+         * @readonly
+         */
+        this.socketUtils = new SocketUtils();
+        /**
          * @type {UserUtils}
          * @readonly
          */
@@ -122,9 +128,9 @@ class MusicBot extends BotEvents {
          */
         this.carrier = new Shoukaku(this.client, this.auth.credentials.lavalink, {
             moveOnDisconnect: false,
-            resumable: false,
-            resumableTimeout: 30,
-            reconnectTries: 2,
+            resumable: "lavaRetryTheRedemptionArc",
+            resumableTimeout: 60,
+            reconnectTries: 3,
             restTimeout: 10000
         });
 
@@ -197,7 +203,6 @@ class MusicBot extends BotEvents {
                 setTimeout(() => {
                     this.client.user.setPresence(presences[i]);
                 }, 25*1e3*i);
-                [i]
             }
         }
         presenceLoop();
