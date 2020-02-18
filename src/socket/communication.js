@@ -1,4 +1,6 @@
-const Connection = require('./connection.js');
+const
+    Connection = require('./connection.js'),
+    SocketEvents = require('./events.js');
 
 /**
  * Socket Communication
@@ -14,6 +16,15 @@ class SocketCommunication {
          */
         this.musicBot = musicBot;
 
+        /**
+         * @type {SocketEvents}
+         */
+        this.socketEvents = new SocketEvents(musicBot);
+
+        /**
+         * @type {String}
+         */
+        this.clientType = 'bot';
         /**
          * @type {external:Number}
          */
@@ -53,11 +64,13 @@ class SocketCommunication {
     }
 
     close() {
-        return true;
+        this.connection.destroy();
     }
 
     connected() {
         console.log('[SOCKET/INFO] Successfully connected!');
+
+        this.socketEvents.eventListener = this.connection;
 
         this.tries = 0;
     }
@@ -66,10 +79,10 @@ class SocketCommunication {
         this.lastTry = Date.now();
 
         /**
-         * @type {SocketCommunication}
+         * @type {Connection}
          * @readonly
          */
-        this.connection = new Connection(this.port, this.musicBot.auth.credentials.socket);
+        this.connection = new Connection(this.clientType, this.port, this.musicBot.auth.credentials.socket);
 
         this.tries++;
 
@@ -83,83 +96,11 @@ class SocketCommunication {
     }
 
     events() {
-        this.connection.on('bind', () => this.connected());
+        this.connection.once('bind', () => this.connected());
 
         this.connection.on('message', (socket, message) => this.handleCommand(socket, message));
 
-        this.connection.on('close', () => this.attemptReconnect());
-    }
-
-    /**
-     * @param {Net.Socket} socket
-     * @param {external:Object} message
-     * @param {external:Object} metrics
-     */
-    getShardInfo(socket, message, metrics) {
-        const
-            client = this.musicBot.client,
-            shardId = client.shard.id,
-            guilds = client.guilds,
-            channels = client.channels,
-            users = client.users,
-            voiceConnections = client.voiceConnections;
-
-        const object = {
-            status: 200,
-            name: 'info',
-            data: {
-                channels: channels.size,
-                clientId: message.requester,
-                guilds: guilds.size,
-                ping: Math.round(client.ping),
-                shardId: shardId,
-                users: users.size,
-                voiceConnections: voiceConnections.size
-            },
-            metrics: metrics
-        };
-
-        socket.write(JSON.stringify(object));
-    }
-
-    /**
-     * @param {Net.Socket} socket
-     * @param {external:Object} message
-     */
-    handleCommand(socket, message) {
-        try {
-            message = JSON.parse(message.toString().replace('\r\n', ''));
-        } catch (e) {
-            socket.write('message_invalid_type');
-
-            return;
-        }
-
-        if (!message.command || !message.requester || !message.guild) {
-            socket.write('object_missing_argument');
-
-            return;
-        }
-
-        if (!this.musicBot.client.guilds.get(message.guild) && message.command != 'info') {
-            console.log('shard does not have guild, ignoring');
-
-            return;
-        }
-
-        const metrics = message.metrics;
-        metrics.handled = Date.now();
-
-        switch (message.command) {
-            case 'info': {
-                this.getShardInfo(socket, message, metrics);
-
-                break;
-            }
-            default: {
-                socket.write('unknown_command');
-            }
-        }
+        this.connection.once('close', () => this.attemptReconnect());
     }
 }
 

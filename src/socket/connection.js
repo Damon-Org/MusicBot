@@ -1,6 +1,8 @@
 const
     EventEmitter = require('events'),
-    Net = require('net');
+    Net = require('net'),
+
+    SocketMessage = require('./message.js');
 
 /**
  * This class handles the socket connection
@@ -10,12 +12,17 @@ const
  */
 class Connection extends EventEmitter {
     /**
+     * @param {external:String} clientType
      * @param {external:Number} port
      * @param {external:String} token Socket Authentication token
      */
-    constructor(port, token) {
+    constructor(clientType, port, token) {
         super();
 
+        /**
+         * @type {String}
+         */
+        this.clientType = clientType;
         /**
          * @type {external:Number}
          */
@@ -42,7 +49,7 @@ class Connection extends EventEmitter {
         });
 
         this.client.on('error', (error) => this.connectionError(error));
-        this.client.on('close', (hadError) => this.emit('close', hadError));
+        this.client.once('close', (hadError) => this.emit('close', hadError));
     }
 
     connectionError(e) {
@@ -52,6 +59,17 @@ class Connection extends EventEmitter {
             return;
         }
         console.error(e.stack);
+    }
+
+    destroy() {
+        this.client.write(JSON.stringify({
+            client: this.clientType,
+            request: 'disconnect'
+        }));
+
+        if (!this.client.destroyed) {
+            this.client.destroy();
+        }
     }
 
     /**
@@ -64,7 +82,7 @@ class Connection extends EventEmitter {
             const message = data.toString();
             if (message.includes('authentication_required') || message.includes('invalid_auth')) {
                 if (this.try == 2) {
-                    throw 'Socket Authentication token is not valid!';
+                    throw new Error('Socket Authentication token is not valid!');
 
                     return;
                 }
@@ -76,7 +94,7 @@ class Connection extends EventEmitter {
             }
 
             if (message.includes('client?')) {
-                this.client.write('Client: bot');
+                this.client.write(`Client: ${this.clientType}`);
 
                 return;
             }
@@ -94,7 +112,33 @@ class Connection extends EventEmitter {
             }
         }
 
-        this.emit('message', this.client, data);
+        try {
+            const socketMessage = new SocketMessage(data);
+            socketMessage.setTimestamp('target_received');
+
+            this.emit(socketMessage.request, socketMessage);
+        } catch (e) {
+            if (e.message.includes('Unexpected token') && e.message.includes('in JSON at position')) {
+                const message = data.toString();
+
+                if (message.includes('server_closing')) {
+                    console.log('\x1b[33m[SOCKET/WARN]\x1b[0m Received server close message!');
+
+                    return;
+                }
+
+                console.log(message);
+            }
+        }
+    }
+
+    /**
+     * @param {SocketMessage} socketMessage
+     */
+    send(socketMessage) {
+        socketMessage.setTimestamp('target_sent');
+
+        this.client.write(socketMessage.toString());
     }
 }
 
