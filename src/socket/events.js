@@ -29,6 +29,7 @@ class SocketEvents {
             users = client.users;
 
         socketMessage.message = {
+            shardId: this.musicBot.id,
             channels: channels.size,
             guilds: guilds.size,
             ping: Math.round(client.ws.ping),
