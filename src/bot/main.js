@@ -42,6 +42,13 @@ class MusicBot extends BotEvents {
         this.bootUp = Date.now();
 
         /**
+         * This is a 6 character long identifier based on the bootUp time of the shard
+         * @type {external:String}
+         * @readonly
+         */
+        this.id = this.bootUp.toString(16).substr(-6);
+
+        /**
          * This object holds the authentication data for the DB, Lavalink server, bot tokens,...
          * @type {external:Object}
          * @readonly

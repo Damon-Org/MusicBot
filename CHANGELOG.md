@@ -25,6 +25,10 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
 
  * [**f483447560a7f02fba7137cdc386d748d5688315**] Added event based socket communication
 
+### TO-DO
+
+ * Add support for messages of type "part"
+
 ## 2020-02-16, Version v0.4.4 @Yimura
 
 ### Notable Changes
