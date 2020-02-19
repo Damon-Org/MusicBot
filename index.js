@@ -12,8 +12,9 @@ if (config.development) {
 }
 
 const Manager = new ShardManager(`${__dirname}/main.js`, {
+    totalShards: 2,
     token: token,
-    respawn: false,
+    respawn: !config.development,
     shardArgs: [
         token
     ]

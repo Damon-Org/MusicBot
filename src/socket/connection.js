@@ -116,7 +116,7 @@ class Connection extends EventEmitter {
             const socketMessage = new SocketMessage(data);
             socketMessage.setTimestamp('target_received');
 
-            this.emit(socketMessage.request, socketMessage);
+            this.emit('socket_event', socketMessage.request, socketMessage);
         } catch (e) {
             if (e.message.includes('Unexpected token') && e.message.includes('in JSON at position')) {
                 const message = data.toString();
