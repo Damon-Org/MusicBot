@@ -21,15 +21,17 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
  * Added event based socket communication
  * Fixed old error logging being broken, TO-DO from v0.4.3 was resolved this way
  * A shard in production should attempt to respawn, development bot should be stable before releasing
+ * SocketMessages of type part are now supported
 
 ### Commits
 
  * [**f483447560a7f02fba7137cdc386d748d5688315**] Added event based socket communication
+ * [**deec2d921f0d5e940d749891f0ab25eab634b0f9**] SocketMessages of type part are now supported
 
 
 ### TO-DO
 
- * Add support for messages of type "part"
+ * ~~Add support for messages of type "part"~~
 
 ## 2020-02-16, Version v0.4.4 @Yimura
 
@@ -65,7 +67,7 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
 
 ### TO-DO
 
- * Add proper catch all error logging to the bot
+ * ~~Add proper catch all error logging to the bot~~
 
 ## 2020-02-13, Version v0.4.2 @Yimura
 
