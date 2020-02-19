@@ -20,10 +20,12 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
 
  * Added event based socket communication
  * Fixed old error logging being broken, TO-DO from v0.4.3 was resolved this way
+ * A shard in production should attempt to respawn, development bot should be stable before releasing
 
 ### Commits
 
  * [**f483447560a7f02fba7137cdc386d748d5688315**] Added event based socket communication
+
 
 ### TO-DO
 

@@ -15,13 +15,28 @@ class SocketEvents {
     set eventListener(new_value) {
         this.connection = new_value;
 
-        this.connection.on('info', (socketMessage) => this.getShardInfo(socketMessage));
+        this.connection.on('socket_event', (request, socketMessage) => {
+            try {
+                this[request](socketMessage);
+            } catch (e) {
+                if (e.message.includes('is not a function')) {
+                    socketMessage.rejected = 'unknown_command';
+                    this.connection.send(socketMessage);
+
+                    return;
+                }
+                
+                socketMessage.rejected = 'stack';
+                socketMessage.message = e.stack;
+                this.connection.send(socketMessage);
+            }
+        });
     }
 
     /**
      * @param {SocketMessage} socketMessage
      */
-    getShardInfo(socketMessage) {
+    info(socketMessage) {
         const
             client = this.musicBot.client,
             guilds = client.guilds,
