@@ -25,7 +25,7 @@ class SocketEvents {
 
                     return;
                 }
-                
+
                 socketMessage.rejected = 'stack';
                 socketMessage.message = e.stack;
                 this.connection.send(socketMessage);
@@ -47,9 +47,9 @@ class SocketEvents {
             shardId: this.musicBot.id,
             channels: channels.size,
             guilds: guilds.size,
+            music_players: this.musicBot.carrier.totalPlayers,
             ping: Math.round(client.ws.ping),
-            users: users.size,
-            voiceConnections: this.musicBot.carrier.totalPlayers
+            users: users.size
         };
 
         this.connection.send(socketMessage);
