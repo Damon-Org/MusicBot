@@ -86,7 +86,7 @@ class BotEvents extends BasicBot {
             serverInstance.musicSystem.onChoiceEmbedAction(choiceOption, msgObj, user);
         }
         else if (yesnoOption != -1) {
-            if (!msgObj.embeds[0]) return;
+            if (!msgObj.embeds[0] || !msgObj.embeds[0].footer.text) return;
             const option = msgObj.embeds[0].footer.text.split(' for ')[0];
 
             switch (option) {
