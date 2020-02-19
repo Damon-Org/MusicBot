@@ -86,7 +86,7 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
  * [**57c685fc6d96bbe110df6b9b0ada450d511ff2a3**] Added skipTo command, fixed two bugs in remove command
  * [**bb12ad846d1e54f0a479bc312813d49156ad95a4**] Added better visible yesNoOptions, fixed queue command not working with negative pages
  * [**242a68885bb088bb529b46fb52b85fe852a6ce87**] Playlist handling now accounts for urls that do not contain a YT Video ID
- * [**this_commit**] Fixed fatal error that would crash the entire bot
+ * [**2d844dca5f9bca6b3e44aab792e3299738a9e66b**] Fixed fatal error that would crash the entire bot
 
 ## 2020-02-12, Version v0.4.1 @Yimura
 
