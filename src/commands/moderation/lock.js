@@ -1,57 +1,34 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class Lock extends Command {
+class Lock extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
-        // from here on we know that we're in a server chat
+    async run(command) {
         const
-            serverId = msgObj.guild.id,
-            serverMember = msgObj.member;
-
-        if (!serverMember.hasPermission(musicBot.Discord.Permissions.FLAGS.MANAGE_CHANNELS, false, true, true)) {
-            const newMsg = await msgObj.reply('you do not have permission to lock features to a specific channel.\nYou need the `MANAGE_CHANNELS` permission.');
-            newMsg.delete({timeout: 5000});
-
-            return;
-        }
-
-        const
-            channel = msgObj.mentions.channels.first(),
-            type = args[0];
+            channel = this.msgObj.mentions.channels.first() || this.textChannel,
+            type = this.args[0];
 
         if (type == 'music') {
-            if (channel == undefined) {
-                await musicBot.serverUtils.updateGuildOption(serverId, 'lockMusicChannel', msgObj.channel.id);
+            await this.serverUtils.updateGuildOption(this.serverInstance.id, 'lockMusicChannel', channel.id);
 
-                msgObj.reply(`channel lock has been enabled for ${type} on channel ${msgObj.channel}`);
+            this.msgObj.reply(`channel lock has been enabled for ${type} on channel ${channel}`);
 
-                return;
-            }
-
-            await musicBot.serverUtils.updateGuildOption(serverId, 'lockMusicChannel', channel.id);
-
-            msgObj.reply(`channel lock has been enabled for ${type} on channel ${channel}`);
             return;
         }
 
-        msgObj.reply(`unknown category "${type}", try again with a valid category.`);
-        return;
+        this.msgObj.reply(`unknown category "${type}", try again with a valid category.`);
     }
 }
 

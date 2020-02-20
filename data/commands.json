@@ -9,6 +9,10 @@
                 "description": "Update servers in DB",
                 "usage": "updateservers",
                 "params": [],
+                "permission": {
+                    "type": "system",
+                    "level": 2
+                },
                 "examples": []
             }
         ]
@@ -35,6 +39,10 @@
                         "default": "Takes the channel the command was ran in"
                     }
                 ],
+                "permission": {
+                    "type": "server",
+                    "name": "MANAGE_CHANNELS"
+                },
                 "examples": [
                     "lock music #music"
                 ]
@@ -55,6 +63,10 @@
                         "required": true
                     }
                 ],
+                "permission": {
+                    "type": "server",
+                    "name": "MANAGE_CHANNELS"
+                },
                 "examples": [
                     "rmlock music",
                     "remlock music"
@@ -68,6 +80,10 @@
                 "description": "Reset the prefix to the default value.",
                 "usage": "resetprefix",
                 "params": [],
+                "permission": {
+                    "type": "server",
+                    "name": "MANAGE_CHANNELS"
+                },
                 "examples": [
                     "resetprefix",
                     "rprefix"
@@ -88,6 +104,10 @@
                         "required": true
                     }
                 ],
+                "permission": {
+                    "type": "server",
+                    "name": "MANAGE_CHANNELS"
+                },
                 "examples": [
                     "setprefix !",
                     "changeprefix b?"

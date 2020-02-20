@@ -1,10 +1,10 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class StopRecording extends Command {
+class StopRecording extends BasicCommand {
     /**
      * @param {Object} properties
      */

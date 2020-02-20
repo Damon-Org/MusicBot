@@ -64,15 +64,16 @@ class CommandRegisterer {
                         }
 
                         const
-                            // create a new instance related to this command
-                            instance = new this.command[commandCategory][command.name](command),
-                            // make up the command data
                             commandData = {
                                 category: commandCategory,
                                 guild_only: categoryObject.guild_only,
-                                instance: instance,
-                                parent: command.name
-                            };
+                                musicBot: this.musicBot
+                            },
+                            args = [commandData, command],
+                            // create a new instance related to this command
+                            instance = new this.command[commandCategory][command.name](...args);
+
+                        commandData.instance = instance;
 
                         // assign this command to a reference of the instance
                         this.commands.set(command.name, commandData);
@@ -91,46 +92,6 @@ class CommandRegisterer {
         }
 
         console.log(`[COMMAND/INFO] Mapping of commands done with ${this.commands.size} commands registered.`);
-    }
-
-    /**
-     * This method will check if a command is ran in a locked channel
-     * @param {external:String} command The command that triggered the request
-     * @param {external:Object} cmdObj
-     * @param {external:Discord_Message} msgObj
-     * @param {external:String[]} args An array of command arguments
-     * @returns {external:Boolean} True if the stack flow may continue, false if the stack needs to be interrupted
-     */
-    async beforeRunCommand(command, cmdObj, msgObj, args) {
-        if (cmdObj.guild_only) {
-            if (!msgObj.member) {
-                const newMsg = await msgObj.reply(`The following command \`${command}\` can not be ran outside of guilds.`);
-                newMsg.delete(5e3);
-
-                return false;
-            }
-
-            let lockedChannel = null;
-
-            const
-                serverUtils = this.musicBot.serverUtils,
-                server = serverUtils.getClassInstance(msgObj.guild.id),
-                channel = msgObj.channel;
-
-            lockedChannel = await server.getLockedChannels();
-            lockedChannel = lockedChannel[cmdObj.category];
-
-            if (lockedChannel == undefined || lockedChannel == null || lockedChannel == 'null' || lockedChannel == channel.id) {
-                return true;
-            }
-
-            const newMsg = await msgObj.reply(`you can't use commands from the ${cmdObj.category} category here, please use <#${lockedChannel}> text-channel for ${cmdObj.category} related commands.`);
-            newMsg.delete({timeout: 5500});
-
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -162,14 +123,15 @@ class CommandRegisterer {
 
             // check if the command used is in the list of commands
             if (this.commands.has(command)) {
-                const cmdObj = this.commands.get(command);
+                const
+                    cmdObj = this.commands.get(command),
+                    cmd = cmdObj.instance;
 
-                if (! await this.beforeRunCommand(command, cmdObj, message, args)) return false;
-
-                if (!this.checkParams(message, cmdObj.instance, args)) return false;
+                cmd.msgObj = message;
+                cmd.args = args;
 
                 try {
-                    cmdObj.instance.onCommand(this.musicBot, message, command, args);
+                    cmd.check(command);
                 } catch (e) {
                     message.channel.send(`An error occured while trying to run the following command \`${command}\`\nWith the following output: \`\`\`${e.stack}\`\`\``);
                 }
@@ -179,49 +141,6 @@ class CommandRegisterer {
 
             return false;
         }
-    }
-
-    /**
-     * Checks if all params have been satisfied and if there weren't too many given
-     * @param {external:Discord_Message} msgObj
-     * @param {*} cmdInstance
-     * @param {external:String[]} arguments Array of arguments given by the user trying to execute the command
-     * @returns {external:Boolean} Returns true on satisfied params, false when incorrect commands were given
-     */
-    checkParams(msgObj, cmdInstance, args) {
-        const newEmbed = new this.musicBot.Discord.MessageEmbed();
-        let err = false;
-
-        if (cmdInstance.params.length < args.length && !cmdInstance.params[0].allow_sentence) {
-            newEmbed.setTitle('Too many arguments error.');
-
-            err = true;
-        }
-
-        if (cmdInstance.params.length > 1 && !err) {
-            for (let i = 0; i < cmdInstance.params.length; i++) {
-                const param = cmdInstance.params[i];
-                if (param.required) {
-                    if (!args[i]) {
-                        newEmbed.setTitle(`This command expects at least ${i+1} arguments`);
-
-                        err = true;
-
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (err) {
-            newEmbed.setDescription(`View the documentation of [this command on our site](https://music.damon.sh/#/commands?c=${cmdInstance.name})`);
-
-            msgObj.channel.send(newEmbed);
-
-            return false;
-        }
-
-        return true;
     }
 }
 

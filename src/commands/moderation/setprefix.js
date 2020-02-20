@@ -1,49 +1,35 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class SetPrefix extends Command {
+class SetPrefix extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
-        const
-            server = musicBot.serverUtils.getClassInstance(msgObj.guild.id),
-            serverMember = msgObj.member;
+    async run(command) {
+        const newPrefix = this.args[0];
 
-        if (!serverMember.hasPermission(musicBot.Discord.Permissions.FLAGS.MANAGE_CHANNELS, false, true, true)) {
-            const newMsg = await msgObj.reply('you do not have permission to change the bot prefix of this server.\nYou need the `MANAGE_CHANNELS` permission.');
-            newMsg.delete({timeout: 5000});
+        if (/^[\x00-\x7F]*$/.test(newPrefix) && newPrefix.length <= 6) {
+            const oldPrefix = await this.serverInstance.getPrefix();
 
-            return;
-        }
+            this.serverInstance.setPrefix(newPrefix);
 
-        const newPrefix = args[0];
-
-        if (/^[\x00-\x7F]*$/.test(newPrefix) && newPrefix.length <= 4) {
-            const oldPrefix = await server.getPrefix();
-
-            server.setPrefix(newPrefix);
-
-            const newMsg = await msgObj.channel.send(`The command prefix for **Damon Music** has been changed in this server has been changed from \`${oldPrefix}\` to \`${newPrefix}\``);
+            const newMsg = await this.textChannel.send(`The command prefix for **Damon Music** has been changed in this server has been changed from \`${oldPrefix}\` to \`${newPrefix}\``);
             newMsg.pin();
 
             return;
         }
 
-        const newMsg = await msgObj.reply('new prefix is not a valid ASCII character or is longer than 4 characters, make sure you aren\'t using unicode or emoji\'s as a prefix.');
+        const newMsg = await this.msgObj.reply('new prefix is not a valid ASCII character or is longer than 6 characters, make sure you aren\'t using unicode or emoji\'s as a prefix.');
         newMsg.delete({timeout: 5000});
     }
 }

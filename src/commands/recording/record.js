@@ -1,10 +1,10 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class Record extends Command {
+class Record extends BasicCommand {
     /**
      * @param {Object} properties
      */
@@ -19,40 +19,35 @@ class Record extends Command {
      * @param {external:String[]} args array of string arguments
      */
     async onCommand(musicBot, msgObj, command, args) {
-        const voicechannel = msgObj.member.voice.channel;
+        const voicechannel = this.voiceChannel;
         if (!voicechannel) {
-            msgObj.reply(`you aren't a in voicechannel, join one to use this command.`);
+            this.msgObj.reply(`you aren't a in voicechannel, join one to use this command.`);
 
             return;
         }
 
-        const
-            serverInstance = musicBot.serverUtils.getClassInstance(msgObj.guild.id),
-            musicSystem = serverInstance.musicSystem;
-
-        if (musicSystem.queueExists()) {
-            msgObj.reply('music is currently playing, I\'m unable to record and play music at the same time.');
+        if (this.serverInstance.musicSystem.queueExists()) {
+            this.msgObj.reply('music is currently playing, I\'m unable to record and play music at the same time.');
 
             return;
         }
 
-        const recordingSystem = serverInstance.recordingSystem;
-
+        const recordingSystem = this.serverInstance.recordingSystem;
         if (recordingSystem.recording) {
-            const newMsg = await msgObj.reply('a voicechannel is already being recorded.');
+            const newMsg = await this.msgObj.reply('a voicechannel is already being recorded.');
             newMsg.delete({timeout: 5000});
 
             return;
         }
 
         if (recordingSystem.decoder.busy) {
-            const newMsg = await msgObj.reply('the previous recording is still being decoded, please wait.');
+            const newMsg = await this.msgObj.reply('the previous recording is still being decoded, please wait.');
             newMsg.delete({timeout: 5000});
 
             return;
         }
 
-        msgObj.channel.send('**Damon Music** will start recording from whenever a user starts speaking.');
+        this.msgObj.channel.send('**Damon Music** will start recording from whenever a user starts speaking.');
         await recordingSystem.start(msgObj, voicechannel);
     }
 }

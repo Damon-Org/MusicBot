@@ -82,7 +82,7 @@ class SocketCommunication {
          * @type {Connection}
          * @readonly
          */
-        this.connection = new Connection(this.clientType, this.port, this.musicBot.auth.credentials.socket);
+        //this.connection = new Connection(this.clientType, this.port, this.musicBot.auth.credentials.socket);
 
         this.tries++;
 
@@ -92,7 +92,7 @@ class SocketCommunication {
             return;
         }
 
-        this.events();
+        //this.events();
     }
 
     events() {

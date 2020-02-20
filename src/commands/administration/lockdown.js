@@ -1,4 +1,4 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * This command is limited to admin's of the highest permission level or the owner
@@ -6,21 +6,18 @@ const Command = require('../../util/command.js');
  * @category Commands
  * @extends Command
  */
-class LockDown extends Command {
+class LockDown extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
+    async onCommand(command) {
 
     }
 }

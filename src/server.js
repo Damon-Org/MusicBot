@@ -108,7 +108,7 @@ class Server {
      * @param {external:String} new_prefix The new server prefix to be used
      */
     async setPrefix(new_prefix) {
-        await this.musicBot.serverUtils.updateGuildOption(msgObj.guild.id, 'guildPrefix', newPrefix);
+        await this.musicBot.serverUtils.updateGuildOption(this.id, 'guildPrefix', new_prefix);
 
         this.prefix = new_prefix;
     }

@@ -14,7 +14,7 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
-## 2020-02-18, Version v0.4.4/Unreleased @Yimura
+## 2020-02-18, Version v0.4.5 @Yimura
 
 ### Notable Changes
 

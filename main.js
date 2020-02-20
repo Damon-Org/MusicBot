@@ -8,7 +8,7 @@ process
         console.log('\nBot shutdown requested logging out...');
 
         setTimeout(async () => {
-            await instance.socketCommunication.close();
+            //await instance.socketCommunication.close();
             instance.logout();
 
             process.exit();

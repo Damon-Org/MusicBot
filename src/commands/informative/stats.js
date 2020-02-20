@@ -1,43 +1,40 @@
 const
-    Command = require('../../util/command.js'),
+    BasicCommand = require('../../util/basic_command.js'),
     humanReadableTime = require('humanize-duration');
 
 /**
  * @category Commands
  * @extends Command
  */
-class Stats extends Command {
+class Stats extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
-        const embed = new musicBot.Discord.MessageEmbed()
+    run(command) {
+        const embed = new this.musicBot.Discord.MessageEmbed()
             .setTitle('Statistics? Stats? Mmmm whatever...')
-            .addField('Uptime', humanReadableTime(Math.round((Date.now() - musicBot.bootUp) / 1000) * 1000))
-            .addField('Active Music Players', musicBot.carrier.totalPlayers)
+            .addField('Uptime', humanReadableTime(Math.round((Date.now() - this.musicBot.bootUp) / 1000) * 1000))
+            .addField('Active Music Players', this.musicBot.carrier.totalPlayers)
             .addField('Bot Version', `v${global.version}`)
             .addField('Environment Version', `Node ${process.version}`)
-            .addField('Created by', musicBot.creator.tag);
+            .addField('Created by', this.musicBot.creator.tag);
 
-        if (musicBot.client.shard.count <= 1) {
-            embed.addField('Total Guild Count', musicBot.client.guilds.size);
+        if (this.musicBot.client.shard.count <= 1) {
+            embed.addField('Total Guild Count', this.musicBot.client.guilds.size);
         }
         else {
-            embed.addField('This instance is managing', `${musicBot.client.guilds.size} servers`);
-            embed.addField('Total Guild Count', `${musicBot.totalServerCount}`)
+            embed.addField('This instance is managing', `${this.musicBot.client.guilds.size} servers`);
+            embed.addField('Total Guild Count', `${this.musicBot.totalServerCount}`)
         }
 
-        msgObj.channel.send(embed);
+        this.textChannel.send(embed);
     }
 }
 

@@ -1,36 +1,32 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class Queue extends Command {
+class Queue extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
+    async run(command) {
         const
-            server = msgObj.guild,
-            serverId = server.id,
-            serverInstance = musicBot.serverUtils.getClassInstance(serverId),
+            server = this.msgObj.guild,
+            serverInstance = this.serverInstance,
             musicSystem = serverInstance.musicSystem,
             maxPrequeue = musicSystem.queue.maxPrequeue;
 
         if (!musicSystem.queueExists()) {
-            const newMsg = await msgObj.reply('No music is playing currently.');
+            const newMsg = await this.msgObj.reply('No music is playing currently.');
 
             newMsg.delete({timeout: 5000});
-            msgObj.delete();
+            this.msgObj.delete();
 
             return;
         }
@@ -41,20 +37,20 @@ class Queue extends Command {
             bottomLimit = 0,
             topLimit = 0;
 
-        if (args[0] == undefined || args[0].length == 0) {
+        if (this.args[0] == undefined || this.args[0].length == 0) {
             bottomLimit = maxPrequeue + (pageSize * page) - (pageSize / 2),
             topLimit = maxPrequeue + (pageSize * page) + (pageSize / 2);
         }
         else {
-            if (isNaN(args[0]) || args[0].includes('.') || args[0].includes(',')) {
-                const newMsg = await msgObj.reply('invalid page number.');
+            if (isNaN(this.args[0]) || this.args[0].includes('.') || this.args[0].includes(',')) {
+                const newMsg = await this.msgObj.reply('invalid page number.');
 
                 newMsg.delete({timeout: 5000});
 
                 return;
             }
 
-            page = parseInt(args[0]);
+            page = parseInt(this.args[0]);
 
             if (page >= 0) {
                 if (page != 0) {
@@ -116,30 +112,30 @@ class Queue extends Command {
                 }
 
                 if (i == (topLimit - 1) || i == (length - 2)) {
-                    const richEmbed = new musicBot.Discord.MessageEmbed()
+                    const richEmbed = new this.musicBot.Discord.MessageEmbed()
                         .setAuthor('Queue for ' + server.name, server.iconURL)
                         .setColor('#252422')
                         .setDescription(embedDescription)
                         .setFooter(`You can use ${serverInstance.prefix}q #number to see other pages of the queue.`);
 
-                    msgObj.channel.send(richEmbed);
+                    this.textChannel.send(richEmbed);
 
                     return;
                 }
             }
 
-            const richEmbed = new musicBot.Discord.MessageEmbed()
+            const richEmbed = new this.musicBot.Discord.MessageEmbed()
                 .setAuthor('Queue for ' + server.name, server.iconURL)
                 .setColor('#252422')
                 .setDescription('This page is empty.')
                 .setFooter('You can use !q #number to see other pages of the queue.');
 
-            msgObj.channel.send(richEmbed);
+            this.textChannel.send(richEmbed);
 
             return;
         }
 
-        const newMsg = await msgObj.reply('no music is playing currently.');
+        const newMsg = await this.msgObj.reply('no music is playing currently.');
 
         newMsg.delete({timeout: 5000});
     }
