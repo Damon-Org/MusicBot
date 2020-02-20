@@ -14,6 +14,16 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-02-20, Version v0.4.6 @Yimura
+
+### Notable Changes
+
+ * Rewrite of BasicCommand class (previously just called Command "src/util/command.js"), this rewrite has improved efficiency and possibly saves up to 50 lines of code in certain commands
+
+### Commits
+
+ * [**e528bc56846b5f560e3ce10a1299c6065e983f51**] Rewrite of BasicCommand class (previously just called Command)
+
 ## 2020-02-18, Version v0.4.5 @Yimura
 
 ### Notable Changes
