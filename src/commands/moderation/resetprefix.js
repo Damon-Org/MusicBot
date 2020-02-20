@@ -1,39 +1,26 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class ResetPrefix extends Command {
+class ResetPrefix extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
-        const
-            server = musicBot.serverUtils.getClassInstance(msgObj.guild.id),
-            serverMember = msgObj.member;
+    async run(command) {
+        const prefix = this.musicBot.config.development ? this.musicBot.config.default_prefix.dev : this.musicBot.config.default_prefix.prod;
 
-        if (!serverMember.hasPermission(musicBot.Discord.Permissions.FLAGS.MANAGE_CHANNELS, false, true, true)) {
-            const newMsg = await msgObj.reply('you do not have permission to change the bot prefix of this server.\nYou need the `MANAGE_CHANNELS` permission.');
-            newMsg.delete({timeout: 5000});
+        this.serverInstance.setPrefix(prefix);
 
-            return;
-        }
-
-        await musicBot.serverUtils.updateGuildOption(msgObj.guild.id, 'guildPrefix', musicBot.config.default_prefix);
-        server.setPrefix(musicBot.config.default_prefix);
-
-        const newMsg = await msgObj.channel.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${musicBot.config.default_prefix}\``);
+        const newMsg = await this.textChannel.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${prefix}\``);
         newMsg.pin();
     }
 }

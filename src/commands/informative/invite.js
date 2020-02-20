@@ -1,32 +1,29 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class Invite extends Command {
+class Invite extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    onCommand(musicBot, msgObj, command, args) {
+    run(command) {
         const
-            embed = new musicBot.Discord.MessageEmbed()
-            .setAuthor(`Made by ${musicBot.creator.tag}`, musicBot.creator.avatarURL)
-            .setDescription(`Click [here](https://discordapp.com/oauth2/authorize?&client_id=${musicBot.client.user.id}&scope=bot&permissions=1278602576) to invite`)
+            embed = new this.musicBot.Discord.MessageEmbed()
+            .setAuthor(`Made by ${this.musicBot.creator.tag}`, this.musicBot.creator.avatarURL)
+            .setDescription(`Click [here](https://discordapp.com/oauth2/authorize?&client_id=${this.musicBot.client.user.id}&scope=bot&permissions=1278602576) to invite`)
             .setColor('#dd0a35')
             .setFooter('Powered by the 🔥 of the gods');
 
-        msgObj.channel.send(embed);
+        this.textChannel.send(embed);
     }
 }
 

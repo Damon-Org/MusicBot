@@ -1,60 +1,56 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class Play extends Command {
+class Play extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
-        const voicechannel = msgObj.member.voice.channel;
+    async run(command) {
+        const voicechannel = this.voiceChannel;
         if (!voicechannel) {
-            msgObj.reply(`you aren't a in voicechannel, join one to use this command.`);
+            this.msgObj.reply(`you aren't in a voice channel, join one to use this command.`);
+
             return;
         }
 
-        if (args.length == 0) {
-            const newMsg = await msgObj.reply(`please give a valid link or a music title to search for.`);
+        if (this.args.length == 0) {
+            const newMsg = await this.msgObj.reply(`please give a valid link or a music title to search for.`);
             newMsg.delete({timeout: 5000});
 
             return;
         }
 
-        const
-            musicUtils = musicBot.musicUtils,
-            node = musicBot.carrier.getNode();
+        const node = this.musicBot.carrier.getNode();
         let data = null;
 
-        if (args.length == 1 && (args[0].includes('https://') || args[0].includes('http://'))) {
-            data = await node.rest.resolve(args[0]);
+        if (this.args.length == 1 && (this.args[0].includes('https://') || this.args[0].includes('http://'))) {
+            data = await node.rest.resolve(this.args[0]);
         }
         else {
-            const searchFor = args.join(' ');
+            const searchFor = this.args.join(' ');
 
-            musicUtils.createNewChoiceEmbed(msgObj, searchFor);
+            this.musicUtils.createNewChoiceEmbed(this.msgObj, searchFor);
 
             return;
         }
 
         if (!data) {
-            const richEmbed = new musicBot.Discord.MessageEmbed()
+            const richEmbed = new this.musicBot.Discord.MessageEmbed()
                 .setTitle('No results returned.')
                 .setDescription(`I could not find the track you requested or access to this track is limited.\nPlease try again with something other than ${args.join(' ')}.`)
                 .setColor('#ed4337');
 
-            msgObj.channel.send(richEmbed);
+            this.textChannel.send(richEmbed);
 
             return;
         }
@@ -63,12 +59,12 @@ class Play extends Command {
             // Playlist found
             const orig = (new URL(args[0])).searchParams.get('v');
 
-            musicBot.musicUtils.createPlaylistFoundEmbed(orig, data, msgObj);
+            this.musicUtils.createPlaylistFoundEmbed(orig, data, this.msgObj);
 
             return;
         }
 
-        musicBot.musicUtils.handleSongData(data, msgObj.member, msgObj, voicechannel);
+        this.musicUtils.handleSongData(data, this.serverMember, this.msgObj, this.voiceChannel);
     }
 }
 

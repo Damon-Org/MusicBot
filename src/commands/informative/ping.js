@@ -1,35 +1,32 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class Ping extends Command {
+class Ping extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
+    async run(command) {
         const
-            ping = new Date().getTime() - msgObj.createdTimestamp,
-            botPing = Math.round(musicBot.client.ws.ping);
+            ping = new Date().getTime() - this.msgObj.createdTimestamp,
+            botPing = Math.round(this.musicBot.client.ws.ping);
 
-        const msg = await msgObj.channel.send('`Pinging...`');
+        const msg = await this.textChannel.send('`Pinging...`');
 
-        const embed = new musicBot.Discord.MessageEmbed()
+        const embed = new this.musicBot.Discord.MessageEmbed()
             .setTitle('Pong! 🏓')
             .addField('Ping to Discord', `${botPing}ms`)
             .addField('Response time', `${ping}ms`)
-            .addField('Reply time', `${msg.createdTimestamp - msgObj.createdTimestamp}ms`)
+            .addField('Reply time', `${msg.createdTimestamp - this.msgObj.createdTimestamp}ms`)
             //.setDescription(`Ping to Discord: **${botPing}ms**\n\nResponse time: **${ping}ms**\n\nReply time: **${msg.createdTimestamp - msgObj.createdTimestamp}ms**`)
             .setColor('#252422');
         msg.edit('', embed);

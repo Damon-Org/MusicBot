@@ -1,58 +1,52 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class Volume extends Command {
+class Volume extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
-        const voicechannel = msgObj.member.voice.channel;
+    async run(command) {
+        const voicechannel = this.voiceChannel;
         if (!voicechannel) {
-            const newMsg = await msgObj.reply('you aren\'t in a voicechannel');
+            const newMsg = await this.msgObj.reply('you aren\'t in a voicechannel');
 
             newMsg.delete({timeout: 5000});
 
             return;
         }
 
-        const
-            serverId = msgObj.guild.id,
-            musicSystem = (musicBot.serverUtils.getClassInstance(serverId)).musicSystem;
-
+        const musicSystem = this.serverInstance.musicSystem;
         if (musicSystem.isDamonInVC(voicechannel)) {
-            if (args[0] == undefined || args[0].length == 0) {
-                const newMsg = await msgObj.reply('please give a value, command format: `volume #number`.');
+            if (this.args[0] == undefined || this.args[0].length == 0) {
+                const newMsg = await this.msgObj.reply('please give a value, command format: `volume #number`.');
 
                 newMsg.delete({timeout: 5000});
 
                 return;
             }
 
-            if (isNaN(args[0]) || args[0].includes(',')) {
-                const newMsg = await msgObj.reply('invalid volume level, make sure you give a number and that there\'s no `,` in that number.');
+            if (isNaN(this.args[0]) || this.args[0].includes(',')) {
+                const newMsg = await this.msgObj.reply('invalid volume level, make sure you give a number and that there\'s no `,` in that number.');
 
                 newMsg.delete({timeout: 5000});
 
                 return;
             }
 
-            const volume = parseInt(args[0], 10);
+            const volume = parseInt(this.args[0], 10);
 
-            if (volume < 10 || volume > 200) {
-                const newMsg = await msgObj.reply('invalid volume level, please give a value between 10 and 200');
+            if (volume < 5 || volume > 200) {
+                const newMsg = await this.msgObj.reply('invalid volume level, please give a value between 5 and 200');
 
                 newMsg.delete({timeout: 5000});
 
@@ -60,19 +54,19 @@ class Volume extends Command {
             }
 
             if (musicSystem.setVolume(volume)) {
-                msgObj.channel.send(`Volume level has been changed to \`${volume}\`.`);
+                this.textChannel.send(`Volume level has been changed to \`${volume}\`.`);
 
                 return;
             }
 
-            const newMsg = await msgObj.reply('volume level unchanged.');
+            const newMsg = await this.msgObj.reply('volume level unchanged.');
 
             newMsg.delete({timeout: 5000});
 
             return;
         }
 
-        const newMsg = await msgObj.reply('you aren\'t in the bot\'s channel.');
+        const newMsg = await this.msgObj.reply('you aren\'t in the bot\'s channel.');
 
         newMsg.delete({timeout: 5000});
     }

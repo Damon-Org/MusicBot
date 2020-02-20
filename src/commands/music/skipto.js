@@ -1,59 +1,53 @@
-const Command = require('../../util/command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class SkipTo extends Command {
+class SkipTo extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
-        const voicechannel = msgObj.member.voice.channel;
+    async run(command) {
+        const voicechannel = this.voiceChannel;
         if (!voicechannel) {
-            const newMsg = await msgObj.reply('you aren\'t in a voicechannel');
+            const newMsg = await this.msgObj.reply('you aren\'t in a voicechannel');
 
             newMsg.delete({timeout: 5000});
 
             return;
         }
 
-        const
-            serverId = msgObj.guild.id,
-            serverInstance = musicBot.serverUtils.getClassInstance(serverId),
-            musicSystem = serverInstance.musicSystem;
+        const musicSystem = this.serverInstance.musicSystem;
 
         if (musicSystem.isDamonInVC(voicechannel)) {
-            if (musicSystem.skipTo(args[0])) {
-                if (args[0] == 1) {
-                    msgObj.reply('skipping to the currently playing song does nothing.');
+            if (musicSystem.skipTo(this.args[0])) {
+                if (this.args[0] == 1) {
+                    this.msgObj.reply('skipping to the currently playing song does nothing.');
 
                     return;
                 }
 
-                msgObj.reply(`successfully skipped to the selected song.`);
+                this.msgObj.reply(`successfully skipped to the selected song.`);
 
                 return;
             }
 
-            const newMsg = await msgObj.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${serverInstance.prefix}q <# page number>.`);
+            const newMsg = await this.msgObj.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${serverInstance.prefix}q <# page number>.`);
 
             newMsg.delete({timeout: 5000});
 
             return;
         }
 
-        const newMsg = await msgObj.reply('you aren\'t in the bot\'s channel.');
+        const newMsg = await this.msgObj.reply('you aren\'t in the bot\'s channel.');
 
         newMsg.delete({timeout: 5000});
     }
