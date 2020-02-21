@@ -127,11 +127,8 @@ class CommandRegisterer {
                     cmdObj = this.commands.get(command),
                     cmd = cmdObj.instance;
 
-                cmd.msgObj = message;
-                cmd.args = args;
-
                 try {
-                    cmd.check(command);
+                    cmd.check(message, args, command);
                 } catch (e) {
                     message.channel.send(`An error occured while trying to run the following command \`${command}\`\nWith the following output: \`\`\`${e.stack}\`\`\``);
                 }

@@ -19,10 +19,12 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
 ### Notable Changes
 
  * Rewrite of BasicCommand class (previously just called Command "src/util/command.js"), this rewrite has improved efficiency and possibly saves up to 50 lines of code in certain commands
+ * Fixed fatal bug that would only allow users with system level permission lower than 2 unable to use it
 
 ### Commits
 
  * [**e528bc56846b5f560e3ce10a1299c6065e983f51**] Rewrite of BasicCommand class (previously just called Command)
+ * [**this_commit**] Fixed fatal bug that would only allow users with system level permission lower than 2 unable to use it
 
 ## 2020-02-18, Version v0.4.5 @Yimura
 
