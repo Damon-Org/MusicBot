@@ -39,7 +39,7 @@ class Remove extends BasicCommand {
                 return;
             }
 
-            const newMsg = await this.msgObj.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${serverInstance.prefix}q <# page number>.`);
+            const newMsg = await this.msgObj.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${this.serverInstance.prefix}q <# page number>.`);
 
             newMsg.delete({timeout: 5000});
 

@@ -57,7 +57,7 @@ class Play extends BasicCommand {
 
         if (Array.isArray(data)) {
             // Playlist found
-            const orig = (new URL(args[0])).searchParams.get('v');
+            const orig = (new URL(this.args[0])).searchParams.get('v');
 
             this.musicUtils.createPlaylistFoundEmbed(orig, data, this.msgObj);
 
