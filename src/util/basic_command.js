@@ -16,13 +16,23 @@ class BasicCommand {
 
     /**
      * Check if the person calling the command has the right to do so
+     * @param {external:Discord_Message} msgObj
+     * @param {Array<external:String>} args
      * @param {external:String} command The string that initiated this check
      */
-    async check(command) {
+    async check(msgObj, args, command) {
+        this.msgObj = msgObj;
+        this.args = args;
+
+        console.log('noy');
         if (!await this.hasSystemPermission()) return false;
+        console.log('nay');
         if (!await this.canCommandRunInChannel(command)) return false;
+        console.log('ney');
         if (!await this.hasServerPermission()) return false;
+        console.log('nuy');
         if (!this.argumentsSatisfied()) return false;
+        console.log('niy');
 
         return await this.run(command);
     }
@@ -138,6 +148,8 @@ class BasicCommand {
     }
 
     async hasSystemPermission() {
+        if (!this.permission || this.permission.type != 'system') return true;
+
         return await this.userUtils.hasRequiredMinimalRole(this.user.id, 2);
     }
 }

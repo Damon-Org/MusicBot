@@ -6,19 +6,16 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class StopRecording extends BasicCommand {
     /**
-     * @param {Object} properties
+     * @param {Array<*>} args
      */
-    constructor(properties) {
-        super(properties);
+    constructor(...args) {
+        super(...args);
     }
 
     /**
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      * @param {external:String} command string representing what triggered the command
-     * @param {external:String[]} args array of string arguments
      */
-    async onCommand(musicBot, msgObj, command, args) {
+    async run(command) {
         const voicechannel = msgObj.member.voice.channel;
         if (!voicechannel) {
             msgObj.reply(`you aren't a in voicechannel, join one to use this command.`);
