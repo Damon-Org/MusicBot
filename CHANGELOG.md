@@ -24,7 +24,7 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
 ### Commits
 
  * [**e528bc56846b5f560e3ce10a1299c6065e983f51**] Rewrite of BasicCommand class (previously just called Command)
- * [**this_commit**] Fixed fatal bug that would only allow users with system level permission lower than 2 unable to use it
+ * [**a762fa7a0cc16233e87424f69df14fc17a31ae19**] Fixed fatal bug that would only allow users with system level permission lower than 2 unable to use it
 
 ## 2020-02-18, Version v0.4.5 @Yimura
 
