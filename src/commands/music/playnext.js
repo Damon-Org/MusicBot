@@ -33,10 +33,10 @@ class PlayNext extends BasicCommand {
         let data = null;
 
         if (this.args.length == 1 && (this.args[0].includes('https://') || this.args[0].includes('http://'))) {
-            data = await node.rest.resolve(args[0]);
+            data = await node.rest.resolve(this.args[0]);
         }
         else {
-            const searchFor = args.join(' ');
+            const searchFor = this.args.join(' ');
 
             this.musicUtils.createNewChoiceEmbed(this.msgObj, searchFor, true);
 
