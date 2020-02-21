@@ -24,15 +24,10 @@ class BasicCommand {
         this.msgObj = msgObj;
         this.args = args;
 
-        console.log('noy');
         if (!await this.hasSystemPermission()) return false;
-        console.log('nay');
         if (!await this.canCommandRunInChannel(command)) return false;
-        console.log('ney');
         if (!await this.hasServerPermission()) return false;
-        console.log('nuy');
         if (!this.argumentsSatisfied()) return false;
-        console.log('niy');
 
         return await this.run(command);
     }
