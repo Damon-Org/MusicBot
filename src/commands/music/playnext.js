@@ -46,7 +46,7 @@ class PlayNext extends BasicCommand {
         if (!data) {
             const richEmbed = new this.musicBot.Discord.MessageEmbed()
                 .setTitle('I could not find the track you requested')
-                .setDescription(`No results returned for ${args.join(' ')}.`)
+                .setDescription(`No results returned for ${this.args.join(' ')}.`)
                 .setColor('#ed4337');
 
             this.textChannel.send(richEmbed);
