@@ -46,8 +46,8 @@ class Play extends BasicCommand {
 
         if (!data) {
             const richEmbed = new this.musicBot.Discord.MessageEmbed()
-                .setTitle('No results returned.')
-                .setDescription(`I could not find the track you requested or access to this track is limited.\nPlease try again with something other than ${args.join(' ')}.`)
+                .setTitle('I could not find the track you requested')
+                .setDescription(`No results returned for ${this.args.join(' ')}.`)
                 .setColor('#ed4337');
 
             this.textChannel.send(richEmbed);
