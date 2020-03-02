@@ -17,6 +17,21 @@
             }
         ]
     },
+    "extra": {
+        "guild_only": true,
+        "commands": [
+            {
+                "name": "callink",
+                "aliases": [],
+                "description": "Return the link to the voice channel you're currently in.",
+                "usage": "callink",
+                "params": [],
+                "examples": [
+                    "callink"
+                ]
+            }
+        ]
+    },
     "moderation": {
         "guild_only": true,
         "commands": [
