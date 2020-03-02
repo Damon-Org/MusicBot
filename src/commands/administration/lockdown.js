@@ -17,7 +17,7 @@ class LockDown extends BasicCommand {
     /**
      * @param {external:String} command string representing what triggered the command
      */
-    async onCommand(command) {
+    async run(command) {
 
     }
 }

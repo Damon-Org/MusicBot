@@ -21,13 +21,15 @@
         "guild_only": true,
         "commands": [
             {
-                "name": "callink",
-                "aliases": [],
+                "name": "calllink",
+                "aliases": [
+                    "clink"
+                ],
                 "description": "Return the link to the voice channel you're currently in.",
-                "usage": "callink",
+                "usage": "calllink",
                 "params": [],
                 "examples": [
-                    "callink"
+                    "calllink"
                 ]
             }
         ]

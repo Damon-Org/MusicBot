@@ -17,7 +17,7 @@ class CallLink extends BasicCommand {
     /**
      * @param {external:String} command string representing what triggered the command
      */
-    async onCommand(command) {
+    async run(command) {
         const voicechannel = this.voiceChannel;
         if (!voicechannel) {
             const newMsg = await this.msgObj.reply('you aren\'t in a voicechannel');
