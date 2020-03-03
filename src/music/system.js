@@ -600,8 +600,6 @@ class MusicSystem {
      * Will reset all variables so our system is ready for a request
      */
     reset() {
-        this.disableOldPlayer();
-
         if (this.stream && !this.stream.ended) {
             this.stream.end('eventTriggerIgnore');
         }
@@ -657,6 +655,8 @@ class MusicSystem {
         this.volume = 15;
 
         this.updateSongState();
+
+        this.disableOldPlayer();
     }
 
     /**
