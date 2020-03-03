@@ -28,6 +28,10 @@ class Choice {
          * @type {external:Discord_GuildMember}
          */
         this.requester = null;
+        /**
+         * @type {external:Boolean}
+         */
+        this.handled = false;
 
         /**
          * True if the track should be added next up in Queue, false if handled normally
