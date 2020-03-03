@@ -21,9 +21,12 @@ class EmbedUtils {
             return null;
         }
 
-        const
-            richEmbed = msgObj.embeds[0],
-            newRichEmbed = this.getEmbed(richEmbed);
+        const richEmbed = msgObj.embeds[0];
+
+        if (!richEmbed) {
+            return;
+        }
+        const newRichEmbed = this.getEmbed(richEmbed);
 
         if (editObj.author != undefined) {
             newRichEmbed.setAuthor(editObj.author.name, editObj.author.iconUrl, editObj.author.link);
