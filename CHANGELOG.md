@@ -14,6 +14,21 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-03-03, Version v0.4.7 @Yimura
+
+### Notable Changes
+
+ * Fixed bug specific to playnext command
+ * Added calllink command
+ * Fixed bug where bot would think he's in a voice channel after leaving due to the reset not happening
+ * Fixed bug where reacting to a choice embed would add a song twice
+
+### Commits
+
+ * [**816fbcb42e32a8bcd7280fcb170772206d7702c1**] Fixed bug specific to playnext command
+ * [**2e46795ae786e25768be8ccf07c63ea211275aec**] and [**c33fbab09b0f8c1daab47d77218a749357adb935**] Added calllink command
+ * [**769b5aa1674a675e34f70524e9a0119685b75aa8**] Bug fix related to leave command leaving the voicechannel
+
 ## 2020-02-20, Version v0.4.6 @Yimura
 
 ### Notable Changes

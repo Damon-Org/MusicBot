@@ -163,7 +163,7 @@ class MusicSystem {
     async onChoiceEmbedAction(index, msgObj, user) {
         const choiceInstance = this.serverInstance.choices.get(user.id);
 
-        if (choiceInstance == undefined || choiceInstance.listener.id != msgObj.id) {
+        if (choiceInstance == undefined || choiceInstance.listener.id != msgObj.id || choiceInstance.handled) {
             return;
         }
 
@@ -172,6 +172,8 @@ class MusicSystem {
 
             return;
         }
+
+        choiceInstance.handled = true;
 
         const
             requester = choiceInstance.requester,
