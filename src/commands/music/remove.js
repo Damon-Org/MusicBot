@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,33 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class Remove extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'remove',
+            aliases: [
+                'rm',
+                'remove song',
+                'removesong'
+            ],
+            description: 'Removes a song from the queue',
+            usage: 'remove [song-number]',
+            params: [
+                {
+                    name: 'song-number',
+                    description: 'Number of a song in queuer',
+                    type: 'number',
+                    default: 'Will remove the currently playing song from queue'
+                }
+            ],
+            examples: []
+        });
     }
 
     /**

@@ -1,8 +1,48 @@
 {
     "development": true,
+    "generate_command_json": true,
 
+    "allow_mention_prefix": true,
     "default_prefix": {
         "prod": "d!",
         "dev": "dev!"
+    },
+
+    "permission_bit": 388190,
+
+    "presence_settings": {
+        "switch_interval": 25e3,
+        "presences": [
+            {
+                "activity": {
+                    "type": "LISTENING",
+                    "name": "d!help"
+                }
+            },
+            {
+                "activity": {
+                    "type": "WATCHING",
+                    "name": "us on https://music.damon.sh"
+                }
+            },
+            {
+                "activity": {
+                    "type": "WATCHING",
+                    "name": "version ${version}"
+                }
+            },
+            {
+                "activity": {
+                    "type": "WATCHING",
+                    "name": "over ${serverCount} guilds"
+                }
+            },
+            {
+                "activity": {
+                    "type": "WATCHING",
+                    "name": "new commands!"
+                }
+            }
+        ]
     }
 }

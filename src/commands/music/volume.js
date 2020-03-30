@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,32 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class Volume extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'volume',
+            aliases: [
+                "vol",
+                "v"
+            ],
+            description: 'Change the music volume.',
+            usage: 'volume [volume]',
+            params: [
+                {
+                    name: 'volume',
+                    description: 'A number ranging from 1 to 200',
+                    type: 'number',
+                    default: 'Will show the current volume.'
+                }
+            ],
+            examples: []
+        });
     }
 
     /**

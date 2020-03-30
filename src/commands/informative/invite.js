@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,22 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class Invite extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'invite',
+            aliases: [],
+            description: 'Invite Damon to your Discord server.',
+            usage: 'invite',
+            params: [],
+            examples: []
+        });
     }
 
     /**
@@ -17,9 +29,9 @@ class Invite extends BasicCommand {
      */
     run(command) {
         const
-            embed = new this.musicBot.Discord.MessageEmbed()
-            .setAuthor(`Made by ${this.musicBot.creator.tag}`, this.musicBot.creator.avatarURL)
-            .setDescription(`Click [here](https://discordapp.com/oauth2/authorize?&client_id=${this.musicBot.client.user.id}&scope=bot&permissions=1278602576) to invite`)
+            embed = new this.db.Discord.MessageEmbed()
+            .setAuthor(`Made by ${this.db.creator.tag}`, this.db.creator.avatarURL)
+            .setDescription(`Click [here](https://discordapp.com/oauth2/authorize?&client_id=${this.db.client.user.id}&scope=bot&permissions=${this.db.config.permission_bit}) to invite`)
             .setColor('#dd0a35')
             .setFooter('Powered by the 🔥 of the gods');
 

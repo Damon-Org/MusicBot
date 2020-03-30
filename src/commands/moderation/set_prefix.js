@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,39 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class SetPrefix extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'set prefix',
+            aliases: [
+                'setprefix',
+                'changeprefix'
+            ],
+            description: 'Change the bot its prefix in your server.',
+            usage: 'setprefix <new-prefix>',
+            params: [
+                {
+                    name: 'new-prefix',
+                    description: 'Changes the prefix to which Damon Music listens on in your server.',
+                    type: 'string',
+                    required: true
+                }
+            ],
+            permission: {
+                type: 'server',
+                name: 'MANAGE_CHANNELS'
+            },
+            examples: [
+                'setprefix !',
+                'changeprefix b?'
+            ]
+        });
     }
 
     /**

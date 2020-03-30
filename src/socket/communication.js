@@ -1,6 +1,6 @@
 const
-    Connection = require('./connection.js'),
-    SocketEvents = require('./events.js');
+    Connection = require('./connection'),
+    SocketEvents = require('./events');
 
 /**
  * Socket Communication
@@ -45,8 +45,7 @@ class SocketCommunication {
     }
 
     attemptReconnect() {
-        console.log('\x1b[33m[SOCKET/WARN]\x1b[0m Lost connection to socket server.');
-        console.log('\x1b[33m[SOCKET/WARN]\x1b[0m Reattempting connect after timer runs out.');
+        this.musicBot.log('SOCKET', 'WARN', 'Lost connection to socket server, reattempting connection after timeout.')
 
         const time = Date.now() - 6e3 * 5;
 
@@ -68,7 +67,7 @@ class SocketCommunication {
     }
 
     connected() {
-        console.log('[SOCKET/INFO] Successfully connected!');
+        this.musicBot.log('SOCKET', 'INFO', 'Successfully connected!');
 
         this.socketEvents.eventListener = this.connection;
 
@@ -87,7 +86,7 @@ class SocketCommunication {
         this.tries++;
 
         if (this.tries == 100) {
-            console.log(`\x1b[31m[SOCKET/CRITICAL]\x1b[0m Socket connection still not responding after ${this.tries} tries.`);
+            this.musicBot.log('SOCKET', 'CRITICAL', `Socket connection still not responding after ${this.tries} tries.`);
 
             return;
         }

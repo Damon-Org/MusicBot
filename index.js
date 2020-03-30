@@ -1,9 +1,8 @@
 'use strict';
 
 const
-    fs = require('fs'),
-    auth = JSON.parse(fs.readFileSync(`${__dirname}/data/auth.json`)),
-    config = JSON.parse(fs.readFileSync(`${__dirname}/data/config.json`)),
+    auth = require(`${__dirname}/data/auth.json`),
+    config = require(`${__dirname}/data/config.json`),
     token = config.development ? auth.token.dev : auth.token.prod,
     ShardManager = require('discord.js').ShardingManager;
 

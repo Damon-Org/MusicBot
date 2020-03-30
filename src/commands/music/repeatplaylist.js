@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,26 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class RepeatPlaylist extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'repeat playlist',
+            aliases: [
+                'repeatplaylist',
+                'repplaylist',
+                'rep playlist'
+            ],
+            description: 'The entire queue is looped, when the end of the queue is reached it starts over.',
+            usage: 'repeat playlist',
+            params: [],
+            examples: []
+        });
     }
 
     /**

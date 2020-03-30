@@ -1,0 +1,433 @@
+{
+    "administration": {
+        "guild_only": false,
+        "invisible": true,
+        "commands": [
+            {
+                "name": "updateservers",
+                "aliases": [],
+                "description": "Update servers in DB",
+                "usage": "updateservers",
+                "params": [],
+                "permission": {
+                    "type": "system",
+                    "level": 2
+                },
+                "examples": []
+            }
+        ]
+    },
+    "moderation": {
+        "guild_only": true,
+        "commands": [
+            {
+                "name": "lock",
+                "aliases": [],
+                "description": "Lock specific feature to one channel",
+                "usage": "lock <feature> [#channel]",
+                "params": [
+                    {
+                        "name": "feature",
+                        "description": "Lock a command category to one channel",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "#channel",
+                        "description": "Mention a channel with #channelname",
+                        "type": "reference",
+                        "default": "Takes the channel the command was ran in"
+                    }
+                ],
+                "permission": {
+                    "type": "server",
+                    "name": "MANAGE_CHANNELS"
+                },
+                "examples": [
+                    "lock music #music"
+                ]
+            },
+            {
+                "name": "removelock",
+                "aliases": [
+                    "remlock",
+                    "rmlock"
+                ],
+                "description": "Remove the feature lock if one was in place.",
+                "usage": "removelock <feature>",
+                "params": [
+                    {
+                        "name": "feature",
+                        "description": "Lock a command category to one channel",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "permission": {
+                    "type": "server",
+                    "name": "MANAGE_CHANNELS"
+                },
+                "examples": [
+                    "rmlock music",
+                    "remlock music"
+                ]
+            },
+            {
+                "name": "resetprefix",
+                "aliases": [
+                    "rprefix"
+                ],
+                "description": "Reset the prefix to the default value.",
+                "usage": "resetprefix",
+                "params": [],
+                "permission": {
+                    "type": "server",
+                    "name": "MANAGE_CHANNELS"
+                },
+                "examples": [
+                    "resetprefix",
+                    "rprefix"
+                ]
+            },
+            {
+                "name": "setprefix",
+                "aliases": [
+                    "changeprefix"
+                ],
+                "description": "Change the bot its prefix.",
+                "usage": "setprefix <new-prefix>",
+                "params": [
+                    {
+                        "name": "new-prefix",
+                        "description": "Changes the prefix to which Damon Music listens on in your server.",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "permission": {
+                    "type": "server",
+                    "name": "MANAGE_CHANNELS"
+                },
+                "examples": [
+                    "setprefix !",
+                    "changeprefix b?"
+                ]
+            }
+        ]
+    },
+    "music": {
+        "guild_only": true,
+        "commands": [
+            {
+                "name": "leave",
+                "aliases": [
+                    "quit",
+                    "exit",
+                    "stop",
+                    "brexit",
+                    "no-u"
+                ],
+                "description": "Bot will stop music playback and leave channel",
+                "usage": "leave",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "pause",
+                "aliases": [],
+                "description": "Music playback will be paused.",
+                "usage": "pause",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "play",
+                "aliases" : [
+                    "p"
+                ],
+                "description": "Adds the song you request to queue and plays it.",
+                "usage": "play <search>",
+                "params": [
+                    {
+                        "name": "search",
+                        "description": "Search on YouTube or use a YouTube link.",
+                        "type": "string",
+                        "required": true,
+                        "allow_sentence": true
+                    }
+                ],
+                "examples": [
+                    "p https://www.youtube.com/watch?v=rVHn3GOXvzk",
+                    "play My House Flo Rida"
+                ]
+            },
+            {
+                "disabled": true,
+                "name": "playlist",
+                "aliases": [],
+                "description": "Starts playing a playlist from its share ID, this will append all the songs or if no music is playing a queue will be created and the song will be played instead.",
+                "usage": "playlist <share-ID>",
+                "params": [
+                    {
+                        "name": "share-ID",
+                        "description": "A Damon Music playlist share ID",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "examples": [
+                    "playlist CXJ3k"
+                ]
+            },
+            {
+                "disabled": true,
+                "name": "playlists",
+                "aliases": [],
+                "description": "Shows all your saved playlists.",
+                "usage": "playlists",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "playnext",
+                "aliases": [
+                    "pn"
+                ],
+                "description": "Adds song directly after currently playing song, if no music is playing a queue will be created and the song will be played instead.",
+                "usage": "playnext <search>",
+                "params": [
+                    {
+                        "name": "search",
+                        "description": "Search on YouTube or use a YouTube link.",
+                        "type": "string",
+                        "required": true,
+                        "allow_sentence": true
+                    }
+                ],
+                "examples": [
+                    "pn https://www.youtube.com/watch?v=rVHn3GOXvzk",
+                    "playnext My House Flo Rida"
+                ]
+            },
+            {
+                "name": "playtime",
+                "aliases" : [
+                    "pt"
+                ],
+                "description": "Shows how long the bot has been playing.",
+                "usage": "playtime",
+                "params": [],
+                "examples": [
+                    "pt",
+                    "playtime"
+                ]
+            },
+            {
+                "name": "previous",
+                "aliases": [
+                    "back"
+                ],
+                "description": "Will start playing the previous song in queue.",
+                "usage": "previous",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "queue",
+                "aliases": [
+                    "q"
+                ],
+                "description": "Will show a queue of all songs.",
+                "usage": "queue [page-number]",
+                "params": [
+                    {
+                        "name": "page-number",
+                        "description": "Queue page number",
+                        "type": "number",
+                        "default": "Shows the first page of queue"
+                    }
+                ],
+                "examples": [
+                    "queue 2",
+                    "q -1"
+                ]
+            },
+            {
+                "name": "remove",
+                "aliases": [
+                    "rm",
+                    "removesong"
+                ],
+                "description": "Removes a song from the queue",
+                "usage": "remove [number of the song in queue]",
+                "params": [
+                    {
+                        "name": "queue-number",
+                        "description": "Number of a song in queue",
+                        "type": "number",
+                        "default": "Will remove the currently playing song from queue"
+                    }
+                ],
+                "examples": [
+                    "rm 4",
+                    "remove -2"
+                ]
+            },
+            {
+                "name": "repeat",
+                "aliases": [],
+                "description": "Will repeat the currently playing song.",
+                "usage": "repeat",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "repeatplaylist",
+                "aliases": [
+                    "repeatpl",
+                    "rpl"
+                ],
+                "description": "The entire queue is looped, when the end of queue is reached it starts over.",
+                "usage": "repeatpl",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "resume",
+                "aliases": [],
+                "description": "Music playback will be resumed.",
+                "usage": "resume",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "skip",
+                "aliases": [
+                    "next"
+                ],
+                "description": "Will skip the currently playing song.",
+                "usage": "skip",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "skipto",
+                "aliases": [],
+                "description": "Skip to the given position in queue.",
+                "usage": "skipto <#queue-number>",
+                "params": [
+                    {
+                        "name": "queue-number",
+                        "description": "Number of a song in queue",
+                        "type": "number",
+                        "required": true
+                    }
+                ],
+                "examples": []
+            },
+            {
+                "disabled": true,
+                "name": "saveplaylist",
+                "aliases": [
+                    "savepl"
+                ],
+                "description": "Will save the current queue as playlist.",
+                "usage": "saveplaylist",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "volume",
+                "aliases": [
+                    "vol",
+                    "v"
+                ],
+                "description": "Change music volume.",
+                "usage": "volume [volume]",
+                "params": [
+                    {
+                        "name": "volume",
+                        "description": "A number ranging from 1 to 200",
+                        "type": "number",
+                        "default": "Will show the current volume"
+                    }
+                ],
+                "examples": [
+                    "v 100",
+                    "volume 1500000"
+                ]
+            }
+        ]
+    },
+    "informative": {
+        "guild_only": false,
+        "commands": [
+            {
+                "name": "help",
+                "aliases": [
+                    "h",
+                    "info"
+                ],
+                "description": "Gives a link to a website where you can find all the information you need.",
+                "usage": "help",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "invite",
+                "aliases": [],
+                "description": "Invite Damon to your Discord server.",
+                "usage": "invite",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "ping",
+                "aliases": [
+                    "pong"
+                ],
+                "description": "Shows ping to Discord, response time and reply time.",
+                "usage": "ping",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "stats",
+                "aliases": [
+                    "status"
+                ],
+                "description": "Shows a couple of stats about Damon.",
+                "usage": "stats",
+                "params": [],
+                "examples": []
+            }
+        ]
+    },
+    "recording": {
+        "guild_only": true,
+        "commands": [
+            {
+                "disabled": true,
+                "name": "record",
+                "aliases": [
+                    "rec"
+                ],
+                "description": "This command will record the current voicechat after everyone has given their consent.",
+                "usage": "record",
+                "params": [],
+                "examples": []
+            },
+            {
+                "disabled": true,
+                "name": "stoprecording",
+                "aliases": [
+                    "stoprec"
+                ],
+                "description": "This command will stop the bot from recording.",
+                "usage": "stoprecording",
+                "params": [],
+                "examples": []
+            }
+        ]
+    }
+}

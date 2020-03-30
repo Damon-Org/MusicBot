@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,24 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class Previous extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'previous',
+            aliases: [
+                'back'
+            ],
+            description: 'Will start playing the previous song in queue.',
+            usage: 'previous',
+            params: [],
+            examples: []
+        });
     }
 
     /**

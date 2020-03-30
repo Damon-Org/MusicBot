@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,34 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class Queue extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'queue',
+            aliases: [
+                'q'
+            ],
+            description: 'Will show a queue of all songs.',
+            usage: 'queue [page-number]',
+            params: [
+                {
+                    name: 'page-number',
+                    description: 'Queue page number',
+                    type: 'number',
+                    default: 'Shows the first page of queue'
+                }
+            ],
+            examples: [
+                'q 2',
+                'queue -1'
+            ]
+        });
     }
 
     /**
@@ -112,7 +136,7 @@ class Queue extends BasicCommand {
                 }
 
                 if (i == (topLimit - 1) || i == (length - 2)) {
-                    const richEmbed = new this.musicBot.Discord.MessageEmbed()
+                    const richEmbed = new this.db.Discord.MessageEmbed()
                         .setAuthor('Queue for ' + server.name, server.iconURL)
                         .setColor('#252422')
                         .setDescription(embedDescription)
@@ -124,7 +148,7 @@ class Queue extends BasicCommand {
                 }
             }
 
-            const richEmbed = new this.musicBot.Discord.MessageEmbed()
+            const richEmbed = new this.db.Discord.MessageEmbed()
                 .setAuthor('Queue for ' + server.name, server.iconURL)
                 .setColor('#252422')
                 .setDescription('This page is empty.')

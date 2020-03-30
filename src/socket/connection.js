@@ -54,7 +54,7 @@ class Connection extends EventEmitter {
 
     connectionError(e) {
         if (e.message.includes('connect ECONNREFUSED')) {
-            console.log('\x1b[33m[SOCKET/WARN]\x1b[0m Connection refused by socket server, is it running?');
+            this.musicBot.log('SOCKET', 'WARN', 'Connection refused by socket server, is it running?');
 
             return;
         }
@@ -122,12 +122,12 @@ class Connection extends EventEmitter {
                 const message = data.toString();
 
                 if (message.includes('server_closing')) {
-                    console.log('\x1b[33m[SOCKET/WARN]\x1b[0m Received server close message!');
+                    this.musicBot.log('SOCKET', 'WARN', 'Received server close message!');
 
                     return;
                 }
 
-                console.log(message);
+                this.musicBot.log('SOCKET', 'INFO', message);
             }
         }
     }

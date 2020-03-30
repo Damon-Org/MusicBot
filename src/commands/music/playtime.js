@@ -1,5 +1,5 @@
 const
-    BasicCommand = require('../../util/basic_command.js'),
+    BasicCommand = require('../../utils/basic_command.js'),
     humanReadableTime = require('humanize-duration');
 
 /**
@@ -8,10 +8,24 @@ const
  */
 class PlayTime extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'playtime',
+            aliases: [
+                'pt'
+            ],
+            description: 'Shows how long the bot has been playing music.',
+            usage: 'playtime',
+            params: [],
+            examples: []
+        });
     }
 
     /**

@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * This command is limited to admin's of the highest permission level or the owner
@@ -8,10 +8,34 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class LockDown extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+            disabled: true,
+
+            name: 'lockdown',
+            aliases: [],
+            description: 'Shuts the bot down from being used by anyone else.',
+            usage: 'lock down <boolean>',
+            params: [
+                {
+                    name: 'boolean',
+                    description: 'True to enable lockdown, false to disable.',
+                    type: 'boolean',
+                    required: true
+                }
+            ],
+            permission: {
+                type: 'system',
+                level: 2
+            },
+            examples: []
+        });
     }
 
     /**
