@@ -25,7 +25,7 @@ class BotEvents extends BasicBot {
 
         this.client.on('message', (msg) => this.onMsg(msg));
 
-        this.client.on('voiceStateUpdate', (oldMember, newMember) => this.onVoiceStateUpdate(oldMember, newMember));
+        this.client.on('voiceStateUpdate', (oldState, newState) => this.onVoiceStateUpdate(oldState, newState));
 
         this.customEvent.reaction.on('toggle', (messageReaction, user) => this.reactionToggleEvents(messageReaction, user));
 
@@ -49,11 +49,11 @@ class BotEvents extends BasicBot {
     }
 
     /**
-     * @param {Discord.Discord_GuildMember} oldMember
-     * @param {Discord.Discord_GuildMember} newMember
+     * @param {Discord.Discord_VoiceState} oldState
+     * @param {Discord.Discord_Voicestate} newState
      */
-    onVoiceStateUpdate(oldMember, newMember) {
-        const voicechannel = this.client.channels.get(oldMember.channelID);
+    onVoiceStateUpdate(oldState, newState) {
+        const voicechannel = oldState.channel;
         if (voicechannel != undefined && voicechannel.members.get(this.client.user.id) && voicechannel.members.size == 1) {
             // VoiceChannel is empty except for our bot so we destroy the queue and leave
             const musicSystem = (this.serverUtils.getClassInstance(voicechannel.guild.id)).musicSystem;
@@ -122,12 +122,12 @@ class BotEvents extends BasicBot {
         }
     }
 
-    ready() {
-        console.log(`[SHARD/INFO]\x1b[0m Took ${Date.now() - this.bootUp}ms to setup.`);
+    async ready() {
+        this.log('SHARD', 'INFO', `Took ${Date.now() - this.bootUp}ms to setup.`);
 
-        this.creator = this.client.users.get('243072972326305798');
+        this.creator = await this.client.users.fetch('243072972326305798');
 
-        const servers = this.client.guilds;
+        const servers = this.client.guilds.cache;
         for (let server of servers) {
             this.serverUtils.addGuildIfNotExists(server[1]);
         }

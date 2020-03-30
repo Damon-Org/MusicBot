@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,36 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class PlayNext extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'play next',
+            aliases: [
+                'pn',
+                'playnext'
+            ],
+            description: 'Adds song directly after currently playing song, if no music is playing a queue will be created and the song will be played instead.',
+            usage: 'play next <search>',
+            params: [
+                {
+                    name: 'search',
+                    description: 'Search on YouTube or use a YouTube link.',
+                    type: 'string',
+                    required: true,
+                    allow_sentence: true
+                }
+            ],
+            examples: [
+                'p https://www.youtube.com/watch?v=rVHn3GOXvzk',
+                'play My House Flo Rida'
+            ]
+        });
     }
 
     /**
@@ -29,7 +55,7 @@ class PlayNext extends BasicCommand {
             return;
         }
 
-        const node = this.musicBot.carrier.getNode();
+        const node = this.db.carrier.getNode();
         let data = null;
 
         if (this.args.length == 1 && (this.args[0].includes('https://') || this.args[0].includes('http://'))) {
@@ -44,7 +70,7 @@ class PlayNext extends BasicCommand {
         }
 
         if (!data) {
-            const richEmbed = new this.musicBot.Discord.MessageEmbed()
+            const richEmbed = new this.db.Discord.MessageEmbed()
                 .setTitle('I could not find the track you requested')
                 .setDescription(`No results returned for ${this.args.join(' ')}.`)
                 .setColor('#ed4337');

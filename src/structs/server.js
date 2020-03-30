@@ -1,7 +1,7 @@
 const
-    Choice = require('./music/choice.js'),
-    MusicSystem = require('./music/system.js'),
-    RecordingSystem = require('./recording/system.js');
+    Choice = require('../music/choice'),
+    MusicSystem = require('../music/system'),
+    RecordingSystem = require('../recording/system');
 
 /**
  * Each guild that activily uses the bot will have this class initialized

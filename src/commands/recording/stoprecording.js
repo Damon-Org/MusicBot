@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,24 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class StopRecording extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'stop recording',
+            aliases: [
+                'stoprecording'
+            ],
+            description: 'This command will stop the bot from recording.',
+            usage: 'stop recording',
+            params: [],
+            examples: []
+        });
     }
 
     /**

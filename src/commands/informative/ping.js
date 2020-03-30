@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,24 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class Ping extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: "ping",
+            aliases: [
+                "pong"
+            ],
+            description: "Shows ping to Discord, response time and reply time.",
+            usage: "ping",
+            params: [],
+            examples: []
+        });
     }
 
     /**
@@ -18,16 +32,15 @@ class Ping extends BasicCommand {
     async run(command) {
         const
             ping = new Date().getTime() - this.msgObj.createdTimestamp,
-            botPing = Math.round(this.musicBot.client.ws.ping);
+            botPing = Math.round(this.db.client.ws.ping);
 
         const msg = await this.textChannel.send('`Pinging...`');
 
-        const embed = new this.musicBot.Discord.MessageEmbed()
+        const embed = new this.db.Discord.MessageEmbed()
             .setTitle('Pong! 🏓')
             .addField('Ping to Discord', `${botPing}ms`)
             .addField('Response time', `${ping}ms`)
             .addField('Reply time', `${msg.createdTimestamp - this.msgObj.createdTimestamp}ms`)
-            //.setDescription(`Ping to Discord: **${botPing}ms**\n\nResponse time: **${ping}ms**\n\nReply time: **${msg.createdTimestamp - msgObj.createdTimestamp}ms**`)
             .setColor('#252422');
         msg.edit('', embed);
     }

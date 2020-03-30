@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,28 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class Leave extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'leave',
+            aliases: [
+                'quit',
+                'exit',
+                'stop',
+                'brexit',
+                'no-u'
+            ],
+            description: 'Bot will stop music playback and leave channel',
+            usage: 'leave',
+            params: [],
+            examples: []
+        });
     }
 
     /**

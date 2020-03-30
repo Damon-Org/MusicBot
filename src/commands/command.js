@@ -1,8 +1,7 @@
 const
     requireDir = require('require-dir'),
     path = require('path'),
-    fs = require('fs'),
-    requireDirectory = require('require-dir');
+    fs = require('fs');
 /**
  * This class registers all commands
  * @category Classes
@@ -10,22 +9,83 @@ const
 class CommandRegisterer {
     /**
      * @constructs
-     * @param {MusicBot} musicBot MusicBot instance
-     * @param {string} configPath a string pointing towards the command.json
+     * @param {DamonFramework} damonFramework DamonFramework instance
+     * @param {Array<*>} args Argument array to pass to the commands we initialise
      */
-    constructor(musicBot, configPath) {
+    constructor(damonFramework, ...args) {
         /**
-         * @type {MusicBot}
+         * @type {DamonFramework}
          * @readonly
          */
-        this.musicBot = musicBot;
-        /**
-         * The path to the command.json config file
-         * @type {external:String}
-         */
-        this.configPath = configPath;
+        this.df = damonFramework;
+
+        this.output = this.df.config.development && this.df.config.generate_command_json;
+
+        this.args = args;
 
         this.setup();
+    }
+
+    /**
+     * Private Function
+     * @param {external:String} category The original category this bit was part of
+     * @param {external:Object} bits The command category object within a category folder
+     * @param {external:String} parentBit The parentBit this bit is part of
+     */
+    recursiveRegister(category, bits, parentBit = '') {
+        if (this.timeout) clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.df.log('COMMAND', 'INFO', `Mapping of commands done with ${this.commands.size} commands registered (aliases included).`);
+
+            if (this.output) {
+                fs.writeFile(this.df.main_dir + '/data/commands.json', JSON.stringify(this.output, null, '    '), { flag: 'w+' }, (err) => {
+                    if (err) {
+                        throw err;
+                    }
+
+                    this.df.log('COMMAND', 'INFO', `Generated new 'data/commands.json' with the mapped commands.`);
+                });
+            }
+        }, 50);
+
+        for (const bit in bits) {
+            if (bits.hasOwnProperty(bit)) {
+                if (typeof bits[bit] === 'function') {
+                    try {
+                        const instance = new bits[bit](category, ...this.args);
+                        if (instance.disabled) {
+                            this.df.log('COMMAND', 'WARN', `Command disabled: '${parentBit}${instance.name}'`)
+
+                            continue;
+                        }
+
+                        this.commands.set(`${parentBit}${instance.name}`, instance);
+
+                        if (this.output) {
+                            if (parentBit.length == 0) {
+                                this.output[category].commands.push(instance.rawData);
+                            }
+                            else {
+                                if (!this.output[category].children) this.output[category].children = {};
+                                if (!this.output[category].children[parentBit]) this.output[category].children[parentBit] = [];
+
+                                this.output[category].children[parentBit].push(instance.rawData);
+                            }
+                        }
+
+                        for (const alias of instance.aliases) {
+                            this.commands.set(`${parentBit}${alias}`, instance);
+                        }
+
+                        continue;
+                    } catch (e) {
+                        this.df.log('COMMAND', 'WARN', `The following command: ${parentBit}${bit}\nGenerated the following error:\n${e.stack}`);
+                    }
+                }
+
+                this.recursiveRegister(category, bits[bit], `${parentBit}${bit} `);
+            }
+        }
     }
 
     /**
@@ -33,65 +93,26 @@ class CommandRegisterer {
      */
     setup() {
         // This will require all commands within this directory
-        this.command = requireDir('.', { recurse: true });
-
-        this.config = JSON.parse(fs.readFileSync(this.configPath));
+        const rawCommands = requireDir('.', { recurse: true, extensions: ['.js'] });
 
         /**
          * This is a command map that has the following structure
-         * { "command_name" => commandInstance }
+         * { "command name" => commandInstance }
          * @type {external:Map}
          * @readonly
          */
         this.commands = new Map();
+        if (this.output) this.output = {};
 
-        // Get the command category
-        for (const commandCategory in this.config) {
-            if (this.config.hasOwnProperty(commandCategory)) {
-                // assign the commandArr inside this category
-                const
-                    categoryObject = this.config[commandCategory],
-                    commandArr = categoryObject.commands;
+        for (const category in rawCommands) {
+            if (rawCommands.hasOwnProperty(category)) {
+                if (this.output) this.output[category] = { commands: [] };
 
-                // loop through those commands
-                for (let i = 0; i < commandArr.length; i++) {
-                    // assign commandObj
-                    const command = commandArr[i];
-
-                    try {
-                        if (command.disabled) {
-                            throw 'Command disabled, skipping';
-                        }
-
-                        const
-                            commandData = {
-                                category: commandCategory,
-                                guild_only: categoryObject.guild_only,
-                                musicBot: this.musicBot
-                            },
-                            args = [commandData, command],
-                            // create a new instance related to this command
-                            instance = new this.command[commandCategory][command.name](...args);
-
-                        commandData.instance = instance;
-
-                        // assign this command to a reference of the instance
-                        this.commands.set(command.name, commandData);
-                        // loop through all command aliases
-                        for (let x = 0; x < command.aliases.length; x++) {
-                            // assign alias
-                            const alias = command.aliases[x];
-                            // give alias a spot in the map
-                            this.commands.set(alias, commandData);
-                        }
-                    } catch (e) {
-                        console.log(`\x1b[33m[COMMAND/WARN]\x1b[0m Invalid instance or disabled: ${command.name}`);
-                    }
-                }
+                this.recursiveRegister(category, rawCommands[category]);
             }
         }
 
-        console.log(`[COMMAND/INFO] Mapping of commands done with ${this.commands.size} commands registered.`);
+        // this.df.log('COMMAND', 'INFO', `Mapping of commands done with ${this.commands.size} commands registered.`);
     }
 
     /**
@@ -100,44 +121,64 @@ class CommandRegisterer {
      * @returns {external:Boolean} True if a command has been detected, false if none were found
      */
     async checkMessage(message) {
-        // This regex will remove any redudant
+        if (message.author.bot) return;
+
+        // This regex will remove any redudant "spaces"
         const content = message.content.replace(/\s+/g, ' ');
 
         let prefix = null;
         if (!message.guild) {
-            prefix = this.musicBot.config.development ? this.musicBot.config.default_prefix.dev : this.musicBot.config.default_prefix.prod;
+            prefix = this.df.config.development ? this.df.config.default_prefix.dev : this.df.config.default_prefix.prod;
         }
         else {
-            const server = this.musicBot.serverUtils.getClassInstance(message.guild.id);
+            const server = this.df.serverUtils.getClassInstance(message.guild.id);
             prefix = await server.getPrefix()
         }
 
         // check if the message starts with the prefix we want
         if (content.startsWith(prefix)) {
+            const ctx = content.substr(prefix.length);
+
+            return this.commandMatch(message, ctx);
+        }
+        else if (this.df.config.allow_mention_prefix && content.match(/<@!?(\d+)>/i) && content.match(/<@!?(\d+)>/i)[1] == this.df.client.user.id) {
+            const ctx = content.replace(/<@[^>]+> /, '');
+
+            return this.commandMatch(message, ctx, true);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param {external:Discord_Message} message Discord.js Message Class instance
+     * @param {Array<external:String>} ctx
+     * @param {external:Boolean} mentioned If the command was activated through a mention
+     */
+    async commandMatch(message, ctx, mentioned = false) {
+        const args = ctx.split(' ');
+
+        for (let i = args.length; 0 < i; i--) {
             const
-                args = content.substr(prefix.length).split(' '),
-                // assign command
-                command = args[0];
-            // drop command from the arguments list
-            args.shift();
+                attempt = args.slice(0, i).join(' '),
+                match = this.commands.get(attempt);
+            if (!match) continue;
 
-            // check if the command used is in the list of commands
-            if (this.commands.has(command)) {
-                const
-                    cmdObj = this.commands.get(command),
-                    cmd = cmdObj.instance;
+            const
+                instance = match,
+                index = attempt.split(' ').length,
+                trigger = args.splice(0, index);
 
-                try {
-                    cmd.check(message, args, command);
-                } catch (e) {
-                    message.channel.send(`An error occured while trying to run the following command \`${command}\`\nWith the following output: \`\`\`${e.stack}\`\`\``);
-                }
-
-                return true;
+            try {
+                instance.check(message, args, trigger.join(' '), mentioned);
+            } catch (e) {
+                message.channel.send(`An error occured while trying to run the following command \`${command}\`\nWith the following output: \`\`\`js\n${e.stack}\`\`\``);
             }
 
-            return false;
+            return true;
         }
+
+        return false;
     }
 }
 

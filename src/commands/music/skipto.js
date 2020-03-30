@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BasicCommand = require('../../utils/basic_command.js');
 
 /**
  * @category Commands
@@ -6,10 +6,31 @@ const BasicCommand = require('../../util/basic_command.js');
  */
 class SkipTo extends BasicCommand {
     /**
+     * @param {external:String} category
      * @param {Array<*>} args
      */
-    constructor(...args) {
+    constructor(category, ...args) {
         super(...args);
+
+        this.register({
+            category: category,
+
+            name: 'skip to',
+            aliases: [
+                'skipto'
+            ],
+            description: 'Removes a song from the queue',
+            usage: 'skip to <#queue-number>',
+            params: [
+                {
+                    name: 'queue-number',
+                    description: 'Number of a song in queue',
+                    type: 'number',
+                    required: true
+                }
+            ],
+            examples: []
+        });
     }
 
     /**

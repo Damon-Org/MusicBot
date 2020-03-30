@@ -4,7 +4,7 @@ const BasicCommand = require('../../utils/basic_command.js');
  * @category Commands
  * @extends Command
  */
-class Lock extends BasicCommand {
+class RemoveLock extends BasicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -15,22 +15,19 @@ class Lock extends BasicCommand {
         this.register({
             category: category,
 
-            name: 'lock',
-            aliases: [],
-            description: 'Lock specific command category to one channel.',
-            usage: 'lock <category> [# channel]',
+            name: 'remove lock',
+            aliases: [
+                'removelock',
+                'rmlock'
+            ],
+            description: 'Remove the feature lock if one was in place.',
+            usage: 'remove lock <category>',
             params: [
                 {
                     name: 'category',
-                    description: 'Lock a command category to one channel',
+                    description: 'Remove lock from this category',
                     type: 'string',
                     required: true
-                },
-                {
-                    name: '# channel',
-                    description: 'Mention a channel with #channelname',
-                    type: 'reference',
-                    default: 'Takes the channel the command was ran in'
                 }
             ],
             permission: {
@@ -38,7 +35,7 @@ class Lock extends BasicCommand {
                 name: 'MANAGE_CHANNELS'
             },
             examples: [
-                'lock music #music'
+                'remove lock music'
             ]
         });
     }
@@ -47,14 +44,11 @@ class Lock extends BasicCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const
-            channel = this.msgObj.mentions.channels.first() || this.textChannel,
-            type = this.args[0];
+        const type = this.args[0];
 
         if (type == 'music') {
-            await this.serverUtils.updateGuildOption(this.serverInstance.id, 'lockMusicChannel', channel.id);
-
-            this.msgObj.reply(`channel lock has been enabled for ${type} on channel ${channel}`);
+            await this.serverUtils.updateGuildOption(serverId, 'lockMusicChannel', null);
+            this.msgObj.reply(`channel lock has been disabled for ${type}.`);
 
             return;
         }
@@ -63,4 +57,4 @@ class Lock extends BasicCommand {
     }
 }
 
-module.exports = Lock;
+module.exports = RemoveLock;
