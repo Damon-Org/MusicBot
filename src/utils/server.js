@@ -26,7 +26,7 @@ class ServerUtils {
         const [rows, fields] = await this.df.db.query(`SELECT guild_id FROM core_guilds WHERE serverId='${serverId}'`);
 
         if (rows.length == 0) {
-            await pool.query(`INSERT INTO core_guilds (serverId) VALUES (?)`, [serverId]);
+            await this.df.db.query(`INSERT INTO core_guilds (serverId) VALUES (?)`, [serverId]);
         }
     }
 
@@ -95,8 +95,6 @@ class ServerUtils {
      * @param {*} value The new value of the option
      */
     async updateGuildOption(serverId, option, value) {
-        const pool = this.df.db.promise();
-
         const [rows, fields] = await this.df.db.query(
             `SELECT setting_id FROM core_settings INNER JOIN core_guilds ON core_settings.guild_id=core_guilds.guild_id
             WHERE core_settings.option_id = (SELECT option_id FROM core_options WHERE internal_name='${option}')
