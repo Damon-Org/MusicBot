@@ -2,6 +2,7 @@
     "administration": {
         "commands": [
             {
+                "hidden": true,
                 "name": "ban user",
                 "aliases": [
                     "banuser"
@@ -30,6 +31,7 @@
                 "examples": []
             },
             {
+                "hidden": true,
                 "name": "set user system permission level",
                 "aliases": [
                     "add system user",
@@ -58,6 +60,7 @@
                 "examples": []
             },
             {
+                "hidden": true,
                 "name": "unban user",
                 "aliases": [
                     "unbanuser"
@@ -79,6 +82,7 @@
                 "examples": []
             },
             {
+                "hidden": true,
                 "name": "updateservers",
                 "aliases": [
                     "update servers"
@@ -389,7 +393,10 @@
             },
             {
                 "name": "skip",
-                "aliases": [],
+                "aliases": [
+                    "next",
+                    "s"
+                ],
                 "description": "Will skip the currently playing song.",
                 "usage": "skip",
                 "params": [],

@@ -9,17 +9,17 @@ const
 class CommandRegisterer {
     /**
      * @constructs
-     * @param {DamonFramework} damonFramework DamonFramework instance
+     * @param {DamonBase} damonBase DamonFramework instance
      * @param {Array<*>} args Argument array to pass to the commands we initialise
      */
-    constructor(damonFramework, ...args) {
+    constructor(damonBase, ...args) {
         /**
-         * @type {DamonFramework}
+         * @type {damonBase}
          * @readonly
          */
-        this.df = damonFramework;
+        this.db = damonBase;
 
-        this.output = this.df.config.development && this.df.config.generate_command_json;
+        this.output = this.db.config.development && this.db.config.generate_command_json;
 
         this.args = args;
 
@@ -35,15 +35,15 @@ class CommandRegisterer {
     recursiveRegister(category, bits, parentBit = '') {
         if (this.timeout) clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
-            this.df.log('COMMAND', 'INFO', `Mapping of commands done with ${this.commands.size} commands registered (aliases included).`);
+            this.db.log('COMMAND', 'INFO', `Mapping of commands done with ${this.commands.size} commands registered (aliases included).`);
 
             if (this.output) {
-                fs.writeFile(this.df.main_dir + '/data/commands.json', JSON.stringify(this.output, null, '    '), { flag: 'w+' }, (err) => {
+                fs.writeFile(this.db.main_dir + '/data/commands.json', JSON.stringify(this.output, null, '    '), { flag: 'w+' }, (err) => {
                     if (err) {
                         throw err;
                     }
 
-                    this.df.log('COMMAND', 'INFO', `Generated new 'data/commands.json' with the mapped commands.`);
+                    this.db.log('COMMAND', 'INFO', `Generated new 'data/commands.json' with the mapped commands.`);
                 });
             }
         }, 50);
@@ -54,7 +54,7 @@ class CommandRegisterer {
                     try {
                         const instance = new bits[bit](category, ...this.args);
                         if (instance.disabled) {
-                            this.df.log('COMMAND', 'WARN', `Command disabled: '${parentBit}${instance.name}'`)
+                            this.db.log('COMMAND', 'WARN', `Command disabled: '${parentBit}${instance.name}'`)
 
                             continue;
                         }
@@ -67,9 +67,9 @@ class CommandRegisterer {
                             }
                             else {
                                 if (!this.output[category].children) this.output[category].children = {};
-                                if (!this.output[category].children[parentBit]) this.output[category].children[parentBit] = [];
+                                if (!this.output[category].children[parentBit.trim()]) this.output[category].children[parentBit.trim()] = [];
 
-                                this.output[category].children[parentBit].push(instance.rawData);
+                                this.output[category].children[parentBit.trim()].push(instance.rawData);
                             }
                         }
 
@@ -79,7 +79,7 @@ class CommandRegisterer {
 
                         continue;
                     } catch (e) {
-                        this.df.log('COMMAND', 'WARN', `The following command: ${parentBit}${bit}\nGenerated the following error:\n${e.stack}`);
+                        this.db.log('COMMAND', 'WARN', `The following command: ${parentBit}${bit}\nGenerated the following error:\n${e.stack}`);
                     }
                 }
 
@@ -112,7 +112,9 @@ class CommandRegisterer {
             }
         }
 
-        // this.df.log('COMMAND', 'INFO', `Mapping of commands done with ${this.commands.size} commands registered.`);
+        this.default_prefix = this.db.config.development ? this.db.config.default_prefix.dev : this.db.config.default_prefix.prod;
+
+        // this.db.log('COMMAND', 'INFO', `Mapping of commands done with ${this.commands.size} commands registered.`);
     }
 
     /**
@@ -128,11 +130,11 @@ class CommandRegisterer {
 
         let prefix = null;
         if (!message.guild) {
-            prefix = this.df.config.development ? this.df.config.default_prefix.dev : this.df.config.default_prefix.prod;
+            prefix = this.default_prefix;
         }
         else {
-            const server = this.df.serverUtils.getClassInstance(message.guild.id);
-            prefix = await server.getPrefix()
+            const server = this.db.serverUtils.getClassInstance(message.guild.id);
+            prefix = await server.getPrefix(this.default_prefix);
         }
 
         // check if the message starts with the prefix we want
@@ -141,7 +143,7 @@ class CommandRegisterer {
 
             return this.commandMatch(message, ctx);
         }
-        else if (this.df.config.allow_mention_prefix && content.match(/<@!?(\d+)>/i) && content.match(/<@!?(\d+)>/i)[1] == this.df.client.user.id) {
+        else if (this.db.config.allow_mention_prefix && content.match(/<@!?(\d+)>/i) && content.match(/<@!?(\d+)>/i)[1] == this.db.client.user.id) {
             const ctx = content.replace(/<@[^>]+> /, '');
 
             return this.commandMatch(message, ctx, true);

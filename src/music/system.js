@@ -65,6 +65,8 @@ class MusicSystem {
      * @param {external:Discord_VoiceChannel} voiceChannel A Discord.VoiceChannel instance
      */
     async continueQueue(voiceChannel = null) {
+        this.doNotSkip = false;
+
         if (await this.playSong(voiceChannel)) {
             await this.createNewPlayer();
 
@@ -279,7 +281,7 @@ class MusicSystem {
         }
 
         switch (emoji) {
-            case '⏮': {
+            case '⏮️': {
                 this.playPrevious();
                 break;
             }
@@ -346,11 +348,9 @@ class MusicSystem {
      * Will go through several checks of things that have to get updated before moving on to the next song
      */
     async playNext() {
-        if (this.doNotSkip) {
-            await this.player.stopTrack();
-        }
-
         this.disableOldPlayer();
+
+        this.paused = false;
 
         const activeSong = this.queue.active();
 
@@ -380,6 +380,9 @@ class MusicSystem {
 
         if (!this.doNotSkip) {
             this.queue.shift();
+        }
+        else {
+            this.doNotSkip = false;
         }
 
         this.continueQueue();
@@ -606,6 +609,8 @@ class MusicSystem {
             this.stream.end('eventTriggerIgnore');
         }
 
+        this.disableOldPlayer();
+
         this.queue.reset();
 
         /**
@@ -657,8 +662,6 @@ class MusicSystem {
         this.volume = 15;
 
         this.updateSongState();
-
-        this.disableOldPlayer();
     }
 
     /**

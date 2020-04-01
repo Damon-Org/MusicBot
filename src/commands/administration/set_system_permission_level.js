@@ -15,6 +15,7 @@ class SetSystemPermissionLevel extends BasicCommand {
 
         this.register({
             category: category,
+            hidden: true,
 
             name: 'set user system permission level',
             aliases: [

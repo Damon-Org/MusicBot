@@ -15,6 +15,7 @@ class BanUser extends BasicCommand {
 
         this.register({
             category: category,
+            hidden: true,
 
             name: 'ban user',
             aliases: [

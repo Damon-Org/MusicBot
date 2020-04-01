@@ -107,7 +107,7 @@ class BotEvents extends BasicBot {
     reactionToggleEvents(messageReaction, user) {
         const emoji = messageReaction.emoji.name;
 
-        if (['⏮', '⏸', '⏭', '🔁'].includes(emoji)) {
+        if (['⏮️', '⏸', '⏭', '🔁'].includes(emoji)) {
             if (!messageReaction.message.member) {
                 // The MessageReaction did not happen inside a Guild in that case we ignore it
                 return;

@@ -16,7 +16,10 @@ class Skip extends BasicCommand {
             category: category,
 
             name: 'skip',
-            aliases: [],
+            aliases: [
+                'next',
+                's'
+            ],
             description: 'Will skip the currently playing song.',
             usage: 'skip',
             params: [],

@@ -45,11 +45,11 @@ class SocketEvents {
 
         socketMessage.message = {
             shardId: this.musicBot.id,
-            channels: channels.size,
-            guilds: guilds.size,
+            channels: channels.cache.size,
+            guilds: guilds.cache.size,
             music_players: this.musicBot.carrier.totalPlayers,
             ping: Math.round(client.ws.ping),
-            users: users.size
+            users: users.cache.size
         };
 
         this.connection.send(socketMessage);
