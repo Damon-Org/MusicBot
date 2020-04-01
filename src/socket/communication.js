@@ -28,7 +28,7 @@ class SocketCommunication {
         /**
          * @type {external:Number}
          */
-        this.port = 5432;
+        this.port = 5433;
         /**
          * The amount of reconnect tries that have occured
          * @type {external:Number}
@@ -47,7 +47,7 @@ class SocketCommunication {
     attemptReconnect() {
         this.musicBot.log('SOCKET', 'WARN', 'Lost connection to socket server, reattempting connection after timeout.')
 
-        const time = Date.now() - 6e3 * 5;
+        const time = Date.now() - 3e4;
 
         // If 5 minutes have passed since lastTry then we instantly try to reconnect
         if (time >= this.lastTry) {
@@ -81,7 +81,7 @@ class SocketCommunication {
          * @type {Connection}
          * @readonly
          */
-        this.connection = new Connection(this.clientType, this.port, this.musicBot.auth.credentials.socket);
+        this.connection = new Connection(this.musicBot.auth.credentials.socket);
 
         this.tries++;
 

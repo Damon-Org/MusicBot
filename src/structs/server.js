@@ -90,13 +90,14 @@ class Server {
 
     /**
      * Tries to fetch server its custom prefix, if null returns the bot's default prefix
+     * @param {external:String} defaultPrefix
      * @returns {external:String} The server prefix
      */
-    async getPrefix() {
+    async getPrefix(defaultPrefix) {
         if (!this.prefix) {
             this.prefix = await this.musicBot.serverUtils.getGuildOption(this.id, 2);
             if (!this.prefix || this.prefix == '') {
-                this.prefix = this.musicBot.config.development ? this.musicBot.config.default_prefix.dev : this.musicBot.config.default_prefix.prod;
+                this.prefix = defaultPrefix;
             }
         }
 

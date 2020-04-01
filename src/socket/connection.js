@@ -12,27 +12,31 @@ const
  */
 class Connection extends EventEmitter {
     /**
-     * @param {external:String} clientType
-     * @param {external:Number} port
-     * @param {external:String} token Socket Authentication token
+     * @param {external:Object} options
      */
-    constructor(clientType, port, token) {
+    constructor(options) {
         super();
 
         /**
          * @type {String}
          */
-        this.clientType = clientType;
-        /**
-         * @type {external:Number}
-         */
-        this.port = port;
+        this.clientType = options.clientType;
         /**
          * @type {external:String}
          */
-        this.token = token;
+        this.host = options.host;
         /**
          * @type {external:Number}
+         */
+        this.port = options.port;
+        /**
+         * @type {external:String}
+         */
+        this.token = options.token;
+
+        /**
+         * @type {external:Number}
+         * @readonly
          */
         this.try = 0;
 
@@ -42,7 +46,7 @@ class Connection extends EventEmitter {
     connect() {
         this.client = Net.createConnection({
             port: this.port,
-            host: 'socket.music.damon.sh'
+            host: this.host
         }, () => {
             this.emit('bind');
             this.client.on('data', (data) => this.externalMessage(data));
@@ -58,7 +62,7 @@ class Connection extends EventEmitter {
 
             return;
         }
-        console.error(e.stack);
+        this.musicBot.log('SOCKET', 'ERROR', e.stack);
     }
 
     destroy() {
@@ -123,6 +127,11 @@ class Connection extends EventEmitter {
 
                 if (message.includes('server_closing')) {
                     this.musicBot.log('SOCKET', 'WARN', 'Received server close message!');
+
+                    return;
+                }
+                if (message.includes('authentication_required') || message.includes('invalid_auth')) {
+                    this.destroy();
 
                     return;
                 }

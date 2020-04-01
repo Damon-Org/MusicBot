@@ -17,6 +17,7 @@ class LockDown extends BasicCommand {
         this.register({
             category: category,
             disabled: true,
+            hidden: true,
 
             name: 'lockdown',
             aliases: [],

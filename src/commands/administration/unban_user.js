@@ -15,6 +15,7 @@ class UnbanUser extends BasicCommand {
 
         this.register({
             category: category,
+            hidden: true,
 
             name: 'unban user',
             aliases: [

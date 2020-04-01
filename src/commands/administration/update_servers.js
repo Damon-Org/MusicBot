@@ -15,6 +15,7 @@ class UpdateServers extends BasicCommand {
 
         this.register({
             category: category,
+            hidden: true,
 
             name: 'updateservers',
             aliases: [
