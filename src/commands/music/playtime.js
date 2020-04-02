@@ -1,5 +1,5 @@
 const
-    BasicCommand = require('../../utils/basic_command.js'),
+    BasicCommand = require('../../util/basic_command.js'),
     humanReadableTime = require('humanize-duration');
 
 /**

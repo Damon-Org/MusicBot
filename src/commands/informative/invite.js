@@ -1,4 +1,4 @@
-const BasicCommand = require('../../utils/basic_command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * @category Commands

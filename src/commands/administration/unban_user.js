@@ -1,4 +1,4 @@
-const BasicCommand = require('../../utils/basic_command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * Class name speaks for itself
@@ -62,21 +62,9 @@ class UnbanUser extends BasicCommand {
             return true;
         }
 
-        if (this.unbanUser(userId)) {
+        const user = this.userUtils.getClassInstance(userId);
+        if (await user.options.unban()) {
             this.textChannel.send(`User has been unbanned.`)
-        }
-
-        return true;
-    }
-
-    async unbanUser(userId) {
-        const internal_id = await this.userUtils.addUserIfNotExists(userId);
-
-        await this.db.db.query(`UPDATE core_users SET ban_id = NULL WHERE internal_id = ?`, [internal_id]);
-
-        const user = this.db.users.get(userId);
-        if (user) {
-            user.banned = false;
         }
 
         return true;

@@ -8,12 +8,6 @@ class BasicBot {
          * @readonly
          */
         this.Discord = require('discord.js');
-
-        /**
-         * @type {external:Discord_Client}
-         * @readonly
-         */
-        this.client = new this.Discord.Client();
     }
 
     /**
@@ -51,6 +45,12 @@ class BasicBot {
      * @param {external:String}
      */
     login(token) {
+        /**
+         * @type {external:Discord_Client}
+         * @readonly
+         */
+        this.client = new this.Discord.Client(this.config.client_options);
+
         this.client.login(token);
     }
 

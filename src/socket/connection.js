@@ -12,10 +12,13 @@ const
  */
 class Connection extends EventEmitter {
     /**
+     * @param {DamonBase} damonBase
      * @param {external:Object} options
      */
-    constructor(options) {
+    constructor(damonBase, options) {
         super();
+
+        this.db = damonBase;
 
         /**
          * @type {String}
@@ -58,20 +61,20 @@ class Connection extends EventEmitter {
 
     connectionError(e) {
         if (e.message.includes('connect ECONNREFUSED')) {
-            this.musicBot.log('SOCKET', 'WARN', 'Connection refused by socket server, is it running?');
+            this.db.log('SOCKET', 'WARN', 'Connection refused by socket server, is it running?');
 
             return;
         }
-        this.musicBot.log('SOCKET', 'ERROR', e.stack);
+        this.db.log('SOCKET', 'ERROR', e.stack);
     }
 
     destroy() {
-        this.client.write(JSON.stringify({
-            client: this.clientType,
-            request: 'disconnect'
-        }));
-
         if (!this.client.destroyed) {
+            this.client.write(JSON.stringify({
+                client: this.clientType,
+                request: 'disconnect'
+            }));
+
             this.client.destroy();
         }
     }
@@ -126,7 +129,7 @@ class Connection extends EventEmitter {
                 const message = data.toString();
 
                 if (message.includes('server_closing')) {
-                    this.musicBot.log('SOCKET', 'WARN', 'Received server close message!');
+                    this.db.log('SOCKET', 'WARN', 'Received server close message!');
 
                     return;
                 }
@@ -136,7 +139,7 @@ class Connection extends EventEmitter {
                     return;
                 }
 
-                this.musicBot.log('SOCKET', 'INFO', message);
+                this.db.log('SOCKET', 'INFO', message);
             }
         }
     }

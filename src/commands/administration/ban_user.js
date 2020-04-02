@@ -1,4 +1,4 @@
-const BasicCommand = require('../../utils/basic_command.js');
+const BasicCommand = require('../../util/basic_command.js');
 
 /**
  * Class name speaks for itself
@@ -72,7 +72,7 @@ class BanUser extends BasicCommand {
 
         const
             user = await this.userUtils.getClassInstance(userId),
-            result = await user.ban(this.user.id, reason);
+            result = await user.options.ban(this.user.id, reason);
 
         if (result[0]) {
             const embed = new this.db.Discord.MessageEmbed()
