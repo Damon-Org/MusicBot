@@ -62,7 +62,9 @@ class SocketEvents {
         const guildObj = this.db.client.guilds.resolve(socketMessage.request.data.guildId);
         if (!guildObj || !guildObj.available) return;
 
-        socketMessage.message.verified = guildObj.id;
+        socketMessage.message = {
+            verified: guildObj.id
+        };
 
         this.connection.send(socketMessage);
     }
