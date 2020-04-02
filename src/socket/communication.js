@@ -22,14 +22,6 @@ class SocketCommunication {
         this.socketEvents = new SocketEvents(musicBot);
 
         /**
-         * @type {String}
-         */
-        this.clientType = 'bot';
-        /**
-         * @type {external:Number}
-         */
-        this.port = 5433;
-        /**
          * The amount of reconnect tries that have occured
          * @type {external:Number}
          */
@@ -81,7 +73,7 @@ class SocketCommunication {
          * @type {Connection}
          * @readonly
          */
-        this.connection = new Connection(this.musicBot.auth.credentials.socket);
+        this.connection = new Connection(this.musicBot, this.musicBot.auth.credentials.socket);
 
         this.tries++;
 

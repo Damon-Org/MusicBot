@@ -9,12 +9,12 @@ const
     SocketCommunication = require('../socket/communication'),
 
     // Utils
-    EmbedUtils = require('../utils/embed'),
-    MainUtils = require('../utils/main'),
-    MusicUtils = require('../utils/music'),
-    ServerUtils = require('../utils/server'),
-    SocketUtils = require('../utils/socket'),
-    UserUtils = require('../utils/user');
+    EmbedUtils = require('../util/embed'),
+    MainUtils = require('../util/main'),
+    MusicUtils = require('../util/music'),
+    ServerUtils = require('../util/server'),
+    SocketUtils = require('../util/socket'),
+    UserUtils = require('../util/user');
 
 /**
  * This is the main entry point of Damon Music

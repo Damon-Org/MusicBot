@@ -2,6 +2,16 @@
     "development": true,
     "generate_command_json": true,
 
+    "client_options": {
+        "disableMentions": "all",
+
+        "messageCacheMaxSize": 100,
+        "messageCacheLifetime": 86400,
+        "messageSweepInterval": 86400,
+
+        "retryLimit": 1
+    },
+
     "allow_mention_prefix": true,
     "default_prefix": {
         "prod": "d!",
