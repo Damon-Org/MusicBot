@@ -167,21 +167,26 @@ class Queue {
     }
 
     shuffle() {
-        const bottomLimit = this.start;
+        const
+            bottomLimit = this.start;
 
         let
-            currentIndex = array.length,
+            tempQueue = this.queue.slice(bottomLimit, this.queue.length),
+            currentIndex = tempQueue.length,
             temporaryValue,
             randomIndex;
 
-        while (0 !== currentIndex && (currentIndex - bottomLimit) >= 0) {
-            randomIndex = Math.floor(Math.random() * (currentIndex - bottomLimit) + bottomLimit);
+        while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex--;
 
-            temporaryValue = this.queue[currentIndex];
-            this.queue[currentIndex] = this.queue[randomIndex];
-            this.queue[randomIndex] = temporaryValue;
+            temporaryValue = tempQueue[currentIndex];
+            tempQueue[currentIndex] = tempQueue[randomIndex];
+            tempQueue[randomIndex] = temporaryValue;
         }
+
+        this.queue.splice(bottomLimit);
+        this.queue = this.queue.concat(tempQueue);
     }
 
     /**
