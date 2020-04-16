@@ -13,6 +13,16 @@ class Queue {
         this.reset();
     }
 
+    get start() {
+        let start = this.maxPrequeue;
+
+        while (this.getFromPosition(start) != null) {
+            start--
+        }
+
+        return start;
+    }
+
     /**
      * @returns {Track} Active Song
      */
@@ -154,6 +164,24 @@ class Queue {
      */
     shift() {
         return this.queue.shift();
+    }
+
+    shuffle() {
+        const bottomLimit = this.start;
+
+        let
+            currentIndex = array.length,
+            temporaryValue,
+            randomIndex;
+
+        while (0 !== currentIndex && (currentIndex - bottomLimit) >= 0) {
+            randomIndex = Math.floor(Math.random() * (currentIndex - bottomLimit) + bottomLimit);
+            currentIndex--;
+
+            temporaryValue = this.queue[currentIndex];
+            this.queue[currentIndex] = this.queue[randomIndex];
+            this.queue[randomIndex] = temporaryValue;
+        }
     }
 
     /**

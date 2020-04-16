@@ -63,7 +63,9 @@ class SocketEvents {
         if (!guildObj || !guildObj.available) return;
 
         socketMessage.message = {
-            verified: guildObj.id
+            createdAt: guildObj.createdTimestamp,
+            guildId: guildObj.id,
+            members: guildObj.memberCount
         };
 
         this.connection.send(socketMessage);

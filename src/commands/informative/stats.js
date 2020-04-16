@@ -39,11 +39,11 @@ class Stats extends BasicCommand {
             .addField('Created by', this.db.creator.tag);
 
         if (this.db.client.shard.count <= 1) {
-            embed.addField('Total Guild Count', this.db.client.guilds.size);
+            embed.addField('Total Guild Count', this.db.client.guilds.cache.size);
         }
         else {
-            embed.addField('This instance is managing', `${this.db.client.guilds.size} servers`);
-            embed.addField('Total Guild Count', `${this.db.presence_values.serverCount}`)
+            embed.addField('This instance is managing', `${this.db.client.guilds.cache.size} servers`);
+            embed.addField('Total Guild Count', `${this.db.presence_values.serverCount}`);
         }
 
         this.textChannel.send(embed);

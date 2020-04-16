@@ -150,9 +150,9 @@ class DamonBase extends BotEvents {
         this.carrier = new Shoukaku(this.client, this.auth.credentials.lavalink, {
             moveOnDisconnect: false,
             resumable: "lavaRetryTheRedemptionArc",
-            resumableTimeout: 60,
-            reconnectTries: 3,
-            restTimeout: 10000
+            resumableTimeout: 30,
+            reconnectTries: 100,
+            restTimeout: 2e4
         });
 
         this.carrier.on('ready', (name) => this.log('LAVA', 'INFO', `Node: ${name} is now connected`));

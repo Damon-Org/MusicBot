@@ -65,9 +65,9 @@ class MusicSystem {
      * @param {external:Discord_VoiceChannel} voiceChannel A Discord.VoiceChannel instance
      */
     async continueQueue(voiceChannel = null) {
-        this.doNotSkip = false;
-
         if (await this.playSong(voiceChannel)) {
+            this.ended = false;
+
             await this.createNewPlayer();
 
             return true;
@@ -150,11 +150,7 @@ class MusicSystem {
      * @returns {external:Boolean} True if Damon is in a voiceChannel, false if not
      */
     isDamonInVC(voiceChannel) {
-        if (voiceChannel.members.get(this.client.user.id)) {
-            return true;
-        }
-
-        return false;
+        return voiceChannel.members.has(this.client.user.id);
     }
 
     /**
@@ -350,8 +346,6 @@ class MusicSystem {
     async playNext() {
         this.disableOldPlayer();
 
-        this.paused = false;
-
         const activeSong = this.queue.active();
 
         if (activeSong == null) {
@@ -507,13 +501,16 @@ class MusicSystem {
 
         const currentSong = this.queue.active();
 
-        await this.player.playTrack(currentSong.track);
-        this.player.setVolume(this.volume);
+        while (!await this.player.playTrack(currentSong.track)) {
 
-        this.player.once('end', (end) => this.soundEnd(end));
+        }
+        await this.player.setVolume(this.volume);
+
+        this.player.on('error', (error) => this.nodeError(error));
+
+        this.player.on('end', this.playerEndReference = (end) => this.soundEnd(end));
 
         //this.player.on('closed', () => this.soundEnd(end));
-        this.player.on('error', (error) => this.nodeError(error));
         //this.player.on('nodeDisconnect', endFunction);
 
         return true;
@@ -605,10 +602,6 @@ class MusicSystem {
      * Will reset all variables so our system is ready for a request
      */
     reset() {
-        if (this.stream && !this.stream.ended) {
-            this.stream.end('eventTriggerIgnore');
-        }
-
         this.disableOldPlayer();
 
         this.queue.reset();
@@ -760,9 +753,9 @@ class MusicSystem {
      * @param {external:String} end A string end reason
      */
     soundEnd(end) {
-        if (end == 'eventTriggerIgnore') {
-            return;
-        }
+        if (end.type == 'TrackStuckEvent') return;
+
+        this.player.removeListener('end', this.playerEndReference);
 
         this.playNext();
     }
