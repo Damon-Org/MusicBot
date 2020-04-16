@@ -61,6 +61,27 @@
             },
             {
                 "hidden": true,
+                "name": "test",
+                "aliases": [],
+                "description": "Ban a user from using the bot",
+                "usage": "ban user <@ user> [reason]",
+                "params": [
+                    {
+                        "name": "reason",
+                        "description": "The reason why a user was banned.",
+                        "type": "string",
+                        "default": null,
+                        "allow_sentence": true
+                    }
+                ],
+                "permission": {
+                    "type": "system",
+                    "level": 2
+                },
+                "examples": []
+            },
+            {
+                "hidden": true,
                 "name": "unban user",
                 "aliases": [
                     "unbanuser"
@@ -388,6 +409,14 @@
                 "aliases": [],
                 "description": "Music playback will be resumed.",
                 "usage": "resume",
+                "params": [],
+                "examples": []
+            },
+            {
+                "name": "shuffle",
+                "aliases": [],
+                "description": "Shuffle songs in queue.",
+                "usage": "shuffle",
                 "params": [],
                 "examples": []
             },

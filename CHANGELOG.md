@@ -14,6 +14,35 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-04-16, Version v0.5.1 @Yimura
+
+### Notable Changes
+
+ * Fixed bug with SocketCommunication
+ * Fixed bug where guild count would show **undefined**
+ * Attempt at fixing queue out of sync queue and multiple songs starting at once
+ * Structure change
+ * Client options have been added together with gateway intents
+
+### Commits
+
+ * [**759d24a64f93c430e374747b794f1be121725b97**] Small bug in SocketEvent
+ * [**52fbbbe04fc99562b76189d22b2fd9e74fbeba1c**] Slight structure change, bug fixes
+ * [**to_be_added**] Attempt at fixing queue out of sync queue and multiple songs starting at once
+
+## 2020-03-30, Version v0.5.0 @Yimura
+
+### Notable Changes
+
+ * Switched Damon Music to the new command handler
+ * `commands.json` will now be generated on after command mapping succeeded.
+ * Requires were cleaned up and json loading is now handled by require instead of using fs to load this file
+ * Dynamic presence has been added
+
+### Commits
+
+ * [**759d24a64f93c430e374747b794f1be121725b97**] Total revamp of Damon Music so it supports the new command system
+
 ## 2020-03-03, Version v0.4.7 @Yimura
 
 ### Notable Changes

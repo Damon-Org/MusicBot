@@ -9,7 +9,11 @@
         "messageCacheLifetime": 86400,
         "messageSweepInterval": 86400,
 
-        "retryLimit": 1
+        "retryLimit": 1,
+
+        "ws": {
+            "intents": 9857
+        }
     },
 
     "allow_mention_prefix": true,
