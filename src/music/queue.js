@@ -53,6 +53,10 @@ class Queue {
         return this.queue.splice(this.maxPrequeue + position, 0, song);
     }
 
+    count() {
+        return this.queue.length - this.start - 1;
+    }
+
     /**
      * @param {external:Number} index
      */

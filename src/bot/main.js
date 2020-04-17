@@ -177,6 +177,18 @@ class DamonBase extends BotEvents {
         });
     }
 
+    activeSongCount() {
+        let count = 0;
+
+        for (let server of this.servers.values()) {
+            if (server.musicSystem.active) {
+                count += server.musicSystem.queue.count();
+            }
+        }
+
+        return count;
+    }
+
     async getServerCount()
     {
         if (this.client.shard.count == 1) {
