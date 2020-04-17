@@ -469,25 +469,6 @@
         ]
     },
     "recording": {
-        "commands": [
-            {
-                "name": "record",
-                "aliases": [],
-                "description": "This command will record the current voicechat after everyone has given their consent.",
-                "usage": "record",
-                "params": [],
-                "examples": []
-            },
-            {
-                "name": "stop recording",
-                "aliases": [
-                    "stoprecording"
-                ],
-                "description": "This command will stop the bot from recording.",
-                "usage": "stop recording",
-                "params": [],
-                "examples": []
-            }
-        ]
+        "commands": []
     }
 }

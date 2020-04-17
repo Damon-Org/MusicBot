@@ -14,6 +14,7 @@ class StopRecording extends BasicCommand {
 
         this.register({
             category: category,
+            disabled: true,
 
             name: 'stop recording',
             aliases: [
@@ -30,27 +31,25 @@ class StopRecording extends BasicCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = msgObj.member.voice.channel;
+        const voicechannel = this.voiceChannel;
         if (!voicechannel) {
             msgObj.reply(`you aren't a in voicechannel, join one to use this command.`);
 
             return;
         }
 
-        const
-            serverInstance = musicBot.serverUtils.getClassInstance(msgObj.guild.id),
-            recordingSystem = serverInstance.recordingSystem;
+        const recordingSystem = this.serverInstance.recordingSystem;
 
         if (!recordingSystem.recording) {
-            const newMsg = await msgObj.reply('no recording to stop in this server.');
+            const newMsg = await this.msgObj.reply('no recording to stop in this server.');
             newMsg.delete({timeout: 5000});
 
             return;
         }
 
-        msgObj.channel.send('Gracefully closing the recording and saving them.');
+        this.textChannel.send('Gracefully closing the recording and saving them.');
         recordingSystem.closeConnections();
-        msgObj.channel.send('Decoding of RAW PCM data to WAV will now begin, please be patient.');
+        this.textChannel.send('Decoding of RAW PCM data to WAV will now begin, please be patient.');
 
         recordingSystem.startDecodingLast();
 
@@ -58,7 +57,7 @@ class StopRecording extends BasicCommand {
             console.log('Decoding');
         }
 
-        msgObj.channel.send('Decoding done.');
+        this.textChannel.send('Decoding done.');
     }
 }
 
