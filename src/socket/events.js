@@ -48,6 +48,7 @@ class SocketEvents {
             channels: channels.cache.size,
             guilds: guilds.cache.size,
             music_players: this.db.carrier.totalPlayers,
+            songs_playing: this.db.activeSongCount(),
             ping: Math.round(client.ws.ping),
             users: users.cache.size
         };
