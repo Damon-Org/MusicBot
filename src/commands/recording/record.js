@@ -14,6 +14,7 @@ class Record extends BasicCommand {
 
         this.register({
             category: category,
+            disabled: true,
 
             name: 'record',
             aliases: [],
@@ -56,8 +57,7 @@ class Record extends BasicCommand {
             return;
         }
 
-        this.msgObj.channel.send('**Damon Music** will start recording from whenever a user starts speaking.');
-        await recordingSystem.start(msgObj, voicechannel);
+        await recordingSystem.start(this.msgObj, voicechannel);
     }
 }
 

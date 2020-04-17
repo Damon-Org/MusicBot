@@ -120,10 +120,14 @@ class RecordingSystem {
     async start(msgObj, voicechannel) {
         this.startTime = Date.now();
 
-        this.shutdownTimer = setTimeout(() => {
+        this.shutdownTimer = setTimeout(async () => {
             this.closeConnections();
 
-            this.textchannel.send('No user accepted to being recorded within 15 seconds of starting the command.');
+            await this.textchannel.send('No user accepted to being recorded within 15 seconds of starting the command.');
+
+            voicechannel.leave();
+
+            this.reset();
         }, 15e3);
 
         this.textchannel = msgObj.channel;
@@ -131,6 +135,10 @@ class RecordingSystem {
 
         this.conn = await voicechannel.join();
 
+        // this.conn.on('authenticated', () => this.textchannel.send());
+        this.conn.on('error', (e) => this.textchannel.send(e.stack));
+        this.conn.on('failed', (e) => this.textchannel.send(e.stack));
+        this.conn.on('ready', () => this.textchannel.send('**Damon Music** will start recording from whenever a user starts speaking.'));
         this.conn.on('speaking', (user, state) => this.userStartSpeaking(user));
 
         this.recording = true;
@@ -164,6 +172,8 @@ class RecordingSystem {
      * @param {external:Discord_User} user
      */
     async userStartSpeaking(user) {
+        console.log(user);
+
         if (this.userStreams.get(user.id) || !await this.hasUserAcceptedRecording(user)) {
             return;
         }
