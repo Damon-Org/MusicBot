@@ -12,7 +12,7 @@
         "retryLimit": 1,
 
         "ws": {
-            "intents": 9857
+            "intents": 13953
         }
     },
 
