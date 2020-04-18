@@ -1,6 +1,6 @@
 {
   "name": "damon_music",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "The fourth revision of Damon Music",
   "main": "index.js",
   "scripts": {
