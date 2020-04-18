@@ -193,7 +193,7 @@ class MusicSystem {
             return;
         }
 
-        this.musicBot.musicUtils.handleSongData(data, requester, msgObj, voicechannel, choiceInstance.shouldPlayNext);
+        this.musicBot.musicUtils.handleSongData(data, requester, msgObj, voicechannel, null, choiceInstance.shouldPlayNext);
 
         msgObj.delete();
         this.serverInstance.choices.delete(user.id);
@@ -237,7 +237,6 @@ class MusicSystem {
                 return;
             }
 
-            // Request was declined
             const data = await this.node.rest.resolve(`https://youtube.com/watch?v=${playlistObj.videoId}`);
             if (!data) {
                 const richEmbed = new this.musicBot.Discord.MessageEmbed()
@@ -250,13 +249,13 @@ class MusicSystem {
                 return;
             }
 
-            this.musicBot.musicUtils.handleSongData(data, serverMember, msgObj, voicechannel, exception);
+            this.musicBot.musicUtils.handleSongData(data, serverMember, msgObj, voicechannel, null, exception);
 
             return;
         }
 
         playlistObj.playlist.forEach(async (song) => {
-            await this.musicBot.musicUtils.handleSongData(song, serverMember, msgObj, voicechannel, exception, false);
+            await this.musicBot.musicUtils.handleSongData(song, serverMember, msgObj, voicechannel, null, exception, false);
         });
         msgObj.channel.send('Successfully added playlist!');
     }

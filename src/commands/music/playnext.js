@@ -55,7 +55,9 @@ class PlayNext extends BasicCommand {
             return;
         }
 
-        const node = this.db.carrier.getNode();
+        const
+            noticeMsg = this.textChannel.send('🔍 `Looking up your request...` 🔍'),
+            node = this.db.carrier.getNode();
         let data = null;
 
         if (this.args.length == 1 && (this.args[0].includes('https://') || this.args[0].includes('http://'))) {
@@ -64,7 +66,7 @@ class PlayNext extends BasicCommand {
         else {
             const searchFor = this.args.join(' ');
 
-            this.musicUtils.createNewChoiceEmbed(this.msgObj, searchFor, true);
+            this.musicUtils.createNewChoiceEmbed(this.msgObj, searchFor, noticeMsg, true);
 
             return;
         }
@@ -84,12 +86,12 @@ class PlayNext extends BasicCommand {
             // Playlist found
             const orig = (new URL(args[0])).searchParams.get('v');
 
-            this.musicUtils.createPlaylistFoundEmbed(orig, data, this.msgObj, true);
+            this.musicUtils.createPlaylistFoundEmbed(orig, data, this.msgObj, noticeMsg, true);
 
             return;
         }
 
-        this.musicUtils.handleSongData(data, this.serverMember, this.msgObj, this.voiceChannel, true);
+        this.musicUtils.handleSongData(data, this.serverMember, this.msgObj, this.voiceChannel, noticeMsg, true);
     }
 }
 

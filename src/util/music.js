@@ -22,14 +22,17 @@ class MusicUtils {
      * Creates a new ChoiceEmbed embed
      * @param {external:Discord_Message} msgObj A Discord Message instance
      * @param {external:String} searchFor A string to search for in the Youtube API
+     * @param {external:Discord_Message} noticeMsg
      * @param {external:Boolean} [exception=false] If the song should be added next up
      */
-    async createNewChoiceEmbed(msgObj, searchFor, exception = false) {
+    async createNewChoiceEmbed(msgObj, searchFor, noticeMsg, exception = false) {
         const
             serverId = msgObj.guild.id,
             requester = msgObj.member,
             voicechannel = requester.voice.channel,
             serverInstance = this.musicBot.serverUtils.getClassInstance(serverId);
+
+        (await noticeMsg).delete();
 
         if (serverInstance.musicSystem.queueExists() && !serverInstance.musicSystem.isDamonInVC(voicechannel)) {
             const newMsg = await msgObj.reply(`you aren't in the bot's channel.`);
@@ -82,9 +85,10 @@ class MusicUtils {
      * @param {external:String} origVideoId The original videoId
      * @param {external:Object[]} data The fetched playlist
      * @param {external:Discord_Message} msgObj
+     * @param {external:Discord_Message} noticeMsg
      * @param {external:Boolean} exception The serverMember that made the request
      */
-    async createPlaylistFoundEmbed(origVideoId, data, msgObj, exception = false) {
+    async createPlaylistFoundEmbed(origVideoId, data, msgObj, noticeMsg, exception = false) {
         const
             serverInstance = this.musicBot.serverUtils.getClassInstance(msgObj.member.guild.id),
             playlistObj = {
@@ -101,7 +105,9 @@ class MusicUtils {
             .setDescription(`I\'ve detected that this song contains a playlist,\nare you sure you want to add **${data.length}** songs?\n\nBy confirming you agree that all songs will be added till the queue limit is hit.\nIf you decline only the original song will be added, if the playlist link does not contain a YouTube video then nothing will be added to the queue.\n\n**Keep in mind that the playlist will be added from the beginning.**`)
             .setFooter(`playlist_detected for https://youtu.be/${origVideoId}`);
 
-        const newMsg = await msgObj.channel.send(`${msgObj.member}`, richEmbed);
+        let newMsg = msgObj.channel.send(`<@${msgObj.author.id}>`, richEmbed);
+        (await noticeMsg).delete()
+        newMsg = await newMsg;
 
         playlistObj.msgObj = newMsg;
         serverInstance.playlists.set(msgObj.author.id, playlistObj);
@@ -125,11 +131,13 @@ class MusicUtils {
      * @param {external:Discord_GuildMember} serverMember
      * @param {external:Discord_Message} msgObj
      * @param {external:Discord_VoiceChannel} voicechannel
+     * @param {external:Discord_Message} noticeMsg
      * @param {external:Boolean} exception If the song should be added next up
      * @param {external:Boolean} allowSpam ONLY set this param when adding a playlist
      */
-    async handleSongData(data, serverMember, msgObj, voicechannel, exception = false, allowSpam = true) {
+    async handleSongData(data, serverMember, msgObj, voicechannel, noticeMsg = null, exception = false, allowSpam = true) {
         const musicSystem = (this.musicBot.serverUtils.getClassInstance(serverMember.guild.id)).musicSystem;
+        if (noticeMsg) (await noticeMsg).delete();
 
         if (musicSystem.queueExists()) {
             if (musicSystem.isDamonInVC(voicechannel) || !allowSpam) {
