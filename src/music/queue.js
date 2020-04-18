@@ -175,8 +175,8 @@ class Queue {
             bottomLimit = this.start;
 
         let
-            tempQueue = this.queue.slice(bottomLimit, this.queue.length),
-            currentIndex = tempQueue.length,
+            tempQueue = this.queue.slice(bottomLimit, this.queue.length - 1),
+            currentIndex = tempQueue.length - 1,
             temporaryValue,
             randomIndex;
 

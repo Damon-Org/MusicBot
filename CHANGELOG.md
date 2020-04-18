@@ -14,6 +14,22 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-04-18, Version v0.5.2 @Yimura
+
+### Notable Changes
+
+ * Disabled recording commands, horribly broken anyways right now
+ * Updated config.json to add more accurate intents
+ * Added songs_playing key to the "info" SocketEvent
+ * Added looking for request message when doing track lookup's
+
+### Commits
+
+ * [**4663a90261818a2dec75dbeae8009e33deea80c1**] Updated config.json (the commit says command.json but that's a typo)
+ * [**42828fe47dac7bc4bcf6e2aa37852bc9af832770**] Disabled recording commands
+ * [**1604a1569930ce7778429d4358b68f69412348ae**] Added songs_playing key to info socket event
+ * [**this_commit**] Added looking for request message when doing track lookups
+
 ## 2020-04-16, Version v0.5.1 @Yimura
 
 ### Notable Changes
