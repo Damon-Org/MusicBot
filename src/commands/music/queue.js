@@ -76,15 +76,13 @@ class Queue extends BasicCommand {
 
             page = parseInt(this.args[0]);
 
-            if (page >= 0) {
-                if (page != 0) {
-                    page--;
-                }
+            if (page > 0) {
+                page--;
             }
 
-            if (page == 0) {
-                bottomLimit = maxPrequeue + (pageSize * page);
-                topLimit = maxPrequeue + (pageSize * page) + 1;
+            if (page == 0 || page == 1) {
+                bottomLimit = maxPrequeue + (pageSize * page) - (pageSize / 2),
+                topLimit = maxPrequeue + (pageSize * page) + (pageSize / 2);
             }
             else {
                 bottomLimit = maxPrequeue + (pageSize * page) - (pageSize / 2);

@@ -16,9 +16,15 @@ class Queue {
     get start() {
         let start = this.maxPrequeue;
 
-        while (this.getFromPosition(start) != null) {
-            start--
-        }
+        do {
+            if (this.getFromPosition(start) == null && this.getFromPosition(start - 1) == null) {
+                start++;
+
+                break;
+            }
+
+            start--;
+        } while (start > 0);
 
         return start;
     }
@@ -54,7 +60,7 @@ class Queue {
     }
 
     count() {
-        return this.queue.length - this.start - 1;
+        return this.size() - this.start;
     }
 
     /**
@@ -175,7 +181,7 @@ class Queue {
             bottomLimit = this.start;
 
         let
-            tempQueue = this.queue.slice(bottomLimit, this.queue.length - 1),
+            tempQueue = this.queue.slice(bottomLimit, this.size() - 1),
             currentIndex = tempQueue.length - 1,
             temporaryValue,
             randomIndex;
