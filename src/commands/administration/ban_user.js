@@ -42,7 +42,7 @@ class BanUser extends BasicCommand {
                 type: 'system',
                 level: 2
             },
-            examples: []
+            example: 'ban user @Geop Spamming #general'
         });
     }
 

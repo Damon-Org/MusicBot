@@ -139,6 +139,8 @@ class Queue {
         if (position < 0) {
             this.unshift(null);
         }
+
+        return true;
     }
 
     /**

@@ -19,14 +19,12 @@ class Leave extends BasicCommand {
             aliases: [
                 'quit',
                 'exit',
-                'stop',
-                'brexit',
-                'no-u'
+                'stop'
             ],
             description: 'Bot will stop music playback and leave channel',
             usage: 'leave',
             params: [],
-            examples: []
+            example: 'leave'
         });
     }
 

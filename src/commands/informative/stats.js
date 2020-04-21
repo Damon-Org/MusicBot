@@ -22,7 +22,7 @@ class Stats extends BasicCommand {
             description: 'Shows a couple of stats about Damon.',
             usage: 'stats',
             params: [],
-            examples: []
+            example: 'stats'
         });
     }
 

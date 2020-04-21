@@ -31,7 +31,7 @@ class Remove extends BasicCommand {
                     default: 'Will remove the currently playing song from queue'
                 }
             ],
-            examples: []
+            example: 'remove 3'
         });
     }
 

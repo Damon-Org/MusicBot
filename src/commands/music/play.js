@@ -30,10 +30,7 @@ class Play extends BasicCommand {
                     allow_sentence: true
                 }
             ],
-            examples: [
-                'p https://www.youtube.com/watch?v=rVHn3GOXvzk',
-                'play My House Flo Rida'
-            ]
+            example: 'play https://www.youtube.com/watch?v=rVHn3GOXvzk'
         });
     }
 

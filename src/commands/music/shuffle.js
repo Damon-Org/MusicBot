@@ -20,7 +20,7 @@ class Leave extends BasicCommand {
             description: 'Shuffle songs in queue.',
             usage: 'shuffle',
             params: [],
-            examples: []
+            example: 'shuffle'
         });
     }
 

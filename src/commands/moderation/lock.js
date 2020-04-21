@@ -37,9 +37,7 @@ class Lock extends BasicCommand {
                 type: 'server',
                 name: 'MANAGE_CHANNELS'
             },
-            examples: [
-                'lock music #music'
-            ]
+            example: 'lock music #music'
         });
     }
 

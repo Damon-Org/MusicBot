@@ -17,10 +17,9 @@ class SetSystemPermissionLevel extends BasicCommand {
             category: category,
             hidden: true,
 
-            name: 'set user system permission level',
+            name: 'permission level',
             aliases: [
-                'add system user',
-                'set permission level'
+                'perm level'
             ],
             description: 'Change the system permission level of a user.',
             usage: 'ban user <@ user> [permission_level]',
@@ -42,7 +41,7 @@ class SetSystemPermissionLevel extends BasicCommand {
                 type: 'system',
                 level: 3
             },
-            examples: []
+            example: 'permission level @Yimura#6969 5'
         });
     }
 

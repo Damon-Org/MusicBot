@@ -27,9 +27,7 @@ class ResetPrefix extends BasicCommand {
                 type: 'server',
                 name: 'MANAGE_CHANNELS'
             },
-            examples: [
-                'reset prefix'
-            ]
+            example: 'reset prefix'
         });
     }
 
@@ -37,7 +35,7 @@ class ResetPrefix extends BasicCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const prefix = this.db.config.development ? this.db.config.default_prefix.dev : this.db.config.default_prefix.prod;
+        const prefix = this.db.commandRegisterer.default_prefix;
 
         this.serverInstance.setPrefix(prefix);
 

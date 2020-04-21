@@ -15,8 +15,9 @@ class RemoveLock extends BasicCommand {
         this.register({
             category: category,
 
-            name: 'remove lock',
+            name: 'unlock',
             aliases: [
+                'remove lock',
                 'removelock',
                 'rmlock'
             ],
@@ -34,9 +35,7 @@ class RemoveLock extends BasicCommand {
                 type: 'server',
                 name: 'MANAGE_CHANNELS'
             },
-            examples: [
-                'remove lock music'
-            ]
+            example: 'unlock music'
         });
     }
 
