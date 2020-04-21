@@ -20,7 +20,7 @@ class Repeat extends BasicCommand {
             description: 'Will repeat the currently playing song.',
             usage: 'repeat',
             params: [],
-            examples: []
+            example: 'repeat'
         });
     }
 

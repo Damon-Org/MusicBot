@@ -20,7 +20,7 @@ class Resume extends BasicCommand {
             description: 'Music playback will be resumed.',
             usage: 'resume',
             params: [],
-            examples: []
+            example: 'resume'
         });
     }
 

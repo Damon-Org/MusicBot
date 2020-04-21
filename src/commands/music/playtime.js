@@ -24,7 +24,7 @@ class PlayTime extends BasicCommand {
             description: 'Shows how long the bot has been playing music.',
             usage: 'playtime',
             params: [],
-            examples: []
+            example: 'playtime'
         });
     }
 

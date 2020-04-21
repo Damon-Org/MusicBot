@@ -36,7 +36,19 @@
             {
                 "activity": {
                     "type": "WATCHING",
+                    "name": "most commands have shorter versions, check them out on the website!"
+                }
+            },
+            {
+                "activity": {
+                    "type": "WATCHING",
                     "name": "us on https://music.damon.sh"
+                }
+            },
+            {
+                "activity": {
+                    "type": "PLAYING",
+                    "name": "with all the commands on https://music.damon.sh/#/commands"
                 }
             },
             {

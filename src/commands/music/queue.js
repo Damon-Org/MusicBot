@@ -29,10 +29,7 @@ class Queue extends BasicCommand {
                     default: 'Shows the first page of queue'
                 }
             ],
-            examples: [
-                'q 2',
-                'queue -1'
-            ]
+            example: 'queue 2'
         });
     }
 

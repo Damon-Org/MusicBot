@@ -27,17 +27,14 @@ class SetPrefix extends BasicCommand {
                     name: 'new-prefix',
                     description: 'Changes the prefix to which Damon Music listens on in your server.',
                     type: 'string',
-                    required: true
+                    default: 'Resets the the custom prefix if one was set.'
                 }
             ],
             permission: {
                 type: 'server',
                 name: 'MANAGE_CHANNELS'
             },
-            examples: [
-                'setprefix !',
-                'changeprefix b?'
-            ]
+            example: 'changeprefix b?'
         });
     }
 
@@ -46,6 +43,17 @@ class SetPrefix extends BasicCommand {
      */
     async run(command) {
         const newPrefix = this.args[0];
+
+        if (!newPrefix) {
+            const prefix = this.db.commandRegisterer.default_prefix;
+
+            this.serverInstance.setPrefix(prefix);
+
+            const newMsg = await this.textChannel.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${prefix}\``);
+            newMsg.pin();
+
+            return;
+        }
 
         if (/^[\x00-\x7F]*$/.test(newPrefix) && newPrefix.length <= 6) {
             const oldPrefix = await this.serverInstance.getPrefix();

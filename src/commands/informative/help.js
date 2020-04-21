@@ -22,7 +22,7 @@ class Help extends BasicCommand {
             description: 'Gives a link to a website where you can find all the information you need.',
             usage: 'help',
             params: [],
-            examples: []
+            example: 'help'
         });
     }
 

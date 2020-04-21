@@ -29,7 +29,7 @@ class SkipTo extends BasicCommand {
                     required: true
                 }
             ],
-            examples: []
+            example: 'skipto 5'
         });
     }
 

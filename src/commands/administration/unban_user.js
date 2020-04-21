@@ -35,7 +35,7 @@ class UnbanUser extends BasicCommand {
                 type: 'system',
                 level: 2
             },
-            examples: []
+            example: 'unban user @Geop'
         });
     }
 

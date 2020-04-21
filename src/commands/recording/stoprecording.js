@@ -23,7 +23,7 @@ class StopRecording extends BasicCommand {
             description: 'This command will stop the bot from recording.',
             usage: 'stop recording',
             params: [],
-            examples: []
+            examples: 'stoprecording'
         });
     }
 

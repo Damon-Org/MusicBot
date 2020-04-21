@@ -24,7 +24,7 @@ class RepeatPlaylist extends BasicCommand {
             description: 'The entire queue is looped, when the end of the queue is reached it starts over.',
             usage: 'repeat playlist',
             params: [],
-            examples: []
+            example: 'repeatplaylist'
         });
     }
 

@@ -30,7 +30,7 @@ class Volume extends BasicCommand {
                     default: 'Will show the current volume.'
                 }
             ],
-            examples: []
+            example: 'volume 50'
         });
     }
 

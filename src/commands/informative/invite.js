@@ -16,11 +16,13 @@ class Invite extends BasicCommand {
             category: category,
 
             name: 'invite',
-            aliases: [],
+            aliases: [
+                'inv'
+            ],
             description: 'Invite Damon to your Discord server.',
             usage: 'invite',
             params: [],
-            examples: []
+            example: 'invite'
         });
     }
 

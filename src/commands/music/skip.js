@@ -23,7 +23,7 @@ class Skip extends BasicCommand {
             description: 'Will skip the currently playing song.',
             usage: 'skip',
             params: [],
-            examples: []
+            example: 'skip'
         });
     }
 

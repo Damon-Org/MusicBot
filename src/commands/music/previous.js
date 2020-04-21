@@ -22,7 +22,7 @@ class Previous extends BasicCommand {
             description: 'Will start playing the previous song in queue.',
             usage: 'previous',
             params: [],
-            examples: []
+            example: 'previous'
         });
     }
 

@@ -22,7 +22,7 @@ class Ping extends BasicCommand {
             description: "Shows ping to Discord, response time and reply time.",
             usage: "ping",
             params: [],
-            examples: []
+            example: 'ping'
         });
     }
 

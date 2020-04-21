@@ -21,7 +21,7 @@ class Record extends BasicCommand {
             description: 'This command will record the current voicechat after everyone has given their consent.',
             usage: 'record',
             params: [],
-            examples: []
+            examples: 'record'
         });
     }
 

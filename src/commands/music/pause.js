@@ -20,7 +20,7 @@ class Pause extends BasicCommand {
             description: 'Music playback will be paused.',
             usage: 'pause',
             params: [],
-            examples: []
+            example: 'pause'
         });
     }
 
