@@ -131,6 +131,7 @@ class MusicSystem {
             if (this.player) {
                 this.player.disconnect();
             }
+            this.shutting_down = null;
 
             this.reset();
         }, timeout);

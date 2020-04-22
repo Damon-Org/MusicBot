@@ -155,9 +155,7 @@ class MusicUtils {
             return;
         }
 
-        if (musicSystem.shutting_down) {
-            musicSystem.reset();
-        }
+        if (musicSystem.shutting_down) musicSystem.reset();
 
         musicSystem.createQueue(data, serverMember, msgObj.channel);
 
