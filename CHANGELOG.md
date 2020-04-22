@@ -14,6 +14,22 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-04-22, Version v0.5.3 @Yimura
+
+### Notable Changes
+
+ * Bot will now wait 5 minutes before leaving and destroying a queue (when a user has left or a queue just ended)
+ * Change command documentation structure slightly for example usage
+ * Fixed an old bug in the remove song command
+ * Queue command was fixed for several edge cases
+ * Bot will react to several commands instead of replying for better user interaction
+
+### Commits
+
+ * [**55873870e5dc7fbe5a8e2263c494531b25063a46**] Fixed old bug in removesong command, made example to single string in each command
+ * [**9d1e4f17ba7e19e890dc23e8d1e4674d1704f7d4**] Added several extra interactive elements, bot will not leave immediatly after ending the queue
+ * [**b0570e20b5dc9382b47e120a5319b9296b00560d**] Fixed queue command
+
 ## 2020-04-18, Version v0.5.2 @Yimura
 
 ### Notable Changes
