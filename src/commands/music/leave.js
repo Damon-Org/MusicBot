@@ -32,16 +32,16 @@ class Leave extends BasicCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = this.voiceChannel;
-        if (!voicechannel) {
+        const
+            voicechannel = this.voiceChannel,
+            musicSystem = this.serverInstance.musicSystem;
+        if (!voicechannel && !musicSystem.shutting_down) {
             const newMsg = await this.msgObj.reply('you aren\'t in a voicechannel');
 
             newMsg.delete({timeout: 5000});
 
             return;
         }
-
-        const musicSystem = this.serverInstance.musicSystem;
 
         if (musicSystem.isDamonInVC(voicechannel) || musicSystem.shutting_down) {
             this.textChannel.send('Music playback has been stopped by leave command.');
