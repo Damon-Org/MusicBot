@@ -46,7 +46,7 @@ class Leave extends BasicCommand {
         if (musicSystem.isDamonInVC(voicechannel) || musicSystem.shutting_down) {
             this.textChannel.send('Music playback has been stopped by leave command.');
 
-            musicSystem.player.disconnect();
+            if (musicSystem.player) musicSystem.player.disconnect();
             musicSystem.reset();
 
             return;
