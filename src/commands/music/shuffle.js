@@ -38,7 +38,7 @@ class Leave extends BasicCommand {
         }
 
         const musicSystem = this.serverInstance.musicSystem;
-        if (musicSystem.isDamonInVC(voicechannel)) {
+        if (!musicSystem.isDamonInVC(voicechannel)) {
             const newMsg = await this.msgObj.reply('you aren\'t in the bot\'s channel.');
 
             newMsg.delete({timeout: 5000});
