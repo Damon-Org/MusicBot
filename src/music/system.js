@@ -126,6 +126,16 @@ class MusicSystem {
         this.addToQueue(data, requester);
     }
 
+    delayedShutdown(timeout) {
+        this.shutting_down = setTimeout(() => {
+            if (this.player) {
+                this.player.disconnect();
+            }
+
+            this.reset();
+        }, timeout);
+    }
+
     /**
      * Will disable the last musicPlayer of our bot
      */
@@ -364,9 +374,8 @@ class MusicSystem {
                 return;
             }
 
-            this.channel.send(`Queue has been concluded and bot has left the voicechannel.`);
-            this.player.disconnect();
-            this.reset();
+            this.channel.send(`Queue has been concluded and the bot will leave in 5 minutes,\ntype the \`restart\` command to requeue your the old queue.`);
+            this.delayedShutdown(3e5);
 
             return;
         }
@@ -499,10 +508,7 @@ class MusicSystem {
         }
 
         const currentSong = this.queue.active();
-
-        while (!await this.player.playTrack(currentSong.track)) {
-
-        }
+        while (!await this.player.playTrack(currentSong.track)) { }
         await this.player.setVolume(this.volume);
 
         this.player.on('error', (error) => this.nodeError(error));
@@ -602,6 +608,7 @@ class MusicSystem {
      */
     reset() {
         this.disableOldPlayer();
+        if (this.shutting_down) clearTimeout(this.shutting_down);
 
         this.queue.reset();
 
@@ -635,6 +642,10 @@ class MusicSystem {
          * @type {external:Boolean}
          */
         this.paused = false;
+        /**
+         * @type {external:Number}
+         */
+        this.shutting_down = null;
         /**
          * @type {external:Number}
          */

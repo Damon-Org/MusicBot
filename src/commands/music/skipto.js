@@ -51,12 +51,13 @@ class SkipTo extends BasicCommand {
         if (musicSystem.isDamonInVC(voicechannel)) {
             if (musicSystem.skipTo(this.args[0])) {
                 if (this.args[0] == 1) {
-                    this.msgObj.reply('skipping to the currently playing song does nothing.');
+                    const newMsg = await this.msgObj.reply('skipping to the currently playing song does nothing.');
+                    newMsg.delete({timeout: 5e3});
 
                     return;
                 }
 
-                this.msgObj.reply(`successfully skipped to the selected song.`);
+                this.msgObj.react('👍');
 
                 return;
             }

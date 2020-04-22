@@ -15,12 +15,12 @@ class Leave extends BasicCommand {
         this.register({
             category: category,
 
-            name: 'shuffle',
+            name: 'restart',
             aliases: [],
-            description: 'Shuffle songs in queue.',
-            usage: 'shuffle',
+            description: 'The queue will be rewinded to the start.',
+            usage: 'leave',
             params: [],
-            example: 'shuffle'
+            example: 'restart'
         });
     }
 
@@ -38,17 +38,27 @@ class Leave extends BasicCommand {
         }
 
         const musicSystem = this.serverInstance.musicSystem;
-        if (musicSystem.isDamonInVC(voicechannel)) {
-            const newMsg = await this.msgObj.reply('you aren\'t in the bot\'s channel.');
 
-            newMsg.delete({timeout: 5000});
+        if (musicSystem.isDamonInVC(voicechannel)) {
+            this.textChannel.send('The queue has been reset to the start.');
+
+            musicSystem.queue.rewind();
+            musicSystem.doNotSkip = true;
+
+            if (musicSystem.shutting_down) {
+                clearTimeout(musicSystem.shutting_down);
+                musicSystem.playNext();
+
+                return;
+            }
+            musicSystem.player.stopTrack();
 
             return;
         }
 
-        musicSystem.queue.shuffle();
+        const newMsg = await this.msgObj.reply('you aren\'t in the bot\'s channel or is not done playing music.');
 
-        this.textChannel.send('The queue has been shuffled.')
+        newMsg.delete({timeout: 5000});
     }
 }
 

@@ -53,13 +53,18 @@ class BotEvents extends BasicBot {
      * @param {Discord.Discord_Voicestate} newState
      */
     onVoiceStateUpdate(oldState, newState) {
-        const voicechannel = oldState.channel;
+        const
+            voicechannel = oldState.channel || newState.channel,
+            musicSystem = (this.serverUtils.getClassInstance(voicechannel.guild.id)).musicSystem;
         if (voicechannel != undefined && voicechannel.members.get(this.client.user.id) && voicechannel.members.size == 1) {
-            // VoiceChannel is empty except for our bot so we destroy the queue and leave
-            const musicSystem = (this.serverUtils.getClassInstance(voicechannel.guild.id)).musicSystem;
 
-            musicSystem.player.disconnect();
-            musicSystem.reset();
+            musicSystem.channel.send('The queue will be destroyed within 5 minutes, rejoin within that time to resume music playback.');
+            musicSystem.delayedShutdown(3e5);
+        }
+
+        if (musicSystem.shutting_down && voicechannel.members.size > 1) {
+            clearTimeout(musicSystem.shutting_down);
+            musicSystem.shutting_down = null;
         }
     }
 

@@ -42,6 +42,8 @@ class Previous extends BasicCommand {
         if (this.serverInstance.musicSystem.isDamonInVC(voicechannel)) {
             this.serverInstance.musicSystem.playPrevious();
 
+            this.msgObj.react('⏮️');
+
             return;
         }
 

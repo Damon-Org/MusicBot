@@ -139,7 +139,7 @@ class MusicUtils {
         const musicSystem = (this.musicBot.serverUtils.getClassInstance(serverMember.guild.id)).musicSystem;
         if (noticeMsg) (await noticeMsg).delete();
 
-        if (musicSystem.queueExists()) {
+        if (musicSystem.queueExists() && !musicSystem.shutting_down) {
             if (musicSystem.isDamonInVC(voicechannel) || !allowSpam) {
                 musicSystem.addToQueue(data, serverMember, exception);
 
@@ -153,6 +153,10 @@ class MusicUtils {
             newMsg.delete({timeout: 5000});
 
             return;
+        }
+
+        if (musicSystem.shutting_down) {
+            musicSystem.reset();
         }
 
         musicSystem.createQueue(data, serverMember, msgObj.channel);
