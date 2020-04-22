@@ -45,6 +45,8 @@ class Skip extends BasicCommand {
         if (musicSystem.isDamonInVC(voicechannel)) {
             musicSystem.player.stopTrack();
 
+            this.msgObj.react('⏭');
+
             return;
         }
 

@@ -43,7 +43,7 @@ class Leave extends BasicCommand {
 
         const musicSystem = this.serverInstance.musicSystem;
 
-        if (musicSystem.isDamonInVC(voicechannel)) {
+        if (musicSystem.isDamonInVC(voicechannel) || musicSystem.shutting_down) {
             this.textChannel.send('Music playback has been stopped by leave command.');
 
             musicSystem.player.disconnect();
@@ -52,7 +52,7 @@ class Leave extends BasicCommand {
             return;
         }
 
-        const newMsg = await this.msgObj.reply('you aren\'t in the bot\'s channel.');
+        const newMsg = await this.msgObj.reply('you aren\'t in the bot\'s channel or is not done playing music.');
 
         newMsg.delete({timeout: 5000});
     }

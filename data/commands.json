@@ -387,6 +387,14 @@
                 "example": "repeatplaylist"
             },
             {
+                "name": "restart",
+                "aliases": [],
+                "description": "The queue will be rewinded to the start.",
+                "usage": "leave",
+                "params": [],
+                "example": "restart"
+            },
+            {
                 "name": "resume",
                 "aliases": [],
                 "description": "Music playback will be resumed.",
