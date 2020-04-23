@@ -375,7 +375,7 @@ class MusicSystem {
                 return;
             }
 
-            this.channel.send(`Queue has been concluded and the bot will leave in 5 minutes,\ntype the \`restart\` command to requeue your the old queue.`);
+            this.channel.send(`Queue has been concluded and the bot will leave in 5 minutes, type the \`restart\` command to requeue your the old queue.`);
             this.delayedShutdown(3e5);
 
             return;

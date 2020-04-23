@@ -56,8 +56,10 @@ class BotEvents extends BasicBot {
         const
             voicechannel = oldState.channel || newState.channel,
             musicSystem = (this.serverUtils.getClassInstance(voicechannel.guild.id)).musicSystem;
-        if (voicechannel != undefined && voicechannel.members.get(this.client.user.id) && voicechannel.members.size == 1) {
 
+        if (!musicSystem.active) return;
+
+        if (voicechannel.members.get(this.client.user.id) && voicechannel.members.size == 1) {
             musicSystem.channel.send('The queue will be destroyed within 5 minutes, rejoin within that time to resume music playback.');
             musicSystem.delayedShutdown(3e5);
         }
@@ -65,6 +67,11 @@ class BotEvents extends BasicBot {
         if (musicSystem.shutting_down && voicechannel.members.size > 1) {
             clearTimeout(musicSystem.shutting_down);
             musicSystem.shutting_down = null;
+        }
+
+        if (!voicechannel.guild.me.voice.channel) {
+            musicSystem.player.disconnect();
+            musicSystem.reset();
         }
     }
 
