@@ -47,13 +47,16 @@ class BasicCommand {
         if (!this.hasSelfPermissions()) return false;
         if (!this.argumentsSatisfied()) return false;
 
-        // Check if a beforeRun is defined and if beforeRun returns false we prevent further execution
-        if (typeof this.beforeRun === 'function' && !await this.beforeRun(command)) return false;
-        if (typeof this.afterRun === 'function') {
-            await this.run();
-            return await this.afterRun();
+        try {
+            if (typeof this.beforeRun === 'function' && !await this.beforeRun(command)) return false;
+            if (typeof this.afterRun === 'function') {
+                await this.run();
+                return await this.afterRun();
+            }
+            return await this.run(command);
+        } catch (e) {
+            throw e;
         }
-        return await this.run(command);
     }
 
     /**
