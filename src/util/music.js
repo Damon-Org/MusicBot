@@ -11,14 +11,6 @@ class MusicUtils {
     }
 
     /**
-     * @param {Track} track A Song instance
-     */
-    async checkBrokenSong(track) {
-        // Wil return true no matter what as the api is not setup yet
-        return true;
-    }
-
-    /**
      * Creates a new ChoiceEmbed embed
      * @param {external:Discord_Message} msgObj A Discord Message instance
      * @param {external:String} searchFor A string to search for in the Youtube API
@@ -139,7 +131,9 @@ class MusicUtils {
         const musicSystem = (this.musicBot.serverUtils.getClassInstance(serverMember.guild.id)).musicSystem;
         if (noticeMsg) (await noticeMsg).delete();
 
-        if (musicSystem.queueExists() && !musicSystem.shutting_down) {
+        if (musicSystem.shutdown.type() == 'leave') musicSystem.reset();
+
+        if (musicSystem.queueExists()) {
             if (musicSystem.isDamonInVC(voicechannel) || !allowSpam) {
                 musicSystem.addToQueue(data, serverMember, exception);
 
@@ -154,8 +148,6 @@ class MusicUtils {
 
             return;
         }
-
-        if (musicSystem.shutting_down) musicSystem.reset();
 
         musicSystem.createQueue(data, serverMember, msgObj.channel);
 

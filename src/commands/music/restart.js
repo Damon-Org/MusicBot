@@ -39,14 +39,14 @@ class Leave extends BasicCommand {
 
         const musicSystem = this.serverInstance.musicSystem;
 
-        if (musicSystem.isDamonInVC(voicechannel)) {
+        if (musicSystem.isDamonInVC(voicechannel) && musicSystem.queueExists()) {
             this.textChannel.send('The queue has been reset to the start.');
 
             musicSystem.queue.rewind();
             musicSystem.doNotSkip = true;
 
-            if (musicSystem.shutting_down) {
-                clearTimeout(musicSystem.shutting_down);
+            if (musicSystem.shutdown.type() == 'leave') {
+                musicSystem.shutdown.cancel();
                 musicSystem.playNext();
 
                 return;
