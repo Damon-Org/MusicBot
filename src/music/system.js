@@ -1,6 +1,7 @@
 const
-    Queue = require('./queue.js'),
-    Track = require('./track.js');
+    Shutdown = require('./shutdown'),
+    Queue = require('./queue'),
+    Track = require('./track');
 
 /**
  * Music System that manages the queue and handles all music related commands
@@ -33,6 +34,7 @@ class MusicSystem {
          * @type {Queue}
          */
         this.queue = new Queue();
+        this.shutdown = new Shutdown(this);
 
         this.reset();
     }
@@ -126,17 +128,6 @@ class MusicSystem {
         this.addToQueue(data, requester);
     }
 
-    delayedShutdown(timeout) {
-        this.shutting_down = setTimeout(() => {
-            if (this.player) {
-                this.player.disconnect();
-            }
-            this.shutting_down = null;
-
-            this.reset();
-        }, timeout);
-    }
-
     /**
      * Will disable the last musicPlayer of our bot
      */
@@ -153,6 +144,10 @@ class MusicSystem {
                 this.channel.send(`Unknown error occured\nThis generated the following error: \`\`\`js\n${err.stack}\`\`\`Contact ${this.musicBot.creator} on Discord if this keeps occuring.`);
             });
         }
+    }
+
+    disconnect() {
+        if (this.player) this.player.disconnect();
     }
 
     /**
@@ -272,7 +267,7 @@ class MusicSystem {
     }
 
     nodeError(error) {
-        this.reset();
+        this.shutdown.instant();
     }
 
     /**
@@ -375,8 +370,8 @@ class MusicSystem {
                 return;
             }
 
-            this.channel.send(`Queue has been concluded and the bot will leave in 5 minutes, type the \`restart\` command to requeue your the old queue.`);
-            this.delayedShutdown(3e5);
+            this.channel.send(`Queue has been concluded and the bot will leave in 5 minutes, type the \`restart\` command to requeue your the old queue (only if within those same 5 minutes).`);
+            this.shutdown.delay('leave', 3e5);
 
             return;
         }
@@ -471,7 +466,7 @@ class MusicSystem {
             if (!voiceChannel) {
                 this.channel.send(`Internal music error occured, function was called without VoiceChannel while one was required`);
 
-                this.reset();
+                this.shutdown.instant();
 
                 return false;
             }
@@ -484,7 +479,7 @@ class MusicSystem {
 
                 this.channel.send(richEmbed);
 
-                this.reset();
+                this.shutdown.instant();
                 return false;
             }
 
@@ -496,11 +491,11 @@ class MusicSystem {
 
                 this.channel.send(richEmbed);
 
-                this.reset();
+                this.shutdown.instant();
                 return false;
             }
 
-            this.player = await this.node.joinVoiceChannel({
+            this.player = this.musicBot.carrier.getPlayer(voiceChannel.guild.id) || await this.node.joinVoiceChannel({
                 guildID: voiceChannel.guild.id,
                 voiceChannelID: voiceChannel.id
             });
@@ -609,9 +604,9 @@ class MusicSystem {
      */
     reset() {
         this.disableOldPlayer();
-        if (this.shutting_down) clearTimeout(this.shutting_down);
 
         this.queue.reset();
+        this.shutdown.reset();
 
         /**
          * @type {external:Discord_TextChannel}
@@ -643,10 +638,6 @@ class MusicSystem {
          * @type {external:Boolean}
          */
         this.paused = false;
-        /**
-         * @type {external:Number}
-         */
-        this.shutting_down = null;
         /**
          * @type {external:Number}
          */
