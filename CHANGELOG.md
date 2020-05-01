@@ -14,6 +14,25 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-05-01, Version v0.5.4 @Yimura
+
+### Notable Changes
+
+ * The bot will properly cleanup the musicsystem if force disconnected from a channel
+ * A shutdown manager was added to make it easier to stop the music system on a delay or instant
+ * Minor performance improvements were done
+ * Guild only commands are now properly working
+ * Installation script was added
+
+### Commits
+
+ * [**41e0c7d1c5a7db21e495bba9fef5fd2b669599d8**] & [**e7d4c2098934209f50eb852fafc54052415708b8**] Added `guild_only` key to several commands and commands.json
+ * [**d2d46529cff21c7d4a190c40973c58fd49af83a8**] Shutdown manager was added and code cleanup
+ * [**2c154900710740cb7505d25caffa3dcc08b25d15**] Message check load was reduced
+ * [**05037649eff5f232cf1ed04a7e2d5b3e699dfce2**] Fixed command category lock to a channel
+ * [**ac5031538ef211177bdef231c1a14527de952474**] Added installation script
+ * [**e8ca3274b219dc64bc7cf5a7160e5bb109af3513**] The bot will do a proper cleanup when force disconnected
+
 ## 2020-04-22, Version v0.5.3 @Yimura
 
 ### Notable Changes
