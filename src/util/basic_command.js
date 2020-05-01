@@ -18,12 +18,13 @@ class BasicCommand {
      */
     register(object, internal = true) {
         if (typeof object !== 'object') throw new Error('Invalid self assignment, expected object but got different type instead.');
+
+        Object.assign(this, object);
+
         if (internal) {
             delete object.category;
             this.rawData = object;
         }
-
-        Object.assign(this, object);
     }
 
     /**
@@ -57,6 +58,30 @@ class BasicCommand {
         } catch (e) {
             throw e;
         }
+    }
+
+    /**
+     * @param {external:Object} data
+     */
+    async socketPrepare(data) {
+        const
+            command = data.command,
+            args = data.args,
+            author = this.db.client.users.resolve(data.user_id),
+            guild = this.db.client.guilds.resolve(data.guild_id),
+            member = guild.members.resolve(author),
+            textChannel = this.db.client.channels.resolve(data.text_channel),
+            voiceChannel = this.db.client.channels.resolve(data.voice_channel);
+
+        if (!author || !member || !textChannel) return false;
+
+        const forgedMessage = new this.db.Discord.Message(this.db.client, null);
+        forgedMessage.author = author;
+        forgedMessage.channel = textChannel;
+        forgedMessage.content = `${this.db.commandRegisterer.default_prefix}${command} ${args.join(' ')}`;
+        forgedMessage.member = member;
+
+        return await this.check(forgedMessage, args, command, false);
     }
 
     /**
@@ -143,8 +168,7 @@ class BasicCommand {
      * @param {external:String} command The command that invoked the request
      */
     async canCommandRunInChannel(command) {
-        if (!this.guild_only) return true;
-        if (!this.serverMember || !this.msgObj.guild) {
+        if (this.guild_only && (!this.serverMember || !this.msgObj.guild)) {
             const newMsg = await this.msgObj.reply(`The following command \`${command}\` can not be ran outside of servers.`);
 
             return false;
@@ -157,7 +181,7 @@ class BasicCommand {
 
         const newMsg = await this.msgObj.reply(`you can't use commands from the ${this.category} category here, please use <#${lockedChannel}> text-channel for ${this.category} related commands.`);
         newMsg.delete({timeout: 5500});
-        this.msgObj.delete({timeout: 1500});
+        this.msgObj.delete();
 
         return false;
     }
