@@ -123,6 +123,9 @@ class CommandRegisterer {
      * @returns {external:Boolean} True if a command has been detected, false if none were found
      */
     async checkMessage(message) {
+        if (message.system) return;
+        if (message.partial) return;
+        if (message.type !== 'DEFAULT') return;
         if (message.author.bot) return;
 
         // This regex will remove any redudant "spaces"
