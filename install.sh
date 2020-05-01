@@ -14,10 +14,13 @@ cp -r lib/* /lib/
 adduser --quiet --disabled-password --shell /bin/bash --home /home/node --gecos "Node Service" node
 # echo "node:theNewPasswordForThisUser" | passwd
 
-su - node
+# su - node
+cd /home/node/
 
-git clone https://git.damon.sh/damon/music.git
-cd music
+git clone https://github.com/GeopJr/Soft-Wet -b soft_wet_remake ./soft_wet
+cd soft_wet
 npm install
 
-echo "Setup Damon Music in home directory /home/node, the user doesn't have a password by default."
+chown -R node:node ./soft_wet
+
+echo "Setup Soft and Wet in home directory /home/node, the user doesn't have a password by default."
