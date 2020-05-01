@@ -14,6 +14,7 @@ class RemoveLock extends BasicCommand {
 
         this.register({
             category: category,
+            guild_only: true,
 
             name: 'unlock',
             aliases: [

@@ -14,6 +14,7 @@ class Play extends BasicCommand {
 
         this.register({
             category: category,
+            guild_only: true,
 
             name: 'play',
             aliases: [

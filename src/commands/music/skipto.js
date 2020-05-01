@@ -14,6 +14,7 @@ class SkipTo extends BasicCommand {
 
         this.register({
             category: category,
+            guild_only: true,
 
             name: 'skip to',
             aliases: [
