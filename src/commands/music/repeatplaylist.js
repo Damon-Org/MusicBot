@@ -14,6 +14,7 @@ class RepeatPlaylist extends BasicCommand {
 
         this.register({
             category: category,
+            guild_only: true,
 
             name: 'repeat playlist',
             aliases: [

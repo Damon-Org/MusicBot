@@ -14,6 +14,7 @@ class Resume extends BasicCommand {
 
         this.register({
             category: category,
+            guild_only: true,
 
             name: 'resume',
             aliases: [],

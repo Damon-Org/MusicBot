@@ -14,6 +14,7 @@ class ResetPrefix extends BasicCommand {
 
         this.register({
             category: category,
+            guild_only: true,
 
             name: 'reset prefix',
             aliases: [

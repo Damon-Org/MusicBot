@@ -14,6 +14,7 @@ class Leave extends BasicCommand {
 
         this.register({
             category: category,
+            guild_only: true,
 
             name: 'shuffle',
             aliases: [],

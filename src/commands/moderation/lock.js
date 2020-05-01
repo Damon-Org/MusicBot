@@ -14,6 +14,7 @@ class Lock extends BasicCommand {
 
         this.register({
             category: category,
+            guild_only: true,
 
             name: 'lock',
             aliases: [],

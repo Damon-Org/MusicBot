@@ -14,6 +14,7 @@ class Queue extends BasicCommand {
 
         this.register({
             category: category,
+            guild_only: true,
 
             name: 'queue',
             aliases: [
