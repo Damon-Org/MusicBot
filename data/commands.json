@@ -165,6 +165,7 @@
     "moderation": {
         "commands": [
             {
+                "guild_only": true,
                 "name": "lock",
                 "aliases": [],
                 "description": "Lock specific command category to one channel.",
@@ -190,6 +191,7 @@
                 "example": "lock music #music"
             },
             {
+                "guild_only": true,
                 "name": "unlock",
                 "aliases": [
                     "remove lock",
@@ -213,6 +215,7 @@
                 "example": "unlock music"
             },
             {
+                "guild_only": true,
                 "name": "reset prefix",
                 "aliases": [
                     "remove prefix",
@@ -228,6 +231,7 @@
                 "example": "reset prefix"
             },
             {
+                "guild_only": true,
                 "name": "set prefix",
                 "aliases": [
                     "setprefix",
@@ -254,6 +258,7 @@
     "music": {
         "commands": [
             {
+                "guild_only": true,
                 "name": "leave",
                 "aliases": [
                     "quit",
@@ -266,6 +271,7 @@
                 "example": "leave"
             },
             {
+                "guild_only": true,
                 "name": "pause",
                 "aliases": [],
                 "description": "Music playback will be paused.",
@@ -274,6 +280,7 @@
                 "example": "pause"
             },
             {
+                "guild_only": true,
                 "name": "play",
                 "aliases": [
                     "p"
@@ -292,6 +299,7 @@
                 "example": "play https://www.youtube.com/watch?v=rVHn3GOXvzk"
             },
             {
+                "guild_only": true,
                 "name": "play next",
                 "aliases": [
                     "pn",
@@ -311,6 +319,7 @@
                 "example": "play https://www.youtube.com/watch?v=rVHn3GOXvzk"
             },
             {
+                "guild_only": true,
                 "name": "playtime",
                 "aliases": [
                     "pt"
@@ -321,6 +330,7 @@
                 "example": "playtime"
             },
             {
+                "guild_only": true,
                 "name": "previous",
                 "aliases": [
                     "back"
@@ -331,6 +341,7 @@
                 "example": "previous"
             },
             {
+                "guild_only": true,
                 "name": "queue",
                 "aliases": [
                     "q"
@@ -348,6 +359,7 @@
                 "example": "queue 2"
             },
             {
+                "guild_only": true,
                 "name": "remove",
                 "aliases": [
                     "rm",
@@ -367,6 +379,7 @@
                 "example": "remove 3"
             },
             {
+                "guild_only": true,
                 "name": "repeat",
                 "aliases": [],
                 "description": "Will repeat the currently playing song.",
@@ -375,6 +388,7 @@
                 "example": "repeat"
             },
             {
+                "guild_only": true,
                 "name": "repeat playlist",
                 "aliases": [
                     "repeatplaylist",
@@ -387,6 +401,7 @@
                 "example": "repeatplaylist"
             },
             {
+                "guild_only": true,
                 "name": "restart",
                 "aliases": [],
                 "description": "The queue will be rewinded to the start.",
@@ -395,6 +410,7 @@
                 "example": "restart"
             },
             {
+                "guild_only": true,
                 "name": "resume",
                 "aliases": [],
                 "description": "Music playback will be resumed.",
@@ -403,6 +419,7 @@
                 "example": "resume"
             },
             {
+                "guild_only": true,
                 "name": "shuffle",
                 "aliases": [],
                 "description": "Shuffle songs in queue.",
@@ -411,6 +428,7 @@
                 "example": "shuffle"
             },
             {
+                "guild_only": true,
                 "name": "skip",
                 "aliases": [
                     "next",
@@ -422,6 +440,7 @@
                 "example": "skip"
             },
             {
+                "guild_only": true,
                 "name": "skip to",
                 "aliases": [
                     "skipto"
@@ -439,6 +458,7 @@
                 "example": "skipto 5"
             },
             {
+                "guild_only": true,
                 "name": "volume",
                 "aliases": [
                     "vol",
@@ -455,6 +475,19 @@
                     }
                 ],
                 "example": "volume 50"
+            }
+        ]
+    },
+    "other": {
+        "commands": [
+            {
+                "disable": true,
+                "name": "team",
+                "aliases": [],
+                "description": "Randomize random teams.",
+                "usage": "team",
+                "params": [],
+                "example": "team"
             }
         ]
     },
