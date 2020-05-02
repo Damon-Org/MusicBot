@@ -90,14 +90,13 @@ class Server {
 
     /**
      * Tries to fetch server its custom prefix, if null returns the bot's default prefix
-     * @param {external:String} defaultPrefix
      * @returns {external:String} The server prefix
      */
-    async getPrefix(defaultPrefix) {
+    async getPrefix() {
         if (!this.prefix) {
-            this.prefix = await this.musicBot.serverUtils.getGuildOption(this.id, 2);
+            this.prefix = await this.db.lazyLoader.prefixes.get(this.id);
             if (!this.prefix || this.prefix == '') {
-                this.prefix = defaultPrefix;
+                this.prefix = this.db.commandRegisterer.default_prefix;
             }
         }
 
@@ -109,7 +108,9 @@ class Server {
      * @param {external:String} new_prefix The new server prefix to be used
      */
     async setPrefix(new_prefix) {
-        await this.musicBot.serverUtils.updateGuildOption(this.id, 'guildPrefix', new_prefix);
+        await this.db.serverUtils.updateGuildOption(this.id, 'guildPrefix', new_prefix);
+
+        this.db.lazyLoader.prefixes.set(this.id, new_prefix);
 
         this.prefix = new_prefix;
     }

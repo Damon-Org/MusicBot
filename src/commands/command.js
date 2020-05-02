@@ -123,10 +123,11 @@ class CommandRegisterer {
      * @returns {external:Boolean} True if a command has been detected, false if none were found
      */
     async checkMessage(message) {
-        if (message.system) return;
-        if (message.partial) return;
-        if (message.type !== 'DEFAULT') return;
-        if (message.author.bot) return;
+        if (!this.db.lazyLoader.ready) return false;
+        if (message.system) return false;
+        if (message.partial) return false;
+        if (message.type !== 'DEFAULT') return false;
+        if (message.author.bot) return false;
 
         // This regex will remove any redudant "spaces"
         const content = message.content.replace(/\s+/g, ' ');

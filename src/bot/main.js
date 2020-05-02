@@ -14,7 +14,9 @@ const
     MusicUtils = require('../util/music'),
     ServerUtils = require('../util/server'),
     SocketUtils = require('../util/socket'),
-    UserUtils = require('../util/user');
+    UserUtils = require('../util/user'),
+
+    LazyLoader = require('../util/lazyloader');
 
 /**
  * This is the main entry point of Damon Music
@@ -116,6 +118,11 @@ class DamonBase extends BotEvents {
          * @readonly
          */
         this.userUtils = new UserUtils(this);
+
+        /**
+         * @type {LazyLoader}
+         */
+        this.lazyLoader = new LazyLoader(this);
 
         const commandAccessable = [
             {
