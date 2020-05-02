@@ -478,19 +478,6 @@
             }
         ]
     },
-    "other": {
-        "commands": [
-            {
-                "disable": true,
-                "name": "team",
-                "aliases": [],
-                "description": "Randomize random teams.",
-                "usage": "team",
-                "params": [],
-                "example": "team"
-            }
-        ]
-    },
     "recording": {
         "commands": []
     }
