@@ -94,9 +94,9 @@ class Server {
      */
     async getPrefix() {
         if (!this.prefix) {
-            this.prefix = await this.db.lazyLoader.prefixes.get(this.id);
+            this.prefix = await this.musicBot.lazyLoader.prefixes.get(this.id);
             if (!this.prefix || this.prefix == '') {
-                this.prefix = this.db.commandRegisterer.default_prefix;
+                this.prefix = this.musicBot.commandRegisterer.default_prefix;
             }
         }
 
@@ -108,9 +108,9 @@ class Server {
      * @param {external:String} new_prefix The new server prefix to be used
      */
     async setPrefix(new_prefix) {
-        await this.db.serverUtils.updateGuildOption(this.id, 'guildPrefix', new_prefix);
+        await this.musicBot.serverUtils.updateGuildOption(this.id, 'guildPrefix', new_prefix);
 
-        this.db.lazyLoader.prefixes.set(this.id, new_prefix);
+        this.musicBot.lazyLoader.prefixes.set(this.id, new_prefix);
 
         this.prefix = new_prefix;
     }
