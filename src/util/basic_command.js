@@ -50,13 +50,14 @@ class BasicCommand {
 
         try {
             if (typeof this.beforeRun === 'function' && !await this.beforeRun(command)) return false;
-            if (typeof this.afterRun === 'function') {
-                await this.run();
-                return await this.afterRun();
-            }
-            return await this.run(command);
+            if (typeof this.afterRun === 'function') await this.run();
+            else return await this.run(command);
         } catch (e) {
+            this.db.log('CMD', 'ERR', e.stack);
             throw e;
+        } finally {
+            // Force our cleanup regardless of errors
+            if (typeof this.afterRun === 'function') return await this.afterRun();
         }
     }
 
