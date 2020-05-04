@@ -169,7 +169,9 @@ class BasicCommand {
      * @param {external:String} command The command that invoked the request
      */
     async canCommandRunInChannel(command) {
-        if (this.guild_only && (!this.serverMember || !this.msgObj.guild)) {
+        const isGuild = this.serverMember || this.msgObj.guild;
+        if (!this.guild_only && !isGuild) return true;
+        if (this.guild_only && !isGuild) {
             const newMsg = await this.msgObj.reply(`The following command \`${command}\` can not be ran outside of servers.`);
 
             return false;
