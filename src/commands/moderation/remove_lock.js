@@ -1,10 +1,10 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BaseCommand = require('../../structs/base_command.js');
 
 /**
  * @category Commands
  * @extends Command
  */
-class RemoveLock extends BasicCommand {
+class RemoveLock extends BaseCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
