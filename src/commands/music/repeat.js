@@ -4,7 +4,7 @@ const BaseCommand = require('../../structs/base_command.js');
  * @category Commands
  * @extends Command
  */
-class Repeat extends BasicCommand {
+class Repeat extends BaseCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
