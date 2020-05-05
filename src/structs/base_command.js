@@ -4,7 +4,7 @@ const permissions = require('discord.js').Permissions.FLAGS;
  * Basic Constructor class for a command
  * @category Util
  */
-class BasicCommand {
+class BaseCommand {
     /**
      * @param {*} args The arguments to directly assign to the class
      */
@@ -251,4 +251,4 @@ class BasicCommand {
     }
 }
 
-module.exports = BasicCommand;
+module.exports = BaseCommand;

@@ -1,12 +1,12 @@
 const
-    BasicCommand = require('../../util/basic_command.js'),
+    BaseCommand = require('../../structs/base_command.js'),
     humanReadableTime = require('humanize-duration');
 
 /**
  * @category Commands
  * @extends Command
  */
-class Stats extends BasicCommand {
+class Stats extends BaseCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args

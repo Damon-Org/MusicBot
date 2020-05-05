@@ -1,4 +1,4 @@
-const BasicCommand = require('../../util/basic_command.js');
+const BaseCommand = require('../../structs/base_command.js');
 
 /**
  * This command is limited to admin's of the highest permission level or the owner
@@ -6,7 +6,7 @@ const BasicCommand = require('../../util/basic_command.js');
  * @category Commands
  * @extends Command
  */
-class LockDown extends BasicCommand {
+class LockDown extends BaseCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
