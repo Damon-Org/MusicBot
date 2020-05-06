@@ -17,11 +17,7 @@ class Queue {
         let start = this.maxPrequeue;
 
         do {
-            if (this.getFromPosition(start) == null && this.getFromPosition(start - 1) == null) {
-                start++;
-
-                break;
-            }
+            if (this.get(start - 1) == null) return start;
 
             start--;
         } while (start > 0);
@@ -180,25 +176,26 @@ class Queue {
 
     shuffle() {
         const
-            bottomLimit = this.start;
+            bottomLimit = this.start,
+            topLimit = this.size() - 1;
 
         let
-            tempQueue = this.queue.slice(bottomLimit, this.size() - 1),
+            tempQueue = this.queue.slice(bottomLimit, topLimit),
             currentIndex = tempQueue.length - 1,
             temporaryValue,
             randomIndex;
 
         while (0 !== currentIndex) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
+            randomIndex = Math.round(Math.random() * currentIndex);
 
             temporaryValue = tempQueue[currentIndex];
             tempQueue[currentIndex] = tempQueue[randomIndex];
             tempQueue[randomIndex] = temporaryValue;
+
+            currentIndex--;
         }
 
-        this.queue.splice(bottomLimit);
-        this.queue = this.queue.concat(tempQueue);
+        this.queue.splice(bottomLimit, topLimit - bottomLimit, ...tempQueue);
     }
 
     /**
@@ -208,8 +205,7 @@ class Queue {
         return this.queue.length;
     }
 
-    /**
-     * Does the same as calling unshift on queue directly
+    /*as calling unshift on queue directly
      * @returns {Number} New length value of queue
      */
     unshift(value) {
