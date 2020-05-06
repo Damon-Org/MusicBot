@@ -1,3 +1,9 @@
+ndppd_config="/etc/ndppd.conf"
+if test -f "$ndppd_config"; then
+    echo "ndppd has already been setup before, stopping setup..."
+    exit 2
+fi
+
 apt update && apt upgrade -y
 apt install -y make g++ curl
 
@@ -23,7 +29,7 @@ proxy ens3 {
     rule $ipv6/64 {
         static
     }
-}" > /etc/ndppd.conf
+}" > $ndppd_config
 
 echo 1 > /proc/sys/net/ipv6/ip_nonlocal_bind
 ip -6 route add local "$ipv6/64" dev lo
