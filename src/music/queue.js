@@ -158,6 +158,17 @@ class Queue {
         }
     }
 
+    reverse() {
+        const
+            bottomLimit = this.start,
+            topLimit = this.size() - 1,
+            tempQueue = this.queue.slice(bottomLimit, topLimit);
+
+        tempQueue.reverse();
+
+        this.queue.splice(bottomLimit, topLimit - bottomLimit, ...tempQueue);
+    }
+
     /**
      * Will rewind till the first song in queue
      */
