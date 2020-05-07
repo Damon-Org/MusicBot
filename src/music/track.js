@@ -11,6 +11,7 @@ class Track {
 
         this.author = data.info.author;
         this.title = data.info.title;
+        this.uri = data.info.uri;
 
         this.isStream = data.info.isStream;
 
