@@ -40,8 +40,7 @@ class ResetPrefix extends BaseCommand {
 
         this.serverInstance.setPrefix(prefix);
 
-        const newMsg = await this.textChannel.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${prefix}\``);
-        newMsg.pin();
+        this.textChannel.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${prefix}\``).then(msg => msg.pin());
     }
 }
 

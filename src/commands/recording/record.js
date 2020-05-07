@@ -44,15 +44,13 @@ class Record extends BaseCommand {
 
         const recordingSystem = this.serverInstance.recordingSystem;
         if (recordingSystem.recording) {
-            const newMsg = await this.msgObj.reply('a voicechannel is already being recorded.');
-            newMsg.delete({timeout: 5000});
+            this.msgObj.reply('a voicechannel is already being recorded.').then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }
 
         if (recordingSystem.decoder.busy) {
-            const newMsg = await this.msgObj.reply('the previous recording is still being decoded, please wait.');
-            newMsg.delete({timeout: 5000});
+            this.msgObj.reply('the previous recording is still being decoded, please wait.').then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }

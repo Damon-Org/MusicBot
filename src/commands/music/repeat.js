@@ -31,9 +31,7 @@ class Repeat extends BaseCommand {
     async run(command) {
         const voicechannel = this.voiceChannel;
         if (!voicechannel) {
-            const newMsg = await this.msgObj.reply('you aren\'t in a voicechannel');
-
-            newMsg.delete({timeout: 5000});
+            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }
@@ -41,9 +39,7 @@ class Repeat extends BaseCommand {
         const musicSystem = this.serverInstance.musicSystem;
         if (musicSystem.isDamonInVC(voicechannel)) {
             if (musicSystem.queue.active() == null) {
-                const newMsg = await this.msgObj.reply('the currently playing song has been removed, thus it cannot be put in repeat.');
-
-                newMsg.delete({timeout: 5000});
+                this.msgObj.reply('the currently playing song has been removed, thus it cannot be put in repeat.').then(msg => msg.delete({timeout: 5e3}));
 
                 return;
             }
@@ -59,9 +55,7 @@ class Repeat extends BaseCommand {
             return;
         }
 
-        const newMsg = await this.msgObj.reply('you aren\'t in the bot\'s channel.');
-
-        newMsg.delete({timeout: 5000});
+        this.msgObj.reply('you aren\'t in the bot\'s channel.').then(msg => msg.delete({timeout: 5e3}));
     }
 }
 

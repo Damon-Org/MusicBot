@@ -47,8 +47,7 @@ class PlayNext extends BaseCommand {
         }
 
         if (this.args.length == 0) {
-            const newMsg = await this.msgObj.reply(`please give a valid link or a music title to search for.`);
-            newMsg.delete({timeout: 5000});
+            this.msgObj.reply(`please give a valid link or a music title to search for.`).then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }
