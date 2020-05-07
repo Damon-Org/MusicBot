@@ -34,15 +34,15 @@ class Ping extends BaseCommand {
             ping = new Date().getTime() - this.msgObj.createdTimestamp,
             botPing = Math.round(this.db.client.ws.ping);
 
-        const msg = await this.textChannel.send('`Pinging...`');
-
-        const embed = new this.db.Discord.MessageEmbed()
-            .setTitle('Pong! 🏓')
-            .addField('Ping to Discord', `${botPing}ms`)
-            .addField('Response time', `${ping}ms`)
-            .addField('Reply time', `${msg.createdTimestamp - this.msgObj.createdTimestamp}ms`)
-            .setColor('#252422');
-        msg.edit('', embed);
+        this.textChannel.send('`Pinging...`').then(msg => {
+            const embed = new this.db.Discord.MessageEmbed()
+                .setTitle('Pong! 🏓')
+                .addField('Ping to Discord', `${botPing}ms`)
+                .addField('Response time', `${ping}ms`)
+                .addField('Reply time', `${msg.createdTimestamp - this.msgObj.createdTimestamp}ms`)
+                .setColor('#252422');
+            msg.edit('', embed);
+        });
     }
 }
 

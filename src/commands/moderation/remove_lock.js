@@ -47,7 +47,7 @@ class RemoveLock extends BaseCommand {
         const type = this.args[0];
 
         if (type == 'music') {
-            await this.serverUtils.updateGuildOption(serverId, 'lockMusicChannel', null);
+            this.serverUtils.updateGuildOption(serverId, 'lockMusicChannel', null);
             this.msgObj.reply(`channel lock has been disabled for ${type}.`);
 
             return;

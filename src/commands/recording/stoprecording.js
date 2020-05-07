@@ -41,8 +41,7 @@ class StopRecording extends BaseCommand {
         const recordingSystem = this.serverInstance.recordingSystem;
 
         if (!recordingSystem.recording) {
-            const newMsg = await this.msgObj.reply('no recording to stop in this server.');
-            newMsg.delete({timeout: 5000});
+            this.msgObj.reply('no recording to stop in this server.').then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }

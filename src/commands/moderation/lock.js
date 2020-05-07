@@ -51,8 +51,7 @@ class Lock extends BaseCommand {
             type = this.args[0];
 
         if (type == 'music') {
-            await this.serverUtils.updateGuildOption(this.serverInstance.id, 'lockMusicChannel', channel.id);
-
+            this.serverUtils.updateGuildOption(this.serverInstance.id, 'lockMusicChannel', channel.id);
             this.msgObj.reply(`channel lock has been enabled for ${type} on channel ${channel}`);
 
             return;

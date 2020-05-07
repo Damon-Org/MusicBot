@@ -45,10 +45,7 @@ class Queue extends BaseCommand {
             maxPrequeue = musicSystem.queue.maxPrequeue;
 
         if (!musicSystem.queueExists()) {
-            const newMsg = await this.msgObj.reply('No music is playing currently.');
-
-            newMsg.delete({timeout: 5000});
-            this.msgObj.delete();
+            this.msgObj.reply('No music is playing currently.').then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }
@@ -65,9 +62,7 @@ class Queue extends BaseCommand {
         }
         else {
             if (isNaN(this.args[0]) || this.args[0].includes('.') || this.args[0].includes(',')) {
-                const newMsg = await this.msgObj.reply('invalid page number.');
-
-                newMsg.delete({timeout: 5000});
+                this.msgObj.reply('invalid page number.').then(msg => msg.delete({timeout: 5e3}));
 
                 return;
             }
@@ -155,9 +150,7 @@ class Queue extends BaseCommand {
             return;
         }
 
-        const newMsg = await this.msgObj.reply('no music is playing currently.');
-
-        newMsg.delete({timeout: 5000});
+        this.msgObj.reply('no music is playing currently.').then(msg => msg.delete({timeout: 5e3}));
     }
 }
 

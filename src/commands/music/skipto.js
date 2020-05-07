@@ -40,9 +40,7 @@ class SkipTo extends BaseCommand {
     async run(command) {
         const voicechannel = this.voiceChannel;
         if (!voicechannel) {
-            const newMsg = await this.msgObj.reply('you aren\'t in a voicechannel');
-
-            newMsg.delete({timeout: 5000});
+            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }
@@ -52,8 +50,7 @@ class SkipTo extends BaseCommand {
         if (musicSystem.isDamonInVC(voicechannel)) {
             if (musicSystem.skipTo(this.args[0])) {
                 if (this.args[0] == 1) {
-                    const newMsg = await this.msgObj.reply('skipping to the currently playing song does nothing.');
-                    newMsg.delete({timeout: 5e3});
+                    this.msgObj.reply('skipping to the currently playing song does nothing.').then(msg => msg.delete({timeout: 5e3}));
 
                     return;
                 }
@@ -63,16 +60,12 @@ class SkipTo extends BaseCommand {
                 return;
             }
 
-            const newMsg = await this.msgObj.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${serverInstance.prefix}q <# page number>.`);
-
-            newMsg.delete({timeout: 5000});
+            this.msgObj.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${serverInstance.prefix}q <# page number>.`).then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }
 
-        const newMsg = await this.msgObj.reply('you aren\'t in the bot\'s channel.');
-
-        newMsg.delete({timeout: 5000});
+        this.msgObj.reply('you aren\'t in the bot\'s channel.').then(msg => msg.delete({timeout: 5e3}));
     }
 }
 

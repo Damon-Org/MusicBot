@@ -34,9 +34,7 @@ class PlayTime extends BaseCommand {
      */
     async run(command) {
         if (!this.serverInstance.musicSystem.queueExists()) {
-            const newMsg = await this.msgObj.reply('No music is playing currently.');
-
-            newMsg.delete({timeout: 5000});
+            this.msgObj.reply('No music is playing currently.').then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }

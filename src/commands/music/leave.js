@@ -37,9 +37,7 @@ class Leave extends BaseCommand {
             voicechannel = this.voiceChannel,
             musicSystem = this.serverInstance.musicSystem;
         if (!voicechannel && !musicSystem.shutdown.type()) {
-            const newMsg = await this.msgObj.reply('you aren\'t in a voicechannel');
-
-            newMsg.delete({timeout: 5000});
+            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }
@@ -51,9 +49,7 @@ class Leave extends BaseCommand {
             return;
         }
 
-        const newMsg = await this.msgObj.reply('you aren\'t in the bot\'s channel or is not done playing music.');
-
-        newMsg.delete({timeout: 5000});
+        this.msgObj.reply('you aren\'t in the bot\'s channel or is not done playing music.').then(msg => msg.delete({timeout: 5e3}));
     }
 }
 
