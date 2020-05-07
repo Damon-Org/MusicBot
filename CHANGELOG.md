@@ -14,6 +14,31 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-05-07, Version v0.5.5 @Yimura
+
+### Notable Changes
+
+ * Changed BasicCommand name to BaseCommand to better reflect what it is
+ * Fixed a bug where commands could no longer run in DM's
+ * The lazyloader from Soft & Wet was included in Damon to prevent future load
+ * A utility folder was created with several helpful scripts for setting up Damon
+    * Service installation script
+    * IPv6 setup was added
+ * Fixed several problems with the queue shuffle command
+ * Added `loop` alias for the repeat command
+
+### Commits
+
+ * [**9196377a1d4a319b9c8240b152b8b7539a7417b3**] & [**c3de9cfc5a240611e08181fa908b1157aa72ec1e**] Source: Slight restructure
+ * [**6b5d3ae32ff13500f51cba2a143cf492ab51e5ca**] Core: Fixed commands to be able to run in DM's
+ * [**f09cc1a8280994277efd3873c593154fb69f861e**] & [**4a380bd9e2f092d6d8ac99904541819b81410145**] Core: Added lazyloader to prevent future high database load
+ * [**c729688013e404595b1df4aaa55068b9153f8c5b**] Core: More extensive logging on command execution
+ * [**cf83697f22c9415e6b622eac242dacb9a067bf45**] Util: Created util folder, moved scripts to `util/`, added IPv6 setup script
+ * [**c2f289a7b14a889983a8108d2313e645236d2e92**] Util: Added service installation script
+ * [**1661a1cefd5e9e0d7cd53f104da2d878b30eb173**] Util: Added check if ndppd has been setup before
+ * [**a6d0671114a4aff016b1505d91697250f07eca4e**] MusicSystem: Fixed shuffle method and start getter of queue
+ * [**44f98468d7abe6ba84b452cbbd5a5b1ff803d9a7**] Commands: Added another alias for repeat
+
 ## 2020-05-01, Version v0.5.4 @Yimura
 
 ### Notable Changes
