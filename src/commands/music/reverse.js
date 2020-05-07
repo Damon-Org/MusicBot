@@ -45,7 +45,7 @@ class Leave extends BaseCommand {
 
         musicSystem.queue.reverse();
 
-        this.textChannel.send('🔀 The queue has been reverse. 🔀');
+        this.textChannel.send('🔄 The queue has been reversed, you can use `restart` to start from the beginning of the queue. 🔄');
     }
 }
 
