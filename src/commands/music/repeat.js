@@ -17,7 +17,7 @@ class Repeat extends BaseCommand {
             guild_only: true,
 
             name: 'repeat',
-            aliases: [],
+            aliases: ['loop'],
             description: 'Will repeat the currently playing song.',
             usage: 'repeat',
             params: [],
