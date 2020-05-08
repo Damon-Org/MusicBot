@@ -60,7 +60,7 @@ class SkipTo extends BaseCommand {
                 return;
             }
 
-            this.msgObj.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${serverInstance.prefix}q <# page number>.`).then(msg => msg.delete({timeout: 5e3}));
+            this.msgObj.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${this.serverInstance.prefix}q <# page number>.`).then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }
