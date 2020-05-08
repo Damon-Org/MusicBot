@@ -84,16 +84,30 @@ class MusicSystem {
     async createNewPlayer() {
         this.updateSongState();
 
-        const
-            track = this.queue.active(),
-            richEmbed = new this.musicBot.Discord.MessageEmbed()
-                .setAuthor(track.author)
-                .setTitle(track.getTitle())
-                .setColor(this.songState.color)
-                .setDescription(`Requested by: **${track.requester}**`)
-                .setFooter(this.songState.footer);
+        const track = this.queue.active();
+        if (this.lastMsg && this.channel.lastMessageID == this.lastMsg.id) {
+            const embedUtils = this.musicBot.embedUtils;
+            embedUtils.editEmbed(this.lastMsg, {
+                author: { name: track.author },
+                color: this.songState.color,
+                description: `Requested by: **${track.requester}**`,
+                title: track.getTitle(),
+                footer: {
+                    text: this.songState.footer
+                }
+            });
 
-        const
+            return;
+        }
+
+        this.disableOldPlayer(true);
+
+        const richEmbed = new this.musicBot.Discord.MessageEmbed()
+            .setAuthor(track.author)
+            .setTitle(track.getTitle())
+            .setColor(this.songState.color)
+            .setDescription(`Requested by: **${track.requester}**`)
+            .setFooter(this.songState.footer),
             newMsg = await this.channel.send(richEmbed),
             emojis = ['⏮️', '⏸', '⏭', '🔁'];
 
@@ -130,11 +144,11 @@ class MusicSystem {
 
     /**
      * Will disable the last musicPlayer of our bot
+     * @param {external:Boolean} force If the old player should be force disabled no matter what
      */
-    disableOldPlayer() {
-        if (this.lastMsg && !this.lastMsg.deleted) {
+    disableOldPlayer(force = false) {
+        if (this.lastMsg && !this.lastMsg.deleted && (this.channel.lastMessageID != this.lastMsg.id || force)) {
             const embedUtils = this.musicBot.embedUtils;
-
             embedUtils.editEmbed(this.lastMsg, {
                 color: '#4f545c'
             });
@@ -166,7 +180,6 @@ class MusicSystem {
      */
     async onChoiceEmbedAction(index, msgObj, user) {
         const choiceInstance = this.serverInstance.choices.get(user.id);
-
         if (choiceInstance == undefined || choiceInstance.listener.id != msgObj.id || choiceInstance.handled) {
             return;
         }
@@ -318,7 +331,6 @@ class MusicSystem {
             this.updateSongState();
 
             const embedUtils = this.musicBot.embedUtils;
-
             embedUtils.editEmbed(this.lastMsg, {
                 color: this.songState.color,
                 footer: {
@@ -349,8 +361,6 @@ class MusicSystem {
      * Will go through several checks of things that have to get updated before moving on to the next song
      */
     async playNext() {
-        this.disableOldPlayer();
-
         const activeSong = this.queue.active();
 
         if (activeSong == null) {
@@ -370,6 +380,7 @@ class MusicSystem {
                 return;
             }
 
+            this.disableOldPlayer(true);
             this.channel.send(`Queue has been concluded and the bot will leave in 5 minutes, type the \`restart\` command to requeue your the old queue (only if within those same 5 minutes).`);
             this.shutdown.delay('leave', 3e5);
 
@@ -603,10 +614,10 @@ class MusicSystem {
      * Will reset all variables so our system is ready for a request
      */
     reset() {
-        this.disableOldPlayer();
+        this.disableOldPlayer(true);
 
-        this.queue.reset();
         this.shutdown.reset();
+        this.queue.reset();
 
         /**
          * @type {external:Discord_TextChannel}
