@@ -10,6 +10,12 @@ class Queue {
          */
         this.maxPrequeue = 50;
 
+        /**
+         * The max length the queue can have in total
+         * @type {external:Number}
+         */
+        this.maxLength = 300;
+
         this.reset();
     }
 
@@ -34,25 +40,35 @@ class Queue {
 
     /**
      * @param {external:Object} data Data found by the LavaLink REST APi
+     * @returns {external:Boolean} Returns true on success, false if queue is full
      */
     add(data) {
         const length = this.size();
+        if (length == this.maxLength) return false;
 
         this.queue.splice(length - 1, 0, data);
+
+        return true;
     }
 
     /**
      * @param {external:Object} data Data found by the LavaLink REST APi
      * @param {external:Number} position
+     * @returns {external:Boolean} Returns true on success, false if queue is full
      */
     addOnPosition(song, position) {
+        if (this.size() == this.maxLength) return false;
+
         if (position > 0) {
             position--;
 
-            return this.queue.splice(this.maxPrequeue + position, 0, song);
-        }
+            this.queue.splice(this.maxPrequeue + position, 0, song)
 
-        return this.queue.splice(this.maxPrequeue + position, 0, song);
+            return true;
+        }
+        this.queue.splice(this.maxPrequeue + position, 0, song);
+
+        return true;
     }
 
     count() {
