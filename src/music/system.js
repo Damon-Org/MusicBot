@@ -54,12 +54,10 @@ class MusicSystem {
         track.setRequester(requester);
 
         if (exception) {
-            this.queue.addOnPosition(track, 2);
-
-            return;
+            return this.queue.addOnPosition(track, 2);
         }
 
-        this.queue.add(track);
+        return this.queue.add(track);
     }
 
     /**
@@ -273,9 +271,12 @@ class MusicSystem {
             return;
         }
 
-        playlistObj.playlist.forEach(async (song) => {
-            await this.musicBot.musicUtils.handleSongData(song, serverMember, msgObj, voicechannel, null, exception, false);
-        });
+
+        for (let i = 0; i < playlistObj.playlist.length; i++) {
+            const song = playlistObj.playlist[i];
+            if (!await this.musicBot.musicUtils.handleSongData(song, serverMember, msgObj, voicechannel, null, exception, false)) break;
+        }
+        
         msgObj.channel.send('Successfully added playlist!');
     }
 
