@@ -137,7 +137,7 @@ class MusicUtils {
         if (musicSystem.queueExists()) {
             if (musicSystem.isDamonInVC(voicechannel) || !allowSpam) {
                 if (!musicSystem.addToQueue(data, serverMember, exception)) {
-                    msgObj.channel.send('The queue is full, you can only add up to 1000 tracks.').then(msg => msg.delete({timeout: 5e3}));
+                    msgObj.channel.send(`The queue is full, this server is limited to ${musicSystem.queue.maxLength} tracks.`).then(msg => msg.delete({timeout: 5e3}));
 
                     return false;
                 }
