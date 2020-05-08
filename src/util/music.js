@@ -126,34 +126,37 @@ class MusicUtils {
      * @param {external:Discord_Message} noticeMsg
      * @param {external:Boolean} exception If the song should be added next up
      * @param {external:Boolean} allowSpam ONLY set this param when adding a playlist
+     * @returns {external:Boolean} Returns true upon success, false on failure => all actions should be stopped
      */
     async handleSongData(data, serverMember, msgObj, voicechannel, noticeMsg = null, exception = false, allowSpam = true) {
         const musicSystem = (this.musicBot.serverUtils.getClassInstance(serverMember.guild.id)).musicSystem;
-        if (noticeMsg) (await noticeMsg).delete();
+        if (noticeMsg) noticeMsg.then(msg => msg.delete());
 
         if (musicSystem.shutdown.type() == 'leave') musicSystem.reset();
 
         if (musicSystem.queueExists()) {
             if (musicSystem.isDamonInVC(voicechannel) || !allowSpam) {
-                musicSystem.addToQueue(data, serverMember, exception);
+                if (!musicSystem.addToQueue(data, serverMember, exception)) {
+                    msgObj.channel.send('The queue is full, you can only add up to 1000 tracks.').then(msg => msg.delete({timeout: 5e3}));
+
+                    return false;
+                }
 
                 if (allowSpam) msgObj.channel.send(exception ? `Added song *next up* **${data.info.title}**` : `Added song **${data.info.title}**`);
 
-                return;
+                return true;
             }
+            msgObj.reply(`you aren't in the bot's channel.`).then(msg => msg.delete({timeout: 5e3}));
 
-            const newMsg = await msgObj.reply(`you aren't in the bot's channel.`);
-
-            newMsg.delete({timeout: 5000});
-
-            return;
+            return false;
         }
-
         musicSystem.createQueue(data, serverMember, msgObj.channel);
 
         if (await musicSystem.startQueue(voicechannel) && allowSpam) {
             msgObj.channel.send(`Playback starting with **${data.info.title}**`);
         }
+
+        return true;
     }
 }
 
