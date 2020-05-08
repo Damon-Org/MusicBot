@@ -422,6 +422,15 @@
             },
             {
                 "guild_only": true,
+                "name": "reverse",
+                "aliases": [],
+                "description": "Reverse the queue.",
+                "usage": "reverse",
+                "params": [],
+                "example": "reverse"
+            },
+            {
+                "guild_only": true,
                 "name": "shuffle",
                 "aliases": [],
                 "description": "Shuffle songs in queue.",
