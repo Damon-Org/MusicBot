@@ -14,6 +14,45 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-05-22, Version v0.5.7 @Yimura
+
+### Notable Changes
+
+ * An ignore condition was added for error logging on the top level
+ * Fixed a bug that would allow playlist without songs in it to be queued
+ * Fixed a bug with send message shorthands in BaseCommand
+ * An emergency reset command was added
+
+### Commits
+
+ * [**26563aff8069aee83dcdf7c0cb8d955976b0adc0**] Source: Added ignore condition on error logging
+ * [**0637c1084613e619cc1dd47468667a3ee25f8081**] MusicCommand: Fixed bug that would allow playlists to be found without songs in them
+ * [**b3a53818364c23bb5582cb491fb92e356d106187**] BaseCommand: Fixed bugs to Message send shorthands
+ * [**4a7f273f2acc3012b5f42708016aca7929123444**] MusicUtils: Updated comments and fixed bug with playlist adding
+ * [**0f1100ec9f342bdcb44d303a596fcec4a0281df8**] MusicSystem: Attempt was made a force removing player objects
+ * [**76d4ee027438a9d20fa5d55c21a129f0dee5d80f**] MusicShutdown: Optimised code flow
+ * [**e293918ccb1ac0daffa9599f02afcfa416daf61b**] MusicSystem: Fixed variable typo
+ * [**40202f67673f3240b7703857502635c7ce6205b5**] Commands: Added emergency reset command
+
+## 2020-05-08, Version v0.5.6 @Yimura
+
+### Notable Changes
+
+ * Added `reverse` command
+ * Fixed undefined serverInstance in `skipto` command
+ * The bot will now reuse its old message object to prevent spam (as long as the lastMsg was from the bot)
+ * Queue top limit will now be enforced
+
+### Commits
+
+ * [**cb7ed342aa77dcf8fabee6dcb0a44228847cfd50**] Commands: Generated commands.json with reverse command and fixed typo in reverse command
+ * [**bd329f0fae69b22e84b2f409bf10dc1a1e85d48c**] Commands: Fixed undefined serverInstance in skipto command
+ * [**2169170f89a76e981ccac109ffdb8245643908a9**] MusicSystem: Made it so there's less chat spam, reusing the old message object
+ * [**35d379d9ab97ead2b5c9e56c8bb4441bc4775854**] Queue: The queue will now check if the top limit is hit
+ * [**184d0710ee3007f71e481c39d5ebef308daec728**] MusicSystem: The system will now handle if the max queue limit is hit
+ * [**541be6c97b3ae8595070dba098113ef52a571877**] MusicUtil: Added extra interactive message to notify that the queue limit has been hit
+ * [**14da9d9e5a4ba25914249b5e45dce4d11491066c**] MusicUtils: Queue limit message shows the dynamic limit instead of a hardcoded value
+
 ## 2020-05-07, Version v0.5.5 @Yimura
 
 ### Notable Changes
