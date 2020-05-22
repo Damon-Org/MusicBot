@@ -159,7 +159,16 @@ class MusicSystem {
     }
 
     disconnect() {
-        if (this.player) this.player.disconnect();
+        if (this.player) {
+            const playerNode = this.player.voiceConnection.node;
+
+            this.player.disconnect();
+
+            if (this.node.players.has(this.voicechannel.guild.id))
+                this.node.players.delete(this.voicechannel.guild.id);
+
+            this.player = null;
+        }
     }
 
     /**
@@ -276,7 +285,7 @@ class MusicSystem {
             const song = playlistObj.playlist[i];
             if (!await this.musicBot.musicUtils.handleSongData(song, serverMember, msgObj, voicechannel, null, exception, false)) break;
         }
-        
+
         msgObj.channel.send('Successfully added playlist!');
     }
 
