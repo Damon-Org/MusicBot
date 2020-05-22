@@ -54,6 +54,7 @@ class BaseCommand {
             else return await this.run(command);
         } catch (e) {
             this.db.log('CMD', 'ERR', e.stack);
+            e.ignore = true;
             throw e;
         } finally {
             // Force our cleanup regardless of errors
@@ -83,6 +84,40 @@ class BaseCommand {
         forgedMessage.member = member;
 
         return await this.check(forgedMessage, args, command, false);
+    }
+
+    /**
+     * Send message shorthands
+     */
+    async dm(p1, p2) {
+        try {
+            return await this.user.send(p1, p2);
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    reply(p1, p2) {
+        return this.send(p1, p2, true);
+    }
+
+    send(p1, p2, reply = false) {
+        if (!this.textChannel.permissionsFor(this.db.client.user.id).has(['SEND_MESSAGES', 'ATTACH_FILES'])) {
+            const
+                guild = this.textChannel.guild,
+                embed = new this.Discord.MessageEmbed()
+                    .setAuthor(guild.name, guild.iconURL({size: 64}), `https://discordapp.com/channels/${guild.id}/${this.textChannel.id}`)
+                    .setTitle('Missing permission')
+                    .setDescription('I do not have permission to send messages or attach files.');
+
+            this.dm(embed);
+            return null;
+        }
+
+        if (reply) {
+            return this.msgObj.reply(p1, p2);
+        }
+        return this.textChannel.send(p1, p2);
     }
 
     /**
