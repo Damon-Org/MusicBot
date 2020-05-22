@@ -80,10 +80,21 @@ class Play extends BaseCommand {
         }
 
         if (Array.isArray(data)) {
-            // Playlist found
-            const orig = (new URL(this.args[0])).searchParams.get('v');
+            if (data.length > 0) {
+                // Playlist found
+                const orig = (new URL(this.args[0])).searchParams.get('v');
 
-            this.musicUtils.createPlaylistFoundEmbed(orig, data, this.msgObj, noticeMsg);
+                this.musicUtils.createPlaylistFoundEmbed(orig, data, this.msgObj, noticeMsg);
+
+                return;
+            }
+
+            const richEmbed = new this.db.Discord.MessageEmbed()
+                .setTitle('Playlist Error')
+                .setDescription(`A playlist was found but did not contain any songs.`)
+                .setColor('#ed4337');
+
+            this.send(richEmbed);
 
             return;
         }
