@@ -120,10 +120,10 @@ class MusicUtils {
     /**
      * Helper function which handles a repetitive task
      * @param {external:Object} data Data found by the LavaLink REST APi
-     * @param {external:Discord_GuildMember} serverMember
-     * @param {external:Discord_Message} msgObj
-     * @param {external:Discord_VoiceChannel} voicechannel
-     * @param {external:Discord_Message} noticeMsg
+     * @param {external:Discord_GuildMember} serverMember The guild member that made the request
+     * @param {external:Discord_Message} msgObj The original message that triggered the request
+     * @param {external:Discord_VoiceChannel} voicechannel The voicechannel connected to the request
+     * @param {external:Discord_Message} noticeMsg The message that says "Looking up your request"
      * @param {external:Boolean} exception If the song should be added next up
      * @param {external:Boolean} allowSpam ONLY set this param when adding a playlist
      * @returns {external:Boolean} Returns true upon success, false on failure => all actions should be stopped
@@ -155,7 +155,6 @@ class MusicUtils {
         if (await musicSystem.startQueue(voicechannel) && allowSpam) {
             msgObj.channel.send(`Playback starting with **${data.info.title}**`);
         }
-
         return true;
     }
 }
