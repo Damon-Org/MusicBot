@@ -26,7 +26,7 @@ process
 
     .on('unhandledRejection', (err) => {
         if (err) {
-            console.log(err.stack);
+            if (!e.ignore) console.log(err.stack);
             instance.error(err.stack);
         }
     })
