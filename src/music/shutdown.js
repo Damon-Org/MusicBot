@@ -12,10 +12,7 @@ class MusicShutdown {
         this._type = type;
 
         this._timeout = setTimeout(() => {
-            this.reset();
-
-            this.musicSystem.disconnect();
-            this.musicSystem.reset();
+            this.instant();
         }, timeout);
     }
 
