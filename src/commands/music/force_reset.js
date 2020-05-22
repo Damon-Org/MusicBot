@@ -1,6 +1,4 @@
-const
-    BaseCommand = require('../../structs/base_command'),
-    EqualizerPresets = require('../../music/equalizer/presets');
+const BaseCommand = require('../../structs/base_command');
 
 /**
  * @category Commands
