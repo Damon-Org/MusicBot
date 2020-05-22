@@ -164,8 +164,8 @@ class MusicSystem {
 
             this.player.disconnect();
 
-            if (this.node.players.has(this.voicechannel.guild.id))
-                this.node.players.delete(this.voicechannel.guild.id);
+            if (this.node.players.has(this.voiceChannel.guild.id))
+                this.node.players.delete(this.voiceChannel.guild.id);
 
             this.player = null;
         }
