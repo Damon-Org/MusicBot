@@ -24,9 +24,9 @@
                         "allow_sentence": true
                     }
                 ],
-                "permission": {
-                    "type": "system",
-                    "level": 2
+                "sysem_permission": {
+                    "level": 2,
+                    "condition": "<="
                 },
                 "example": "ban user @Geop Spamming #general"
             },
@@ -52,9 +52,9 @@
                         "required": true
                     }
                 ],
-                "permission": {
-                    "type": "system",
-                    "level": 3
+                "sysem_permission": {
+                    "level": 3,
+                    "condition": "<="
                 },
                 "example": "permission level @Yimura#6969 5"
             },
@@ -73,9 +73,9 @@
                         "allow_sentence": true
                     }
                 ],
-                "permission": {
-                    "type": "system",
-                    "level": 2
+                "sysem_permission": {
+                    "level": 2,
+                    "condition": "<="
                 },
                 "example": ""
             },
@@ -95,9 +95,9 @@
                         "required": true
                     }
                 ],
-                "permission": {
-                    "type": "system",
-                    "level": 2
+                "sysem_permission": {
+                    "level": 2,
+                    "condition": "<="
                 },
                 "example": "unban user @Geop"
             },
@@ -110,9 +110,9 @@
                 "description": "Update servers in database",
                 "usage": "updateservers",
                 "params": [],
-                "permission": {
-                    "type": "system",
-                    "level": 2
+                "sysem_permission": {
+                    "level": 2,
+                    "condition": "<="
                 },
                 "example": "updateservers"
             }
@@ -185,8 +185,13 @@
                     }
                 ],
                 "permission": {
-                    "type": "server",
-                    "name": "MANAGE_CHANNELS"
+                    "logic": "OR",
+                    "levels": [
+                        {
+                            "type": "server",
+                            "name": "MANAGE_CHANNELS"
+                        }
+                    ]
                 },
                 "example": "lock music #music"
             },
@@ -209,8 +214,13 @@
                     }
                 ],
                 "permission": {
-                    "type": "server",
-                    "name": "MANAGE_CHANNELS"
+                    "logic": "OR",
+                    "levels": [
+                        {
+                            "type": "server",
+                            "name": "MANAGE_CHANNELS"
+                        }
+                    ]
                 },
                 "example": "unlock music"
             },
@@ -225,8 +235,13 @@
                 "usage": "reset prefix",
                 "params": [],
                 "permission": {
-                    "type": "server",
-                    "name": "MANAGE_CHANNELS"
+                    "logic": "OR",
+                    "levels": [
+                        {
+                            "type": "server",
+                            "name": "MANAGE_CHANNELS"
+                        }
+                    ]
                 },
                 "example": "reset prefix"
             },
@@ -248,8 +263,13 @@
                     }
                 ],
                 "permission": {
-                    "type": "server",
-                    "name": "MANAGE_CHANNELS"
+                    "logic": "OR",
+                    "levels": [
+                        {
+                            "type": "server",
+                            "name": "MANAGE_CHANNELS"
+                        }
+                    ]
                 },
                 "example": "changeprefix b?"
             }
@@ -257,6 +277,37 @@
     },
     "music": {
         "commands": [
+            {
+                "guild_only": true,
+                "name": "equalizer",
+                "aliases": [
+                    "eq"
+                ],
+                "description": "Change the equalizer to one of the presets.",
+                "usage": "eq <preset>",
+                "params": [
+                    {
+                        "name": "preset",
+                        "description": "A preset name.",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "example": "eq deep"
+            },
+            {
+                "guild_only": true,
+                "hidden": true,
+                "name": "force reset",
+                "aliases": [
+                    "emergency reset",
+                    "freset"
+                ],
+                "description": "Force reset the Music System if for some reason it got stuck.",
+                "usage": "force reset",
+                "params": [],
+                "example": "force reset"
+            },
             {
                 "guild_only": true,
                 "name": "leave",
@@ -487,7 +538,47 @@
                 ],
                 "example": "volume 50"
             }
-        ]
+        ],
+        "children": {
+            "dj": [
+                {
+                    "guild_only": true,
+                    "name": "mode",
+                    "aliases": [],
+                    "description": "Lock specific command category to one channel.",
+                    "usage": "dj mode <# mode>",
+                    "params": [
+                        {
+                            "name": "mode",
+                            "description": "The new mode to be used for DJ's",
+                            "type": "number",
+                            "required": true
+                        }
+                    ],
+                    "permissions": {
+                        "logic": "OR",
+                        "levels": [
+                            {
+                                "type": "SERVER",
+                                "name": "MANAGE_CHANNELS"
+                            },
+                            {
+                                "type": "ROLE",
+                                "name": "dj"
+                            },
+                            {
+                                "type": "COMMAND_HANDLED"
+                            }
+                        ]
+                    },
+                    "sysem_permission": {
+                        "level": 1,
+                        "condition": "<="
+                    },
+                    "example": "dj mode 3"
+                }
+            ]
+        }
     },
     "recording": {
         "commands": []
