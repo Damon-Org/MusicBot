@@ -25,10 +25,10 @@ class BotEvents extends BasicBot {
 
         this.client.on('message', (msg) => this.onMsg(msg));
 
-        this.client.on('voiceStateUpdate', (oldState, newState) => this.onVoiceStateUpdate(oldState, newState));
+        this.customEvent.voice.on('join', (guild, serverMember, voiceChannel) => this.onVoiceJoin(guild, serverMember, voiceChannel));
+        this.customEvent.voice.on('leave', (guild, serverMember, voiceChannel) => this.onVoiceLeave(guild, serverMember, voiceChannel));
 
         this.customEvent.reaction.on('toggle', (messageReaction, user) => this.reactionToggleEvents(messageReaction, user));
-
         this.customEvent.reaction.on('add', (messageReaction, user) => this.reactionAddEvents(messageReaction, user));
     }
 
@@ -49,28 +49,36 @@ class BotEvents extends BasicBot {
     }
 
     /**
-     * @param {Discord.Discord_VoiceState} oldState
-     * @param {Discord.Discord_Voicestate} newState
+     * @param {external:Discord_Guild} guild
+     * @param {external:Discord_GuildMember} serverMember
+     * @param {external:Discord_VoiceChannel} voiceChannel
      */
-    onVoiceStateUpdate(oldState, newState) {
-        const
-            voicechannel = oldState.channel || newState.channel,
-            musicSystem = (this.serverUtils.getClassInstance(voicechannel.guild.id)).musicSystem;
+    onVoiceJoin(guild, serverMember, voiceChannel) {
+        const musicSystem = this.serverUtils.getClassInstance(guild.id).musicSystem;
 
         if (!musicSystem.queueExists()) return;
 
-        if (voicechannel.members.get(this.client.user.id) && voicechannel.members.size == 1) {
-            musicSystem.channel.send('The queue will be destroyed within 5 minutes, rejoin within that time to resume music playback.');
-            musicSystem.shutdown.delay('time', 3e5);
-        }
-
-        if (musicSystem.shutdown.type() == 'time' && voicechannel.members.size > 1) {
+        if (musicSystem.shutdown.type() == 'time' && voiceChannel.members.size > 1) {
             musicSystem.shutdown.cancel();
         }
 
-        if (!voicechannel.guild.me.voice.channel) {
-            musicSystem.reset();
+        musicSystem.djManager.join(serverMember);
+    }
+
+    /**
+     * @param {external:Discord_Guild} guild
+     * @param {external:Discord_GuildMember} serverMember
+     * @param {external:Discord_VoiceChannel} voiceChannel
+     */
+    onVoiceLeave(guild, serverMember, voiceChannel) {
+        const musicSystem = this.serverUtils.getClassInstance(guild.id).musicSystem;
+
+        if (!musicSystem.queueExists() || !musicSystem.isDamonInVC(voiceChannel)) return;
+
+        if (musicSystem.isDamonInVC(voiceChannel) && voiceChannel.members.size == 1) {
+            musicSystem.shutdown.delay('time', 3e5);
         }
+        musicSystem.djManager.remove(serverMember);
     }
 
     /**
