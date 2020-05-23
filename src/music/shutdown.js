@@ -5,11 +5,15 @@ class MusicShutdown {
 
     cancel() {
         this.reset();
+
+        this.shutdownMsg.then(msg => msg.delete());
     }
 
     delay(type, timeout) {
         if (this._timeout) clearTimeout(this._timeout);
         this._type = type;
+
+        this.shutdownMsg = this.musicSystem.channel.send('The queue will be destroyed within 5 minutes, rejoin within that time to resume music playback.');
 
         this._timeout = setTimeout(() => {
             this.instant();
