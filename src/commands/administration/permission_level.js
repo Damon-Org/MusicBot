@@ -37,9 +37,9 @@ class SetSystemPermissionLevel extends BaseCommand {
                     required: true
                 }
             ],
-            permission: {
-                type: 'system',
-                level: 3
+            sysem_permission: {
+                level: 3,
+                condition: '<='
             },
             example: 'permission level @Yimura#6969 5'
         });

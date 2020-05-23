@@ -33,8 +33,13 @@ class RemoveLock extends BaseCommand {
                 }
             ],
             permission: {
-                type: 'server',
-                name: 'MANAGE_CHANNELS'
+                logic: 'OR',
+                levels: [
+                    {
+                        type: 'server',
+                        name: 'MANAGE_CHANNELS'
+                    }
+                ]
             },
             example: 'unlock music'
         });

@@ -30,9 +30,9 @@ class BanUser extends BaseCommand {
                     allow_sentence: true
                 }
             ],
-            permission: {
-                type: 'system',
-                level: 2
+            sysem_permission: {
+                level: 2,
+                condition: '<='
             },
             example: ''
         });
