@@ -44,7 +44,7 @@ class BaseCommand {
 
         if (!await this.hasSystemPermission()) return false;
         if (!await this.canCommandRunInChannel(command)) return false;
-        if (!await this.hasServerPermission()) return false;
+        if (!await this.hasPermissions()) return false;
         if (!this.hasSelfPermissions()) return false;
         if (!this.argumentsSatisfied()) return false;
 
@@ -53,7 +53,7 @@ class BaseCommand {
             if (typeof this.afterRun === 'function') await this.run();
             else return await this.run(command);
         } catch (e) {
-            this.db.log('CMD', 'ERR', e.stack);
+            this.db.log('CMD', 'ERROR', e.stack);
             e.ignore = true;
             throw e;
         } finally {
@@ -253,24 +253,47 @@ class BaseCommand {
         return true;
     }
 
-    async hasServerPermission() {
+    async hasPermissions() {
         if (!this.msgObj.guild || !this.serverMember) return true;
-        if (!this.permission || this.permission.type != 'server') return true;
+        if (!this.permission) return true;
 
-        if (!this.serverMember.hasPermission(permissions[this.permission.name], false, true, true)) {
-            const newMsg = await this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${this.permission.name}\` permission.`);
-            newMsg.delete({timeout: 5000});
+        const or = this.permissions.logic == 'OR' ? true : false;
 
-            return false;
+        for (let level of this.permissions.levels) {
+            if (level.type === 'SERVER') {
+                if (!this.serverMember.hasPermission(permissions[this.permission.name], false, true, true)                                                         ) {
+                    this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` permission.`).then(msg => msg.delete({timeout: 5000}));
+
+                    return false;
+                }
+
+                if (or) return true;
+            }
+
+            if (level.type === 'ROLE') {
+                if (this.serverMember.roles.cache.find(x => x.toLowerCase() !== level.name)) {
+                    this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` role to use this command.`).then(msg => msg.delete({timeout: 5000}));
+
+                    return false;
+                }
+
+                if (or) return true;
+            }
+
+            if (level.type === 'COMMAND_HANDLED') {
+                if (!await this.permission()) return false;
+
+                if (or) return true;
+            }
         }
 
         return true;
     }
 
     async hasSystemPermission() {
-        if (!this.permission || this.permission.type != 'system') return true;
+        if (!this.system_permission) return true;
 
-        return await this.userUtils.hasRequiredMinimalRole(this.user.id, this.permission.level);
+        return await this.userUtils.hasRole(this.user.id, this.system_permission.level, this.system_permission.condition);
     }
 
     async isUserBanned() {
