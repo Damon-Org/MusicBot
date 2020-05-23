@@ -97,8 +97,8 @@ class MusicUtils {
             .setDescription(`I\'ve detected that this song contains a playlist,\nare you sure you want to add **${data.length}** songs?\n\nBy confirming you agree that all songs will be added till the queue limit is hit.\nIf you decline only the original song will be added, if the playlist link does not contain a YouTube video then nothing will be added to the queue.\n\n**Keep in mind that the playlist will be added from the beginning.**`)
             .setFooter(`playlist_detected for https://youtu.be/${origVideoId}`);
 
-        let newMsg = msgObj.channel.send(`<@${msgObj.author.id}>`, richEmbed);
-        (await noticeMsg).delete()
+        let newMsg = msgObj.reply(richEmbed);
+        noticeMsg.then(msg => msg.delete());
         newMsg = await newMsg;
 
         playlistObj.msgObj = newMsg;
