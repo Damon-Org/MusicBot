@@ -17,6 +17,13 @@ class CustomEvents {
         this.reaction = new EventEmitter();
 
         /**
+         * @type {external:EventEmitter}
+         */
+        this.voice = new EventEmitter();
+
+        this.voiceChannels = {};
+
+        /**
          * @type {external:Discord_Client}
          * @readonly
          */
@@ -24,6 +31,8 @@ class CustomEvents {
 
         client.on('messageReactionAdd', (messageReaction, user) => this.handleReactionEvent('add', messageReaction, user));
         client.on('messageReactionRemove', (messageReaction, user) => this.handleReactionEvent('remove', messageReaction, user));
+
+        client.on('voiceStateUpdate', (oldState, newState) => this.handleVoiceStateEvent(oldState, newState));
     }
 
     /**
@@ -33,9 +42,7 @@ class CustomEvents {
      * @param {extenal:Discord_User} user The user that made the
      */
     handleReactionEvent(type, messageReaction, user) {
-        if (user.id == this.client.user.id) {
-            return;
-        }
+        if (user.bot) return;
 
         this.reaction.emit('toggle', messageReaction, user);
 
@@ -48,6 +55,28 @@ class CustomEvents {
                 this.reaction.emit('remove', messageReaction, user);
                 break;
             }
+        }
+    }
+
+    handleVoiceStateEvent(oldState, newState) {
+        const
+            guild = oldState.member.guild || newState.member.guild,
+            serverMember = oldState.member || newState.member,
+            voiceChannel = oldState.channel || newState.channel;
+
+        this.voice.emit('update', guild, serverMember, voiceChannel);
+
+        if (!this.voiceChannels[voiceChannel.id]) this.voiceChannels[voiceChannel.id] = 0;
+
+        if (!oldState || !this.voiceChannels[voiceChannel.id] || this.voiceChannels[voiceChannel.id] < voiceChannel.members.size) {
+            this.voiceChannels[voiceChannel.id] = voiceChannel.members.size;
+
+            this.voice.emit('join', guild, serverMember, voiceChannel);
+        }
+        else if (this.voiceChannels[voiceChannel.id] && this.voiceChannels[voiceChannel.id] > voiceChannel.members.size) {
+            this.voiceChannels[voiceChannel.id] = voiceChannel.members.size;
+
+            this.voice.emit('leave', guild, serverMember, voiceChannel);
         }
     }
 }
