@@ -31,9 +31,9 @@ class LockDown extends BaseCommand {
                     required: true
                 }
             ],
-            permission: {
-                type: 'system',
-                level: 2
+            sysem_permission: {
+                level: 2,
+                condition: '<='
             },
             example: 'lockdown'
         });

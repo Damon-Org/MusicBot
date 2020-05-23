@@ -24,9 +24,9 @@ class UpdateServers extends BaseCommand {
             description: 'Update servers in database',
             usage: 'updateservers',
             params: [],
-            permission: {
-                type: 'system',
-                level: 2
+            sysem_permission: {
+                level: 2,
+                condition: '<='
             },
             example: 'updateservers'
         });

@@ -25,8 +25,13 @@ class ResetPrefix extends BaseCommand {
             usage: 'reset prefix',
             params: [],
             permission: {
-                type: 'server',
-                name: 'MANAGE_CHANNELS'
+                logic: 'OR',
+                levels: [
+                    {
+                        type: 'server',
+                        name: 'MANAGE_CHANNELS'
+                    }
+                ]
             },
             example: 'reset prefix'
         });
