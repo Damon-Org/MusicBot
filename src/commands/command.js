@@ -6,7 +6,7 @@ const
  * This class registers all commands
  * @category Classes
  */
-class CommandRegisterer {
+class CommandRegistrar {
     /**
      * @constructs
      * @param {DamonBase} damonBase DamonFramework instance
@@ -46,7 +46,7 @@ class CommandRegisterer {
                     this.db.log('COMMAND', 'INFO', `Generated new 'data/commands.json' with the mapped commands.`);
                 });
             }
-        }, 50);
+        }, 10);
 
         for (const bit in bits) {
             if (bits.hasOwnProperty(bit)) {
@@ -57,6 +57,14 @@ class CommandRegisterer {
                             this.db.log('COMMAND', 'WARN', `Command disabled: '${parentBit}${instance.name}'`)
 
                             continue;
+                        }
+
+                        if (instance.permissions && instance.permissions.levels.filter(x => x.type === 'COMMAND_HANDLED').length == 1) {
+                            if (!instance.permission || typeof instance.permission !== 'function') {
+                                this.db.log('COMMAND', 'ERROR', `Command '${parentBit}${instance.name}' has COMMAND_HANDLED permission set but doesn't handle these!`);
+
+                                continue;
+                            }
                         }
 
                         this.commands.set(`${parentBit}${instance.name}`, instance);
@@ -188,4 +196,4 @@ class CommandRegisterer {
     }
 }
 
-module.exports = CommandRegisterer;
+module.exports = CommandRegistrar;
