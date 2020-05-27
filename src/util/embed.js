@@ -17,104 +17,52 @@ class EmbedUtils {
      * @returns {external:Discord_MessageEmbed} Returns the modified embed, null if the original message was removed
      */
     editEmbed(msgObj, editObj, edit = true) {
-        if (msgObj.deleted) {
-            return null;
-        }
+        if (msgObj.deleted) return null;
 
         const richEmbed = msgObj.embeds[0];
 
-        if (!richEmbed) {
-            return;
-        }
+        if (!richEmbed) return;
         const newRichEmbed = this.getEmbed(richEmbed);
 
-        if (editObj.author != undefined) {
+        if (editObj.author)
             newRichEmbed.setAuthor(editObj.author.name, editObj.author.iconUrl, editObj.author.link);
-        }
 
-        if (editObj.color != undefined) {
+        if (editObj.color)
             newRichEmbed.setColor(editObj.color);
-        }
 
-        if (editObj.description != undefined) {
+        if (editObj.description)
             newRichEmbed.setDescription(editObj.description);
-        }
 
-        if (editObj.footer != undefined) {
+        if (editObj.footer)
             newRichEmbed.setFooter(editObj.footer.text, editObj.footer.iconUrl);
-        }
 
-        if (editObj.image != undefined) {
+        if (editObj.image != undefined)
             newRichEmbed.setImage(editObj.image);
-        }
 
-        if (editObj.thumbnail != undefined) {
+        if (editObj.thumbnail != undefined)
             newRichEmbed.setThumbnail(editObj.thumbnail);
-        }
 
-        if (editObj.timestamp != undefined) {
+        if (editObj.timestamp)
             newRichEmbed.setTimestamp(editObj.timestamp);
-        }
 
-        if (editObj.title != undefined) {
+        if (editObj.title)
             newRichEmbed.setTitle(editObj.title);
-        }
 
-        if (editObj.url != undefined) {
+        if (editObj.url)
             newRichEmbed.setUrl(editObj.url);
-        }
 
-        if (edit) {
+        if (edit)
             msgObj.edit(newRichEmbed);
-        }
 
         return newRichEmbed;
     }
 
     /**
-     * @param {external:Object} oldEmbedObj
+     * @param {external:Discord_MessageEmbed} oldEmbedObj
      * @returns {external:Discord_MessageEmbed} returns a new MessageEmbed made from the oldEmbedObj
      */
     getEmbed(oldEmbedObj) {
-        let richEmbed = new MessageEmbed();
-
-        if (oldEmbedObj.author != undefined) {
-            richEmbed.setAuthor(oldEmbedObj.author.name, oldEmbedObj.author.iconURL, oldEmbedObj.author.url);
-        }
-
-        if (oldEmbedObj.color != undefined) {
-            richEmbed.setColor(oldEmbedObj.color);
-        }
-
-        if (oldEmbedObj.description != undefined) {
-            richEmbed.setDescription(oldEmbedObj.description);
-        }
-
-        if (oldEmbedObj.footer != undefined) {
-            richEmbed.setFooter(oldEmbedObj.footer.text, oldEmbedObj.footer.iconURL);
-        }
-
-        if (oldEmbedObj.image != undefined) {
-            richEmbed.setImage(oldEmbedObj.image);
-        }
-
-        if (oldEmbedObj.thumbnail != undefined) {
-            richEmbed.setThumbnail(oldEmbedObj.thumbnail);
-        }
-
-        if (oldEmbedObj.timestamp != undefined) {
-            richEmbed.setTimestamp(oldEmbedObj.timestamp);
-        }
-
-        if (oldEmbedObj.title != undefined) {
-            richEmbed.setTitle(oldEmbedObj.title);
-        }
-
-        if (oldEmbedObj.url != undefined) {
-            richEmbed.setUrl(oldEmbedObj.url);
-        }
-
-        return richEmbed;
+        return new MessageEmbed(oldEmbedObj.toJSON());
     }
 }
 
