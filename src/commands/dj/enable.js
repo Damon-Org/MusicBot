@@ -1,6 +1,6 @@
 const
-    BaseCommand = require('../../../structs/base_command'),
-    MODE = require('../../../music/dj/mode');
+    BaseCommand = require('../../structs/base_command'),
+    MODE = require('../../music/dj/mode');
 
 /**
  * @category Commands
@@ -18,18 +18,11 @@ class DJEnable extends BaseCommand {
             category: category,
             guild_only: true,
 
-            name: 'enable',
+            name: 'dj enable',
             aliases: [],
             description: 'Re-enabled the DJ system.',
             usage: 'dj enable',
-            params: [
-                {
-                    name: 'mention',
-                    description: 'The user to be added.',
-                    type: 'mention',
-                    required: true
-                }
-            ],
+            params: [],
             permissions: {
                 logic: 'OR',
                 levels: [
