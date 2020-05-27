@@ -1,3 +1,7 @@
+const
+    LavaTrack = require('../music/track/lava'),
+    SpotifyTrack = require('../music/track/spotify');
+
 class MusicUtils {
     /**
      * @category Util
@@ -8,6 +12,27 @@ class MusicUtils {
          * @type {MusicBot}
          */
         this.musicBot = musicBot;
+    }
+
+    /**
+     * @param {Array<*>}
+     */
+    checkRequestType(args) {
+        if (args.length > 1) {
+            return -1;
+        }
+
+        if (args[0].includes('https://') || args[0].includes('http://')) {
+            try {
+                const url = new URL(args[0]);
+
+                if (url.hostname == 'open.spotify.com') return 1;
+
+                return 0;
+            } catch (e) {
+                return -1;
+            }
+        }
     }
 
     /**
@@ -27,7 +52,7 @@ class MusicUtils {
         (await noticeMsg).delete();
 
         if (serverInstance.musicSystem.queueExists() && !serverInstance.musicSystem.isDamonInVC(voicechannel)) {
-            const newMsg = await msgObj.reply(`you aren't in the bot's channel.`);
+            const newMsg = await msgObj.reply('you aren\'nt in my voice channel! 😣');
 
             newMsg.delete({timeout: 5500});
             msgObj.delete({timeout: 1500});
@@ -119,41 +144,42 @@ class MusicUtils {
 
     /**
      * Helper function which handles a repetitive task
-     * @param {external:Object} data Data found by the LavaLink REST APi
+     * @param {external:*} track Track of any kind
      * @param {external:Discord_GuildMember} serverMember The guild member that made the request
      * @param {external:Discord_Message} msgObj The original message that triggered the request
-     * @param {external:Discord_VoiceChannel} voicechannel The voicechannel connected to the request
+     * @param {external:Discord_VoiceChannel} voiceChannel The voicechannel connected to the request
      * @param {external:Discord_Message} noticeMsg The message that says "Looking up your request"
      * @param {external:Boolean} exception If the song should be added next up
      * @param {external:Boolean} allowSpam ONLY set this param when adding a playlist
      * @returns {external:Boolean} Returns true upon success, false on failure => all actions should be stopped
      */
-    async handleSongData(data, serverMember, msgObj, voicechannel, noticeMsg = null, exception = false, allowSpam = true) {
+    async handleSongData(track, serverMember, msgObj, voiceChannel, noticeMsg = null, exception = false, allowSpam = true) {
         const musicSystem = (this.musicBot.serverUtils.getClassInstance(serverMember.guild.id)).musicSystem;
         if (noticeMsg) noticeMsg.then(msg => msg.delete());
 
         if (musicSystem.shutdown.type() == 'leave') musicSystem.reset();
 
         if (musicSystem.queueExists()) {
-            if (musicSystem.isDamonInVC(voicechannel) || !allowSpam) {
-                if (!musicSystem.addToQueue(data, serverMember, exception)) {
-                    msgObj.channel.send(`The queue is full, this server is limited to ${musicSystem.queue.maxLength} tracks.`).then(msg => msg.delete({timeout: 5e3}));
+            if (musicSystem.isDamonInVC(voiceChannel) || !allowSpam) {
+                if (!musicSystem.addToQueue(track, serverMember, exception)) {
+                    msgObj.channel.send(`The queue is full, this server is limited to ${musicSystem.queue.maxLength} tracks.`)
+                        .then(msg => msg.delete({timeout: 5e3}));
 
                     return false;
                 }
 
-                if (allowSpam) msgObj.channel.send(exception ? `Added song *next up* **${data.info.title}**` : `Added song **${data.info.title}**`);
+                if (allowSpam) msgObj.channel.send(exception ? `Added song *next up* **${track.title}**` : `Added song **${track.title}**`);
 
                 return true;
             }
-            msgObj.reply(`you aren't in the bot's channel.`).then(msg => msg.delete({timeout: 5e3}));
+            msgObj.reply('you aren\'nt in my voice channel! 😣').then(msg => msg.delete({timeout: 5e3}));
 
             return false;
         }
-        musicSystem.createQueue(data, serverMember, msgObj.channel);
+        await musicSystem.createQueue(track, serverMember, msgObj.channel);
 
-        if (await musicSystem.startQueue(voicechannel) && allowSpam) {
-            msgObj.channel.send(`Playback starting with **${data.info.title}**`);
+        if (await musicSystem.startQueue(voiceChannel) && allowSpam) {
+            msgObj.channel.send(`Playback starting with **${track.title}**`);
         }
         return true;
     }
