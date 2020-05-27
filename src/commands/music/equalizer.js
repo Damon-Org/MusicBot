@@ -1,12 +1,12 @@
 const
-    BaseCommand = require('../../structs/base_command'),
+    MusicCommand = require('../../structs/music_command.js'),
     EqualizerPresets = require('../../music/equalizer/presets');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends MusicCommand
  */
-class Equalizer extends BaseCommand {
+class Equalizer extends MusicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -14,7 +14,7 @@ class Equalizer extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Equalizer, {
             category: category,
             guild_only: true,
 
@@ -40,16 +40,7 @@ class Equalizer extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const
-            voicechannel = this.voiceChannel,
-            musicSystem = this.serverInstance.musicSystem;
-        if (!voicechannel && !musicSystem.shutdown.type()) {
-            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
-
-            return;
-        }
-
-        if (musicSystem.isDamonInVC(voicechannel) && musicSystem.queueExists()) {
+        if (this.musicSystem.isDamonInVC(this.voiceChannel) && this.musicSystem.queueExists()) {
             const preset = EqualizerPresets[this.args[0]];
 
             if (!preset) {
@@ -59,17 +50,20 @@ class Equalizer extends BaseCommand {
 
                 this.reply(embed);
 
-                return;
+                return true;
             }
 
-            musicSystem.player.setEqualizer(preset);
+            this.musicSystem.player.setEqualizer(preset);
 
             this.send(`The player equalizer has been changed to \`${this.args[0]}\``);
 
-            return;
+            return true;
         }
 
-        this.msgObj.reply('you aren\'t in the bot\'s channel.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('you aren\'t in my voice channel! 😣')
+            .then(msg => msg.delete({timeout: 5e3}));
+
+        return true;
     }
 }
 
