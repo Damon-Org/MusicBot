@@ -520,7 +520,7 @@ class MusicSystem {
                 return false;
             }
 
-            if (voiceChannel.full) {
+            if (voiceChannel.full && !this.isDamonInVC(voiceChannel) && !voiceChannel.guild.me.hasPermission('ADMINISTRATOR')) {
                 const richEmbed = new this.musicBot.Discord.MessageEmbed()
                         .setTitle('Channel Full')
                         .setColor('#ff0033')
@@ -544,7 +544,7 @@ class MusicSystem {
                 return false;
             }
 
-            this.player = this.musicBot.carrier.getPlayer(voiceChannel.guild.id) || await this.node.joinVoiceChannel({
+            this.player = await this.node.joinVoiceChannel({
                 guildID: voiceChannel.guild.id,
                 voiceChannelID: voiceChannel.id
             });
@@ -768,6 +768,55 @@ class MusicSystem {
     }
 
     /**
+     * Sets the volume on the active stream
+     * @param {external:Number} volume
+     * @returns False if unchanged, true otherwise
+     */
+    setVolume(volume) {
+        if (this.volume == volume) {
+            return false;
+        }
+
+        this.player.setVolume(volume);
+        this.volume = volume;
+
+        return true;
+    }
+
+    /**
+     * @param {external:String} end A string end reason
+     */
+    soundEnd(end) {
+        this.player.removeListener('error', this.playerListener['error']);
+        this.player.removeListener('end', this.playerListener['end']);
+
+        this.lastSong = this.queue.active();
+        this.endMsg = end;
+
+        if (end.type == 'TrackStuckEvent') return;
+        if (end.reason == 'LOAD_FAILED') {
+            this.playSong();
+
+            return;
+        }
+
+        this.musicBot.log('MUSSYS', 'INFO', 'SoundEnd was called with the following data:');
+        console.log(end);
+
+        this.playNext();
+    }
+
+    /**
+     * Will start the queue in the given voicechannel
+     * @param {external:Discord_VoiceChannel} voiceChannel A Discord.VoiceChannel instance
+     */
+    async startQueue(voiceChannel) {
+        this.active = true;
+
+        return await this.continueQueue(voiceChannel);
+    }
+
+    /**
      * This method dynamically updates the active music player embed, calling this will update the embed based on the most recent internal checks
      */
     updateSongState() {
@@ -792,46 +841,6 @@ class MusicSystem {
             this.songState.footer = `Paused | ${this.songState.footer}`;
             this.songState.color = '#dd153d';
         }
-    }
-
-    /**
-     * Sets the volume on the active stream
-     * @param {external:Number} volume
-     * @returns False if unchanged, true otherwise
-     */
-    setVolume(volume) {
-        if (this.volume == volume) {
-            return false;
-        }
-
-        this.player.setVolume(volume);
-        this.volume = volume;
-
-        return true;
-    }
-
-    /**
-     * @param {external:String} end A string end reason
-     */
-    soundEnd(end) {
-        this.player.removeListener('error', this.playerListener['error']);
-        this.player.removeListener('end', this.playerListener['end']);
-
-        if (end.type == 'TrackStuckEvent') return;
-        if (end.reason == 'LOAD_FAILED')
-            return this.playSong();
-
-        this.playNext();
-    }
-
-    /**
-     * Will start the queue in the given voicechannel
-     * @param {external:Discord_VoiceChannel} voiceChannel A Discord.VoiceChannel instance
-     */
-    async startQueue(voiceChannel) {
-        this.active = true;
-
-        return await this.continueQueue(voiceChannel);
     }
 }
 
