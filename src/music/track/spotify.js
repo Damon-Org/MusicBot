@@ -55,29 +55,31 @@ class SpotifyTrack {
 
         let
             attempt = 0,
-            data = null;
+            ytSearch = null;
 
         do {
-            data = await this.db.api.youtube.search(this.title);
+            ytSearch = await this.db.api.youtube.search(this.title);
 
             attempt++;
-        } while ((!data || data.length == 0 || !data[0].id) && attempt < 3);
+        } while ((!ytSearch || ytSearch.length == 0 || !ytSearch[0].id || typeof ytSearch !== 'object') && attempt < 3);
 
-        if (!data || data.length == 0 || !data[0].id) {
+        if (!ytSearch || ytSearch.length == 0 || !ytSearch[0].id || typeof ytSearch !== 'object') {
             this.broken = true;
 
             return false;
         }
 
+
+        let data = null;
         attempt = 0;
         do {
-            data = await this.db.carrier.getNode().rest.resolve(`https://youtu.be/${data[0].id}`);
+            data = await this.db.carrier.getNode().rest.resolve(`https://youtu.be/${ytSearch[0].id}`);
 
             attempt++;
-        } while (data == null && attempt < 3);
+        } while ((data == null || data === true) && attempt < 3 );
 
-        if (!data) {
-            this.broken;
+        if (!data || data === true) {
+            this.broken = true;
 
             return false;
         }
@@ -90,7 +92,7 @@ class SpotifyTrack {
     }
 
     isSeekable() {
-        return this.info.isSeekable;
+        return true;
     }
 }
 
