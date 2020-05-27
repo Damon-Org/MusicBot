@@ -3,13 +3,14 @@ package-lock.json
 log/*
 !log/.gitkeep
 
+node_modules/
 # Make sure the REST hotfix is included
-!node_modules/
-node_modules/*
-!node_modules/discord.js/
-node_modules/discord.js/*
-!node_modules/discord.js/src/
-node_modules/discord.js/src/*
-!node_modules/discord.js/src/rest/
-node_modules/discord.js/src/rest/*
-!node_modules/discord.js/src/rest/RequestHandler.js
+# !node_modules/
+# node_modules/*
+# !node_modules/discord.js/
+# node_modules/discord.js/*
+# !node_modules/discord.js/src/
+# node_modules/discord.js/src/*
+# !node_modules/discord.js/src/rest/
+# node_modules/discord.js/src/rest/*
+# !node_modules/discord.js/src/rest/RequestHandler.js

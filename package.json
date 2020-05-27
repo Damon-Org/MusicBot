@@ -1,6 +1,6 @@
 {
   "name": "damon_music",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "The fourth revision of Damon Music",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "private": true,
   "dependencies": {
     "bufferutil": "^4.0.1",
-    "discord.js": "^12.1.1",
+    "discord.js": "^12.2.0",
     "erlpack": "github:discordapp/erlpack",
     "humanize-duration": "^3.21.0",
     "mysql2": "^2.1.0",
