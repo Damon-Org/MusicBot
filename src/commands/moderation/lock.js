@@ -2,7 +2,7 @@ const BaseCommand = require('../../structs/base_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class Lock extends BaseCommand {
     /**
@@ -12,7 +12,7 @@ class Lock extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Lock, {
             category: category,
             guild_only: true,
 
@@ -34,7 +34,7 @@ class Lock extends BaseCommand {
                     default: 'Takes the channel the command was ran in'
                 }
             ],
-            permission: {
+            permissions: {
                 logic: 'OR',
                 levels: [
                     {

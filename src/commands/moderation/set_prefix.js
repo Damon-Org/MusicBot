@@ -12,7 +12,7 @@ class SetPrefix extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(SetPrefix, {
             category: category,
             guild_only: true,
 
@@ -31,7 +31,7 @@ class SetPrefix extends BaseCommand {
                     default: 'Resets the the custom prefix if one was set.'
                 }
             ],
-            permission: {
+            permissions: {
                 logic: 'OR',
                 levels: [
                     {

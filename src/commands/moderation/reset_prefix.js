@@ -2,7 +2,7 @@ const BaseCommand = require('../../structs/base_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class ResetPrefix extends BaseCommand {
     /**
@@ -12,7 +12,7 @@ class ResetPrefix extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(ResetPrefix, {
             category: category,
             guild_only: true,
 
@@ -24,7 +24,7 @@ class ResetPrefix extends BaseCommand {
             description: 'Reset the prefix to the default value.',
             usage: 'reset prefix',
             params: [],
-            permission: {
+            permissions: {
                 logic: 'OR',
                 levels: [
                     {
