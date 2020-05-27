@@ -1,10 +1,10 @@
-const DJCommand = require('../../../structs/dj_command');
+const DJCommand = require('../../structs/dj_command');
 
 /**
  * @category Commands
  * @extends DJCommand
  */
-class DJAdd extends DJCommand {
+class DJLock extends DJCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,23 +12,18 @@ class DJAdd extends DJCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register(DJAdd, {
+        this.register(DJLock, {
             category: category,
             guild_only: true,
 
-            name: 'add',
-            aliases: [],
-            description: 'Add a DJ user.',
-            usage: 'dj add <@ mention>',
-            params: [
-                {
-                    name: 'mention',
-                    description: 'The user to be added.',
-                    type: 'mention',
-                    required: true
-                }
+            name: 'dj lock',
+            aliases: [
+                'unlock'
             ],
-            example: 'dj add'
+            description: 'Lock the playlist from being modified by non DJ users.',
+            usage: 'dj lock',
+            params: [],
+            example: 'dj lock'
         });
     }
 
@@ -43,6 +38,13 @@ class DJAdd extends DJCommand {
             return;
         }
 
+        if (!this.musicSystem.queueExists()) {
+            this.reply('tell me to play some music for you before using this command. 🎵')
+                .then(msg => msg.delete({timeout: 5e3}));
+
+            return;
+        }
+
         if (!this.musicSystem.isDamonInVC(this.voiceChannel)) {
             this.reply('you aren\'t in my voice channel! 😣')
                 .then(msg => msg.delete({timeout: 5e3}));
@@ -50,17 +52,15 @@ class DJAdd extends DJCommand {
             return;
         }
 
-        const mention = this.msgObj.mentions.members.first();
-        if (!mention) {
-            this.reply('no user was mentioned or the mention is invalid.')
-                .then(msg => msg.delete({timeout: 5e3}));
+        this.musicSystem.djManager.playlistLock = command === 'dj lock' ? true : false;
+        if (command === 'dj lock') {
+            this.send('I\'ve locked the playlist, only DJ\'s can add songs now.');
 
             return;
         }
 
-        this.musicSystem.djManager.add(mention);
-        this.send(`${mention} has been added as a DJ!`);
+        this.send('I\'ve unlocked the playlist, everyone can add songs again!');
     }
 }
 
-module.exports = DJAdd;
+module.exports = DJLock;

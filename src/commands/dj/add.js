@@ -1,10 +1,10 @@
-const DJCommand = require('../../../structs/dj_command');
+const DJCommand = require('../../structs/dj_command');
 
 /**
  * @category Commands
  * @extends DJCommand
  */
-class DJRemove extends DJCommand {
+class DJAdd extends DJCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,32 +12,23 @@ class DJRemove extends DJCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register(DJRemove, {
+        this.register(DJAdd, {
             category: category,
             guild_only: true,
 
-            name: 'remove',
+            name: 'dj add',
             aliases: [],
-            description: 'This command forcefully resigns a DJ from his position.',
-            usage: 'dj remove <@ mention>',
+            description: 'Add a DJ user.',
+            usage: 'dj add <@ mention>',
             params: [
                 {
                     name: 'mention',
-                    description: 'The user to be forcefully resigned.',
+                    description: 'The user to be added.',
                     type: 'mention',
                     required: true
                 }
             ],
-            permissions: {
-                logic: 'OR',
-                levels: [
-                    {
-                        type: 'SERVER',
-                        name: 'MANAGE_GUILD'
-                    }
-                ]
-            },
-            example: 'dj remove @Yimura#6969'
+            example: 'dj add'
         });
     }
 
@@ -67,8 +58,9 @@ class DJRemove extends DJCommand {
             return;
         }
 
-        this.musicSystem.djManager.resign(mention);
+        this.musicSystem.djManager.add(mention);
+        this.send(`${mention} has been added as a DJ!`);
     }
 }
 
-module.exports = DJRemove;
+module.exports = DJAdd;

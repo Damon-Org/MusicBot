@@ -1,6 +1,6 @@
 const
-    DJCommand = require('../../../structs/dj_command'),
-    MODE = require('../../../music/dj/mode');
+    DJCommand = require('../../structs/dj_command'),
+    MODE = require('../../music/dj/mode');
 
 /**
  * @category Commands
@@ -18,7 +18,7 @@ class DJMode extends DJCommand {
             category: category,
             guild_only: true,
 
-            name: 'mode',
+            name: 'dj mode',
             aliases: [],
             description: 'Change the DJ mode.',
             usage: 'dj mode <# mode>',

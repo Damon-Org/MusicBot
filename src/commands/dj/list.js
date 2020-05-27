@@ -1,4 +1,4 @@
-const BaseCommand = require('../../../structs/base_command');
+const BaseCommand = require('../../structs/base_command');
 
 /**
  * @category Commands
@@ -16,7 +16,7 @@ class DJList extends BaseCommand {
             category: category,
             guild_only: true,
 
-            name: 'list',
+            name: 'dj list',
             aliases: [],
             description: 'Shows a list of all users that are currently DJ.',
             usage: 'dj list',
