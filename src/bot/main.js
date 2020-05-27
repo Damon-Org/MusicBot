@@ -130,16 +130,13 @@ class DamonBase extends BotEvents {
          */
         this.api = new APICollections(this);
 
-        const commandAccessable = [
-            {
-                db: this
-            }
-        ];
         /**
          * @type {CommandRegisterer}
          * @readonly
          */
-        this.commandRegisterer = new CommandRegisterer(this, ...commandAccessable);
+        this.commandRegisterer = new CommandRegisterer(this, {
+            db: this
+        });
     }
 
     /**
@@ -190,12 +187,13 @@ class DamonBase extends BotEvents {
         });
     }
 
-    activeSongCount() {
-        let count = 0;
+    activeMusicSystemCount() {
+        let count = [0,0];
 
         for (let server of this.servers.values()) {
             if (server.musicSystem.active) {
-                count += server.musicSystem.queue.count();
+                count[0]++;
+                count[1] += server.musicSystem.queue.count();
             }
         }
 
