@@ -1,3 +1,5 @@
+const MODE = require('./mode');
+
 class DJUser {
     /**
      * @param {DJManager} djManager
