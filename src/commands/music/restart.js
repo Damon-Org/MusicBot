@@ -1,10 +1,10 @@
-const BaseCommand = require('../../structs/base_command.js');
+const MusicCommand = require('../../structs/music_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends MusicCommand
  */
-class Leave extends BaseCommand {
+class Restart extends MusicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,7 +12,7 @@ class Leave extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Restart, {
             category: category,
             guild_only: true,
 
@@ -29,34 +29,30 @@ class Leave extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = this.voiceChannel;
-        if (!voicechannel) {
-            await this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
+        if (this.musicSystem.isDamonInVC(this.voiceChannel) && this.musicSystem.queueExists()) {
+            this.send('The queue has been reset to the start.');
 
-            return;
-        }
+            this.musicSystem.queue.rewind();
+            this.musicSystem.doNotSkip = true;
 
-        const musicSystem = this.serverInstance.musicSystem;
+            this.musicSystem.repeat = false;
 
-        if (musicSystem.isDamonInVC(voicechannel) && musicSystem.queueExists()) {
-            this.textChannel.send('The queue has been reset to the start.');
+            if (this.musicSystem.shutdown.type() == 'leave') {
+                this.musicSystem.shutdown.cancel();
+                this.musicSystem.playNext();
 
-            musicSystem.queue.rewind();
-            musicSystem.doNotSkip = true;
-
-            if (musicSystem.shutdown.type() == 'leave') {
-                musicSystem.shutdown.cancel();
-                musicSystem.playNext();
-
-                return;
+                return true;
             }
-            musicSystem.player.stopTrack();
+            this.musicSystem.player.stopTrack();
 
-            return;
+            return true;
         }
 
-        this.msgObj.reply('you aren\'t in the bot\'s channel or is not done playing music.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('you aren\'t in my voice channel or I\'m not done playing music! 😣')
+            .then(msg => msg.delete({timeout: 5e3}));
+
+        return true;
     }
 }
 
-module.exports = Leave;
+module.exports = Restart;

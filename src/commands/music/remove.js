@@ -1,10 +1,10 @@
-const BaseCommand = require('../../structs/base_command.js');
+const MusicCommand = require('../../structs/music_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends MusicCommand
  */
-class Remove extends BaseCommand {
+class Remove extends MusicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,7 +12,7 @@ class Remove extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Remove, {
             category: category,
             guild_only: true,
 
@@ -40,33 +40,36 @@ class Remove extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = this.voiceChannel;
-        if (!voicechannel) {
-            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
+        if (!this.voiceChannel) {
+            this.reply('you aren\'t in a voicechannel')
+                .then(msg => msg.delete({timeout: 5e3}));
 
-            return;
+            return true;
         }
 
-        const musicSystem = this.serverInstance.musicSystem;
-        if (musicSystem.isDamonInVC(voicechannel)) {
-            if (musicSystem.removeSong(this.args[0])) {
+        if (this.musicSystem.isDamonInVC(this.voiceChannel)) {
+            if (this.musicSystem.removeSong(this.args[0])) {
                 if (!this.args[0] || this.args[0] == '' || this.args[0] == 1) {
-                    this.msgObj.reply('the currently playing song has been removed.');
+                    this.reply('the currently playing song has been removed.');
 
-                    return;
+                    return true;
                 }
 
-                this.msgObj.reply('the selected song has been removed.');
+                this.reply('the selected song has been removed.');
 
-                return;
+                return true;
             }
 
-            this.msgObj.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${this.serverInstance.prefix}q <# page number>.`).then(msg => msg.delete({timeout: 5e3}));
+            this.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${this.serverInstance.prefix}q <# page number>.`)
+                .then(msg => msg.delete({timeout: 5e3}));
 
-            return;
+            return true;
         }
 
-        this.msgObj.reply('you aren\'t in the bot\'s channel.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('you aren\'t in my voice channel! 😣')
+            .then(msg => msg.delete({timeout: 5e3}));
+
+        return true;
     }
 }
 

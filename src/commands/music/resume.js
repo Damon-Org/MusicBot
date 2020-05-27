@@ -1,10 +1,10 @@
-const BaseCommand = require('../../structs/base_command.js');
+const MusicCommand = require('../../structs/dj_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends MusicCommand
  */
-class Resume extends BaseCommand {
+class Resume extends MusicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,7 +12,7 @@ class Resume extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Resume, {
             category: category,
             guild_only: true,
 
@@ -29,23 +29,18 @@ class Resume extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = this.voiceChannel;
-        if (!voicechannel) {
-            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
-
-            return;
-        }
-
-        const musicSystem = this.serverInstance.musicSystem;
-        if (musicSystem.isDamonInVC(voicechannel)) {
-            if (musicSystem.resumePlayback()) {
-                this.textChannel.send('Music playback has been resumed.');
+        if (this.musicSystem.isDamonInVC(this.voiceChannel)) {
+            if (this.musicSystem.resumePlayback()) {
+                this.send('Music playback has been resumed.');
             }
 
-            return;
+            return true;
         }
 
-        this.msgObj.reply('you aren\'t in the bot\'s channel.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('you aren\'t in my voice channel! 😣')
+            .then(msg => msg.delete({timeout: 5e3}));
+
+        return true;
     }
 }
 

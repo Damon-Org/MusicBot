@@ -2,7 +2,7 @@ const BaseCommand = require('../../structs/base_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class Queue extends BaseCommand {
     /**
@@ -12,7 +12,7 @@ class Queue extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Queue, {
             category: category,
             guild_only: true,
 
@@ -40,12 +40,11 @@ class Queue extends BaseCommand {
     async run(command) {
         const
             server = this.msgObj.guild,
-            serverInstance = this.serverInstance,
-            musicSystem = serverInstance.musicSystem,
-            maxPrequeue = musicSystem.queue.maxPrequeue;
+            maxPrequeue = this.musicSystem.queue.maxPrequeue;
 
-        if (!musicSystem.queueExists()) {
-            this.msgObj.reply('No music is playing currently.').then(msg => msg.delete({timeout: 5e3}));
+        if (!this.musicSystem.queueExists()) {
+            this.reply('No music is playing currently.')
+                .then(msg => msg.delete({timeout: 5e3}));
 
             return;
         }
@@ -62,9 +61,10 @@ class Queue extends BaseCommand {
         }
         else {
             if (isNaN(this.args[0]) || this.args[0].includes('.') || this.args[0].includes(',')) {
-                this.msgObj.reply('invalid page number.').then(msg => msg.delete({timeout: 5e3}));
+                this.reply('sorry, I can\'t seem to find any tracks on the page you gave me.')
+                    .then(msg => msg.delete({timeout: 5e3}));
 
-                return;
+                return true;
             }
 
             page = parseInt(this.args[0]);
@@ -85,28 +85,28 @@ class Queue extends BaseCommand {
             }
         }
 
-        if (musicSystem.queueExists()) {
-            const length = musicSystem.queue.size();
+        if (this.musicSystem.queueExists()) {
+            const length = this.musicSystem.queue.size();
             let embedDescription = '';
 
             for (let i = bottomLimit; i < topLimit; i++) {
                 if (i == maxPrequeue) {
-                    if (musicSystem.queue.get(maxPrequeue) == null && (musicSystem.queue.get(maxPrequeue - 1) == null && musicSystem.queue.get(maxPrequeue + 1) == null)) {
+                    if (this.musicSystem.queue.get(maxPrequeue) == null && (this.musicSystem.queue.get(maxPrequeue - 1) == null && this.musicSystem.queue.get(maxPrequeue + 1) == null)) {
                         continue;
                     }
                 }
-                else if (musicSystem.queue.get(i) == null) {
+                else if (this.musicSystem.queue.get(i) == null) {
                     continue;
                 }
 
-                const track = musicSystem.queue.get(i);
+                const track = this.musicSystem.queue.get(i);
 
                 if (i < maxPrequeue) {
                     if (embedDescription.length == 0) {
                         embedDescription = `\`\`\`asciidoc\n[PREVIOUSLY${(page != 0) ? ' – Page ' + Math.abs(page - 1) : ''}]\`\`\`\n`;
                     }
 
-                    embedDescription += `\`\`\`asciidoc\n[${(i - maxPrequeue)}] :: ${track.getTitle()}\`\`\``;
+                    embedDescription += `\`\`\`asciidoc\n[${(i - maxPrequeue)}] :: ${track.title}\`\`\``;
                 }
 
                 if (i == maxPrequeue) {
@@ -114,7 +114,7 @@ class Queue extends BaseCommand {
                         embedDescription += `\n\n\`\`\`md\n< NOW PLAYING >\n{ SONG HAS BEEN REMOVED }\`\`\``;
                     }
                     else {
-                        embedDescription += `\n\n\`\`\`md\n< NOW PLAYING >\n${track.getTitle()}\`\`\``;
+                        embedDescription += `\n\n\`\`\`md\n< NOW PLAYING >\n${track.title}\`\`\``;
                     }
                 }
 
@@ -123,7 +123,7 @@ class Queue extends BaseCommand {
                 }
 
                 if (i > maxPrequeue) {
-                    embedDescription += `\`\`\`ini\n[${i - maxPrequeue + 1}] ${track.getTitle()}\`\`\``;
+                    embedDescription += `\`\`\`ini\n[${i - maxPrequeue + 1}] ${track.title}\`\`\``;
                 }
 
                 if (i == (topLimit - 1) || i == (length - 2)) {
@@ -131,11 +131,11 @@ class Queue extends BaseCommand {
                         .setAuthor('Queue for ' + server.name, server.iconURL)
                         .setColor('#252422')
                         .setDescription(embedDescription)
-                        .setFooter(`You can use ${serverInstance.prefix}q #number to see other pages of the queue.`);
+                        .setFooter(`You can use ${this.serverInstance.prefix}q #number to see other pages of the queue.`);
 
-                    this.textChannel.send(richEmbed);
+                    this.send(richEmbed);
 
-                    return;
+                    return true;
                 }
             }
 
@@ -143,14 +143,17 @@ class Queue extends BaseCommand {
                 .setAuthor('Queue for ' + server.name, server.iconURL)
                 .setColor('#252422')
                 .setDescription('This page is empty.')
-                .setFooter('You can use !q #number to see other pages of the queue.');
+                .setFooter(`You can use ${this.serverInstance.prefix}q #number to see other pages of the queue.`);
 
-            this.textChannel.send(richEmbed);
+            this.send(richEmbed);
 
-            return;
+            return true;
         }
 
-        this.msgObj.reply('no music is playing currently.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('no music is playing currently.')
+            .then(msg => msg.delete({timeout: 5e3}));
+
+        return true;
     }
 }
 

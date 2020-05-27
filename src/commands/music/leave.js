@@ -1,10 +1,10 @@
-const BaseCommand = require('../../structs/base_command.js');
+const DJCommand = require('../../structs/dj_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends DJCommand
  */
-class Leave extends BaseCommand {
+class Leave extends DJCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,7 +12,7 @@ class Leave extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Leave, {
             category: category,
             guild_only: true,
 
@@ -33,23 +33,24 @@ class Leave extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const
-            voicechannel = this.voiceChannel,
-            musicSystem = this.serverInstance.musicSystem;
-        if (!voicechannel && !musicSystem.shutdown.type()) {
-            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
+        if (!this.voiceChannel && !this.musicSystem.shutdown.type()) {
+            this.reply('where are you? I can\'t seem to find you in any voice channel. <:thinking_hard:560389998806040586>')
+                .then(msg => msg.delete({timeout: 5e3}));
 
-            return;
+            return true;
         }
 
-        if (musicSystem.isDamonInVC(voicechannel) || musicSystem.shutdown.type()) {
-            this.textChannel.send('Music playback has been stopped by leave command.');
+        if (this.musicSystem.isDamonInVC(this.voiceChannel) || this.musicSystem.shutdown.type()) {
+            this.msgObj.react('👋');
 
-            musicSystem.shutdown.instant();
-            return;
+            this.musicSystem.shutdown.instant();
+
+            return true;
         }
 
-        this.msgObj.reply('you aren\'t in the bot\'s channel or is not done playing music.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('you aren\'t in my voice channel! 😣').then(msg => msg.delete({timeout: 5e3}));
+
+        return true;
     }
 }
 

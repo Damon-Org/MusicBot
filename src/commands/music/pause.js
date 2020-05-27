@@ -1,10 +1,10 @@
-const BaseCommand = require('../../structs/base_command.js');
+const MusicCommand = require('../../structs/music_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends MusicCommand
  */
-class Pause extends BaseCommand {
+class Pause extends MusicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,7 +12,7 @@ class Pause extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Pause, {
             category: category,
             guild_only: true,
 
@@ -29,28 +29,23 @@ class Pause extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = this.voiceChannel;
-        if (!voicechannel) {
-            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
+        if (this.musicSystem.isDamonInVC(this.voiceChannel)) {
+            if (this.musicSystem.pausePlayback()) {
+                this.send('Music playback has been paused.');
 
-            return;
-        }
-
-        const musicSystem = this.serverInstance.musicSystem;
-
-        if (musicSystem.isDamonInVC(voicechannel)) {
-            if (musicSystem.pausePlayback()) {
-                this.textChannel.send('Music playback has been paused.');
-
-                return;
+                return true;
             }
 
-            this.msgObj.reply('music is already paused, use `resume` command to continue playing.').then(msg => msg.delete({timeout: 5e3}));
+            this.reply('music is already paused, use `resume` command to continue playing.')
+                .then(msg => msg.delete({timeout: 5e3}));
 
-            return;
+            return true;
         }
 
-        this.msgObj.reply('you aren\'t in the bot\'s channel.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('you aren\'t in my voice channel! 😣')
+            .then(msg => msg.delete({timeout: 5e3}));
+
+        return true;
     }
 }
 
