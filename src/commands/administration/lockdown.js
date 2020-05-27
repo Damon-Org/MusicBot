@@ -14,7 +14,7 @@ class LockDown extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(LockDown, {
             category: category,
             disabled: true,
             hidden: true,

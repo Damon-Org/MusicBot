@@ -4,7 +4,7 @@ const
 
 /**
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class Stats extends BaseCommand {
     /**
@@ -14,7 +14,7 @@ class Stats extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Stats, {
             name: 'stats',
             aliases: [
                 'status'

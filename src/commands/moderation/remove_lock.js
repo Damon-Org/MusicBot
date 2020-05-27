@@ -2,7 +2,7 @@ const BaseCommand = require('../../structs/base_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class RemoveLock extends BaseCommand {
     /**
@@ -12,7 +12,7 @@ class RemoveLock extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(RemoveLock, {
             category: category,
             guild_only: true,
 
@@ -32,7 +32,7 @@ class RemoveLock extends BaseCommand {
                     required: true
                 }
             ],
-            permission: {
+            permissions: {
                 logic: 'OR',
                 levels: [
                     {

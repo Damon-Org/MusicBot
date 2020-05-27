@@ -3,7 +3,7 @@ const BaseCommand = require('../../structs/base_command.js');
 /**
  * Class name speaks for itself
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class UnbanUser extends BaseCommand {
     /**
@@ -13,7 +13,7 @@ class UnbanUser extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(UnbanUser, {
             category: category,
             hidden: true,
 

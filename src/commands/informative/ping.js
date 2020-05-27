@@ -2,7 +2,7 @@ const BaseCommand = require('../../structs/base_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class Ping extends BaseCommand {
     /**
@@ -12,7 +12,7 @@ class Ping extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Ping, {
             category: category,
 
             name: "ping",

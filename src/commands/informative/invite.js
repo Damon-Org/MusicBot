@@ -2,7 +2,7 @@ const BaseCommand = require('../../structs/base_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class Invite extends BaseCommand {
     /**
@@ -12,7 +12,7 @@ class Invite extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Invite, {
             category: category,
 
             name: 'invite',

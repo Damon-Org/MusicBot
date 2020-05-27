@@ -3,7 +3,7 @@ const BaseCommand = require('../../structs/base_command.js');
 /**
  * Class name speaks for itself
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class UpdateServers extends BaseCommand {
     /**
@@ -13,7 +13,7 @@ class UpdateServers extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(UpdateServers, {
             category: category,
             hidden: true,
 

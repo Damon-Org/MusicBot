@@ -3,9 +3,9 @@ const BaseCommand = require('../../structs/base_command.js');
 /**
  * Class name speaks for itself
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
-class BanUser extends BaseCommand {
+class Test extends BaseCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -13,7 +13,7 @@ class BanUser extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Test, {
             category: category,
             hidden: true,
 
@@ -46,4 +46,4 @@ class BanUser extends BaseCommand {
     }
 }
 
-module.exports = BanUser;
+module.exports = Test;
