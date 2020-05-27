@@ -9,21 +9,32 @@ class BaseCommand {
      * @param {*} args The arguments to directly assign to the class
      */
     constructor(...args) {
-        args.forEach((argument) => this.register(argument, false));
+        this.originalArgs = [...args];
+
+        args.forEach((argument) => this.register(null, argument, false));
+    }
+
+    clone() {
+        return new this.instance(this.category, ...this.originalArgs);
     }
 
     /**
      * @param {external:Object} object
      * @param {external:Boolean} internal If this is the raw register object
      */
-    register(object, internal = true) {
+    register(instance, object, internal = true) {
         if (typeof object !== 'object') throw new Error('Invalid self assignment, expected object but got different type instead.');
 
         Object.assign(this, object);
 
         if (internal) {
+            this.instance = instance;
+
             delete object.category;
             this.rawData = object;
+        }
+        else if (this.rawData) {
+            Object.assign(this.rawData, object);
         }
     }
 
@@ -50,7 +61,7 @@ class BaseCommand {
 
         try {
             if (typeof this.beforeRun === 'function' && !await this.beforeRun(command)) return false;
-            if (typeof this.afterRun === 'function') await this.run();
+            if (typeof this.afterRun === 'function') await this.run(command);
             else return await this.run(command);
         } catch (e) {
             this.db.log('CMD', 'ERROR', e.stack);
@@ -60,30 +71,6 @@ class BaseCommand {
             // Force our cleanup regardless of errors
             if (typeof this.afterRun === 'function') return await this.afterRun();
         }
-    }
-
-    /**
-     * @param {external:Object} data
-     */
-    async socketPrepare(data) {
-        const
-            command = data.command,
-            args = data.args,
-            author = this.db.client.users.resolve(data.user_id),
-            guild = this.db.client.guilds.resolve(data.guild_id),
-            member = guild.members.resolve(author),
-            textChannel = this.db.client.channels.resolve(data.text_channel),
-            voiceChannel = this.db.client.channels.resolve(data.voice_channel);
-
-        if (!author || !member || !textChannel) return false;
-
-        const forgedMessage = new this.db.Discord.Message(this.db.client, null);
-        forgedMessage.author = author;
-        forgedMessage.channel = textChannel;
-        forgedMessage.content = `${this.db.commandRegisterer.default_prefix}${command} ${args.join(' ')}`;
-        forgedMessage.member = member;
-
-        return await this.check(forgedMessage, args, command, false);
     }
 
     /**
@@ -141,6 +128,10 @@ class BaseCommand {
     get serverInstance() {
         return this.serverUtils.getClassInstance(this.msgObj.guild.id);
     }
+    get musicSystem() {
+        return this.serverInstance.musicSystem;
+    }
+
     /**
      * Util shorthands
      */
@@ -190,7 +181,7 @@ class BaseCommand {
         }
 
         if (exception) {
-            embed.setDescription(`View the documentation of [this command on our site](https://music.damon.sh/#/commands?c=${encodeURI(this.name)})`);
+            embed.setDescription(`View the documentation of [this command on our site](https://music.damon.sh/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.db.commandRegisterer.default_prefix ? '' : `&p=${encodeURI(prefix)}`})`);
 
             this.msgObj.channel.send(embed);
 
@@ -261,29 +252,38 @@ class BaseCommand {
 
         for (let level of this.permissions.levels) {
             if (level.type === 'SERVER') {
-                if (!this.serverMember.hasPermission(permissions[this.permission.name], false, true, true)                                                         ) {
-                    this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` permission.`).then(msg => msg.delete({timeout: 5000}));
+                if (!this.serverMember.hasPermission(level.name, false, true, true)) {
+                    if (or) continue;
+
+                    this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` permission(s).`).then(msg => msg.delete({timeout: 5e3}));
 
                     return false;
                 }
 
                 if (or) return true;
             }
+            else if (level.type === 'ROLE') {
+                if (this.serverMember.roles.cache.find(x => x.name.toLowerCase() === level.name)) {
+                    if (or) continue;
 
-            if (level.type === 'ROLE') {
-                if (this.serverMember.roles.cache.find(x => x.toLowerCase() !== level.name)) {
-                    this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` role to use this command.`).then(msg => msg.delete({timeout: 5000}));
+                    this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` role to use this command.`).then(msg => msg.delete({timeout: 5e3}));
 
                     return false;
                 }
 
                 if (or) return true;
             }
-
-            if (level.type === 'COMMAND_HANDLED') {
+            else if (level.type === 'COMMAND_HANDLED') {
                 if (!await this.permission()) return false;
 
                 if (or) return true;
+            }
+            else {
+                this.db.log('CMD', 'ERROR', `Command '${this.name}' permissions incorrectly configured, unknown type: ${level.type}`);
+
+                this.send('The developer has incorrectly configured the permissions of this command, contact the developer if this problem keeps occuring.');
+
+                return false;
             }
         }
 
