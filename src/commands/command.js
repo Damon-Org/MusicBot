@@ -58,6 +58,11 @@ class CommandRegistrar {
 
                             continue;
                         }
+                        if (instance.hidden) {
+                            this.db.log('COMMAND', 'WARN', `Command hidden: '${parentBit}${instance.name}'`)
+
+                            continue;
+                        }
 
                         if (instance.permissions && instance.permissions.levels.filter(x => x.type === 'COMMAND_HANDLED').length == 1) {
                             if (!instance.permission || typeof instance.permission !== 'function') {
@@ -184,7 +189,8 @@ class CommandRegistrar {
                 trigger = args.splice(0, index);
 
             try {
-                instance.check(message, args, trigger.join(' '), mentioned);
+                const clone = instance.clone();
+                clone.check(message, args, trigger.join(' '), mentioned);
             } catch (e) {
                 message.channel.send(`An error occured while trying to run the following command \`${command}\`\nWith the following output: \`\`\`js\n${e.stack}\`\`\``);
             }
