@@ -1,10 +1,10 @@
-const BaseCommand = require('../../structs/base_command.js');
+const MusicCommand = require('../../structs/music_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends MusicCommand
  */
-class Volume extends BaseCommand {
+class Volume extends MusicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,7 +12,7 @@ class Volume extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Volume, {
             category: category,
             guild_only: true,
 
@@ -39,47 +39,44 @@ class Volume extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = this.voiceChannel;
-        if (!voicechannel) {
-            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
-
-            return;
-        }
-
-        const musicSystem = this.serverInstance.musicSystem;
-        if (musicSystem.isDamonInVC(voicechannel)) {
+        if (this.musicSystem.isDamonInVC(this.voiceChannel)) {
             if (this.args[0] == undefined || this.args[0].length == 0) {
-                this.msgObj.reply('please give a value, command format: `volume #number`.').then(msg => msg.delete({timeout: 5e3}));
+                this.reply('please give a value, command format: `volume #number`.')
+                    .then(msg => msg.delete({timeout: 5e3}));
 
-                return;
+                return true;
             }
 
             if (isNaN(this.args[0]) || this.args[0].includes(',')) {
-                this.msgObj.reply('invalid volume level, make sure you give a number and that there\'s no `,` in that number.').then(msg => msg.delete({timeout: 5e3}));
+                this.reply('invalid volume level, make sure you give a number and that there\'s no `,` in that number.')
+                    .then(msg => msg.delete({timeout: 5e3}));
 
-                return;
+                return true;
             }
 
             const volume = parseInt(this.args[0], 10);
-
             if (volume < 5 || volume > 200) {
-                this.msgObj.reply('invalid volume level, please give a value between 5 and 200').then(msg => msg.delete({timeout: 5e3}));
+                this.reply('invalid volume level, please give a value between 5 and 200')
+                    .then(msg => msg.delete({timeout: 5e3}));
 
-                return;
+                return true;
             }
 
-            if (musicSystem.setVolume(volume)) {
-                this.textChannel.send(`Volume level has been changed to \`${volume}\`.`);
+            if (this.musicSystem.setVolume(volume)) {
+                this.send(`Volume level has been changed to \`${volume}\`.`);
 
-                return;
+                return true;
             }
 
-            this.msgObj.reply('volume level unchanged.');
+            this.reply('volume level unchanged.');
 
-            return;
+            return true;
         }
 
-        this.msgObj.reply('you aren\'t in the bot\'s channel.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('you aren\'t in my voice channel! 😣')
+            .then(msg => msg.delete({timeout: 5e3}));
+
+        return true;
     }
 }
 

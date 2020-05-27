@@ -1,10 +1,10 @@
-const BaseCommand = require('../../structs/base_command.js');
+const MusicCommand = require('../../structs/music_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends MusicCommand
  */
-class Previous extends BaseCommand {
+class Previous extends MusicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,7 +12,7 @@ class Previous extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Previous, {
             category: category,
             guild_only: true,
 
@@ -31,22 +31,16 @@ class Previous extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = this.voiceChannel;
-        if (!voicechannel) {
-            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
-
-            return;
-        }
-
-        if (this.serverInstance.musicSystem.isDamonInVC(voicechannel)) {
-            this.serverInstance.musicSystem.playPrevious();
+        if (this.musicSystem.isDamonInVC(this.voiceChannel)) {
+            this.musicSystem.playPrevious();
 
             this.msgObj.react('⏮️');
 
-            return;
+            return true;
         }
 
-        this.msgObj.reply('you aren\'t in the bot\'s channel.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('you aren\'t in my voice channel! 😣')
+            .then(msg => msg.delete({timeout: 5e3}));
     }
 }
 

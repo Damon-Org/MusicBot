@@ -2,7 +2,7 @@ const BaseCommand = require('../../structs/base_command');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class ForceReset extends BaseCommand {
     /**
@@ -12,7 +12,7 @@ class ForceReset extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(ForceReset, {
             category: category,
             guild_only: true,
             hidden: true,
@@ -33,19 +33,19 @@ class ForceReset extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const
-            voicechannel = this.voiceChannel,
-            musicSystem = this.serverInstance.musicSystem;
+        if (!this.voiceChannel) {
+            this.reply('where are you? I can\'t seem to find you in any voice channel. <:thinking_hard:560389998806040586>')
+                .then(msg => msg.delete({timeout: 5e3}));
 
-        if (!voicechannel) {
-            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
-
-            return;
+            return true;
         }
 
-        musicSystem.shutdown.instant();
+        this.musicSystem.shutdown.instant();
 
-        this.msgObj.reply('the Music System has been reset.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('the Music System has been reset.')
+            .then(msg => msg.delete({timeout: 5e3}));
+
+        return true;
     }
 }
 

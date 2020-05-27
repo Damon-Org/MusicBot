@@ -1,10 +1,10 @@
-const BaseCommand = require('../../structs/base_command.js');
+const MusicCommand = require('../../structs/dj_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends MusicCommand
  */
-class Repeat extends BaseCommand {
+class Repeat extends MusicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,7 +12,7 @@ class Repeat extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Repeat, {
             category: category,
             guild_only: true,
 
@@ -29,33 +29,29 @@ class Repeat extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = this.voiceChannel;
-        if (!voicechannel) {
-            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
+        if (this.musicSystem.isDamonInVC(this.voiceChannel)) {
+            if (this.musicSystem.queue.active() == null) {
+                this.reply('the currently playing song has been removed, thus it cannot be put in repeat.')
+                    .then(msg => msg.delete({timeout: 5e3}));
 
-            return;
-        }
-
-        const musicSystem = this.serverInstance.musicSystem;
-        if (musicSystem.isDamonInVC(voicechannel)) {
-            if (musicSystem.queue.active() == null) {
-                this.msgObj.reply('the currently playing song has been removed, thus it cannot be put in repeat.').then(msg => msg.delete({timeout: 5e3}));
-
-                return;
+                return true;
             }
 
-            if (musicSystem.repeatToggle()) {
-                this.textChannel.send('Repeat has been **enabled**.');
+            if (this.musicSystem.repeatToggle()) {
+                this.send('Repeat has been **enabled**.');
 
-                return;
+                return true;
             }
 
-            this.textChannel.send('Repeat has been **disabled**.');
+            this.send('Repeat has been **disabled**.');
 
-            return;
+            return true;
         }
 
-        this.msgObj.reply('you aren\'t in the bot\'s channel.').then(msg => msg.delete({timeout: 5e3}));
+        this.reply('you aren\'t in my voice channel! 😣')
+            .then(msg => msg.delete({timeout: 5e3}));
+
+        return true;
     }
 }
 

@@ -1,10 +1,10 @@
-const BaseCommand = require('../../structs/base_command.js');
+const MusicCommand = require('../../structs/music_command.js');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends MusicCommand
  */
-class Leave extends BaseCommand {
+class Shuffle extends MusicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,7 +12,7 @@ class Leave extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(Shuffle, {
             category: category,
             guild_only: true,
 
@@ -29,24 +29,20 @@ class Leave extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = this.voiceChannel;
-        if (!voicechannel) {
-            this.msgObj.reply('you aren\'t in a voicechannel').then(msg => msg.delete({timeout: 5e3}));
+        if (!this.musicSystem.isDamonInVC(this.voiceChannel)) {
+            this.reply('you aren\'t in my voice channel! 😣')
+                .then(msg => msg.delete({timeout: 5e3}));
 
-            return;
+            return true;
         }
 
-        const musicSystem = this.serverInstance.musicSystem;
-        if (!musicSystem.isDamonInVC(voicechannel)) {
-            this.msgObj.reply('you aren\'t in the bot\'s channel.').then(msg => msg.delete({timeout: 5e3}));
+        this.musicSystem.queue.shuffle();
+        this.musicSystem.cacheSongIfNeeded();
 
-            return;
-        }
+        this.send('🔀 The queue has been shuffled. 🔀');
 
-        musicSystem.queue.shuffle();
-
-        this.textChannel.send('🔀 The queue has been shuffled. 🔀');
+        return true;
     }
 }
 
-module.exports = Leave;
+module.exports = Shuffle;

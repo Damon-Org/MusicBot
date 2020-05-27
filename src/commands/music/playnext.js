@@ -1,10 +1,14 @@
-const BaseCommand = require('../../structs/base_command.js');
+const
+    MusicCommand = require('../../structs/music_command.js'),
+
+    LavaTrack = require('../../music/track/lava'),
+    SpotifyTrack = require('../../music/track/spotify');
 
 /**
  * @category Commands
- * @extends Command
+ * @extends MusicCommand
  */
-class PlayNext extends BaseCommand {
+class PlayNext extends MusicCommand {
     /**
      * @param {external:String} category
      * @param {Array<*>} args
@@ -12,7 +16,7 @@ class PlayNext extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(PlayNext, {
             category: category,
             guild_only: true,
 
@@ -40,66 +44,96 @@ class PlayNext extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const voicechannel = this.voiceChannel;
-        if (!voicechannel) {
-            msgObj.reply(`you aren't in a voice channel, join one to use this command.`);
-            return;
-        }
-
         if (this.args.length == 0) {
-            this.msgObj.reply(`please give a valid link or a music title to search for.`).then(msg => msg.delete({timeout: 5e3}));
+            this.reply('I can\'t search for nothing... Please give me something to search for.')
+                .then(msg => msg.delete({timeout: 5e3}));
 
-            return;
+            return false;
         }
 
-        const
-            noticeMsg = this.textChannel.send('🔍 `Looking up your request...` 🔍'),
-            node = this.db.carrier.getNode();
+        const noticeMsg = this.send('🔍 `Looking up your request...` 🔍');
+
         let data = null;
 
-        if (this.args.length == 1 && (this.args[0].includes('https://') || this.args[0].includes('http://'))) {
-            data = await node.rest.resolve(this.args[0]);
-        }
-        else {
-            const searchFor = this.args.join(' ');
+        switch (this.musicUtils.checkRequestType(this.args)) {
+            case 0: {
+                data = await this.db.carrier.getNode().rest.resolve(this.args[0]);
 
-            this.musicUtils.createNewChoiceEmbed(this.msgObj, searchFor, noticeMsg, true);
+                if (!data) {
+                    const richEmbed = new this.db.Discord.MessageEmbed()
+                        .setTitle('I could not find the track you requested')
+                        .setDescription(`No results returned for ${this.args.join(' ')}.`)
+                        .setColor('#ed4337');
 
-            return;
-        }
+                    this.send(richEmbed);
 
-        if (!data) {
-            const richEmbed = new this.db.Discord.MessageEmbed()
-                .setTitle('I could not find the track you requested')
-                .setDescription(`No results returned for ${this.args.join(' ')}.`)
-                .setColor('#ed4337');
+                    return true;
+                }
 
-            this.textChannel.send(richEmbed);
+                if (Array.isArray(data)) {
+                    if (data.length > 0) {
+                        const orig = (new URL(this.args[0])).searchParams.get('v');
 
-            return;
-        }
+                        this.musicUtils.createPlaylistFoundEmbed(orig, data, this.msgObj, noticeMsg, true);
 
-        if (Array.isArray(data)) {
-            if (data.length > 0) {
-                // Playlist found
-                const orig = (new URL(args[0])).searchParams.get('v');
+                        return true;
+                    }
 
-                this.musicUtils.createPlaylistFoundEmbed(orig, data, this.msgObj, noticeMsg, true);
+                    const richEmbed = new this.db.Discord.MessageEmbed()
+                        .setTitle('Playlist Error')
+                        .setDescription(`A playlist was found but did not contain any songs.`)
+                        .setColor('#ed4337');
 
-                return;
+                    this.send(richEmbed);
+
+                    return true;
+                }
+
+                data = new LavaTrack(data);
+
+                break;
             }
+            case 1: {
+                const spotify = new URL(this.args[0]).pathname;
 
-            const richEmbed = new this.db.Discord.MessageEmbed()
-                .setTitle('Playlist Error')
-                .setDescription(`A playlist was found but did not contain any songs.`)
-                .setColor('#ed4337');
+                if (spotify.includes('/playlist/')) {
+                    const playlist = (await this.db.api.spotify.getPlaylist(spotify.split('/playlist/')[1])).body;
 
-            this.send(richEmbed);
+                    noticeMsg.then(msg => msg.delete());
+                    this.send(`I added the playlist **${playlist.name}** with **${playlist.tracks.items.length}** tracks!`);
 
-            return;
+                    for (const item of playlist.tracks.items) {
+                        const spotifyTrack = new SpotifyTrack(item.track, this.db);
+
+                        if (!await this.musicUtils.handleSongData(spotifyTrack, this.serverMember, this.msgObj, this.voiceChannel, null, false, false)) break;
+                    }
+
+                    return true;
+                }
+                else if (spotify.includes('/track/')) {
+                    const track = (await this.db.api.spotify.getTrack(spotify.split('/track/')[1])).body;
+
+                    data = new SpotifyTrack(track, this.db);
+                }
+                else {
+                    this.send('I have no idea what to do with that spotify link? <:thinking_hard:560389998806040586>')
+                        .then(msg => msg.delete({timeout: 5e3}));
+
+                    return true;
+                }
+
+                break;
+            }
+            default: {
+                this.musicUtils.createNewChoiceEmbed(this.msgObj, this.args.join(' '), noticeMsg, true);
+
+                return true;
+            }
         }
 
         this.musicUtils.handleSongData(data, this.serverMember, this.msgObj, this.voiceChannel, noticeMsg, true);
+
+        return true;
     }
 }
 

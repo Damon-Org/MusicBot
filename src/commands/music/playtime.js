@@ -4,7 +4,7 @@ const
 
 /**
  * @category Commands
- * @extends Command
+ * @extends BaseCommand
  */
 class PlayTime extends BaseCommand {
     /**
@@ -14,7 +14,7 @@ class PlayTime extends BaseCommand {
     constructor(category, ...args) {
         super(...args);
 
-        this.register({
+        this.register(PlayTime, {
             category: category,
             guild_only: true,
 
@@ -33,13 +33,16 @@ class PlayTime extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        if (!this.serverInstance.musicSystem.queueExists()) {
-            this.msgObj.reply('No music is playing currently.').then(msg => msg.delete({timeout: 5e3}));
+        if (!this.musicSystem.queueExists()) {
+            this.msgObj.reply('No music is playing currently.')
+                .then(msg => msg.delete({timeout: 5e3}));
 
-            return;
+            return true;
         }
 
-        this.textChannel.send(`Music has been playing for ${humanReadableTime(Math.round((Date.now() - this.serverInstance.musicSystem.startTime) / 1000) * 1000)}`);
+        this.send(`Music has been playing for ${humanReadableTime(Math.round((Date.now() - this.serverInstance.musicSystem.startTime) / 1000) * 1000)}`);
+
+        return true;
     }
 }
 
