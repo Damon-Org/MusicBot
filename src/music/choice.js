@@ -1,14 +1,15 @@
-const MusicAPI = new (require('./api.js'));
-
 /**
  * @category MusicSystem
  */
 class Choice {
     /**
+     * @param {YouTubeAPI} youtubeApi
      * @param {external:String} searchFor The string the bot has to search for on the youtube API
      * @param {external:Boolean} [exception=false] If the request should be added next up (true) or handle as a normal song (default=false)
      */
-    constructor(searchFor, exception = false) {
+    constructor(youtubeApi, searchFor, exception = false) {
+        this.ytAPI = youtubeApi;
+
         /**
          * @type {Array<*>}
          */
@@ -61,7 +62,7 @@ class Choice {
      * Will load the songs from the api and then generate an embedDescription
      */
     async getSongs() {
-        const data = await MusicAPI.searchYoutube(this.searchQuery);
+        const data = await this.ytAPI.search(this.searchQuery);
 
         if (data.length == 0) {
             return false;
@@ -74,9 +75,9 @@ class Choice {
         this.embedDescription = '```asciidoc\n[CHOOSE A SONG]```\n'
 
         for (let i = 0; i < data.length; i++) {
-            this.rawData[i] = data[i].id.videoId;
+            this.rawData[i] = data[i].id;
 
-            this.embedDescription += `\`\`\`asciidoc\n[${(i + 1)}] :: ${data[i].snippet.title.replace('&#39;', '\'')}\`\`\``;
+            this.embedDescription += `\`\`\`asciidoc\n[${(i + 1)}] :: ${data[i].title}\`\`\``;
         }
 
         return true;
