@@ -140,10 +140,16 @@ class Queue {
      * Removes a song by the position in queue
      */
     removeOnPosition(position) {
-        position = parseInt(position, 10);
+        position = parseInt(position);
 
         if (position > 0) {
             position--;
+        }
+
+        if (position == 0) {
+            this.queue[this.maxPrequeue + position] = null;
+
+            return true;
         }
 
         this.queue.splice(this.maxPrequeue + position, 1);
