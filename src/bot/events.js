@@ -1,6 +1,7 @@
 const
-    BasicBot = require('./base.js'),
-    CustomEvents = require('./customevents.js');
+    BasicBot = require('./base'),
+    CustomEvents = require('./customevents'),
+    MODE = require('../music/dj/mode');
 
 /**
  * BotEvents class
@@ -122,7 +123,7 @@ class BotEvents extends BasicBot {
      * @param {Discord.MessageReaction} messageReaction
      * @param {Discord.User} user
      */
-    reactionToggleEvents(messageReaction, user) {
+    async reactionToggleEvents(messageReaction, user) {
         const emoji = messageReaction.emoji.name;
 
         if (['⏮️', '⏸', '⏭', '🔁'].includes(emoji)) {
@@ -134,9 +135,15 @@ class BotEvents extends BasicBot {
             const
                 msgObj = messageReaction.message,
                 serverId = msgObj.guild.id,
-                serverInstance = this.serverUtils.getClassInstance(serverId);
+                serverInstance = this.serverUtils.getClassInstance(serverId),
+                musicSystem = serverInstance.musicSystem,
+                serverMember = await msgObj.guild.members.fetch(user);
 
-            serverInstance.musicSystem.onMusicPlayerAction(emoji, msgObj, user);
+            if (musicSystem.djManager.has(serverMember.id)
+                || musicSystem.djManager.mode === MODE['FREEFORALL']
+                || serverMember.roles.cache.find(x => x.name.toLowerCase() === 'dj')
+                || serverMember.hasPermission('MANAGE_GUILD', false, true, true)
+            ) serverInstance.musicSystem.onMusicPlayerAction(emoji, msgObj, user);
         }
     }
 
