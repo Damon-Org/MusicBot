@@ -439,7 +439,7 @@ class MusicSystem {
      * This will put the queue back to the previous song and then play the next song
      * @returns {Boolean} True on success, false when no more previous songs
      */
-    playPrevious() {
+    async playPrevious() {
         this.doNotSkip = true;
 
         if (this.queue.active() == null) {
@@ -448,7 +448,7 @@ class MusicSystem {
 
             this.queue.unshift(null);
 
-            this.player.stopTrack();
+            if (!await this.player.stopTrack()) this.soundEnd();
         }
         else if ((this.queue.active()).repeat) {
             (this.queue.active()).repeat = false;
@@ -457,7 +457,7 @@ class MusicSystem {
         if (this.queue.getFromPosition(-1) != null) {
             this.queue.unshift(null);
 
-            this.player.stopTrack();
+            if (!await this.player.stopTrack()) this.soundEnd();
 
             return true;
         }
@@ -566,7 +566,7 @@ class MusicSystem {
         while (!await this.player.playTrack(currentSong.track)) {
             this.musicBot.log('MUSSYS', 'WARN', 'Failed to playTrack, retrying...');
         }
-        this.player.setVolume(this.volume);
+        await this.player.setVolume(this.volume);
 
         this.musicBot.log('MUSSYS', 'INFO', 'Started track: ' + currentSong.title);
 
@@ -762,7 +762,7 @@ class MusicSystem {
             else this.queue.shift(null);
         }
 
-        this.player.stopTrack();
+        if (!await this.player.stopTrack()) this.soundEnd();
 
         return true;
     }
@@ -800,8 +800,7 @@ class MusicSystem {
             return;
         }
 
-        this.musicBot.log('MUSSYS', 'INFO', 'SoundEnd was called with the following data:');
-        console.log(end);
+        this.musicBot.log('MUSSYS', 'INFO', `Finished track: ${this.lastSong.title}`);
 
         this.playNext();
     }

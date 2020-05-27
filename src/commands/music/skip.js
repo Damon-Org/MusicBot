@@ -33,9 +33,9 @@ class Skip extends MusicCommand {
      */
     async run(command) {
         if (this.musicSystem.isDamonInVC(this.voiceChannel)) {
-            this.musicSystem.player.stopTrack();
-
             this.msgObj.react('⏭');
+
+            if (!await this.musicSystem.player.stopTrack()) this.musicSystem.soundEnd();
 
             return true;
         }
