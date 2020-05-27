@@ -16,6 +16,7 @@ const
     SocketUtils = require('../util/socket'),
     UserUtils = require('../util/user'),
 
+    APICollections = require('../music/api/collections'),
     LazyLoader = require('../util/lazyloader');
 
 /**
@@ -123,6 +124,11 @@ class DamonBase extends BotEvents {
          * @type {LazyLoader}
          */
         this.lazyLoader = new LazyLoader(this);
+
+        /**
+         * @type {APICollections}
+         */
+        this.api = new APICollections(this);
 
         const commandAccessable = [
             {
