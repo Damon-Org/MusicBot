@@ -3,7 +3,7 @@
     "generate_command_json": true,
 
     "client_options": {
-        "disableMentions": "all",
+        "disableMentions": "everyone",
 
         "messageCacheMaxSize": 100,
         "messageCacheLifetime": 86400,
@@ -12,7 +12,7 @@
         "retryLimit": 1,
 
         "ws": {
-            "intents": 13953
+            "intents": 13955
         }
     },
 
