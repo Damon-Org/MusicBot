@@ -14,6 +14,49 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-05-27, Version v0.6.0 @Yimura
+
+### Notable Changes
+
+ * Commands will now be cloned instead of reusing the same instance for multiple requests, this would cause a number of problems where on of the most common was that class variables would be overwritten between async methods.
+ * Different API's are now split into their own respective files
+ * LavalinkTrack and SpotifyTrack class have been added to clearly differentiate between their different structures
+ * A check was added to chose the most optimal way of handling a request
+ * The hasRole method in UserUtils has been updated to support `<, >, <=, >=, =`
+ * The permission system was extended support different levels of permission checking (ROLE, SERVER and COMMAND_HANDLED)
+ * Voice Channel events have been extended, `onVoiceJoin` and `onVoiceLeave` have been added
+ * An entire DJ system was added and all music commands will follow these permissions through `COMMAND_HANDLED`
+ * An `equalizer` command was added
+ * MusicSystem will now cache SpotifyTrack before playing a song
+ * Fixed an old bug where removing the current song would prevent the next song from being played
+ * `googleapis` dependency has been removed and replaced with `scrape-youtube`
+
+### Commits (23)
+
+ * [**20ff3d2f7a1ceb09bc57acdfdd84a62e3651697e**] API: Split all API's in different files and made a collection class
+ * [**f45e1db4286bb85072a28841a8a715c582ff03a4**] MusicTracks: Made a difference between a LavalinkTrack and a SpotifyTrack
+ * [**7caaa4d78c77e1c5e095450cb7e6d01de075140d**] EmbedUtils: Made embed utils more efficient
+ * [**e43957d855b558896f7afb6a59e2c70b7d6e6d10**] MusicUtils: Added checkRequestType and made naming more consistent
+ * [**a56ac242a7425c2b5433b77586ff0fc45a2db304**] UserUtils: Extended hasRole method functionality
+ * [**04e00267f620323d468a306ed9ef9b49b552df18**] BaseCommand: Extended permission system, clone functionality, fixed bug related to beforeRun and afterRun
+ * [**085b93d1a3aa38e55b408d4acfa1c93285e6d34c**] BotEvents: Expanded voice channel events to support joining and leaving
+ * [**31f480006acf247ba53b49f45c87ea1476b535be**] BotMain: Moved API to central point of the code
+ * [**27b399392a22fcea5779f47c6a4a08f647775536**] Commands: Added several DJCommands to managed queue access.
+ * [**6bd8e0ad12c9de2ffcc9d5d44939dc7b6cdc7162**] MusicSystem: Added DJManager
+ * [**867ebe733470e7abec544bb4e143bcb8b94ae67e**] Commands: Added dj and music extentions to BaseCommand
+ * [**c9c1a4d3c16342ee1d0426b81897c8a0a887819e**] MusicTracks: removed original track class
+ * [**3729a267fc21f361c75aa9e20c7e63c684532982**] ServerStruct: YouTubeAPI is now passed to a Choice class
+ * [**3cd2e7469529c8418a4ef370bd8464870b9dda30**] Commands: added equalizer command
+ * [**67e158090207f0a5098bcb9d96a68f0e43d3d289**] Commands: Optimised music commands
+ * [**118e5606d2e495d01bada888685d07c3c11d52b7**] Commands: Modified commands to support cloning function
+ * [**667b677b5e247ace440f28c31a3201bf7219bf83**] CommandRegistrar: Command instances are cloned now before execution
+ * [**15bbfe4ef215d99e5bc5029372df237a32f3df62**] Choice: Updated choice class to support new track structures
+ * [**b8c6ab148928eb1aa666878a351722ed8192c41d**] MusicSystem: Optimised code, Spotify tracks will be cached accordingly
+ * [**cee88c9904426340e2d9949ff882deda9191f45f**] Data: Fixed bug where the bot couldn't mention people, updated intents
+ * [**8089606cd18869ead9e3539a22404255b55d0da0**] Queue: Fixed bug where the currently playing song would be removed incorrectly
+ * [**758bacf87247ee6154f6ca31e16fe85dbb71ffe4**] Data: Commands.json has been updated with DJCommands
+ * [**1a45b5771e5f91be287297e004fe14e8e8f1f510**] Source: dependencies were updated and version bumped
+
 ## 2020-05-22, Version v0.5.7 @Yimura
 
 ### Notable Changes
