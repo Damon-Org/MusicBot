@@ -1,6 +1,6 @@
 {
   "name": "damon_music",
-  "version": "0.5.7",
+  "version": "0.6.0",
   "description": "The fourth revision of Damon Music",
   "main": "index.js",
   "scripts": {
@@ -19,12 +19,13 @@
     "bufferutil": "^4.0.1",
     "discord.js": "^12.1.1",
     "erlpack": "github:discordapp/erlpack",
-    "googleapis": "^46.0.0",
     "humanize-duration": "^3.21.0",
     "mysql2": "^2.1.0",
     "node-opus": "^0.3.3",
     "require-dir": "^1.2.0",
+    "scrape-youtube": "^0.2.0",
     "shoukaku": "^1.3.8",
+    "spotify-web-api-node": "^4.0.0",
     "utf-8-validate": "^5.0.2",
     "zlib-sync": "^0.1.6"
   },
