@@ -47,29 +47,36 @@ class SpotifyTrack {
     }
 
     get title() {
-        return `${this.author} – ${this.name}`;
+        return `${this.author} - ${this.name}`;
     }
 
     async getYouTubeEquiv() {
         this.cached = true;
 
-        let data = await this.db.api.youtube.search(this.title);
+        let
+            attempt = 0,
+            data = null;
 
-        if (data.length == 0 || !data[0].id) {
+        do {
+            data = await this.db.api.youtube.search(this.title);
+
+            attempt++;
+        } while ((!data || data.length == 0 || !data[0].id) && attempt < 3);
+
+        if (!data || data.length == 0 || !data[0].id) {
             this.broken = true;
 
             return false;
         }
 
-        let attempt = 0;
-
+        attempt = 0;
         do {
             data = await this.db.carrier.getNode().rest.resolve(`https://youtu.be/${data[0].id}`);
 
             attempt++;
         } while (data == null && attempt < 3);
 
-        if (data == null) {
+        if (!data) {
             this.broken;
 
             return false;
