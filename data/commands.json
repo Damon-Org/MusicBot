@@ -1,122 +1,6 @@
 {
     "administration": {
-        "commands": [
-            {
-                "hidden": true,
-                "name": "ban user",
-                "aliases": [
-                    "banuser"
-                ],
-                "description": "Ban a user from using the bot",
-                "usage": "ban user <@ user> [reason]",
-                "params": [
-                    {
-                        "name": "user",
-                        "description": "The user to be banned.",
-                        "type": "mention",
-                        "required": true
-                    },
-                    {
-                        "name": "reason",
-                        "description": "The reason why a user was banned.",
-                        "type": "string",
-                        "default": null,
-                        "allow_sentence": true
-                    }
-                ],
-                "sysem_permission": {
-                    "level": 2,
-                    "condition": "<="
-                },
-                "example": "ban user @Geop Spamming #general"
-            },
-            {
-                "hidden": true,
-                "name": "permission level",
-                "aliases": [
-                    "perm level"
-                ],
-                "description": "Change the system permission level of a user.",
-                "usage": "ban user <@ user> [permission_level]",
-                "params": [
-                    {
-                        "name": "user",
-                        "description": "The user to be modified.",
-                        "type": "mention",
-                        "required": true
-                    },
-                    {
-                        "name": "permission_level",
-                        "description": "The new permission level for the user.",
-                        "type": "number",
-                        "required": true
-                    }
-                ],
-                "sysem_permission": {
-                    "level": 3,
-                    "condition": "<="
-                },
-                "example": "permission level @Yimura#6969 5"
-            },
-            {
-                "hidden": true,
-                "name": "test",
-                "aliases": [],
-                "description": "Ban a user from using the bot",
-                "usage": "ban user <@ user> [reason]",
-                "params": [
-                    {
-                        "name": "reason",
-                        "description": "The reason why a user was banned.",
-                        "type": "string",
-                        "default": null,
-                        "allow_sentence": true
-                    }
-                ],
-                "sysem_permission": {
-                    "level": 2,
-                    "condition": "<="
-                },
-                "example": ""
-            },
-            {
-                "hidden": true,
-                "name": "unban user",
-                "aliases": [
-                    "unbanuser"
-                ],
-                "description": "Revoke a ban from a user",
-                "usage": "unban user <@ user>",
-                "params": [
-                    {
-                        "name": "user",
-                        "description": "The user to be unbanned.",
-                        "type": "mention",
-                        "required": true
-                    }
-                ],
-                "sysem_permission": {
-                    "level": 2,
-                    "condition": "<="
-                },
-                "example": "unban user @Geop"
-            },
-            {
-                "hidden": true,
-                "name": "updateservers",
-                "aliases": [
-                    "update servers"
-                ],
-                "description": "Update servers in database",
-                "usage": "updateservers",
-                "params": [],
-                "sysem_permission": {
-                    "level": 2,
-                    "condition": "<="
-                },
-                "example": "updateservers"
-            }
-        ]
+        "commands": []
     },
     "informative": {
         "commands": [
@@ -184,7 +68,7 @@
                         "default": "Takes the channel the command was ran in"
                     }
                 ],
-                "permission": {
+                "permissions": {
                     "logic": "OR",
                     "levels": [
                         {
@@ -213,7 +97,7 @@
                         "required": true
                     }
                 ],
-                "permission": {
+                "permissions": {
                     "logic": "OR",
                     "levels": [
                         {
@@ -234,7 +118,7 @@
                 "description": "Reset the prefix to the default value.",
                 "usage": "reset prefix",
                 "params": [],
-                "permission": {
+                "permissions": {
                     "logic": "OR",
                     "levels": [
                         {
@@ -262,7 +146,7 @@
                         "default": "Resets the the custom prefix if one was set."
                     }
                 ],
-                "permission": {
+                "permissions": {
                     "logic": "OR",
                     "levels": [
                         {
@@ -294,19 +178,6 @@
                     }
                 ],
                 "example": "eq deep"
-            },
-            {
-                "guild_only": true,
-                "hidden": true,
-                "name": "force reset",
-                "aliases": [
-                    "emergency reset",
-                    "freset"
-                ],
-                "description": "Force reset the Music System if for some reason it got stuck.",
-                "usage": "force reset",
-                "params": [],
-                "example": "force reset"
             },
             {
                 "guild_only": true,
@@ -543,9 +414,56 @@
             "dj": [
                 {
                     "guild_only": true,
+                    "name": "add",
+                    "aliases": [],
+                    "description": "Add a DJ user.",
+                    "usage": "dj add <@ mention>",
+                    "params": [
+                        {
+                            "name": "mention",
+                            "description": "The user to be added.",
+                            "type": "mention",
+                            "required": true
+                        }
+                    ],
+                    "example": "dj add"
+                },
+                {
+                    "guild_only": true,
+                    "name": "leave",
+                    "aliases": [
+                        "resign"
+                    ],
+                    "description": "Add a DJ user.",
+                    "usage": "dj leave",
+                    "params": [],
+                    "example": "dj leave"
+                },
+                {
+                    "guild_only": true,
+                    "name": "list",
+                    "aliases": [],
+                    "description": "Shows a list of all users that are currently DJ.",
+                    "usage": "dj list",
+                    "params": [],
+                    "example": "dj list"
+                },
+                {
+                    "guild_only": true,
+                    "name": "lock",
+                    "aliases": [
+                        "unlock"
+                    ],
+                    "description": "Lock the playlist from being modified by non DJ users.",
+                    "usage": "dj lock",
+                    "params": [],
+                    "example": "dj lock"
+                },
+                {
+                    "guild_only": true,
                     "name": "mode",
                     "aliases": [],
-                    "description": "Lock specific command category to one channel.",
+                    "description": "Change the DJ mode.",
                     "usage": "dj mode <# mode>",
                     "params": [
                         {
@@ -555,27 +473,32 @@
                             "required": true
                         }
                     ],
+                    "example": "dj mode 3"
+                },
+                {
+                    "guild_only": true,
+                    "name": "remove",
+                    "aliases": [],
+                    "description": "This command forcefully resigns a DJ from his position.",
+                    "usage": "dj remove <@ mention>",
+                    "params": [
+                        {
+                            "name": "mention",
+                            "description": "The user to be forcefully resigned.",
+                            "type": "mention",
+                            "required": true
+                        }
+                    ],
                     "permissions": {
                         "logic": "OR",
                         "levels": [
                             {
                                 "type": "SERVER",
-                                "name": "MANAGE_CHANNELS"
-                            },
-                            {
-                                "type": "ROLE",
-                                "name": "dj"
-                            },
-                            {
-                                "type": "COMMAND_HANDLED"
+                                "name": "MANAGE_GUILD"
                             }
                         ]
                     },
-                    "sysem_permission": {
-                        "level": 1,
-                        "condition": "<="
-                    },
-                    "example": "dj mode 3"
+                    "example": "dj remove @Yimura#6969"
                 }
             ]
         }
