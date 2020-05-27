@@ -151,7 +151,7 @@ class BaseCommand {
         return this.db.userUtils;
     }
 
-    async argumentsSatisfied() {
+    async argumentsSatisfied(command) {
         const embed = new this.db.Discord.MessageEmbed();
         let exception = false;
 
@@ -183,7 +183,7 @@ class BaseCommand {
         if (exception) {
             const prefix = await this.serverInstance.getPrefix();
 
-            embed.setDescription(`View the documentation of [this command on our site](https://soft-wet.damon.sh/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.db.commandRegisterer.default_prefix ? '' : `&p=${encodeURI(prefix)}`})`);
+            embed.setDescription(`View the documentation of [this command on our site](https://music.damon.sh/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.db.commandRegisterer.default_prefix ? '' : `&p=${encodeURI(prefix)}`})`);
 
             this.textChannel.send(embed);
 
