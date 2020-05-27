@@ -47,10 +47,11 @@ class UserUtils {
     /**
      * @param {external:String} userId A string or number that identifies a user
      * @param {external:Number} role_lvl A number that represents what role this user needs to have at least
+     * @param {external:String} condition
      * @returns {external:Boolean} Return true if the user has the mininam required level, false otherwise
      */
-    async hasRequiredMinimalRole(userId, role_lvl) {
-        const [rows, fields] = await this.df.db.query(`SELECT role_id FROM core_users WHERE discord_id = '${userId}' AND role_id <= ${role_lvl} AND not role_id = 0`);
+    async hasRole(userId, role_lvl, condition) {
+        const [rows, fields] = await this.df.db.query(`SELECT role_id FROM core_users WHERE discord_id = '${userId}' AND role_id ${condition} ${role_lvl} AND not role_id = 0`);
 
         if (rows.length == 0) {
             return false;
