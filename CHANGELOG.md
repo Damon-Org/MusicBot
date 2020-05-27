@@ -14,6 +14,20 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-05-27, Version v0.6.1 @Yimura
+
+### Notable Changes
+
+ * DJ commands have been moved to their own category
+ * Fixed an old bug with argumentsSatisfied
+ * Commands.json has been regenerated with the latest commands
+
+### Commits
+
+ * [**85403f4e7fe8a4626bb5d571b8e5007847a5324a**] Commands: Moved DJ commands to their own category
+ * [**ae046fa21e2af27f0e6df7f4b4cae09f353851bd**] BaseCommand: Fixed old bug with argumentsSatisfied
+ * [**9ba90cf7f13b6ab1469b2cc801215c0cef0758af**] Data: Added dj enable and disable commands
+
 ## 2020-05-27, Version v0.6.0 @Yimura
 
 ### Notable Changes
