@@ -43,7 +43,7 @@ class Restart extends MusicCommand {
 
                 return true;
             }
-            this.musicSystem.player.stopTrack();
+            if (!await this.musicSystem.player.stopTrack()) this.musicSystem.soundEnd();
 
             return true;
         }
