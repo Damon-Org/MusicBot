@@ -58,11 +58,6 @@ class CommandRegistrar {
 
                             continue;
                         }
-                        if (instance.hidden) {
-                            this.db.log('COMMAND', 'WARN', `Command hidden: '${parentBit}${instance.name}'`)
-
-                            continue;
-                        }
 
                         if (instance.permissions && instance.permissions.levels.filter(x => x.type === 'COMMAND_HANDLED').length == 1) {
                             if (!instance.permission || typeof instance.permission !== 'function') {
@@ -74,7 +69,7 @@ class CommandRegistrar {
 
                         this.commands.set(`${parentBit}${instance.name}`, instance);
 
-                        if (this.output) {
+                        if (this.output && !instance.hidden) {
                             if (parentBit.length == 0) {
                                 this.output[category].commands.push(instance.rawData);
                             }
@@ -84,6 +79,9 @@ class CommandRegistrar {
 
                                 this.output[category].children[parentBit.trim()].push(instance.rawData);
                             }
+                        }
+                        else if (instance.hidden) {
+                            this.db.log('COMMAND', 'INFO', `Command hidden: '${parentBit}${instance.name}'`);
                         }
 
                         for (const alias of instance.aliases) {
