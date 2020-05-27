@@ -1,7 +1,11 @@
 const
+    DJManager = require('./dj/manager'),
+
     Shutdown = require('./shutdown'),
     Queue = require('./queue'),
-    Track = require('./track');
+
+    LavaTrack = require('./track/lava'),
+    SpotifyTrack = require('./track/spotify');
 
 /**
  * Music System that manages the queue and handles all music related commands
@@ -34,7 +38,14 @@ class MusicSystem {
          * @type {Queue}
          */
         this.queue = new Queue();
+        /**
+         * @type {Shutdown}
+         */
         this.shutdown = new Shutdown(this);
+        /**
+         * @type {DJManager}
+         */
+        this.djManager = new DJManager(this);
 
         this.reset();
     }
@@ -45,19 +56,32 @@ class MusicSystem {
 
     /**
      * Adds a song to the queue together with its requester
-     * @param {external:Object} data Data found by the LavaLink REST APi
+     * @param {external:Object} track Data found by the LavaLink REST APi
      * @param {external:Discord_GuildMember} serverMember A Discord.GuildMember instance
      * @param {external:Boolean} exception If the song should be played next up or handled normally
      */
-    addToQueue(data, requester, exception = false) {
-        const track = new Track(data);
-        track.setRequester(requester);
+    addToQueue(track, requester, exception = false) {
+        track.requester = requester;
 
         if (exception) {
+            this.cacheSongIfNeeded(track);
+
             return this.queue.addOnPosition(track, 2);
         }
+        this.cacheSongIfNeeded();
 
         return this.queue.add(track);
+    }
+
+    async cacheSongIfNeeded(track = null) {
+        if (track == null) {
+            track = this.queue.getFromPosition(2);
+
+            if (track == null) return;
+        }
+
+        if (track instanceof SpotifyTrack && !track.cached)
+            await track.getYouTubeEquiv();
     }
 
     /**
@@ -86,10 +110,11 @@ class MusicSystem {
         if (this.lastMsg && this.channel.lastMessageID == this.lastMsg.id) {
             const embedUtils = this.musicBot.embedUtils;
             embedUtils.editEmbed(this.lastMsg, {
-                author: { name: track.author },
+                author: { name: track.full_author },
                 color: this.songState.color,
                 description: `Requested by: **${track.requester}**`,
-                title: track.getTitle(),
+                thumbnail: track.image ? track.image : null,
+                title: track.title,
                 footer: {
                     text: this.songState.footer
                 }
@@ -101,11 +126,12 @@ class MusicSystem {
         this.disableOldPlayer(true);
 
         const richEmbed = new this.musicBot.Discord.MessageEmbed()
-            .setAuthor(track.author)
-            .setTitle(track.getTitle())
-            .setColor(this.songState.color)
-            .setDescription(`Requested by: **${track.requester}**`)
-            .setFooter(this.songState.footer),
+                .setAuthor(track.author)
+                .setTitle(track.title)
+                .setThumbnail(track.image ? track.image : null)
+                .setColor(this.songState.color)
+                .setDescription(`Requested by: **${track.requester}**`)
+                .setFooter(this.songState.footer),
             newMsg = await this.channel.send(richEmbed),
             emojis = ['⏮️', '⏸', '⏭', '🔁'];
 
@@ -129,13 +155,13 @@ class MusicSystem {
      * @param {external:Discord_GuildMember} requester
      * @param {external:Discord_TextChannel} textChannel A Discord.TextChannel instance
      */
-    createQueue(data, requester, textChannel) {
+    async createQueue(data, requester, textChannel) {
         this.startTime = Date.now();
 
         this.channel = textChannel;
 
-        const track = new Track(data);
-        track.setRequester(requester);
+        data.requester = requester;
+        await this.cacheSongIfNeeded(data);
 
         this.addToQueue(data, requester);
     }
@@ -208,12 +234,12 @@ class MusicSystem {
             return;
         }
 
-        const data = await this.node.rest.resolve(`https://youtube.com/watch?v=${videoId}`);
+        const data = new LavaTrack(await this.node.rest.resolve(`https://youtube.com/watch?v=${videoId}`));
 
         if (!voicechannel.members.get(user.id)) {
-            const newMsg = await msgObj.channel.send(`${requester}, you've left your original voicechannel, request ignored.`);
+            msgObj.channel.send(`${requester}, you've left your original voicechannel, request ignored.`)
+                .then(msg => msg.delete({timeout: 5e3}));
 
-            newMsg.delete({timeout: 5000});
             msgObj.delete();
 
             return;
@@ -275,6 +301,8 @@ class MusicSystem {
                 return;
             }
 
+            data = new LavaTrack(data);
+
             this.musicBot.musicUtils.handleSongData(data, serverMember, msgObj, voicechannel, null, exception);
 
             return;
@@ -282,8 +310,8 @@ class MusicSystem {
 
 
         for (let i = 0; i < playlistObj.playlist.length; i++) {
-            const song = playlistObj.playlist[i];
-            if (!await this.musicBot.musicUtils.handleSongData(song, serverMember, msgObj, voicechannel, null, exception, false)) break;
+            const song = new LavaTrack(playlistObj.playlist[i]);
+            if (!await this.musicBot.musicUtils.handleSongData(song, serverMember, msgObj, voicechannel, null, false, false)) break;
         }
 
         msgObj.channel.send('Successfully added playlist!');
@@ -525,12 +553,28 @@ class MusicSystem {
         }
 
         const currentSong = this.queue.active();
-        while (!await this.player.playTrack(currentSong.track)) { }
-        await this.player.setVolume(this.volume);
+        if (currentSong.broken) {
+            this.channel.send(`No equivalent video could be found on YouTube for **${currentSong.title}**`);
 
-        this.player.on('error', (error) => this.nodeError(error));
+            this.playNext();
 
-        this.player.on('end', this.playerEndReference = (end) => this.soundEnd(end));
+            return false;
+        }
+
+        await this.cacheSongIfNeeded(currentSong);
+
+        while (!await this.player.playTrack(currentSong.track)) {
+            this.musicBot.log('MUSSYS', 'WARN', 'Failed to playTrack, retrying...');
+        }
+        this.player.setVolume(this.volume);
+
+        this.musicBot.log('MUSSYS', 'INFO', 'Started track: ' + currentSong.title);
+
+        this.player.on('error', this.playerListener['error'] = (error) => this.nodeError(error));
+
+        this.player.on('end', this.playerListener['end'] = (end) => this.soundEnd(end));
+
+        this.cacheSongIfNeeded();
 
         //this.player.on('closed', () => this.soundEnd(end));
         //this.player.on('nodeDisconnect', endFunction);
@@ -573,15 +617,17 @@ class MusicSystem {
             (this.queue.active()).repeat = false;
         }
 
-        if (queueRepeat) {
-            this.queue.repeat = false;
+        this.queue.repeat = !queueRepeat;
 
-            return false;
-        }
+        this.updateSongState();
+        embedUtils.editEmbed(this.lastMsg, {
+            color: this.songState.color,
+            footer: {
+                text: this.songState.footer
+            }
+        });
 
-        this.queue.repeat = true;
-
-        return true;
+        return this.queue.repeat;
     }
 
     /**
@@ -593,23 +639,9 @@ class MusicSystem {
             songRepeat = (this.queue.active()).repeat,
             embedUtils = this.musicBot.embedUtils;
 
-        if (!songRepeat) {
-            (this.queue.active()).repeat = true;
-
-            embedUtils.editEmbed(this.lastMsg, {
-                color: this.songState.color,
-                footer: {
-                    text: this.songState.footer
-                }
-            });
-
-            return true;
-        }
-
-        (this.queue.active()).repeat = false;
+        (this.queue.active()).repeat = !songRepeat;
 
         this.updateSongState();
-
         embedUtils.editEmbed(this.lastMsg, {
             color: this.songState.color,
             footer: {
@@ -617,7 +649,7 @@ class MusicSystem {
             }
         });
 
-        return false;
+        return (this.queue.active()).repeat;
     }
 
     /**
@@ -626,8 +658,11 @@ class MusicSystem {
     reset() {
         this.disableOldPlayer(true);
 
+        this.djManager.reset(true);
         this.shutdown.reset();
         this.queue.reset();
+
+        this.playerListener = {};
 
         /**
          * @type {external:Discord_TextChannel}
@@ -675,7 +710,7 @@ class MusicSystem {
         /**
          * @type {external:Number}
          */
-        this.volume = 15;
+        this.volume = 30;
 
         this.updateSongState();
     }
@@ -709,7 +744,7 @@ class MusicSystem {
      * @param {external:Number} queueNumber A number that exists in queue
      * @returns {external:Boolean} False if invalid queueNumber was given, true on success
      */
-    skipTo(queueNumber) {
+    async skipTo(queueNumber) {
         if (queueNumber == 1) return true;
         if (isNaN(queueNumber) || queueNumber < -this.queue.maxPrequeue || queueNumber == 0) return false;
 
@@ -718,6 +753,9 @@ class MusicSystem {
         if (!this.queue.hasOnPosition(queueNumber)) return false;
 
         const loopCount = queueNumber < 0 ? (queueNumber*-1 + 1) : queueNumber - 2;
+
+        const nextSong = this.queue.getFromPosition(queueNumber);
+        await this.cacheSongIfNeeded(nextSong);
 
         for (let i = 0; i < loopCount; i++) {
             if (queueNumber < 0) this.queue.unshift(null);
@@ -776,9 +814,12 @@ class MusicSystem {
      * @param {external:String} end A string end reason
      */
     soundEnd(end) {
-        if (end.type == 'TrackStuckEvent') return;
+        this.player.removeListener('error', this.playerListener['error']);
+        this.player.removeListener('end', this.playerListener['end']);
 
-        this.player.removeListener('end', this.playerEndReference);
+        if (end.type == 'TrackStuckEvent') return;
+        if (end.reason == 'LOAD_FAILED')
+            return this.playSong();
 
         this.playNext();
     }
