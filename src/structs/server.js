@@ -59,7 +59,7 @@ class Server {
      * @returns {external:Boolean} Returns false if no songs were found, true otherwise
      */
     async addChoice(requester, searchFor, exception) {
-        const choice = new Choice(searchFor, exception);
+        const choice = new Choice(this.musicBot.api.youtube, searchFor, exception);
 
         choice.setRequester(requester);
 
