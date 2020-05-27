@@ -2,6 +2,134 @@
     "administration": {
         "commands": []
     },
+    "dj": {
+        "commands": [
+            {
+                "guild_only": true,
+                "name": "dj add",
+                "aliases": [],
+                "description": "Add a DJ user.",
+                "usage": "dj add <@ mention>",
+                "params": [
+                    {
+                        "name": "mention",
+                        "description": "The user to be added.",
+                        "type": "mention",
+                        "required": true
+                    }
+                ],
+                "example": "dj add"
+            },
+            {
+                "guild_only": true,
+                "name": "dj disable",
+                "aliases": [],
+                "description": "Disable the DJ system.",
+                "usage": "dj disable",
+                "params": [],
+                "permissions": {
+                    "logic": "OR",
+                    "levels": [
+                        {
+                            "type": "server",
+                            "name": "MANAGE_CHANNELS"
+                        }
+                    ]
+                },
+                "example": "dj disable"
+            },
+            {
+                "guild_only": true,
+                "name": "dj enable",
+                "aliases": [],
+                "description": "Re-enabled the DJ system.",
+                "usage": "dj enable",
+                "params": [],
+                "permissions": {
+                    "logic": "OR",
+                    "levels": [
+                        {
+                            "type": "server",
+                            "name": "MANAGE_CHANNELS"
+                        }
+                    ]
+                },
+                "example": "dj enable"
+            },
+            {
+                "guild_only": true,
+                "name": "dj leave",
+                "aliases": [
+                    "resign"
+                ],
+                "description": "Add a DJ user.",
+                "usage": "dj leave",
+                "params": [],
+                "example": "dj leave"
+            },
+            {
+                "guild_only": true,
+                "name": "dj list",
+                "aliases": [],
+                "description": "Shows a list of all users that are currently DJ.",
+                "usage": "dj list",
+                "params": [],
+                "example": "dj list"
+            },
+            {
+                "guild_only": true,
+                "name": "dj lock",
+                "aliases": [
+                    "unlock"
+                ],
+                "description": "Lock the playlist from being modified by non DJ users.",
+                "usage": "dj lock",
+                "params": [],
+                "example": "dj lock"
+            },
+            {
+                "guild_only": true,
+                "name": "dj mode",
+                "aliases": [],
+                "description": "Change the DJ mode.",
+                "usage": "dj mode <# mode>",
+                "params": [
+                    {
+                        "name": "mode",
+                        "description": "The new mode to be used for DJ's",
+                        "type": "number",
+                        "required": true
+                    }
+                ],
+                "example": "dj mode 3"
+            },
+            {
+                "guild_only": true,
+                "name": "dj remove",
+                "aliases": [],
+                "description": "This command forcefully resigns a DJ from his position.",
+                "usage": "dj remove <@ mention>",
+                "params": [
+                    {
+                        "name": "mention",
+                        "description": "The user to be forcefully resigned.",
+                        "type": "mention",
+                        "required": true
+                    }
+                ],
+                "permissions": {
+                    "logic": "OR",
+                    "levels": [
+                        {
+                            "type": "SERVER",
+                            "name": "MANAGE_GUILD"
+                        }
+                    ]
+                },
+                "example": "dj remove @Yimura#6969"
+            }
+        ]
+    },
     "informative": {
         "commands": [
             {
@@ -409,99 +537,7 @@
                 ],
                 "example": "volume 50"
             }
-        ],
-        "children": {
-            "dj": [
-                {
-                    "guild_only": true,
-                    "name": "add",
-                    "aliases": [],
-                    "description": "Add a DJ user.",
-                    "usage": "dj add <@ mention>",
-                    "params": [
-                        {
-                            "name": "mention",
-                            "description": "The user to be added.",
-                            "type": "mention",
-                            "required": true
-                        }
-                    ],
-                    "example": "dj add"
-                },
-                {
-                    "guild_only": true,
-                    "name": "leave",
-                    "aliases": [
-                        "resign"
-                    ],
-                    "description": "Add a DJ user.",
-                    "usage": "dj leave",
-                    "params": [],
-                    "example": "dj leave"
-                },
-                {
-                    "guild_only": true,
-                    "name": "list",
-                    "aliases": [],
-                    "description": "Shows a list of all users that are currently DJ.",
-                    "usage": "dj list",
-                    "params": [],
-                    "example": "dj list"
-                },
-                {
-                    "guild_only": true,
-                    "name": "lock",
-                    "aliases": [
-                        "unlock"
-                    ],
-                    "description": "Lock the playlist from being modified by non DJ users.",
-                    "usage": "dj lock",
-                    "params": [],
-                    "example": "dj lock"
-                },
-                {
-                    "guild_only": true,
-                    "name": "mode",
-                    "aliases": [],
-                    "description": "Change the DJ mode.",
-                    "usage": "dj mode <# mode>",
-                    "params": [
-                        {
-                            "name": "mode",
-                            "description": "The new mode to be used for DJ's",
-                            "type": "number",
-                            "required": true
-                        }
-                    ],
-                    "example": "dj mode 3"
-                },
-                {
-                    "guild_only": true,
-                    "name": "remove",
-                    "aliases": [],
-                    "description": "This command forcefully resigns a DJ from his position.",
-                    "usage": "dj remove <@ mention>",
-                    "params": [
-                        {
-                            "name": "mention",
-                            "description": "The user to be forcefully resigned.",
-                            "type": "mention",
-                            "required": true
-                        }
-                    ],
-                    "permissions": {
-                        "logic": "OR",
-                        "levels": [
-                            {
-                                "type": "SERVER",
-                                "name": "MANAGE_GUILD"
-                            }
-                        ]
-                    },
-                    "example": "dj remove @Yimura#6969"
-                }
-            ]
-        }
+        ]
     },
     "recording": {
         "commands": []
