@@ -57,7 +57,7 @@ class BaseCommand {
         if (!await this.canCommandRunInChannel(command)) return false;
         if (!await this.hasPermissions()) return false;
         if (!this.hasSelfPermissions()) return false;
-        if (!this.argumentsSatisfied()) return false;
+        if (!await this.argumentsSatisfied(command)) return false;
 
         try {
             if (typeof this.beforeRun === 'function' && !await this.beforeRun(command)) return false;
@@ -151,7 +151,7 @@ class BaseCommand {
         return this.db.userUtils;
     }
 
-    argumentsSatisfied() {
+    async argumentsSatisfied() {
         const embed = new this.db.Discord.MessageEmbed();
         let exception = false;
 
@@ -181,9 +181,11 @@ class BaseCommand {
         }
 
         if (exception) {
-            embed.setDescription(`View the documentation of [this command on our site](https://music.damon.sh/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.db.commandRegisterer.default_prefix ? '' : `&p=${encodeURI(prefix)}`})`);
+            const prefix = await this.serverInstance.getPrefix();
 
-            this.msgObj.channel.send(embed);
+            embed.setDescription(`View the documentation of [this command on our site](https://soft-wet.damon.sh/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.db.commandRegisterer.default_prefix ? '' : `&p=${encodeURI(prefix)}`})`);
+
+            this.textChannel.send(embed);
 
             return false;
         }
