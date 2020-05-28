@@ -14,6 +14,33 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-05-27, Version v0.6.2 @Yimura
+
+### Notable Changes
+
+ * A more accurate way of counting active music players was added
+ * Fixed a bug where hidden commands would not be mapped
+ * Added a missing require in DJUser
+ * Multiple attempts will be made to cross match a Spotify song to YouTube
+ * If player.stopTrack fails we assume the song already stopped and call the soundEnd
+ * Added Rest bug hotfix that was shortly removed
+ * Bumped version Discord.js version to 12.2.0
+ * A bug was fixed related to variable reusing
+
+### Commits
+
+ * [**4ebb08dae2cc236c5de63e29ce4eb673391637b2**] BotMain: Cleaned up code and more accurate MusicPlayer counter
+ * [**9506b42c1a2ce709de38fb6b7fe50446a390e421**] CommandRegistrar: Fixed bug where hidden commands wouldn't be mapped
+ * [**1e36669f90501a237bd17d40f904806477efa726**] DJUser: Fixed missing require
+ * [**27e6f722585b0ed1e6ba6e6288d873b2dbe91fab**] MusicSystem: Moved method from position to be alphabetical
+ * [**3db843368f3449c63003cf5379fb38b75d120988**] TrackSpotify: Multiple attempts will be made at finding a song before giving up
+ * [**19ea3c4d78302633d840ce70bb779bf7b2836e36**] BaseCommand: Change soft-wet with music domain name
+ * [**7077f3f661caab8cffd1f1bfdd6e72ad03264658**] MusicSystem: If player.stopTrack returns false we force the soundEnd
+ * [**68cfea0cc519f135b648e24d5153e19dacebdc0d**] SpotifyTrack: Cleaned up stupid mistakes
+ * [**f128b23abc6e895342c9998598fafbd18d8de8fc**] Version: Updated Discord.js to 12.2.0
+ * [**ecec8bc179e5cdfa128a0ac5d69bad24ef622f7c**] Commands: Attempt at adding an error logging file
+ * [**80db2fedb6eec0986e770cbb345ca350670703a7**] Rest: Thought the bug was fixed, it wasn't
+
 ## 2020-05-27, Version v0.6.1 @Yimura
 
 ### Notable Changes
