@@ -19,6 +19,12 @@ class DJUser {
     clear() {
         clearTimeout(this._revokeTimeout);
 
+        if (this._revokeMessage) {
+            this._revokeMessage.then(msg => msg.delete());
+
+            this._revokeMessage = null;
+        }
+
         this._revokeTimeout = null;
     }
 
