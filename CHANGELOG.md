@@ -14,6 +14,22 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-05-28, Version v0.6.3 @Yimura
+
+### Notable Changes
+
+ * MusicSystem will add TrackEnd listeners only after TrackStart event has fired
+ * SpotifyTrack will now properly handle if it has cached itself or not
+ * The default DJ mode will now be `FREEFORALL`
+ * The DJ user revoke message will be removed when the DJ rejoins
+
+### Commits
+
+ * [**43119b92bf9326c1f4014c9037f29c2db1a2044b**] DJManager: Changed default DJ Mode to FREEFORALL
+ * [**ee11cf4f5b620e5f0a17022d43d0805307d5fe8f**] DJUser: The DJ User message will be removed when the DJ rejoins
+ * [**0dcb7e2acd37254de9c3551b491d08ab3d142c52**] MusicSystem: Will now wait for track start event before listening on track events
+ * [**7390614dd8921a8065814d4aaec58fa6782bfaa9**] SpotifyTrack: Made check for song caching will be properly added
+
 ## 2020-05-27, Version v0.6.2 @Yimura
 
 ### Notable Changes
