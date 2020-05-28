@@ -45,7 +45,7 @@ class DJManager extends Map {
     }
 
     reset(hard = false) {
-        if (hard) this.mode = this.musicSystem.musicBot.lazyLoader.get(this.musicSystem.serverInstance.id, 'dj_mode') || MODE['MANAGED'];
+        if (hard) this.mode = this.musicSystem.musicBot.lazyLoader.get(this.musicSystem.serverInstance.id, 'dj_mode') || MODE['FREEFORALL'];
         this.playlistLock = false;
 
         this.forEach((djUser) => {
