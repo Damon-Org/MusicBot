@@ -568,11 +568,15 @@ class MusicSystem {
         }
         await this.player.setVolume(this.volume);
 
-        this.musicBot.log('MUSSYS', 'INFO', 'Started track: ' + currentSong.title);
+        this.player.on('start', this.playerListener['start'] = () => {
+            this.musicBot.log('MUSSYS', 'INFO', 'Started track: ' + currentSong.title);
 
-        this.player.on('error', this.playerListener['error'] = (error) => this.nodeError(error));
+            this.player.removeListener('start', this.playerListener['start']);
 
-        this.player.on('end', this.playerListener['end'] = (end) => this.soundEnd(end));
+            this.player.on('error', this.playerListener['error'] = (error) => this.nodeError(error));
+
+            this.player.on('end', this.playerListener['end'] = (end) => this.soundEnd(end));
+        });
 
         this.cacheSongIfNeeded();
 
