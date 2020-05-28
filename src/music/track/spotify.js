@@ -12,6 +12,7 @@ class SpotifyTrack {
         Object.assign(this, data);
 
         this.cached = false;
+        this._done = false;
     }
 
     get author() {
@@ -50,8 +51,34 @@ class SpotifyTrack {
         return `${this.author} - ${this.name}`;
     }
 
+    done() {
+        return new Promise((resolve, reject) => {
+            if (this.cached) {
+                resolve(true);
+
+                return;
+            }
+
+            const timeout = setTimeout(() => {
+                resolve(false);
+
+                this._done = false;
+            }, 2e4);
+
+            this._done = () => {
+                resolve(true);
+
+                clearTimeout(timeout);
+            };
+        });
+    }
+
     async getYouTubeEquiv() {
-        this.cached = true;
+        if (this.cached) return true;
+        if (this.caching)
+            return this.done();
+
+        this.caching = true;
 
         let
             attempt = 0,
@@ -87,6 +114,11 @@ class SpotifyTrack {
         this.track = data.track;
 
         this.db.log('API', 'INFO', `Cached song: ${this.title}`);
+
+        if (this._done)
+            this._done();
+
+        this.cached = true;
 
         return true;
     }
