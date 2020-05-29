@@ -4,7 +4,7 @@ const
     { Shoukaku } = require('shoukaku'),
 
     BotEvents = require('./events'),
-    CommandRegisterer = require('../commands/command'),
+    CommandRegistrar = require('../commands/command'),
 
     SocketCommunication = require('../socket/communication'),
 
@@ -134,7 +134,7 @@ class DamonBase extends BotEvents {
          * @type {CommandRegisterer}
          * @readonly
          */
-        this.commandRegisterer = new CommandRegisterer(this, {
+        this.commandRegistrar = new CommandRegistrar(this, {
             db: this
         });
     }

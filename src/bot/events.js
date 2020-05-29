@@ -44,7 +44,7 @@ class BotEvents extends BasicBot {
      * @param {external:Discord_Message} msgObj Discord.js Message Class instance
      */
     onMsg(msgObj) {
-        if (!this.commandRegisterer.checkMessage(msgObj)) {
+        if (!this.commandRegistrar.checkMessage(msgObj)) {
             // Message is not a command
         }
     }
