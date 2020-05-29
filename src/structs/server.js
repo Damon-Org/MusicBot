@@ -96,7 +96,7 @@ class Server {
         if (!this.prefix) {
             this.prefix = await this.musicBot.lazyLoader.get(this.id, 'prefix');
             if (!this.prefix || this.prefix == '') {
-                this.prefix = this.musicBot.commandRegisterer.default_prefix;
+                this.prefix = this.musicBot.commandRegistrar.default_prefix;
             }
         }
 
