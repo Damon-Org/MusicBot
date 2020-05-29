@@ -100,6 +100,7 @@ class Queue extends BaseCommand {
                 }
 
                 const track = this.musicSystem.queue.get(i);
+                if (!track) continue;
 
                 if (i < maxPrequeue) {
                     if (embedDescription.length == 0) {
@@ -122,7 +123,7 @@ class Queue extends BaseCommand {
                     embedDescription += `\n\n\`\`\`ini\n[NEXT UP${(page != 0) ? ' – Page ' + (page + 1) : ''}]\`\`\`\n`;
                 }
 
-                if (i > maxPrequeue) {
+                if (i > maxPrequeue && track) {
                     embedDescription += `\`\`\`ini\n[${i - maxPrequeue + 1}] ${track.title}\`\`\``;
                 }
 
