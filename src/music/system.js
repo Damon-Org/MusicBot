@@ -234,7 +234,24 @@ class MusicSystem {
             return;
         }
 
-        const data = new LavaTrack(await this.node.rest.resolve(`https://youtube.com/watch?v=${videoId}`));
+        let
+            data = null,
+            attempt = 0;
+
+        do {
+            data = await this.node.rest.resolve(`https://youtube.com/watch?v=${videoId}`);
+
+            attempt++;
+        } while ((!data || data.length == 0) && attempt < 3);
+
+        if (!data || data.length == 0) {
+            msgObj.channel.send(`${requester}, failed to queue song, perhaps the song is limited in country or age restricted?`)
+                .then(msg => msg.delete({timeout: 5e3}));
+
+            return;
+        }
+
+        data = new LavaTrack(data);
 
         if (!voicechannel.members.get(user.id)) {
             msgObj.channel.send(`${requester}, you've left your original voicechannel, request ignored.`)
