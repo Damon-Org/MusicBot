@@ -62,7 +62,15 @@ class Choice {
      * Will load the songs from the api and then generate an embedDescription
      */
     async getSongs() {
-        const data = await this.ytAPI.search(this.searchQuery);
+        let
+            data = null,
+            attempt = 0;
+
+        do {
+            data = await this.ytAPI.search(this.searchQuery);
+
+            i++;
+        } while ((!data || data.length == 0) && attempt < 3);
 
         if (data.length == 0) {
             return false;
