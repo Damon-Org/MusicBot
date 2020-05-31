@@ -104,7 +104,7 @@ class CommandRegistrar {
      */
     setup() {
         // This will require all commands within this directory
-        const rawCommands = requireDir('.', { recurse: true, extensions: ['.js'] });
+        const rawCommands = requireDir('.', { recurse: true, extensions: ['.js'], noCache: true });
 
         /**
          * This is a command map that has the following structure
