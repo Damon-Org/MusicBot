@@ -73,7 +73,8 @@ class DJMode extends DJCommand {
             return;
         }
 
-        this.send('Unknown DJ mode.').then(msg => msg.delete({timeout: 5e3}));
+        this.send(`Unknown DJ mode, use \`${this.serverInstance.prefix}dj info\` to get more information around the DJ system.`)
+            .then(msg => msg.delete({timeout: 5e3}));
     }
 }
 
