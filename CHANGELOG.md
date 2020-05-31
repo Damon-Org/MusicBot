@@ -14,6 +14,31 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-05-31, Version v0.6.4 @Yimura
+
+### Notable Changes
+
+ * Added support for Spotify Albums
+ * Renamed CommandRegisterer to CommandRegistrar to be grammatically correct
+ * Queue will check if a track is defined when not null
+ * A persist mode command was added for the DJ system
+ * A DJ info command was added to properly explain the DJ system
+
+### Commits
+
+ * [**03736f0efc5ee3f9f075b35e9a7b2ca8200fcb73**] Restructuring: Renamed CommandRegisterer to CommandRegistrar
+ * [**0b94c0c0b42f250ddd11d93c79f129f6b958e52c**] Commands: Queue command will now check if track is defined
+ * [**71331aadc1ce07781bae9d91d3855ae7fbf48751**] MusicSystem: Try getting song data multiple times before failing
+ * [**7f89ec6a5dfaf6046a810b181c016c840aa5d56b**] DJManager: Added persist option to #setMode
+ * [**69581bfae37cfa9b9b5987cd17c67416f0ae8733**] SpotifyTrack: Added exception for image overwrite
+ * [**9168e7d60492969005a0f4c6d8f76ad6c9db6a45**] MusicUtils: Fixed typo
+ * [**29126299e29f00fc6a38ff283ae5f7de00d7b0fe**] Commands: Added set dj mode persist command
+ * [**ed8b444ac3476e4b4c87cb841c6576ff7d4bbff8**] Commands: Added a DJ info command that will explain how the DJ system works
+ * [**2eb410d355a53b6f4ac42cbd05eba5b273f9703c**] Commands: Updated dj mode command to suggest dj info command
+ * [**539a8256f8718875bc7d87e863cc0b9b8dbfbdb1**] Commands: Added support for Spotify Albums to Play commands
+ * [**3c817b886b495bc18a51410ead6b5c1026d19d80**] MusicSystem: Tried fixing the problem with bot getting stuck
+ * [**c918c2ae39fc931c98a6ac0552038746c9619486**] Data: Regenerated commands.json with new DJ commands
+
 ## 2020-05-28, Version v0.6.3 @Yimura
 
 ### Notable Changes
