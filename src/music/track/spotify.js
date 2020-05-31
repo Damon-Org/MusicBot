@@ -6,13 +6,15 @@ class SpotifyTrack {
      * @param {external:Object} data Data found by the Spotify REST APi
      * @param {DamonBase} damonBase
      */
-    constructor(data, damonBase) {
+    constructor(data, damonBase, imageOverride = null) {
         this.db = damonBase;
 
         Object.assign(this, data);
 
         this.cached = false;
         this._done = false;
+
+        this.imageOverride = imageOverride;
     }
 
     get author() {
@@ -44,6 +46,7 @@ class SpotifyTrack {
     }
 
     get image() {
+        if (this.imageOverride) return this.imageOverride;
         return this.album.images[0].url;
     }
 
