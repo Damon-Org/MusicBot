@@ -69,7 +69,7 @@ class Choice {
         do {
             data = await this.ytAPI.search(this.searchQuery);
 
-            i++;
+            attempt++;
         } while ((!data || data.length == 0) && attempt < 3);
 
         if (data.length == 0) {
