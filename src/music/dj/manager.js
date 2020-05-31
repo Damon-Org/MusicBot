@@ -83,7 +83,13 @@ class DJManager extends Map {
         this.delete(djUser.id);
     }
 
-    setMode(mode) {
+    setMode(mode, persist = false) {
+        if (persist) {
+            this.serverUtils.updateGuildOption(this.serverInstance.id, 'djMode', mode);
+
+            this.db.lazyLoader.set(this.serverInstance.id, 'dj_mode', mode);
+        }
+
         this.mode = mode;
 
         this.reset();
