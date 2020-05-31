@@ -185,16 +185,7 @@ class MusicSystem {
     }
 
     disconnect() {
-        if (this.player) {
-            const playerNode = this.player.voiceConnection.node;
-
-            this.player.disconnect();
-
-            if (this.node.players.has(this.voiceChannel.guild.id))
-                this.node.players.delete(this.voiceChannel.guild.id);
-
-            this.player = null;
-        }
+        if (this.player) this.player.disconnect();
     }
 
     /**
@@ -528,15 +519,7 @@ class MusicSystem {
      * @param {external:Discord_VoiceChannel} voiceChannel A Discord.VoiceChannel instance
      */
     async playSong(voiceChannel = null) {
-        if (!this.player) {
-            if (!voiceChannel) {
-                this.channel.send(`Internal music error occured, function was called without VoiceChannel while one was required`);
-
-                this.shutdown.instant();
-
-                return false;
-            }
-
+        if (!this.voiceChannel) {
             if (voiceChannel.full && !this.isDamonInVC(voiceChannel) && !voiceChannel.guild.me.hasPermission('ADMINISTRATOR')) {
                 const richEmbed = new this.musicBot.Discord.MessageEmbed()
                         .setTitle('Channel Full')
@@ -677,6 +660,8 @@ class MusicSystem {
      * Will reset all variables so our system is ready for a request
      */
     reset() {
+        this.disconnect();
+
         this.disableOldPlayer(true);
 
         this.djManager.reset(true);
@@ -698,10 +683,6 @@ class MusicSystem {
          * @type {external:Boolean}
          */
         this.doNotSkip = false;
-        /**
-         * @type {external:ShoukakuPlayer}
-         */
-        this.player = null;
         /**
          * @type {external:Discord_VoiceChannel}
          */
