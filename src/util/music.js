@@ -52,7 +52,7 @@ class MusicUtils {
         (await noticeMsg).delete();
 
         if (serverInstance.musicSystem.queueExists() && !serverInstance.musicSystem.isDamonInVC(voicechannel)) {
-            const newMsg = await msgObj.reply('you aren\'nt in my voice channel! 😣');
+            const newMsg = await msgObj.reply('you aren\'t in my voice channel! 😣');
 
             newMsg.delete({timeout: 5500});
             msgObj.delete({timeout: 1500});
