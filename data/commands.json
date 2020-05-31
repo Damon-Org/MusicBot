@@ -58,6 +58,15 @@
             },
             {
                 "guild_only": true,
+                "name": "dj info",
+                "aliases": [],
+                "description": "Shows some information about the DJ system and which modes exists.",
+                "usage": "dj info",
+                "params": [],
+                "example": "dj info"
+            },
+            {
+                "guild_only": true,
                 "name": "dj leave",
                 "aliases": [
                     "resign"
@@ -102,6 +111,24 @@
                     }
                 ],
                 "example": "dj mode 3"
+            },
+            {
+                "guild_only": true,
+                "name": "dj persistmode",
+                "aliases": [
+                    "persist mode"
+                ],
+                "description": "This will enforce a set DJ mode on the server.",
+                "usage": "dj persistmode <# mode>",
+                "params": [
+                    {
+                        "name": "mode",
+                        "description": "The new mode to be used for DJ's",
+                        "type": "number",
+                        "required": true
+                    }
+                ],
+                "example": "dj persistmode"
             },
             {
                 "guild_only": true,
