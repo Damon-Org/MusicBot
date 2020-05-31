@@ -95,14 +95,16 @@ class Play extends MusicCommand {
             case 1: {
                 const spotify = new URL(this.args[0]).pathname;
 
-                if (spotify.includes('/playlist/')) {
-                    const playlist = (await this.db.api.spotify.getPlaylist(spotify.split('/playlist/')[1])).body;
+                if (spotify.includes('/playlist/') || spotify.includes('/album/')) {
+                    const isPlaylist =
+                        spotify.includes('/playlist/'),
+                        playlist = isPlaylist ? (await this.db.api.spotify.getPlaylist(spotify.split('/playlist/')[1])).body : (await this.db.api.spotify.getAlbum(spotify.split('/album/')[1])).body;
 
                     noticeMsg.then(msg => msg.delete());
-                    this.send(`I added the playlist **${playlist.name}** with **${playlist.tracks.items.length}** tracks!`);
+                    this.send(`I added the ${isPlaylist ? 'playlist' : 'album'} **${playlist.name}** with **${playlist.tracks.items.length}** tracks!`);
 
                     for (const item of playlist.tracks.items) {
-                        const spotifyTrack = new SpotifyTrack(item.track, this.db);
+                        const spotifyTrack = new SpotifyTrack(isPlaylist ? item.track : item, this.db, !isPlaylist ? playlist.images[0].url : null);
 
                         if (!await this.musicUtils.handleSongData(spotifyTrack, this.serverMember, this.msgObj, this.voiceChannel, null, false, false)) break;
                     }
