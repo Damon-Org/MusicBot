@@ -1,7 +1,7 @@
 {
   "name": "damon_music",
-  "version": "0.6.4",
-  "description": "The fourth revision of Damon Music",
+  "version": "0.6.5",
+  "description": "The 6th revision of Damon Music",
   "main": "index.js",
   "scripts": {
     "docs": "jsdoc -c jsdoc.json",

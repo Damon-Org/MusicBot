@@ -14,6 +14,21 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-06-01, Version v0.6.5 @Yimura
+
+### Notable Changes
+
+ * A command reloading feature has been added, might be useful someday
+ * The SpotifyAPI token will only be refreshed when a request is made and the token has expired
+ * Added proper shutdown when the bot is kicked from its voice channel
+
+### Commits
+
+ * [**2c3d0bb13ba1ac5e6a7e48aa8d34fa1e8c87c163**] Choice: Undefined i
+ * [**2e8ee5e07b635162c2dfe3226e351ded059f565c**] CommandRegistrar: Added noCache option and reload commands command
+ * [**f7d08cc371726d8aca97bead005c0ec7577dacc7**] SpotifyAPI: Token will only be refreshed with a request and old one is expired
+ * [**ed57e01969b9990d1c56f7f6b5ed29e26a7c6b76**] BotEvents: When force kicked from its voice channel the bot should reset properly
+
 ## 2020-05-31, Version v0.6.4 @Yimura
 
 ### Notable Changes
