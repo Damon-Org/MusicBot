@@ -80,6 +80,10 @@ class BotEvents extends BasicBot {
             musicSystem.shutdown.delay('time', 3e5);
         }
         musicSystem.djManager.remove(serverMember);
+
+        if (!voiceChannel.guild.me.voice.channel) {
+            musicSystem.shutdown.instant();
+        }
     }
 
     /**
