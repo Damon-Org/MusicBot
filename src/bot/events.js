@@ -76,7 +76,7 @@ class BotEvents extends BasicBot {
 
         if (!musicSystem.queueExists() || !musicSystem.isDamonInVC(voiceChannel)) return;
 
-        if (musicSystem.isDamonInVC(voiceChannel) && voiceChannel.members.size == 1) {
+        if (musicSystem.isDamonInVC(voiceChannel) && voiceChannel.members.size == 1 && !musicSystem.shutdown.type()) {
             musicSystem.shutdown.delay('time', 3e5);
         }
         musicSystem.djManager.remove(serverMember);
