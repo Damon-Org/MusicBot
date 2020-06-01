@@ -194,6 +194,7 @@ class MusicSystem {
      * @returns {external:Boolean} True if Damon is in a voiceChannel, false if not
      */
     isDamonInVC(voiceChannel) {
+        if (!voiceChannel) return false;
         return voiceChannel.members.has(this.client.user.id);
     }
 
