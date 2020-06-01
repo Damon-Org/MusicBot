@@ -16,6 +16,8 @@ class SpotifyAPI extends SpotifyWebAPI {
 
         this.db = damonBase;
 
+        this.expired = false;
+
         this.updateAccessToken();
     }
 
@@ -29,13 +31,33 @@ class SpotifyAPI extends SpotifyWebAPI {
             this.setAccessToken(this.access_token);
 
             this.db.log('API', 'INFO', `Spotify access_token: '${this.access_token}'`);
+
+            this.expired = false;
         } catch (e) {
             this.db.log('API', 'ERROR', `Failed to updated access_token for Spotify:\n${e.stack}`);
         }
 
         setTimeout(() => {
-            this.updateAccessToken();
+            this.expired = true;
         }, this.expires * 1e3);
+    }
+
+    async getTrack(a1) {
+        if (this.expired) await this.updateAccessToken();
+
+        return super.getTrack(a1);
+    }
+
+    async getAlbum(a1) {
+        if (this.expired) await this.updateAccessToken();
+
+        return super.getAlbum(a1);
+    }
+
+    async getPlaylist(a1) {
+        if (this.expired) await this.updateAccessToken();
+
+        return super.getPlaylist(a1);
     }
 }
 
