@@ -1,4 +1,6 @@
-const BaseCommand = require('../../structs/base_command');
+const
+    BaseCommand = require('../../structs/base_command'),
+    MODE = require('../../music/dj/mode');
 
 /**
  * @category Commands
@@ -43,6 +45,13 @@ class DJList extends BaseCommand {
             return;
         }
 
+        if (this.musicSystem.djManager.mode === MODE['FREEFORALL']) {
+            this.send('The DJ system is not active right now.')
+                .then(msg => msg.delete({timeout: 5e3}));
+
+            return;
+        }
+
         if (this.musicSystem.djManager.size == 0) {
             this.send('There appear to be no active DJ\'s. <:thinking_hard:560389998806040586>');
 
@@ -53,7 +62,7 @@ class DJList extends BaseCommand {
             .setTitle('Active DJ users');
 
         let description = '';
-        for (let dj of this.musicSystem.djManager.values()) {
+        for (let dj of this.musicSystem.djManager.users.values()) {
             if (description !== '') description += '\n';
 
             description += `- ${dj.member}`;
