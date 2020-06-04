@@ -88,7 +88,7 @@ class SpotifyTrack {
             ytSearch = null;
 
         do {
-            ytSearch = await this.db.api.youtube.search(this.title);
+            ytSearch = await this.db.api.youtube.search(this.title + ' audio');
 
             attempt++;
         } while ((!ytSearch || ytSearch.length == 0 || !ytSearch[0].id || typeof ytSearch !== 'object') && attempt < 3);
