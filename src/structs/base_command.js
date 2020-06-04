@@ -248,35 +248,53 @@ class BaseCommand {
 
     async hasPermissions() {
         if (!this.msgObj.guild || !this.serverMember) return true;
-        if (!this.permission) return true;
+        if (!this.permissions) return true;
 
-        const or = this.permissions.logic == 'OR' ? true : false;
+        const or = this.permissions.logic == 'OR' && this.permissions.levels.length > 1 ? true : false;
+
+        let result = true;
 
         for (let level of this.permissions.levels) {
-            if (level.type === 'SERVER') {
-                if (!this.serverMember.hasPermission(level.name, false, true, true)) {
-                    if (or) continue;
+            const type = level.type.toUpperCase();
 
-                    this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` permission(s).`).then(msg => msg.delete({timeout: 5e3}));
+            if (type === 'SERVER') {
+                if (!this.serverMember.hasPermission(level.name)) {
+                    if (or) {
+                        result = false;
+
+                        continue;
+                    }
+
+                    this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` permission(s).`)
+                        .then(msg => msg.delete({timeout: 5e3}));
 
                     return false;
                 }
 
                 if (or) return true;
             }
-            else if (level.type === 'ROLE') {
+            else if (type === 'ROLE') {
                 if (this.serverMember.roles.cache.find(x => x.name.toLowerCase() === level.name)) {
-                    if (or) continue;
+                    if (or) {
+                        result = false;
 
-                    this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` role to use this command.`).then(msg => msg.delete({timeout: 5e3}));
+                        continue;
+                    }
+
+                    this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` role to use this command.`)
+                        .then(msg => msg.delete({timeout: 5e3}));
 
                     return false;
                 }
 
                 if (or) return true;
             }
-            else if (level.type === 'COMMAND_HANDLED') {
-                if (!await this.permission()) return false;
+            else if (type === 'COMMAND_HANDLED') {
+                if (!await this.permission()) {
+                    result = false;
+
+                    continue;
+                }
 
                 if (or) return true;
             }
@@ -289,7 +307,7 @@ class BaseCommand {
             }
         }
 
-        return true;
+        return result;
     }
 
     async hasSystemPermission() {
