@@ -2,18 +2,20 @@ const
     DJUser = require('./user'),
     MODE = require('./mode');
 
-class DJManager extends Map {
+class DJManager {
     /**
      * @param {MusicSystem} musicSystem
      */
     constructor(musicSystem) {
-        super();
-
         this.musicSystem = musicSystem;
 
         this.revokeTime = 12e4;
 
         this.reset(true);
+    }
+
+    upgrade(oldMap) {
+        this.users = new Map(oldMap);
     }
 
     /**
@@ -22,7 +24,7 @@ class DJManager extends Map {
     add(serverMember) {
         if (this.mode != MODE['MANAGED']) return;
 
-        this.set(serverMember.id, new DJUser(this, serverMember));
+        this.users.set(serverMember.id, new DJUser(this, serverMember));
     }
 
     /**
@@ -31,13 +33,13 @@ class DJManager extends Map {
     has(serverMemberId) {
         if (this.mode != MODE['MANAGED']) return true;
 
-        return super.has(serverMemberId);
+        return this.users.has(serverMemberId);
     }
 
     join(serverMember) {
         if (this.mode != MODE['MANAGED']) return;
 
-        const djUser = this.get(serverMember.id);
+        const djUser = this.users.get(serverMember.id);
 
         if (djUser) {
             djUser.clear();
@@ -48,10 +50,13 @@ class DJManager extends Map {
         if (hard) this.mode = this.musicSystem.musicBot.lazyLoader.get(this.musicSystem.serverInstance.id, 'dj_mode') || MODE['FREEFORALL'];
         this.playlistLock = false;
 
-        this.forEach((djUser) => {
+        if (!this.users)
+            this.users = new Map();
+
+        this.users.forEach((djUser) => {
             djUser.clear();
 
-            this.delete(djUser.id);
+            this.users.delete(djUser.id);
         });
     }
 
@@ -61,7 +66,7 @@ class DJManager extends Map {
     remove(serverMember) {
         if (this.mode != MODE['MANAGED']) return;
 
-        const djUser = this.get(serverMember.id);
+        const djUser = this.users.get(serverMember.id);
 
         if (djUser && this.size == 1) {
             djUser.revokeDelay(this.revokeTime);
@@ -69,7 +74,7 @@ class DJManager extends Map {
     }
 
     resign(serverMember) {
-        const djUser = this.get(serverMember.id);
+        const djUser = this.users.get(serverMember.id);
         djUser.clear();
 
         if (djUser && this.size == 1) {
@@ -80,7 +85,7 @@ class DJManager extends Map {
             return;
         }
 
-        this.delete(djUser.id);
+        this.users.delete(djUser.id);
     }
 
     setMode(mode, persist = false) {
