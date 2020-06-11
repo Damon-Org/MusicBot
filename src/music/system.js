@@ -569,15 +569,7 @@ class MusicSystem {
         }
         await this.player.setVolume(this.volume);
 
-        this.player.on('start', this.playerListener['start'] = () => {
-            this.musicBot.log('MUSSYS', 'INFO', 'Started track: ' + currentSong.title);
-
-            this.player.removeListener('start', this.playerListener['start']);
-
-            this.player.on('error', this.playerListener['error'] = (error) => this.nodeError(error));
-
-            this.player.on('end', this.playerListener['end'] = (end) => this.soundEnd(end));
-        });
+        this.player.on('start', this.playerListener['start'] = () => this.soundStart());
 
         this.cacheSongIfNeeded();
 
@@ -660,8 +652,8 @@ class MusicSystem {
     /**
      * Will reset all variables so our system is ready for a request
      */
-    reset() {
-        this.disconnect();
+    reset(disconnect = true) {
+        if (disconnect) this.disconnect();
 
         this.disableOldPlayer(true);
 
@@ -706,11 +698,6 @@ class MusicSystem {
          */
         this.stream = null;
         /**
-         * @type {*}
-         * @deprecated
-         */
-        this.timer  = null;
-        /**
          * @type {external:Number}
          */
         this.volume = 30;
@@ -724,7 +711,6 @@ class MusicSystem {
     resumePlayback() {
         if (this.paused) {
             this.player.setPaused(false);
-            //this.timer.resume();
 
             this.paused = false;
 
@@ -791,10 +777,9 @@ class MusicSystem {
      */
     soundEnd(end) {
         this.player.removeListener('error', this.playerListener['error']);
+        this.playerListener['error'] = null;
         this.player.removeListener('end', this.playerListener['end']);
-
-        this.lastSong = this.queue.active();
-        this.endMsg = end;
+        this.playerListener['end'] = null;
 
         if (end.type == 'TrackStuckEvent') return;
         if (end.reason == 'LOAD_FAILED') {
@@ -803,9 +788,24 @@ class MusicSystem {
             return;
         }
 
-        this.musicBot.log('MUSSYS', 'INFO', `Finished track: ${this.lastSong.title}`);
+        const currentSong = this.queue.active();
+
+        this.musicBot.log('MUSSYS', 'INFO', `Finished track: ${currentSong ? currentSong.title : '{ REMOVED SONG }'}`);
 
         this.playNext();
+    }
+
+    soundStart() {
+        const currentSong = this.queue.active();
+
+        this.musicBot.log('MUSSYS', 'INFO', 'Started track: ' + currentSong ? currentSong.title : '{ REMOVED SONG }');
+
+        this.player.removeListener('start', this.playerListener['start']);
+        this.playerListener['start'] = null;
+
+        this.player.on('error', this.playerListener['error'] = (error) => this.nodeError(error));
+
+        this.player.on('end', this.playerListener['end'] = (end) => this.soundEnd(end));
     }
 
     /**
