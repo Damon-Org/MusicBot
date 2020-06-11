@@ -167,7 +167,7 @@ class DamonBase extends BotEvents {
 
         this.carrier.on('ready', (name) => this.log('LAVA', 'INFO', `Node: ${name} is now connected`));
         // Error must be handled
-        this.carrier.on('error', (name, error) => this.log('LAVA', 'ERROR', `Node: ${name} emitted an error.\n${error}`));
+        this.carrier.on('error', (name, error) => this.log('LAVA', 'ERROR', `Node: ${name} emitted an error.\n${error.stack}`));
         // Close emits when a lavalink node disconnects.
         this.carrier.on('close', (name, code, reason) => this.log('LAVA', 'WARN', `Node: ${name} closed with code ${code}. Reason: ${reason || 'No reason'}`));
         // Disconnected emits when a lavalink node disconnected and will not try to reconnect again.
