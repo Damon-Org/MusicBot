@@ -157,7 +157,7 @@ class MusicUtils {
         const musicSystem = (this.musicBot.serverUtils.getClassInstance(serverMember.guild.id)).musicSystem;
         if (noticeMsg) noticeMsg.then(msg => msg.delete());
 
-        if (musicSystem.shutdown.type() == 'leave') musicSystem.reset();
+        if (musicSystem.shutdown.type() == 'leave') musicSystem.reset(false);
 
         if (musicSystem.queueExists()) {
             if (musicSystem.isDamonInVC(voiceChannel) || !allowSpam) {
@@ -172,7 +172,7 @@ class MusicUtils {
 
                 return true;
             }
-            msgObj.reply('you aren\'nt in my voice channel! 😣').then(msg => msg.delete({timeout: 5e3}));
+            msgObj.reply('you aren\'t in my voice channel! 😣').then(msg => msg.delete({timeout: 5e3}));
 
             return false;
         }
