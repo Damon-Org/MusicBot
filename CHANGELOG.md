@@ -14,6 +14,35 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-06-11, Version v0.6.6 @Yimura
+
+### Notable Changes
+
+ * An old unused dependency was removed: node-opus
+ * SpotifyTrack will try and search for a track that is only audio oriented
+ * Prep work has been done to the DJ System so it's ready for seamlessly reloading Music System
+ * Check if the #isDamonInVC is called with a valid VoiceChannel instance
+ * The permission system has been fixed where in certain edge cases it would allow the command to just run
+ * Removed redundant `error data` command
+ * The reset method from MusicSystem has a boolean disconnect param
+ * A proper stack trace was added to LavaLink
+ * `reset prefix` fixed incorrect reference name to the CommandRegistrar
+
+### Commits (12)
+
+ * [**55e1f3e2729d1250065ea9b297841b11873f3ac7**] Dependencies: Removed node-opus dependency
+ * [**53b6e5460e185ac949a936ab3ec2e6f0fe5fb90b**] BotEvents: Check if a type of delayed shutdown has been set already
+ * [**8bde5a6846323bd8b636f072e2ff30f4b38033e0**] MusicSystem: Check if voiceChannel value is valid in #isDamonInVC
+ * [**1a8af38237cafbfc05b074f84bf8ad98fa2680f7**] BaseCommand: Further optimised permission system
+ * [**4465876475260f27e8091b4b5c0521afc1519993**] SpotifyTrack: EquivSearch will attempt getting audio over video
+ * [**978e69cb98b4140e13da51a6444d70328e626108**] DJManagement: Changed DJUser store to facilitate upgrading music system
+ * [**5321bd1a0e40210b7bb3d4673f3297fac0850f7e**] Commands: More in depth reload possibilities
+ * [**a76d5b9e10ec41e32f0954dffee3da7cc036237b**] Commands: Removed useless error data command
+ * [**3f3578b6826973c06f55271ae9b838989b83e714**] Commands: Fixed incorrect reference name to the CommandRegistrar
+ * [**7be39e125d87d4b0eb6b31163e5aa2757f617fd7**] MusicUtils: Bot won't leave when resuming music playback
+ * [**9d9941036d0aba380fdcc72a7590e115c91bae67**] MusicSystem: reset has disconnect param, added #soundStart
+ * [**7711d5db11ce4fa16a7db4b94860bc1d3950935b**] BotMain: Added stack trace with LavaLink errors
+
 ## 2020-06-01, Version v0.6.5 @Yimura
 
 ### Notable Changes
