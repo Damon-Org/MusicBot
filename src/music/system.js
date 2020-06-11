@@ -50,6 +50,10 @@ class MusicSystem {
         this.reset();
     }
 
+    get carrier() {
+        return this.musicBot.carrier;
+    }
+
     get node() {
         return this.musicBot.carrier.getNode();
     }
@@ -186,6 +190,19 @@ class MusicSystem {
 
     disconnect() {
         if (this.player) this.player.disconnect();
+    }
+
+    getPlayer(voiceChannel) {
+        const player = this.carrier.getPlayer(voiceChannel.guild.id);
+        if (player && this.isDamonInVC(voiceChannel))
+            return player;
+
+        if (player) player.disconnect();
+
+        return this.node.joinVoiceChannel({
+            guildID: voiceChannel.guild.id,
+            voiceChannelID: voiceChannel.id
+        });
     }
 
     /**
@@ -371,7 +388,6 @@ class MusicSystem {
     pausePlayback() {
         if (!this.paused) {
             this.player.setPaused(true);
-            //this.timer.pause();
 
             this.paused = true;
 
@@ -521,34 +537,35 @@ class MusicSystem {
      */
     async playSong(voiceChannel = null) {
         if (!this.voiceChannel) {
-            if (voiceChannel.full && !this.isDamonInVC(voiceChannel) && !voiceChannel.guild.me.hasPermission('ADMINISTRATOR')) {
-                const richEmbed = new this.musicBot.Discord.MessageEmbed()
-                        .setTitle('Channel Full')
+            if (!this.isDamonInVC(voiceChannel)) {
+                if (voiceChannel.full && !voiceChannel.guild.me.hasPermission('ADMINISTRATOR')) {
+                    const richEmbed = new this.musicBot.Discord.MessageEmbed()
+                            .setTitle('Channel Full')
+                            .setColor('#ff0033')
+                            .setDescription('Voicechannel is full, try kicking someone or make the voicechannel size larger.');
+
+                    this.channel.send(richEmbed);
+
+                    this.shutdown.instant();
+                    return false;
+                }
+
+                if (!voiceChannel.joinable) {
+                    const richEmbed = new this.musicBot.Discord.MessageEmbed()
+                        .setTitle('Insufficient permissions')
                         .setColor('#ff0033')
-                        .setDescription('Voicechannel is full, try kicking someone or make the voicechannel size larger.');
+                        .setDescription('I do not have permission to join your channel.');
 
-                this.channel.send(richEmbed);
+                    this.channel.send(richEmbed);
 
-                this.shutdown.instant();
-                return false;
+                    this.shutdown.instant();
+                    return false;
+                }
             }
 
-            if (!voiceChannel.joinable) {
-                const richEmbed = new this.musicBot.Discord.MessageEmbed()
-                    .setTitle('Insufficient permissions')
-                    .setColor('#ff0033')
-                    .setDescription('I do not have permission to join your channel.');
+            this.player = await this.getPlayer(voiceChannel);
 
-                this.channel.send(richEmbed);
-
-                this.shutdown.instant();
-                return false;
-            }
-
-            this.player = await this.node.joinVoiceChannel({
-                guildID: voiceChannel.guild.id,
-                voiceChannelID: voiceChannel.id
-            });
+            //this.player.on('closed', this.playerListener['closed'] = (reason) => this.playerDisconnected(reason));
 
             this.voiceChannel = voiceChannel;
         }
@@ -660,6 +677,8 @@ class MusicSystem {
         this.djManager.reset(true);
         this.shutdown.reset();
         this.queue.reset();
+
+        if (this.player) this.player.removeAllListeners();
 
         this.playerListener = {};
 
