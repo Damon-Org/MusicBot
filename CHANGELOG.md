@@ -14,6 +14,19 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-06-11, Version v0.6.7 @Yimura
+
+### Notable Changes
+
+ * Changes to Music System:
+    * A shorthand was added to get the LavaLink carrier
+    * A new method was added to properly get a SoundLink to Discord, if one existed or one needed to be created
+    * The bot will now check more in depth if it has the permission to join a voice channel
+
+### Commits
+
+ * [**d3fb12dfb59665c3325f42fb8416a05e2ed174ea**] MusicSystem: Damon should now properly get the player object
+
 ## 2020-06-11, Version v0.6.6 @Yimura
 
 ### Notable Changes
