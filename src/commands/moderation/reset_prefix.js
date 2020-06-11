@@ -41,7 +41,7 @@ class ResetPrefix extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const prefix = this.db.commandRegisterer.default_prefix;
+        const prefix = this.db.commandRegistrar.default_prefix;
 
         this.serverInstance.setPrefix(prefix);
 
