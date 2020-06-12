@@ -41,11 +41,25 @@ class ResetPrefix extends BaseCommand {
      * @param {external:String} command string representing what triggered the command
      */
     async run(command) {
-        const prefix = this.db.commandRegistrar.default_prefix;
+        const
+            oldPrefix = await this.serverInstance.getPrefix(),
+            newPrefix = this.db.commandRegistrar.default_prefix;
 
-        this.serverInstance.setPrefix(prefix);
+        if (oldPrefix == newPrefix) {
+            this.textChannel.send('There\'s no custom prefix to reset.');
 
-        this.textChannel.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${prefix}\``).then(msg => msg.pin());
+            return true;
+        }
+
+        this.db.lazyLoader.set(this.serverInstance.id, 'prefix', newPrefix);
+        this.serverInstance.prefix = null;
+
+        this.serverUtils.deleteGuildOption(this.serverInstance.id, 'guildPrefix');
+
+        this.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${newPrefix}\``)
+            .then(msg => msg.pin());
+
+        return true;
     }
 }
 
