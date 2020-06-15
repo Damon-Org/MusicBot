@@ -31,6 +31,8 @@ class Options {
 
         await this.db.db.query(`UPDATE core_users SET ban_id = ? WHERE internal_id = ?`, [ban_id, internalId]);
 
+        this.user.banned = true;
+
         return [true, ban_id, internalId];
     }
 
