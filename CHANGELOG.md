@@ -14,6 +14,22 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-06-20, Version v0.6.8 @Yimura
+
+### Notable Changes
+
+ * An issue was resolved where the delayed shutdown would send a message for a different shutdown type
+ * The reset prefix command has been reworked to properly do its job
+ * Fixed an issue where a user banned boolean never would become true until the bot was restarted
+ * A SpotifyTrack will be more memory efficient in the future
+
+### Commits
+
+ * [**7d67d87c1918b869a3139821a29552296f111857**] MusicShutdown: Fixed an issue where delayed shutdown would message for different shutdown modes
+ * [**5a5ff427b8c1e428c10cd28c8f78a8842a367826**] Commands: ResetPrefix command will now properly reset a guilds prefix
+ * [**4221ad4c65d9ca60224d62db3bd30de0c69b6aec**] UserOptions: User banned boolean would never become true until restart
+ * [**ef0bd6583ab8f63064487423ce73583edd09cf87**] SpotifyTrack: Made more memory efficient than before
+
 ## 2020-06-11, Version v0.6.7 @Yimura
 
 ### Notable Changes
