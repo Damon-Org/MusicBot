@@ -5,11 +5,16 @@ class SpotifyTrack {
     /**
      * @param {external:Object} data Data found by the Spotify REST APi
      * @param {DamonBase} damonBase
+     * @param {Object} imageOverride Image override for album art
      */
     constructor(data, damonBase, imageOverride = null) {
         this.db = damonBase;
 
-        Object.assign(this, data);
+        Object.assign(this, {
+            artists: data.artists,
+            album: data.album,
+            name: data.name
+        });
 
         this.cached = false;
         this._done = false;
@@ -22,6 +27,10 @@ class SpotifyTrack {
     }
 
     get full_author() {
+        if (this._full_author) {
+            return this._full_author;
+        }
+
         let artist = '';
 
         for (let i = 0; i < this.artists.length; i++) {
@@ -41,6 +50,8 @@ class SpotifyTrack {
                     artist += ')';
             }
         }
+
+        this._full_author = artist;
 
         return artist;
     }
