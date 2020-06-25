@@ -1,4 +1,4 @@
-import DJCommand from '../../../structures/DJCommand.js'
+import DJCommand from '../../../structures/commands/DJCommand.js'
 
 export default class DJLeave extends DJCommand {
     /**

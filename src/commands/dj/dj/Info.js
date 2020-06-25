@@ -1,4 +1,4 @@
-import BaseCommand from '../../../structures/BaseCommand.js'
+import BaseCommand from '../../../structures/commands/BaseCommand.js'
 
 export default class DJInfo extends BaseCommand {
     /**
