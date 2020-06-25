@@ -1,4 +1,4 @@
-import DJCommand from '../../../structures/DJCommand.js'
+import BaseCommand from '../../../structures/commands/BaseCommand.js'
 
 export default class DJPersistMode extends BaseCommand {
     /**
