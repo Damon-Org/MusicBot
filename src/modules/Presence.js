@@ -14,7 +14,7 @@ export default class Presence extends BaseModule {
             events: [
                 {
                     name: 'ready',
-                    call: 'startInterval'
+                    call: '_startInterval'
                 }
             ]
         });
@@ -57,7 +57,7 @@ export default class Presence extends BaseModule {
         };
     }
 
-    async startInterval() {
+    async _startInterval() {
         await this._updatePresenceValues();
 
         for (const presence of this.presences) {
@@ -71,6 +71,6 @@ export default class Presence extends BaseModule {
             await Util.delay(this.switch_interval);
         }
 
-        this.startInterval();
+        this._startInterval();
     }
 }
