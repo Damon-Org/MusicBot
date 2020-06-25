@@ -1,3 +1,5 @@
+import fs from 'fs'
+
 import BaseModule from '../structures/BaseModule.js'
 import importDir from '../util/ImportDir.js'
 import log from '../util/Log.js'
@@ -162,7 +164,7 @@ export default class CommandRegistrar extends BaseModule {
          * @private
          */
         this._commands = new Map();
-        if (this.output) this.output = {};
+        if (this.config.development && this.config.generate_command_json) this.output = {};
 
         for (const category in rawCommands) {
             if (rawCommands.hasOwnProperty(category)) {
