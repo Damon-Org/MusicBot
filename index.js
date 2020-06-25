@@ -1,25 +1,15 @@
-'use strict';
+import { ShardingManager } from 'discord.js'
+import auth from './data/auth.js'
+import config from './data/config.js'
 
-const
-    auth = require(`${__dirname}/data/auth.json`),
-    config = require(`${__dirname}/data/config.json`),
-    token = config.development ? auth.token.dev : auth.token.prod,
-    ShardManager = require('discord.js').ShardingManager;
-
-if (config.development) {
-    console.log('============== Development Mode Active ==============');
-}
-
-const Manager = new ShardManager(`${__dirname}/main.js`, {
-    token: token,
+const shardManager = new ShardingManager(`${process.cwd()}/src/main.js`, {
+    token: config.development ? auth.token.dev : auth.token.prod,
     respawn: !config.development,
     shardArgs: [
-        token
+        process.env.npm_package_version
     ]
 });
 
-Manager.spawn();
+shardManager.spawn();
 
-Manager.on('shardCreate', shard => {
-    console.log(`[SHARD_MANAGER] Shard ${shard.id + 1}/${Manager.totalShards} is starting...`);
-});
+shardManager.on('shardCreate', shard => console.log(`[SHARD_MANAGER] Shard ${shard.id + 1}/${shardManager.totalShards} is starting...`));
