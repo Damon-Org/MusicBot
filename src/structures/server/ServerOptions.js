@@ -1,3 +1,5 @@
+import ServerUtils from '../../util/Server.js'
+
 export default class ServerOptions {
     /**
      * @param {Server} server
@@ -6,6 +8,13 @@ export default class ServerOptions {
         this.mainClient = server.mainClient;
 
         this.server = server;
+    }
+
+    /**
+     * Will create the guild if it doesn't exist in the DB yet
+     */
+    create() {
+        ServerUtils.addGuild(this.mainClient.getModule('db').pool, this.server.id);
     }
 
     /**
