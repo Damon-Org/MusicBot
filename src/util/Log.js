@@ -37,7 +37,7 @@ export default class log {
         console.log(msg);
         if (data) console.log(data);
 
-        if (level != 'INFO' && level != 'warn') {
+        if (level != 'INFO') {
             const date = new Date();
 
             msg = `${log}[${name.toUpperCase()}/${level}] ${message}`;
