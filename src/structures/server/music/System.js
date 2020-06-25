@@ -570,7 +570,7 @@ export default class MusicSystem {
         await this.cacheSongIfNeeded(currentSong);
 
         if (!await this.player.playTrack(currentSong.track)) {
-            log.warn('MUSIC_SYSTEM', 'Failed to playTrack, the instance might be broken:', currentSong);
+            log.warn('MUSIC_SYSTEM', 'Failed to playTrack, the instance might be broken:', currentSong.track ?? currentSong);
 
             this.playNext();
 
