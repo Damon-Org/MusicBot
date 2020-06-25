@@ -135,7 +135,8 @@ export default class MusicQueue extends Array {
         const
             bottomLimit = this.start,
             topLimit = this.length - 1,
-            tempQueue = this.slice(bottomLimit, topLimit);
+            // this.slice would return Queue instead of primitive Array so we "cast" it to an Array below
+            tempQueue = [...this.slice(bottomLimit, topLimit)];
 
         tempQueue.reverse();
 
