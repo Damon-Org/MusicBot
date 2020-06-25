@@ -1,3 +1,6 @@
+import fs from 'fs'
+import util from 'util'
+
 const level_types = ['INFO', 'VERBOSE', 'WARNING', 'ERROR', 'CRITICAL'];
 
 export default class log {
@@ -29,8 +32,25 @@ export default class log {
                 break;
         }
 
-        console.log(`${log}${colors[0]}[${name.toUpperCase()}/${level}]${colors[1]} ${message}`);
+        let msg = `${log}${colors[0]}[${name.toUpperCase()}/${level}]${colors[1]} ${message}`;
+
+        console.log(msg);
         if (data) console.log(data);
+
+        if (level != 'INFO' && level != 'warn') {
+            const date = new Date();
+
+            msg = `${log}[${name.toUpperCase()}/${level}] ${message}`;
+            if (data) message += `${util.format(data)}\n`;
+
+            fs.appendFile(
+                `${process.cwd()}/log/${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}-${level.toLowerCase()}.log`,
+                message,
+                (err) => {
+                    if (err) throw err;
+                }
+            );
+        }
     }
 
     static info(...args) {
