@@ -175,7 +175,7 @@ export default class BaseCommand {
         }
 
         if (exception) {
-            const prefix =  this.serverInstance.prefix;
+            const prefix =  this.server.prefix;
 
             embed.setDescription(`View the documentation of [this command on our site](https://music.damon.sh/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.getModule('commandRegistrar').defaultPrefix ? '' : `&p=${encodeURI(prefix)}`})`);
 
@@ -199,7 +199,7 @@ export default class BaseCommand {
             return false;
         }
 
-        const lockedChannel = (await this.serverInstance.getLockedChannels())[this.category];
+        const lockedChannel = (await this.server.getLockedChannels())[this.category];
         if (lockedChannel == undefined || lockedChannel == null || lockedChannel == 'null' || lockedChannel == this.textChannel.id) {
             return true;
         }

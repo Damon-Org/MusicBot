@@ -5,10 +5,10 @@ import MODE from './Mode.js'
 
 export default class DJManager {
     /**
-     * @param {MusicSystem} musicSystem
+     * @param {MusicSystem} music
      */
-    constructor(musicSystem) {
-        this.musicSystem = musicSystem;
+    constructor(music) {
+        this.music = music;
 
         this.revokeTime = 12e4;
 
@@ -56,7 +56,7 @@ export default class DJManager {
      * @param {Boolean} [hard=false]
      */
     reset(hard = false) {
-        if (hard) this.mode = this.musicSystem.getModule('guildSetting').get(this.musicSystem.server.id, 'dj_mode') || MODE['FREEFORALL'];
+        if (hard) this.mode = this.music.getModule('guildSetting').get(this.music.server.id, 'dj_mode') || MODE['FREEFORALL'];
         this.playlistLock = false;
 
         if (!this.users)
@@ -92,7 +92,7 @@ export default class DJManager {
         if (djUser && this.size == 1) {
             this.setMode(MODE['FREEFORALL']);
 
-            this.musicSystem.channel.send(`${serverMember} has resigned as DJ, all users in voice channel can now use music commands.`);
+            this.music.channel.send(`${serverMember} has resigned as DJ, all users in voice channel can now use music commands.`);
 
             return;
         }
@@ -102,9 +102,9 @@ export default class DJManager {
 
     setMode(mode, persist = false) {
         if (persist) {
-            this.musicSystem.server.options.update('djMode', mode);
+            this.music.server.options.update('djMode', mode);
 
-            this.musicSystem.getModule('guildSetting').set(this.musicSystem.server.id, 'dj_mode', mode);
+            this.music.getModule('guildSetting').set(this.music.server.id, 'dj_mode', mode);
         }
 
         this.mode = mode;
