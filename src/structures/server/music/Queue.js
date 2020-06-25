@@ -41,9 +41,9 @@ export default class MusicQueue extends Array {
     }
 
     /**
-     * @param {external:Object} data Data found by the LavaLink REST APi
-     * @param {external:Number} position
-     * @returns {external:Boolean} Returns true on success, false if queue is full
+     * @param {Object} data Data found by the LavaLink REST APi
+     * @param {Number} position
+     * @returns {Boolean} Returns true on success, false if queue is full
      */
     addOnPosition(song, position) {
         if (this.length == this.maxLength) return false;
@@ -51,11 +51,11 @@ export default class MusicQueue extends Array {
         if (position > 0) {
             position--;
 
-            this.queue.splice(this.maxPrequeue + position, 0, song)
+            this.splice(this.maxPrequeue + position, 0, song)
 
             return true;
         }
-        this.queue.splice(this.maxPrequeue + position, 0, song);
+        this.splice(this.maxPrequeue + position, 0, song);
 
         return true;
     }
@@ -69,8 +69,8 @@ export default class MusicQueue extends Array {
     }
 
     /**
-     * @param {external:Number} position Position in queue
-     * @returns {external:Object} data Data found by the LavaLink REST APi
+     * @param {Number} position Position in queue
+     * @returns {Object} data Data found by the LavaLink REST APi
      */
     getFromPosition(position) {
         if (position > 0) {
@@ -83,7 +83,7 @@ export default class MusicQueue extends Array {
     }
 
     /**
-     * @param {external:Number} index
+     * @param {Number} index
      */
     hasOnPosition(index) {
         if (this.getFromPosition(index)) {
