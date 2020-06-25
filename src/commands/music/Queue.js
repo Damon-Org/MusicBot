@@ -86,7 +86,7 @@ export default class Queue extends BaseCommand {
         }
 
         if (this.music.queueExists()) {
-            const length = this.music.queue.size();
+            const length = this.music.queue.length;
             let embedDescription = '';
 
             for (let i = bottomLimit; i < topLimit; i++) {

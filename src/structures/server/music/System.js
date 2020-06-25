@@ -569,8 +569,12 @@ export default class MusicSystem {
 
         await this.cacheSongIfNeeded(currentSong);
 
-        while (!await this.player.playTrack(currentSong.track)) {
-            log.warn('MUSIC_SYSTEM', 'Failed to playTrack, retrying...');
+        if (!await this.player.playTrack(currentSong.track)) {
+            log.warn('MUSIC_SYSTEM', 'Failed to playTrack, the instance might be broken:', currentSong);
+
+            this.playNext();
+
+            return false;
         }
         await this.player.setVolume(this.volume);
 

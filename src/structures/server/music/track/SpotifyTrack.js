@@ -95,15 +95,15 @@ export default class SpotifyTrack {
 
         let
             attempt = 0,
-            ytSearch = null;
+            search = null;
 
         do {
-            ytSearch = await this.mainClient.getModule('api').youtube.search(this.title + ' audio');
+            search = await this.mainClient.getModule('api').youtube.search(this.title + ' audio');
 
             attempt++;
-        } while ((!ytSearch || ytSearch.length == 0 || !ytSearch[0].id || typeof ytSearch !== 'object') && attempt < 3);
+        } while ((!search || search.length == 0 || !search[0].id || typeof search !== 'object') && attempt < 3);
 
-        if (!ytSearch || ytSearch.length == 0 || !ytSearch[0].id || typeof ytSearch !== 'object') {
+        if (!search || search.length == 0 || !search[0].id || typeof search !== 'object') {
             this.broken = true;
 
             return false;
@@ -113,10 +113,10 @@ export default class SpotifyTrack {
         let data = null;
         attempt = 0;
         do {
-            data = await this.mainClient.getModule('lavaLink').conn.getNode().rest.resolve(`https://youtu.be/${ytSearch[0].id}`);
+            data = await this.mainClient.getModule('lavaLink').conn.getNode().rest.resolve(`https://youtu.be/${search[0].id}`);
 
             attempt++;
-        } while ((data == null || data === true) && attempt < 3 );
+        } while ((data == null || data === true || data.tracks.length == 0) && attempt < 3 );
 
         if (!data || data === true) {
             this.broken = true;
@@ -124,7 +124,7 @@ export default class SpotifyTrack {
             return false;
         }
 
-        this.track = data.track;
+        this.track = data.tracks[0].track;
 
         log.info('API', `Cached song: ${this.title}`);
 
