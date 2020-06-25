@@ -1,0 +1,48 @@
+import { createRequire } from 'module'
+
+export default class Util {
+    constructor() {
+
+    }
+
+    static async delay(timeout) {
+        return new Promise((resolve, reject) => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
+    static flatten(obj, ...props) {
+        if (!isObject(obj)) return obj;
+
+        props = Object.assign(
+            ...Object.keys(obj)
+                .filter(k => !k.startsWith('_'))
+                .map(k => ({ [k]: true })),
+            ...props,
+        );
+
+        const out = {};
+
+        for (let [prop, newProp] of Object.entries(props)) {
+            if (!newProp) continue;
+            newProp = newProp === true ? prop : newProp;
+
+            const element = obj[prop];
+            const elemIsObj = isObject(element);
+            const valueOf = elemIsObj && typeof element.valueOf === 'function' ? element.valueOf() : null;
+
+            // If it's a Collection, make the array of keys
+            if (element instanceof require('./Collection')) out[newProp] = Array.from(element.keys());
+            // If the valueOf is a Collection, use its array of keys
+            else if (valueOf instanceof require('./Collection')) out[newProp] = Array.from(valueOf.keys());
+            // If it's an array, flatten each element
+            else if (Array.isArray(element)) out[newProp] = element.map(e => Util.flatten(e));
+            // If it's an object with a primitive `valueOf`, use that value
+            else if (typeof valueOf !== 'object') out[newProp] = valueOf;
+            // If it's a primitive
+            else if (!elemIsObj) out[newProp] = element;
+        }
+
+        return out;
+    }
+}
