@@ -15,7 +15,7 @@ export default class SpotifyAPI extends SpotifyWebAPI {
     }
 
     async _updateIfExpired() {
-        if (this.expired) await this.updateAccessToken();
+        if (this.expired) await this._updateAccessToken();
     }
 
     async _updateAccessToken() {
