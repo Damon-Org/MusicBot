@@ -23,10 +23,10 @@ export default {
             },
             "dev": {
                 "connectionLimit": 100,
-                "host": "10.0.0.8",
+                "host": "home.damon.sh",
                 "user": "db_admin",
                 "password": "s7E1$EA41%$vu6",
-                "database": "damon_new",
+                "database": "damon",
                 "debug": false,
                 "supportBigNumbers": true,
                 "bigNumberStrings": true
