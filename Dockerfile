@@ -2,11 +2,11 @@ FROM node:14-buster
 
 WORKDIR /usr/src/app
 
-COPY . .
+COPY package.json .
+COPY package-lock.json .
 
-RUN apt upgrade && apt update -y
-RUN apt install g++ libtool autoconf curl
 RUN npm i
-RUN git reset --hard
+
+COPY . .
 
 CMD ["npm", "start"]
