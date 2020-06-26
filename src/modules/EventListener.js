@@ -95,8 +95,8 @@ export default class EventListener extends BaseModule {
 
         if (!server.music.queueExists() || !server.music.isDamonInVC(voiceChannel)) return;
 
-        if (voiceChannel.members.size == 1 && !server.shutdown.type()) {
-            server.shutdown.delay('time', 3e5);
+        if (voiceChannel.members.size == 1 && !server.music.shutdown.type()) {
+            server.music.shutdown.delay('time', 3e5);
         }
         server.music.djManager.remove(serverMember);
 
