@@ -11,3 +11,8 @@ node_modules/discord.js/src/*
 !node_modules/discord.js/src/rest/
 node_modules/discord.js/src/rest/*
 !node_modules/discord.js/src/rest/RequestHandler.js
+
+!node_modules/discord.js/src/sharding/
+node_modules/discord.js/src/sharding/*
+!node_modules/discord.js/src/sharding/Shard.js
+!node_modules/discord.js/src/sharding/ShardingManager.js
