@@ -67,7 +67,7 @@ export default class MainClient extends Discord.Client {
      * Cleanup basically
      */
     destroy() {
-
+        log.info('SHARD', 'Destroying shard...');
 
         super.destroy();
 
