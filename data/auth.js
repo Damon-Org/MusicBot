@@ -16,7 +16,7 @@ export default {
                 "host": "home.damon.sh",
                 "user": "db_admin",
                 "password": "s7E1$EA41%$vu6",
-                "database": "damon",
+                "database": "damon_new",
                 "debug": false,
                 "supportBigNumbers": true,
                 "bigNumberStrings": true
@@ -26,7 +26,7 @@ export default {
                 "host": "home.damon.sh",
                 "user": "db_admin",
                 "password": "s7E1$EA41%$vu6",
-                "database": "damon",
+                "database": "damon_new",
                 "debug": false,
                 "supportBigNumbers": true,
                 "bigNumberStrings": true
@@ -42,8 +42,8 @@ export default {
             }
         ],
 
-        "socket": {
-            "clientType": "damon",
+        "ws": {
+            "client": "damon",
             "port": 6262,
             "host": "socket.soft-wet.damon.sh",
             "token": "58W3VzncWLZ11vR3hb9nCgaLP3nXpJ1w"
