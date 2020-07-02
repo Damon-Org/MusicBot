@@ -44,12 +44,14 @@ export default class SetPrefix extends BaseCommand {
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        const newPrefix = this.args[0];
+        const
+            newPrefix = this.args[0],
+            prefix = this.getModule('commandRegistrar').defaultPrefix;
 
-        if (!newPrefix) {
-            const prefix = this.getModule('commandRegistrar').defaultPrefix;
-
-            this.server.prefix = prefix;
+        if (!newPrefix || newPrefix == prefix) {
+            this.getModule('guildSetting').set(this.server.id, 'prefix', newPrefix);
+            this.server._prefix = null;
+            this.server.options.delete('guildPrefix');
 
             this.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${prefix}\``)
                 .then(msg => msg.pin());
@@ -58,7 +60,7 @@ export default class SetPrefix extends BaseCommand {
         }
 
         if (/^[\x00-\x7F]*$/.test(newPrefix) && newPrefix.length <= 6) {
-            const oldPrefix = await this.server.prefix;
+            const oldPrefix = this.server.prefix;
 
             this.server.prefix = prefix;
 
