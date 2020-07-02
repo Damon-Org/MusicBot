@@ -38,7 +38,7 @@ export default class ResetPrefix extends BaseCommand {
      */
     async run(command) {
         const
-            oldPrefix = await this.server.prefix,
+            oldPrefix = this.server.prefix,
             newPrefix = this.getModule('commandRegistrar').defaultPrefix;
 
         if (oldPrefix == newPrefix) {
