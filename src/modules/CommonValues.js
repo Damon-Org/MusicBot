@@ -1,4 +1,4 @@
-import BaseModule from '../structures/BaseModule.js'
+import BaseModule from '../structures/modules/BaseModule.js'
 import Util from '../util/Util.js'
 
 export default class CommonValues extends BaseModule {

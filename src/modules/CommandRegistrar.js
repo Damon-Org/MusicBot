@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-import BaseModule from '../structures/BaseModule.js'
+import BaseModule from '../structures/modules/BaseModule.js'
 import importDir from '../util/ImportDir.js'
 import log from '../util/Log.js'
 
