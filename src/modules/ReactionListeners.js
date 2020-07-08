@@ -1,4 +1,4 @@
-import BaseModule from '../structures/BaseModule.js'
+import BaseModule from '../structures/modules/BaseModule.js'
 
 export default class ReactionListeners extends BaseModule {
     constructor(mainClient) {

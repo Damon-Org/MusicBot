@@ -1,4 +1,4 @@
-import BaseModule from '../structures/BaseModule.js'
+import BaseModule from '../structures/modules/BaseModule.js'
 import pkg from 'shoukaku'
 
 import log from '../util/Log.js'

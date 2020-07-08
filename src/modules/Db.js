@@ -1,4 +1,4 @@
-import BaseModule from '../structures/BaseModule.js'
+import BaseModule from '../structures/modules/BaseModule.js'
 
 import mysql from 'mysql2/promise.js'
 

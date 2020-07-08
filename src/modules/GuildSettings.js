@@ -1,4 +1,4 @@
-import BaseModule from '../structures/BaseModule.js'
+import BaseModule from '../structures/modules/BaseModule.js'
 import guildSettings from '../../data/guild_settings.js'
 import log from '../util/Log.js'
 

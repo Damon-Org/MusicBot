@@ -1,4 +1,4 @@
-import BaseModule from '../structures/BaseModule.js'
+import BaseModule from '../structures/modules/BaseModule.js'
 import ServerUtils from '../util/Server.js'
 
 export default class EventListener extends BaseModule {
