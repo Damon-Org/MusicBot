@@ -443,9 +443,7 @@ export default class MusicSystem {
         if (!this.doNotSkip) {
             this.queue.shift();
         }
-        else {
-            this.doNotSkip = false;
-        }
+        this.doNotSkip = false;
 
         this.continueQueue();
     }
@@ -740,7 +738,8 @@ export default class MusicSystem {
 
         if (!this.queue.hasOnPosition(queueNumber)) return false;
 
-        const loopCount = queueNumber < 0 ? (queueNumber*-1 + 1) : queueNumber - 2;
+        const loopCount = queueNumber < 0 ? (queueNumber*-1) : queueNumber - 1;
+        this.doNotSkip = true;
 
         const nextSong = this.queue.getFromPosition(queueNumber);
         await this.cacheSongIfNeeded(nextSong);

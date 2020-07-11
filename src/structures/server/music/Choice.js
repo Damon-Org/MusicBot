@@ -42,7 +42,7 @@ export default class MusicChoice {
         this.description = '```asciidoc\n[CHOOSE A SONG]```\n';
         this.ids = [];
 
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < 5; i++) {
             this.ids.push(data[i].id);
 
             this.description += `\`\`\`asciidoc\n[${(i + 1)}] :: ${data[i].title}\`\`\``;
