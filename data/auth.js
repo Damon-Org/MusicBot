@@ -43,10 +43,10 @@ export default {
         ],
 
         "ws": {
-            "client": "damon",
-            "port": 6262,
-            "host": "socket.soft-wet.damon.sh",
-            "token": "58W3VzncWLZ11vR3hb9nCgaLP3nXpJ1w"
+            "group": "damon",
+            "host": "local.damon.sh",
+            "port": 8080,
+            "token": "JN&VNZkH4UkWbC25RVT^LE0LligJY8*73t8@HkW1@UT!jg0Z0PjiczVBRhH@5kX$"
         }
     }
 }

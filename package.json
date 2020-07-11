@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node .",
+    "start": "docker build --tag damonmusic:test_build . && docker rm damon -f && docker run -d --init --name damon damonmusic:test_build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

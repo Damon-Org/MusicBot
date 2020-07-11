@@ -11,7 +11,8 @@ export default class MusicShutdown {
     cancel() {
         this.reset();
 
-        this.shutdownMsg.then(msg => msg.delete());
+        if (this.shutdownMsg) this.shutdownMsg.then(msg => msg.delete());
+        this.shutdownMsg = null;
     }
 
     delay(type, timeout) {

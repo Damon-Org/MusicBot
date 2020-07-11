@@ -108,7 +108,7 @@ export default class CommandRegistrar extends BaseModule {
 
                         const instance = new bits[bit](category, this.mainClient);
                         if (instance.disabled) {
-                            log.warn('COMMAND', 'WARN', `Command disabled: '${parentBit}${instance.name}'`);
+                            log.warn('COMMAND', `Command disabled: '${parentBit}${instance.name}'`);
 
                             continue;
                         }
