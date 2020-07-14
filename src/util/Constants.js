@@ -28,5 +28,6 @@ export const OPCodes = {
 export const TargetTypes = {
     'GLOBAL': 0,
     'GROUP': 1,
-    'DIRECT': 2
+    'DIRECT': 2,
+    'REPLY': 3
 };
