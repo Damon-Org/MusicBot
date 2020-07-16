@@ -1,7 +1,7 @@
 import { DisconnectCodes, OPCodes } from '../../util/Constants.js'
+import { EventEmitter } from 'events'
 import log from '../../util/Log.js'
 import WebSocket from 'ws'
-import { EventEmitter } from 'events'
 
 /**
  * @typedef {Object} WSCredentials
@@ -65,14 +65,14 @@ export default class WSClient extends EventEmitter {
     /**
      * @private
      */
-    _onClose(closeEvt) {
-        log.info('WS_CLIENT', 'Connection was closed.')
+    _onClose(closeCode) {
+        log.info('WS_CLIENT', `Connection was closed with code: ${closeCode}`);
 
         for (const evt of ['close', 'open', 'error', 'message']) {
             this._ws.removeAllListeners(evt);
         }
 
-        if (closeEvt.code !== DisconnectCodes['IDENTIFY_FAILED']) {
+        if (closeCode !== DisconnectCodes['IDENTIFY_FAILED']) {
             setTimeout(() => {
                 this._attemptConnect();
             }, 5e3);
@@ -120,11 +120,45 @@ export default class WSClient extends EventEmitter {
                 break;
             }
             case OPCodes['EVENT']: {
-                this.emit('event', msg.d);
+                this.emit('event', msg.e, msg.d, msg.u);
+
+                break;
+            }
+            case OPCodes['REPLY']: {
+                const id = msg.u;
+                if (this[id]) this[id].emit('response', msg);
+
+                break;
+            }
+            case OPCodes['COMMUNICATION_CLOSE']: {
+                const id = msg.d;
+                if (this[id]) this[id].emit('close');
 
                 break;
             }
         }
+    }
+
+    /**
+     * @param {string} id
+     */
+    _close(id) {
+        const eventEmitter = this[id];
+        if (!eventEmitter) return false;
+        eventEmitter.removeAllListeners();
+
+        return true;
+    }
+
+    /**
+     * @param {string} id
+     */
+    _open(id) {
+        this[id] = new EventEmitter();
+
+        this[id].close = () => this._close(id);
+
+        return this[id];
     }
 
     /**
@@ -133,6 +167,8 @@ export default class WSClient extends EventEmitter {
      */
     send(pl, allow_unauthorized=false) {
         if (typeof pl !== 'object' || !this.connected || (!this.authenticated && !allow_unauthorized)) return false;
+
+        if (pl.u) this._open(pl.u);
 
         this._ws.send(JSON.stringify(pl));
 
