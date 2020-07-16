@@ -6,13 +6,17 @@ export default class CommonValues extends BaseModule {
         super(mainClient);
 
         this.register(CommonValues, {
-            name: 'commonValues'
+            name: 'common'
         });
+    }
+
+    get id() {
+        return this.mainClient.id;
     }
 
     get serverCount() {
         if (!this._serverCount) {
-            return 0;
+            return 'unknown';
         }
         return this._serverCount;
     }
