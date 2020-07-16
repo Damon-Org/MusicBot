@@ -22,12 +22,13 @@ export const OPCodes = {
     'EVENT': 0,
     'HEARTBEAT': 1,
     'IDENTIFY': 2,
-    'BONJOUR': 3
+    'BONJOUR': 3,
+    'COMMUNICATION_CLOSE': 4,
+    'REPLY': 5
 };
 
 export const TargetTypes = {
     'GLOBAL': 0,
     'GROUP': 1,
-    'DIRECT': 2,
-    'REPLY': 3
+    'DIRECT': 2
 };
