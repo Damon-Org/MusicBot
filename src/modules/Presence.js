@@ -45,7 +45,7 @@ export default class Presence extends BaseModule {
     }
 
     _updatePresenceValues() {
-        this.presenceValues.serverCount = this.getModule('commonValues').serverCount;
+        this.presenceValues.serverCount = this.getModule('common').serverCount;
     }
 
     setup() {
