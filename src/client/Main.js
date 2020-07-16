@@ -30,7 +30,7 @@ export default class MainClient extends Discord.Client {
          * Shard identifier based of off the bootUp Date in hex
          * @type {String}
          */
-        this.id = this.bootUp.toString(16).substr(-6);;
+        this.id = this.bootUp.toString(16).substr(-6);
 
         this.auth = auth;
         this.config = config;
