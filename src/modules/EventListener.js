@@ -8,7 +8,8 @@ export default class EventListener extends BaseModule {
         this.register(EventListener, {
             name: 'eventListener',
             requires: [
-                'commandRegistrar'
+                'commandRegistrar',
+                'ws'
             ],
             events: [
                 {
@@ -30,6 +31,11 @@ export default class EventListener extends BaseModule {
                 {
                     name: 'voiceLeave',
                     call: '_voiceLeave'
+                },
+                {
+                    mod: 'ws',
+                    name: 'event',
+                    call: '_onWsEvent'
                 }
             ]
         });
@@ -64,6 +70,31 @@ export default class EventListener extends BaseModule {
      */
     _onMsg(msg) {
         this.getModule('commandRegistrar').checkMessage(msg);
+    }
+
+    /**
+     * @param {string} eventName
+     * @param {JSON} data
+     * @param {string} id The message identifier
+     */
+    _onWsEvent(eventName, data, id = null) {
+        const
+            commonValues = this.getModule('common'),
+            ws = this.getModule('ws');
+
+        switch (eventName) {
+            case 'INFO':{
+                ws.sendReply(id, {
+                    'shardId': commonValues.id,
+                    'channels': this.mainClient.channels.cache.size,
+                    'guilds': this.mainClient.guilds.cache.size,
+                    'ping': Math.round(this.mainClient.ws.ping),
+                    'cachedUsers': this.mainClient.users.cache.size
+                });
+
+                break;
+            }
+        }
     }
 
     /**
