@@ -1,4 +1,4 @@
-import requireDir from '../util/ImportDir.js'
+import importDir from '../util/ImportDir.js'
 
 import log from '../util/Log.js'
 
@@ -17,22 +17,30 @@ export default class ModuleManager {
     }
 
     async load() {
-        const modules = requireDir('../modules/');
+        const modules = importDir('../modules/');
 
-        await this.mapModules(modules);
+        await this._mapModules(modules);
 
-        if (!this.setupModules()) {
+        if (!this._setupModules()) {
+            log.info('MODULES', 'Some modules failed to setup.');
+
             process.exit(1);
         }
 
         log.info('MODULES', 'Finished mapping modules!');
     }
 
-    async mapModules(modules) {
+    async _mapModules(modules) {
         for (const bit in modules) {
             if (modules.hasOwnProperty(bit)) {
                 if (modules[bit] instanceof Promise) {
-                    modules[bit] = (await modules[bit]).default;
+                    try {
+                        modules[bit] = (await modules[bit]).default;
+                    } catch (e) {
+                        log.error('MODULES', `An error occured while importing ${bit}`, e);
+
+                        continue;
+                    }
 
                     try {
                         const instance = new modules[bit](this.mainClient);
@@ -50,7 +58,7 @@ export default class ModuleManager {
 
                         this._modules.set(instance.name, instance);
                     } catch (e) {
-                        log.warn('MODULES', `Module is broken, ${bit}`, e.stack);
+                        log.warn('MODULES', `Module is broken, ${bit}`, e);
                     }
                     continue;
                 }
@@ -59,7 +67,7 @@ export default class ModuleManager {
         }
     }
 
-    setupModules() {
+    _setupModules() {
         for (const module of this._modules) {
             const [ name, instance ] = module;
 
@@ -75,6 +83,14 @@ export default class ModuleManager {
 
             if (instance.events) {
                 for (const _event of instance.events) {
+                    if (_event.mod) {
+                        const mod = this._modules.get(_event.mod);
+                        if (mod) {
+                            mod.on(_event.name, (...args) => instance[_event.call](...args));
+
+                            continue;
+                        }
+                    }
                     this.mainClient.on(_event.name, (...args) => instance[_event.call](...args));
                 }
             }
