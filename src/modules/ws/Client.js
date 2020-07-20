@@ -31,6 +31,10 @@ export default class WSClient extends EventEmitter {
         return this.state === WebSocket.OPEN;
     }
 
+    get group() {
+        return this._credentials.group;
+    }
+
     get state() {
         return this._ws.readyState;
     }
