@@ -3,7 +3,7 @@ import auth from './data/auth.js'
 import config from './data/config.js'
 import fs from 'fs'
 
-const shardManager = new ShardingManager(`${process.cwd()}/src/main.js`, {
+const shardManager = new ShardingManager(`${process.cwd()}/src/Main.js`, {
     token: config.development ? auth.token.dev : auth.token.prod,
     respawn: !config.development,
     shardArgs: [
