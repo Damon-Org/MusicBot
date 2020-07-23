@@ -135,7 +135,7 @@ export default class WSClient extends EventEmitter {
                 break;
             }
             case OPCodes['COMMUNICATION_CLOSE']: {
-                const id = msg.d;
+                const id = msg.d.u;
                 if (this[id]) this[id].emit('close');
 
                 break;
@@ -150,6 +150,7 @@ export default class WSClient extends EventEmitter {
         const eventEmitter = this[id];
         if (!eventEmitter) return false;
         eventEmitter.removeAllListeners();
+        delete this[id];
 
         return true;
     }
@@ -157,7 +158,7 @@ export default class WSClient extends EventEmitter {
     /**
      * @param {string} id
      */
-    _open(id) {
+    open(id) {
         this[id] = new EventEmitter();
 
         this[id].close = () => this._close(id);
@@ -171,8 +172,6 @@ export default class WSClient extends EventEmitter {
      */
     send(pl, allow_unauthorized=false) {
         if (typeof pl !== 'object' || !this.connected || (!this.authenticated && !allow_unauthorized)) return false;
-
-        if (pl.u) this._open(pl.u);
 
         this._ws.send(JSON.stringify(pl));
 
