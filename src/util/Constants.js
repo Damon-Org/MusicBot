@@ -32,3 +32,5 @@ export const TargetTypes = {
     'GROUP': 1,
     'DIRECT': 2
 };
+
+export const Website = 'https://music.damon.sh';
