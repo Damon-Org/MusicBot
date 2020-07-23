@@ -1,5 +1,5 @@
 import Discord from 'discord.js'
-
+import { Website } from '../../util/Constants.js'
 import log from '../../util/Log.js'
 
 export default class BaseCommand {
@@ -177,7 +177,7 @@ export default class BaseCommand {
         if (exception) {
             const prefix =  this.server.prefix;
 
-            embed.setDescription(`View the documentation of [this command on our site](https://music.damon.sh/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.getModule('commandRegistrar').defaultPrefix ? '' : `&p=${encodeURI(prefix)}`})`);
+            embed.setDescription(`View the documentation of [this command on our site](${Website}/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.getModule('commandRegistrar').defaultPrefix ? '' : `&p=${encodeURI(prefix)}`})`);
 
             this.textChannel.send(embed);
 
@@ -306,8 +306,9 @@ export default class BaseCommand {
 
     async hasSystemPermission() {
         if (!this.system_permission) return true;
+        const user = this.users.get(this.user);
 
-        return await this.userUtils.hasRole(this.user.id, this.system_permission.level, this.system_permission.condition);
+        return await user.hasPermission(this.system_permission.level, this.system_permission.condition);
     }
 
     async isUserBanned() {
