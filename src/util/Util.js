@@ -1,5 +1,3 @@
-import { createRequire } from 'module'
-
 export default class Util {
     constructor() {
 
