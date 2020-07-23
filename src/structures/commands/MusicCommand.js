@@ -16,6 +16,25 @@ export default class MusicCommand extends BaseCommand {
             return false;
         }
 
+        if (this.music.queueExists()) {
+            const voiceChannel = this.music.voiceChannel;
+            if (!voiceChannel) {
+                this.music.reset();
+
+                return true;
+            }
+
+            if (!this.music.isDamonInVC(voiceChannel)) {
+                this.music.reset();
+
+                return true;
+            }
+
+            if (voiceChannel.members.size === 1) {
+                this.music.reset();
+            }
+        }
+
         return true;
     }
 }
