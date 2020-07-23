@@ -39,13 +39,17 @@ export default class WSCommunicator extends EventModule {
      * @returns {boolean|Promise<Array>} Returns a true/false or Promise with an array of responses if collectResponse is set to true
      */
     sendEvent(eventName, targetType, targetIdentifier = null, data = null, collectResponse = false, timeout = 1e3) {
+        if (targetIdentifier === 'self') {
+            targetIdentifier = this._client.group;
+        }
+
         if (!TargetTypes[targetType]) {
             throw new Error('Unknown target type was given.');
 
             return false;
         }
 
-        if (TargetTypes['GLOBAL'] !== TargetTypes[targetType] && TargetTypes['REPLY'] !== TargetTypes[targetType] && !targetIdentifier) {
+        if (TargetTypes['GLOBAL'] !== TargetTypes[targetType] && !targetIdentifier) {
             throw new Error('Only target type GLOBAL and REPLY can take no target identifier.');
 
             return false;
@@ -63,15 +67,18 @@ export default class WSCommunicator extends EventModule {
 
         if (!collectResponse) return this._client.send(pl);
 
-        pl.u = uuidv4();
-        this._client.send(pl);
-
         let response = [];
         return new Promise((resolve, reject) => {
-            const eventListener = this._client[pl.u];
+            // Create unique identifier to track events for this message internally as well as for the websocket server
+            const uuid = uuidv4();
+            pl.u = uuid;
+            const eventListener = this._client.open(uuid);
 
             const _timeout = setTimeout(() => {
+                response.timeout = true;
                 resolve(response);
+
+                eventListener.close();
             }, timeout);
 
             eventListener.on('response', (res) => {
@@ -84,6 +91,9 @@ export default class WSCommunicator extends EventModule {
                 clearTimeout(_timeout);
                 eventListener.close();
             });
+
+            // Send payload
+            this._client.send(pl);
         });
     }
 
