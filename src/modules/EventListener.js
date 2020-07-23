@@ -73,6 +73,7 @@ export default class EventListener extends BaseModule {
     }
 
     /**
+     * @private
      * @param {string} eventName
      * @param {JSON} data
      * @param {string} id The message identifier
