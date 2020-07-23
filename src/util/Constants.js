@@ -11,8 +11,7 @@ export const DisconnectCodes = {
 };
 
 export const Events = {
-    'RELOAD_COMMANDS': 'reloadCommands',
-    'RELOAD_MODULES': 'reloadModules',
+    'RELOAD': 'reload',
 
     'USER_CREATE': 'userCreate',
     'USER_UPDATE': 'userUpdate'
