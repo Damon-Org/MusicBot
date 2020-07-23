@@ -113,10 +113,11 @@ export default class MusicSystem {
 
         this.disableOldPlayer(true);
 
-        const richEmbed = new Discord.MessageEmbed()
+        const
+            richEmbed = new Discord.MessageEmbed()
                 .setAuthor(track.author)
                 .setTitle(track.title)
-                .setThumbnail(track.image ?? track.image)
+                .setThumbnail(track.image ? track.image : null)
                 .setColor(this.songState.color)
                 .setDescription(`Requested by: **${track.requester}**`)
                 .setFooter(this.songState.footer),
@@ -740,6 +741,7 @@ export default class MusicSystem {
 
         const loopCount = queueNumber < 0 ? (queueNumber*-1) : queueNumber - 1;
         this.doNotSkip = true;
+        this.paused = false;
 
         const nextSong = this.queue.getFromPosition(queueNumber);
         await this.cacheSongIfNeeded(nextSong);

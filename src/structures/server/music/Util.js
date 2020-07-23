@@ -277,7 +277,7 @@ export default class MusicUtils {
                             new SpotifyTrack(
                                 isPlaylist ? item.track : item,
                                 this.music.mainClient,
-                                !isPlaylist ?? playlist.images[0].url
+                                !isPlaylist ? playlist.images[0].url : null
                             );
 
                         if (!await this.handleSongData(spotifyTrack, requester, msgObj, voiceChannel, null, false, false)) break;
