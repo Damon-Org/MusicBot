@@ -18,9 +18,13 @@ export default class BaseModule {
         return this.mainClient.serverManager;
     }
 
+    get users() {
+        return this.mainClient.userManager;
+    }
+
     /**
-     * @param {external:Object} object
-     * @param {external:Boolean} internal If this is the raw register object
+     * @param {Object} object
+     * @param {boolean} internal If this is the raw register object
      */
     register(instance, object, internal = true) {
         if (typeof object !== 'object') throw new Error('Invalid self assignment, expected object but got different type instead.');
@@ -38,6 +42,9 @@ export default class BaseModule {
         }
     }
 
+    /**
+     * @param {string} moduleName
+     */
     getModule(moduleName) {
         return this.mainClient.moduleManager.get(moduleName);
     }
