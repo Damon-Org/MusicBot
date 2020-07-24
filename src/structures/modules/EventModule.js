@@ -22,8 +22,12 @@ export default class EventModule extends EventEmitter {
         return this.mainClient.serverManager;
     }
 
+    get users() {
+        return this.mainClient.userManager;
+    }
+
     /**
-     * @param {JSON} object
+     * @param {Object} object
      * @param {boolean} internal If this is the raw register object
      */
     register(instance, object, internal = true) {
@@ -42,6 +46,9 @@ export default class EventModule extends EventEmitter {
         }
     }
 
+    /**
+     * @param {string} moduleName
+     */
     getModule(moduleName) {
         return this.mainClient.moduleManager.get(moduleName);
     }
