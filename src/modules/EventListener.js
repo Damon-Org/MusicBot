@@ -95,6 +95,44 @@ export default class EventListener extends BaseModule {
 
                 break;
             }
+            case 'RELOAD': {
+                this.getModule('commandRegistrar').setup();
+
+                ws.sendReply(id, {
+                    rcvd: true
+                });
+
+                break;
+            }
+            case 'USER_UPDATE': {
+                if (!this.users.has(data.id)) break;
+                const user = this.users.get(data.id);
+
+                for (const key in data.delta) {
+                    if (data.delta.hasOwnProperty(key)) {
+                        const value = data.delta[key];
+
+                        if (!isNaN(value)) {
+                            const originalVal = user.storage.get(key);
+                            user.storage.set(key, originalVal + value);
+                        }
+                    }
+                }
+
+                for (const key in data.props) {
+                    if (data.props.hasOwnProperty(key)) {
+                        const value = data.props[key];
+
+                        user.storage.set(key, value);
+                    }
+                }
+
+                ws.sendReply(id, {
+                    rcvd: true
+                });
+
+                break;
+            }
         }
     }
 

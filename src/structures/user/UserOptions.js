@@ -9,8 +9,8 @@ export default class UserOptions {
     }
 
     /**
-     * @param {String} issuer The admin that bans the person
-     * @param {String} reason
+     * @param {string} issuer The admin that bans the person
+     * @param {string} reason
      */
     async ban(issuer, reason) {
         if (reason && reason.length > 256) {
@@ -32,8 +32,6 @@ export default class UserOptions {
 
         await pool.query(`UPDATE core_users SET ban_id = ? WHERE internal_id = ?`, [ban_id, internalId]);
 
-        this.user.banned = true;
-
         return [true, ban_id, internalId];
     }
 
@@ -44,9 +42,19 @@ export default class UserOptions {
 
         await pool.query(`UPDATE core_users SET ban_id = NULL WHERE internal_id = ?`, [internalId]);
 
-        this.user.banned = false;
-
         return true;
     }
 
+    /**
+     * @param {number} level
+     */
+    async setPermissionLevel(level = 0) {
+        const
+            internalId = await this.user.getInternalId(),
+            pool = this.mainClient.getModule('db').pool;
+
+        await pool.query('UPDATE core_users SET role_id=? WHERE internal_id=?', [level, internalId]);
+
+        return true;
+    }
 }
