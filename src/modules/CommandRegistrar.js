@@ -157,7 +157,7 @@ export default class CommandRegistrar extends BaseModule {
 
     async setup() {
         // This will require all commands within this directory
-        const rawCommands = importDir('../commands/', { recurse: true });
+        const rawCommands = importDir('../commands/', { recurse: true, noCache: true });
 
         /**
          * @type {external:Map}
@@ -187,5 +187,7 @@ export default class CommandRegistrar extends BaseModule {
         }
 
         this.defaultPrefix = this.config.development ? this.config.default_prefix.dev : this.config.default_prefix.prod;
+
+        return true;
     }
 }

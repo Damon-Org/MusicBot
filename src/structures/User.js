@@ -1,4 +1,5 @@
 import UserOptions from './user/UserOptions.js'
+import Util from '../util/Util.js'
 
 export default class User {
     /**
@@ -11,10 +12,33 @@ export default class User {
         this.user = user;
 
         this.options = new UserOptions(this);
+        this.storage = new Map();
     }
 
     get id() {
         return this.user.id;
+    }
+
+    get banned() {
+        return this.storage.get('banned');
+    }
+
+    /**
+     * @param {boolean} toggle
+     */
+    set banned(toggle) {
+        this.storage.set('banned', toggle);
+    }
+
+    get permissionLevel() {
+        return this.storage.get('permissionLevel');
+    }
+
+    /**
+     * @param {number} level
+     */
+    set permissionLevel(level) {
+        this.storage.set('permissionLevel', level);
     }
 
     /**
@@ -24,11 +48,11 @@ export default class User {
     async _addUserIfNotExists() {
         const pool = this.mainClient.getModule('db').pool;
         let
-            [rows, fields] = await this.pool.query('SELECT internal_id FROM core_users WHERE discord_id = ?', this.id),
+            [rows, fields] = await pool.query('SELECT internal_id FROM core_users WHERE discord_id = ?', this.id),
             id;
 
         if (rows.length == 0) {
-            [rows, fields] = await this.pool.query('INSERT INTO core_users (discord_id) VALUES (?)', this.id);
+            [rows, fields] = await pool.query('INSERT INTO core_users (discord_id) VALUES (?)', this.id);
 
             id = rows.insertId;
         }
@@ -45,17 +69,48 @@ export default class User {
         return this._internalId;
     }
 
-    async isBanned() {
-        if (!this._banned) {
-            this._banned = false;
+    /**
+     * @param {number} level
+     * @param {string} condition
+     */
+    async hasPermission(level, condition) {
+        if (!['<', '<=', '==', '>', '>='].includes(condition)) {
+            throw new Error('Invalid condition was passed!');
 
-            const [rows, fields] = await this.mainClient.getModule('db').pool.query('SELECT ban_id FROM core_users WHERE discord_id=?', this.id);
-
-            if (rows.length >= 1 && rows[0].ban_id) {
-                this._banned = true;
-            }
+            return false;
         }
 
-        return this._banned;
+        if (!this.permissionLevel) {
+            const [rows, fields] = await this.mainClient.getModule('db').pool.query(`SELECT role_id FROM core_users WHERE discord_id=? AND not role_id = 0`, this.id);
+            if (rows.length >= 1)
+                this.permissionLevel = rows[0].role_id;
+            else
+                this.permissionLevel = 0;
+        }
+        // eval("5 <= 4") == false
+        // eval("5 <= 6") == true
+        return eval(this.permissionLevel + condition + level);
+    }
+
+    async isBanned() {
+        if (!this.banned) {
+            const [rows, fields] = await this.mainClient.getModule('db').pool.query('SELECT ban_id FROM core_users WHERE discord_id=?', this.id);
+
+            if (rows.length >= 1 && rows[0].ban_id)
+                this.banned = true;
+            else
+                this.banned = false;
+        }
+
+        return this.banned;
+    }
+
+    toJSON() {
+        return Util.flatten(this, {
+            user: false,
+
+            banned: true,
+            permissionLevel: true
+        });
     }
 }
