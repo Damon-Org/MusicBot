@@ -14,6 +14,39 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-xx-xx, Version v0.7.0 (**696fca389fc05d8b9dbed92816c1487c313f9343**)
+
+### Notable Changes
+
+ * Instead of a static system a dynamic system to load "modules" was added and works very similarly as the CommandRegistrar
+ * Docker containerization has been added and Damon Music can be pulled from hub.docker.com (private)
+ * Logging will now be seperate per level, WARNING, ERROR, CRITICAL
+ * MusicShutdown will instead of a hardcoded value use the humanize-duration module
+
+### Commits (20)
+
+ * [**9863afeba1a03b01e9137328e7f6af45370fe251**] Pushing preview of v0.7.0
+ * [**4e77d26e71642eb4a5e5d9b36302cfd690230501**] Ported more commands from 0.6.8, fixed a bug in Queue
+ * [**398491ba910e74b5ea30832ae418c1e5aa4ba68f**] Commands: Fixed import typo's
+ * [**579dbed275a1faa458b14ae5273604591e50e965**] CommandRegistrar: Command output will be properly generated
+ * [**cd9673496356dd29af71835da124388c55a71274**] Queue: Fixed self instance problem on reverse method
+ * [**dc7459f919a09db1174dde694c12bfee20e8c544**] Log: Logs that aren't from level INFO will be written to a log file
+ * [**326841bd9cac253e88f1e8cdc66c73d09fdbe664**] Log: Warning level will be logged properly
+ * [**db4325096728ab870c4c843d69e6e42cea8b84cd**] ServerUtils: Added method that adds a guild to the DB
+ * [**fceb9d544e38b5a3cbe85adea04575d71da913c6**] PresenceModule: Switched to use property based event triggering
+ * [**2e5c59ee0bb40e1f458974581a5c50e85e905f06**] EventListenerModule: Ported old events
+ * [**380bca8c01aded85b8049e6a25f30e3577abdeba**] ServerOptions: Added create method that will add a server to the DB
+ * [**5772b8ccac9b5cf923302c97975a1b2bc548198d**] Queue: Fixed addOnPosition method
+ * [**e012b180adc313c3d6ac38973b50f6809c44f620**] MusicShutdown: Switched to huminaze-duration instead of hardcoded value
+ * [**a4d302e15b04878b4e0a3a684b3f0bb2f7866283**] MusicSystem: Changed log
+ * [**9d0e76965e646a4785dd8e98cfc0edd42b24baff**] Modules: Fixed some typos in the EventListenerModule
+ * [**8fbb28f46c0a85eb637478c4ca8f9023d7bfa69b**] Docker: Added docker file
+ * [**088f5d4b562b390940a941ce7a446c767e131f11**] Git: Removed package-lock.json ignore line
+ * [**31bd17d4f2fec0183b8b38bf7c51a667a0cb359b**] Docker: Updated Dockerfile to build package
+ * [**9272448a91b6ea3cc1a94741297d701aeef28da0**] Data: Updated dev connection to connect externally
+ * [**5ce0360341b309a1320980982c9c89271257fc01**] Docker: Added dockerignore file
+ * [**696fca389fc05d8b9dbed92816c1487c313f9343**] SpotifyTrack: Fixed call to function being incorrect
+
 ## 2020-06-20, Version v0.6.8 @Yimura
 
 ### Notable Changes
