@@ -46,11 +46,11 @@ export default class EventListener extends BaseModule {
     /**
      * @private
      */
-    _onReady() {
+    async _onReady() {
         const dbPool = this.getModule('db').pool;
 
         for (const guildId of this.mainClient.guilds.cache.keys()) {
-            ServerUtils.addGuild(dbPool, guildId);
+            await ServerUtils.addGuild(dbPool, guildId);
         }
     }
 
