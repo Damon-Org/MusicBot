@@ -14,6 +14,17 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-07-26, Version v0.7.2 (**3b046d4a727c369ede08c2bf1740e30afccfe328**)
+
+### Notable Changes
+
+ * Fixed imports in DJList command and ReactionListeners module
+
+### Commits
+
+ * [**c9f840e0b2209a392613a8bb3cd4597f23bdfe29**] DJList: Fixed import
+ * [**3b046d4a727c369ede08c2bf1740e30afccfe328**] ReactionListeners: Fixed import path
+
 ## 2020-07-26, Version v0.7.1 (**481d46fe83058102b0310b69a83601d4c1ef6a6f**)
 
 ### Notable Changes
