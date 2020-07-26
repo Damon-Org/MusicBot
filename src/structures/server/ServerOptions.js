@@ -18,7 +18,7 @@ export default class ServerOptions {
     }
 
     /**
-     * @param {String|Number} option
+     * @param {string|number} option
      */
     async delete(option) {
         const pool = this.mainClient.getModule('db').pool;
@@ -32,7 +32,7 @@ export default class ServerOptions {
     }
 
     /**
-     * @param {String|Number} option Can be an option_id or the internal name of this option
+     * @param {string|number} option Can be an option_id or the internal name of this option
      */
     async get(option) {
         const pool = this.mainClient.getModule('db').pool;
@@ -54,7 +54,7 @@ export default class ServerOptions {
 
     /**
      * This member will insert a new guild option if does not exists yet or update if it already exists
-     * @param {String|Number} option The internal name in the DB of the option to update
+     * @param {string|number} option The internal name in the DB of the option to update
      * @param {*} value The new value of the option
      */
     async update(option, value) {
@@ -67,7 +67,7 @@ export default class ServerOptions {
         else {
             [rows, fields] = await pool.query('SELECT S.setting_id FROM core_settings INNER JOIN core_entity_settings ON core_entity_settings.setting_id=S.setting_id INNER JOIN core_guilds ON core_guilds.guild_id=core_entity_settings.entity_id WHERE core_guilds.serverId=? AND S.option_id=?', [this.server.id, option]);
         }
-
+        
         if (rows.length == 0) {
             let result, field;
 
