@@ -1,5 +1,5 @@
 import BaseModule from '../structures/modules/BaseModule.js'
-import MODE from '../structures/music/dj/Mode.js'
+import MODE from '../structures/server/music/dj/Mode.js'
 
 export default class ReactionListeners extends BaseModule {
     constructor(mainClient) {
