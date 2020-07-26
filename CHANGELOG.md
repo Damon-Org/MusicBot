@@ -14,7 +14,7 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
-## 2020-xx-xx, Version v0.7.0 (**696fca389fc05d8b9dbed92816c1487c313f9343**)
+## 2020-07-25, Version v0.7.0 (**d2af4dd3b9b645fa10e99f94e8b36eb396329414**)
 
 ### Notable Changes
 
@@ -23,7 +23,7 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
  * Logging will now be seperate per level, WARNING, ERROR, CRITICAL
  * MusicShutdown will instead of a hardcoded value use the humanize-duration module
 
-### Commits (20)
+### Commits (60)
 
  * [**9863afeba1a03b01e9137328e7f6af45370fe251**] Pushing preview of v0.7.0
  * [**4e77d26e71642eb4a5e5d9b36302cfd690230501**] Ported more commands from 0.6.8, fixed a bug in Queue
@@ -46,6 +46,45 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
  * [**9272448a91b6ea3cc1a94741297d701aeef28da0**] Data: Updated dev connection to connect externally
  * [**5ce0360341b309a1320980982c9c89271257fc01**] Docker: Added dockerignore file
  * [**696fca389fc05d8b9dbed92816c1487c313f9343**] SpotifyTrack: Fixed call to function being incorrect
+ * [**8a7413ef07cb6e1afad861e741d2ad8463136120**] Docker: Optimised Dockerfile to npm install and then copy source code
+ * [**e78d3f756c6691c78a7655fb11c99708a0b009ae**] Util: Added old util files and update IPv6 NDP script
+ * [**dedd4c142da6aeca38a03324763936bba515a662**] Added exclude for Shard kill method to ignore files
+ * [**f6aa025f3f9ab259d575229c75e7899abb19f2e4**] Docker: Use ENTRYPOINT instead of CMD
+ * [**ceb3524f41ea45dd8835b24bf9616d58a910a409**] Data: Changed DB, renamed socket to ws
+ * [**08d023ed52d43b9ede285aec98272802ce4e0939**] EntryPoint: Added SIGTERM shutdown
+ * [**cdb2b758a60401d9ffbe5dc96a47def4e9ea92ad**] Sharding: Added ShardingManager#killAll and modified Shard#kill
+ * [**4eb7902f08a793dd0b6d89e68e42af0f05fc47b5**] BotMain: Added shutdown log
+ * [**492cfea0e3c5f621b366ba640653c746ca92acb3**] Commands: Modified SetPrefix and ResetPrefix
+ * [**d4968e7875a3ac22004b21b719096bf7e3db6bf6**] Modules: Pushing WS communication progress
+ * [**0c735e2bb314f2dd13f3c3c3b8931cbbc7f68ea4**] Depends: Updated scrape-youtube module
+ * [**64fb8d8c267ded659854ad9e1b9ba7f11d850704**] Modules: Moved BaseModule into modules folder
+ * [**f31c78fa98b5b7e67cc25cdfd07d8b66974194f7**] Pushing all progress
+ * [**a9d04881ac947ecc8e65a4b411c8ae16e4252b05**] Constants: Added REPLY to TargetTypes
+ * [**ed5a9f15f5fd1761a7da3a74e5f56fe16c20fc0e**] Package: Added uuid
+ * [**07d99ea4b03e341a621771a6c0e12618ba52b8fb**] Main: Removed random semicolon
+ * [**1afa44ea2d3793ff8f73871c6afe6cf4dfae25ac**] Module: CommonValues identifier string has been changed
+ * [**5a4ed52596652da480a33e5b1fe028d1a38ff405**] ModuleManager: Made methods private, fixed some bugs and merged changes
+ * [**0a1807374ac01292f34471942ff582782556d8fb**] EventListener: Added WebSocket event listener
+ * [**2b5cde3db1684be75a74ef809ca9500d3f6f40cf**] PresenceModule: Changed commonValues to common
+ * [**60a5b40de327c2a47771adb9e249c61407a2ad55**] WSCommunicator: Added sendEvent and sendReply methods
+ * [**e4cafac1fdb2604a87d83a2c72c343e0884093af**] wsClient: Added REPLY support and fixed closeCode check
+ * [**2f773129f9706b00dc31ab25e5cf30f6acf60ed4**] wsUtil: Removed because unusued
+ * [**2ca58be26547c6a26cc969ef97fd58da306edcc1**] Constants: Removed REPLY target type and made it an OP code
+ * [**f60bcdbdb0cbe015a0ed281ae9b948096f9171da**] wsClient: Added group getter
+ * [**6c06e7071d658f22c75e4e3d4a87533f9a68b955**] wsCommunicator: Added "self" targetIdentifier and fxied REPLY flow
+ * [**542e2ae62585cd091aa8780d2e4a99d71679ed8d**] wsClient: Improved REPLY flow
+ * [**eab9638a08ad5ab888c9517e0f9bb8e2cc2d355e**] Renamed: main.js to Main.js
+ * [**0439e8d70908a089f84c501eb48c6ddd241790e2**] EventListener: Added private comment
+ * [**79b2658546ef256cd2243a86c62261bf2766097f**] MusicSystem: Fixed problem with album art
+ * [**274157e67ce3ff5dfeb86949b414f07fc34a6123**] BaseCommand: merged upstream fixes from Soft & Wet into Damon Music
+ * [**655b555e14bde78023b541bb78d58048992c22c6**] Constants: Updated events
+ * [**2433d66fc90d18087c55e288ab871ad1b5dcc0a0**] Util: Removed useless import
+ * [**324d90258000c000d6af00549af0996dab67f51c**] MusicCommand: The bot should new try to reset after having a deadlock
+ * [**87609e4b2fe7efd338fe8c8d010228bb48754c62**] Modules: Added users getter
+ * [**931e32235e431f937ed8c4ced62bf45ca63bab4e**] Merge: Upstreamed changes from Soft & Wet
+ * [**a3e56464ff9c1d020e12846953415afdd459d6d9**] Util: Updated flatten method
+ * [**ad0e8875e0a5acb9dbbe8974286134cc388af66e**] Merge: Upstream added admin commands from Soft & Wet
+ * [**d2af4dd3b9b645fa10e99f94e8b36eb396329414**] Merge: Upstream added WebSocketCommand from Soft & Wet
 
 ## 2020-06-20, Version v0.6.8 @Yimura
 
