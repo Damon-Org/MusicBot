@@ -21,6 +21,10 @@ export default class DJList extends BaseCommand {
         });
     }
 
+    get music() {
+        return this.server.music;
+    }
+
     /**
      * @param {String} command string representing what triggered the command
      */
