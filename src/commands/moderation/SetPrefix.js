@@ -62,7 +62,7 @@ export default class SetPrefix extends BaseCommand {
         if (/^[\x00-\x7F]*$/.test(newPrefix) && newPrefix.length <= 6) {
             const oldPrefix = this.server.prefix;
 
-            this.server.prefix = prefix;
+            this.server.prefix = newPrefix;
 
             this.send(`The command prefix for **Damon Music** has been changed in this server has been changed from \`${oldPrefix}\` to \`${newPrefix}\``)
                 .then(msg => msg.pin());
