@@ -14,6 +14,23 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-07-26, Version v0.7.1 (**481d46fe83058102b0310b69a83601d4c1ef6a6f**)
+
+### Notable Changes
+
+ * Fixed a problem that would create too many connections to the MySQL server
+ * Imported MODE in ReactionListeners module so reacting works in guilds that have DJ mode activated
+ * Fixed a problem with SetPrefix that would set the default prefix instead of the given custom one
+ * Fixed music undefined error in DJList command
+
+### Commits
+
+ * [**607a3717033aa0a0b4d65debcbdce97932af34e7**] Merge: Upstream fixed async await addGuild method
+ * [**7bef06ddc30dcdb178d82187fc2ac4b61211c6e3**] ServerOptions: Changed old comments to correct syntax
+ * [**311c34e074a267441d4a276d436e10cbf91c6612**] ReactionListeners: Added MODE import for DJModes
+ * [**928922cf0e2b04cab2976aa29797b27cbe7ca82c**] SetPrefix: Fixed that SetPrefix would set the custom prefix to the default
+ * [**481d46fe83058102b0310b69a83601d4c1ef6a6f**] DJList: Fixed music undefined error
+
 ## 2020-07-25, Version v0.7.0 (**d2af4dd3b9b645fa10e99f94e8b36eb396329414**)
 
 ### Notable Changes
