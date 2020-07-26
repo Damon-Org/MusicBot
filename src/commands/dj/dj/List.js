@@ -1,4 +1,5 @@
 import BaseCommand from '../../../structures/commands/BaseCommand.js'
+import MODE from '../../../structures/server/music/dj/Mode.js'
 
 export default class DJList extends BaseCommand {
     /**
