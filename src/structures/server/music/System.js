@@ -527,9 +527,9 @@ export default class MusicSystem {
             if (!this.isDamonInVC(voiceChannel)) {
                 if (voiceChannel.full && !voiceChannel.guild.me.hasPermission('ADMINISTRATOR')) {
                     const richEmbed = new Discord.MessageEmbed()
-                            .setTitle('Channel Full')
-                            .setColor('#ff0033')
-                            .setDescription('Voicechannel is full, try kicking someone or make the voicechannel size larger.');
+                        .setTitle('Channel Full')
+                        .setColor('#ff0033')
+                        .setDescription('Voicechannel is full, try kicking someone or make the voicechannel size larger.');
 
                     this.channel.send(richEmbed);
 
