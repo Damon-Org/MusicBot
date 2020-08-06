@@ -1,12 +1,8 @@
-import BaseCommand from './BaseCommand.js'
+import DJCommand from './DJCommand.js'
 
-export default class MusicCommand extends BaseCommand {
+export default class MusicCommand extends DJCommand {
     constructor(...args) {
         super(...args);
-    }
-
-    get music() {
-        return this.server.music;
     }
 
     beforeRun(command) {
