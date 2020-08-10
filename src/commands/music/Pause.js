@@ -14,7 +14,7 @@ export default class Pause extends MusicCommand {
 
             name: 'pause',
             aliases: [],
-            description: 'Music playback will be paused.',
+            description: 'Pause music playback, use d!resume to resume playback.',
             usage: 'pause',
             params: [],
             example: 'pause'

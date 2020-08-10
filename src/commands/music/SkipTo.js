@@ -16,7 +16,7 @@ export default class SkipTo extends MusicCommand {
             aliases: [
                 'skipto'
             ],
-            description: 'Removes a song from the queue',
+            description: 'Skip to a specific song nummer in queue.',
             usage: 'skip to <#queue-number>',
             params: [
                 {

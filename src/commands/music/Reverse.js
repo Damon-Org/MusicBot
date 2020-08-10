@@ -14,7 +14,7 @@ export default class Reverse extends MusicCommand {
 
             name: 'reverse',
             aliases: [],
-            description: 'Reverse the queue.',
+            description: 'Reverse the queue, use d!restart to make the queue start from the beginning.',
             usage: 'reverse',
             params: [],
             example: 'reverse'

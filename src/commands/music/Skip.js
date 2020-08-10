@@ -17,7 +17,7 @@ export default class Skip extends MusicCommand {
                 'next',
                 's'
             ],
-            description: 'Will skip the currently playing song.',
+            description: 'Skip the active song and start playing the next in queue.',
             usage: 'skip',
             params: [],
             example: 'skip'

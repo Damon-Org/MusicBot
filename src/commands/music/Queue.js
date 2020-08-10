@@ -16,7 +16,7 @@ export default class Queue extends BaseCommand {
             aliases: [
                 'q'
             ],
-            description: 'Will show a queue of all songs.',
+            description: 'Show all the queue\'d songs',
             usage: 'queue [page-number]',
             params: [
                 {

@@ -17,7 +17,7 @@ export default class PlayTime extends BaseCommand {
             aliases: [
                 'pt'
             ],
-            description: 'Shows how long the bot has been playing music.',
+            description: 'Returns how long the bot has been playing audio for.',
             usage: 'playtime',
             params: [],
             example: 'playtime'

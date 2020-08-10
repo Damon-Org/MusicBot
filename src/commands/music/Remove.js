@@ -18,8 +18,8 @@ export default class Remove extends MusicCommand {
                 'remove song',
                 'removesong'
             ],
-            description: 'Removes a song from the queue',
-            usage: 'remove [song-number]',
+            description: 'Remove a song by giving the number of the song in queue.',
+            usage: 'remove [#queue-number]',
             params: [
                 {
                     name: 'song-number',

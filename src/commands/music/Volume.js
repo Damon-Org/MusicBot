@@ -17,7 +17,7 @@ export default class Volume extends MusicCommand {
                 "vol",
                 "v"
             ],
-            description: 'Change the music volume.',
+            description: 'Change the volume of the music player.',
             usage: 'volume [volume]',
             params: [
                 {

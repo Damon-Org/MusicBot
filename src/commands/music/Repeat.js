@@ -14,7 +14,7 @@ export default class Repeat extends MusicCommand {
 
             name: 'repeat',
             aliases: ['loop'],
-            description: 'Will repeat the currently playing song.',
+            description: 'Repeat the active song.',
             usage: 'repeat',
             params: [],
             example: 'repeat'

@@ -14,7 +14,7 @@ export default class Restart extends MusicCommand {
 
             name: 'restart',
             aliases: [],
-            description: 'The queue will be rewinded to the start.',
+            description: 'Stop music playback and start playing from the start of the queue.',
             usage: 'leave',
             params: [],
             example: 'restart'
