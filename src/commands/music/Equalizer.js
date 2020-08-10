@@ -17,7 +17,7 @@ export default class Equalizer extends MusicCommand {
             aliases: [
                 'eq',
             ],
-            description: 'Change the equalizer to one of the presets.',
+            description: 'Change the equalizer of the music player, do d!equalizer to get the equalizer presets that are available.',
             usage: 'eq <preset>',
             params: [
                 {

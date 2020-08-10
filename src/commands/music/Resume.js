@@ -14,7 +14,7 @@ export default class Resume extends MusicCommand {
 
             name: 'resume',
             aliases: [],
-            description: 'Music playback will be resumed.',
+            description: 'Resume music playback.',
             usage: 'resume',
             params: [],
             example: 'resume'

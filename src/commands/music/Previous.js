@@ -16,7 +16,7 @@ export default class Previous extends MusicCommand {
             aliases: [
                 'back'
             ],
-            description: 'Will start playing the previous song in queue.',
+            description: 'Play the previous song in queue.',
             usage: 'previous',
             params: [],
             example: 'previous'

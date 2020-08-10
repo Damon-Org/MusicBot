@@ -14,7 +14,7 @@ export default class Shuffle extends MusicCommand {
 
             name: 'shuffle',
             aliases: [],
-            description: 'Shuffle songs in queue.',
+            description: 'Shuffle all the songs currently in the queue.',
             usage: 'shuffle',
             params: [],
             example: 'shuffle'

@@ -16,12 +16,12 @@ export default class Play extends MusicCommand {
             aliases: [
                 'p'
             ],
-            description: 'Adds the song you request to queue and plays it.',
+            description: 'Search a song on YouTube or give a link from YouTube, SoundCloud, Spotify... to add to the queue.',
             usage: 'play <search>',
             params: [
                 {
                     name: 'search',
-                    description: 'Search on YouTube or use a YouTube link.',
+                    description: 'Search on YouTube or use a link to add to the queue.',
                     type: 'string',
                     required: true,
                     allow_sentence: true

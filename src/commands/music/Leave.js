@@ -18,7 +18,7 @@ export default class Leave extends MusicCommand {
                 'exit',
                 'stop'
             ],
-            description: 'Bot will stop music playback and leave channel',
+            description: 'Make the bot leave the voice channel.',
             usage: 'leave',
             params: [],
             example: 'leave'
