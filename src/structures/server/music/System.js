@@ -101,7 +101,7 @@ export default class MusicSystem {
                 author: { name: track.full_author },
                 color: this.songState.color,
                 description: `Requested by: **${track.requester}**`,
-                thumbnail: track.image ?? track.image,
+                thumbnail: { url: track.image ?? track.image},
                 title: track.title,
                 footer: {
                     text: this.songState.footer
@@ -207,7 +207,7 @@ export default class MusicSystem {
     }
 
     /**
-     * @param {Number} index The index of the song in the Choice instance
+     * @param {number} index The index of the song in the Choice instance
      * @param {Message} msgObj
      * @param {User} user
      */
@@ -269,7 +269,7 @@ export default class MusicSystem {
     }
 
     /**
-     * @param {Number} yesnoOption
+     * @param {number} yesnoOption
      * @param {Message} msgObj
      * @param {User} user
      */
@@ -341,7 +341,7 @@ export default class MusicSystem {
 
     /**
      * Will handle any action on MusicPlayer Reactions
-     * @param {String} emoji A unicode string of the emoji
+     * @param {string} emoji A unicode string of the emoji
      * @param {Message} msgObj
      * @param {User} user
      */
@@ -568,7 +568,7 @@ export default class MusicSystem {
 
         await this.cacheSongIfNeeded(currentSong);
 
-        if (!await this.player.playTrack(currentSong.track)) {
+        if (!await this.player.playTrack(currentSong.track, { noReplace: false })) {
             log.warn('MUSIC_SYSTEM', 'Failed to playTrack, the instance might be broken:', currentSong.track ?? currentSong);
 
             this.playNext();
@@ -577,7 +577,7 @@ export default class MusicSystem {
         }
         await this.player.setVolume(this.volume);
 
-        this.player.on('start', this.playerListener['start'] = () => this.soundStart());
+        this.player.on('start', () => this.soundStart());
 
         this.cacheSongIfNeeded();
 
@@ -596,7 +596,7 @@ export default class MusicSystem {
     }
 
     /**
-     * @param {Number} queueNumber A number that exists in queue
+     * @param {number} queueNumber A number that exists in queue
      */
     removeSong(queueNumber) {
         if (!queueNumber || queueNumber == '' || queueNumber.length == 0) {
@@ -669,8 +669,6 @@ export default class MusicSystem {
 
         if (this.player) this.player.removeAllListeners();
 
-        this.playerListener = {};
-
         /**
          * @type {TextChannel}
          */
@@ -684,6 +682,11 @@ export default class MusicSystem {
          * @type {Boolean}
          */
         this.doNotSkip = false;
+
+        /**
+         * @type {Object}
+         */
+        this.end = {};
         /**
          * @type {VoiceChannel}
          */
@@ -694,11 +697,11 @@ export default class MusicSystem {
          */
         this.paused = false;
         /**
-         * @type {Number}
+         * @type {number}
          */
         this.startTime = 0;
         /**
-         * @type {Number}
+         * @type {number}
          */
         this.volume = 30;
 
@@ -728,7 +731,7 @@ export default class MusicSystem {
     }
 
     /**
-     * @param {Number} queueNumber A number that exists in queue
+     * @param {number} queueNumber A number that exists in queue
      * @returns {Boolean} False if invalid queueNumber was given, true on success
      */
     async skipTo(queueNumber) {
@@ -758,7 +761,7 @@ export default class MusicSystem {
 
     /**
      * Sets the volume on the active stream
-     * @param {Number} volume
+     * @param {number} volume
      * @returns False if unchanged, true otherwise
      */
     setVolume(volume) {
@@ -773,15 +776,21 @@ export default class MusicSystem {
     }
 
     /**
-     * @param {external:String} end A string end reason
+     * @param {Object} [end={}] By default an empty object to prevent if statements errrors.
      */
-    soundEnd(end) {
-        this.player.removeListener('error', this.playerListener['error']);
-        this.playerListener['error'] = null;
-        this.player.removeListener('end', this.playerListener['end']);
-        this.playerListener['end'] = null;
+    soundEnd(end = {}) {
+        this.end = end;
 
-        if (end.type == 'TrackStuckEvent') return;
+        if (end.type == 'TrackStuckEvent') {
+            this.trackStuckTimeout = setTimeout(() => {
+                this.soundEnd();
+            }, 5e3);
+
+            return;
+        }
+
+        this.player.removeAllListeners();
+
         if (end.reason == 'LOAD_FAILED') {
             this.playSong();
 
@@ -800,12 +809,15 @@ export default class MusicSystem {
 
         log.info('MUSIC_SYSTEM', 'Started track: ' + currentSong ? currentSong.title : '{ REMOVED SONG }');
 
-        this.player.removeListener('start', this.playerListener['start']);
-        this.playerListener['start'] = null;
+        if (this.end.type == 'TrackStuckEvent') {
+            clearTimeout(this.trackStuckTimeout);
 
-        this.player.on('error', this.playerListener['error'] = (error) => this.nodeError(error));
+            return;
+        }
 
-        this.player.on('end', this.playerListener['end'] = (end) => this.soundEnd(end));
+        this.player.on('error', (error) => this.nodeError(error));
+
+        this.player.on('end', (end) => this.soundEnd(end));
     }
 
     /**
