@@ -1,8 +1,8 @@
 export default {
-    "development": true,
+    "development": false,
     "generate_command_json": true,
 
-    "creator": "Yimura#6969", 
+    "creator": "Yimura#6969",
 
     "client_options": {
         "disableMentions": "everyone",
@@ -14,7 +14,7 @@ export default {
         "retryLimit": 1,
 
         "ws": {
-            "intents": 13955
+            "intents": 13953
         }
     },
 
