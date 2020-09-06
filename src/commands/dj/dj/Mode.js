@@ -1,4 +1,5 @@
 import DJCommand from '../../../structures/commands/DJCommand.js'
+import MODE from '../../../structures/server/music/dj/Mode.js'
 
 export default class DJMode extends DJCommand {
     /**

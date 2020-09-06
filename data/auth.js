@@ -44,7 +44,7 @@ export default {
 
         "ws": {
             "group": "damon",
-            "host": "local.damon.sh",
+            "host": "home.damon.sh",
             "port": 8080,
             "token": "JN&VNZkH4UkWbC25RVT^LE0LligJY8*73t8@HkW1@UT!jg0Z0PjiczVBRhH@5kX$"
         }
