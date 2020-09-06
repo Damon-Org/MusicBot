@@ -90,7 +90,8 @@ export default class EventListener extends BaseModule {
                     'channels': this.mainClient.channels.cache.size,
                     'guilds': this.mainClient.guilds.cache.size,
                     'ping': Math.round(this.mainClient.ws.ping),
-                    'cachedUsers': this.mainClient.users.cache.size
+                    'cachedUsers': this.mainClient.users.cache.size,
+                    'uptime': this.mainClient.bootUp
                 });
 
                 break;
