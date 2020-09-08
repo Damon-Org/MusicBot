@@ -14,6 +14,30 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2020-09-08, Version v0.7.3 (**7e23c094356f7a3d64b99b603a5f10dfe7f4bbf3**)
+
+### Notable Changes
+
+ * Support for Spotify playlists over 100 tracks
+ * If the bot is running in development mode, default to the development prefix regardless of if a custom is set
+ * PlayerEmbed song thumbnail has been fixed
+ * Slimmed down some code in MusicSystem and fixed TrackStuckEvent causing the player to stop
+
+### Commits
+
+ * [**47b2f1c2f5e4977d554ddabd2a78f42cacca4eac**] MusicSystem: Indent
+ * [**c426700a1dca684f2047985bbe66e76846058f41**] Data: changed websocket host in auth
+ * [**14e1ef96219d57fd39524de40df3cfeb16e20d82**] DJMode: Added MODE import
+ * [**9cdb839fd468b5e6184cebc50603e87acb8d3071**] MusicCommands: Changed extend from BaseCommand to DJCommand
+ * [**9577274a3672fc7553538d897b52853867fcb606**] MusicCommands: Changed extend from BaseCommand to DJCommand
+ * [**d8aebbab751f95751e80496208be685da751a625**] DJAdd: Added recommendations from Akke
+ * [**59bec1c529159f60d493829e8b5a575b71bbeaa9**] Data: Development false and intents have been changed
+ * [**8e11215028ff9b4064782f4eeda9e572ecbd7a78**] Music: Minor comment changes
+ * [**00232ffeb8092a311f85c441acec7b6a12b98fa9**] WSEvent: Added uptime entry
+ * [**4212d34cf750d5bc62ad453c0aa9af2cd67bbaaa**] Merge branch 'master' of https://git.damon.sh/damon/music into master
+ * [**a2258e5630df42cc7d7c72ec237d779cd711d291**] CommandRegistrar: In development mode the bot will force use the default prefix
+ * [**7e23c094356f7a3d64b99b603a5f10dfe7f4bbf3**] SpotifyAPI: Added support for playlists longer than 100 tracks.
+
 ## 2020-07-26, Version v0.7.2 (**3b046d4a727c369ede08c2bf1740e30afccfe328**)
 
 ### Notable Changes
