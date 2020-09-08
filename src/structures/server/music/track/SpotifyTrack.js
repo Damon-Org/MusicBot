@@ -98,7 +98,7 @@ export default class SpotifyTrack {
             search = null;
 
         do {
-            search = await this.mainClient.getModule('api').youtube.search(this.title + ' audio');
+            search = await this.mainClient.getModule('api').youtube.search(this.title);
 
             attempt++;
         } while ((!search || search.length == 0 || !search[0].id || typeof search !== 'object') && attempt < 3);
@@ -108,7 +108,6 @@ export default class SpotifyTrack {
 
             return false;
         }
-
 
         let data = null;
         attempt = 0;
