@@ -36,12 +36,17 @@ export default class CommandRegistrar extends BaseModule {
         const content = msg.content.replace(/\s+/g, ' ');
 
         let prefix = null;
-        if (!msg.guild) {
-            prefix = this.defaultPrefix;
+        if (!this.config.development) {
+            if (!msg.guild) {
+                prefix = this.defaultPrefix;
+            }
+            else {
+                const server = this.servers.get(msg.guild.id);
+                prefix = server.prefix;
+            }
         }
         else {
-            const server = this.servers.get(msg.guild.id);
-            prefix = server.prefix;
+            prefix = this.defaultPrefix;
         }
 
         // check if the message starts with the prefix we want
