@@ -1,6 +1,6 @@
 {
   "name": "damon_base",
-  "version": "0.7.2",
+  "version": "0.7.4",
   "description": "An extended base code for a Discord bot",
   "main": "index.js",
   "type": "module",
@@ -23,7 +23,7 @@
     "discord.js": "^12.2.0",
     "humanize-duration": "^3.23.1",
     "mysql2": "^2.1.0",
-    "scrape-youtube": "^0.2.1",
+    "scrape-youtube": "^0.2.3",
     "shoukaku": "^1.4.2",
     "spotify-web-api-node": "^4.0.0",
     "uuid": "^8.2.0"
