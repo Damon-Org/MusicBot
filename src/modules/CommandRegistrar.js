@@ -2,11 +2,11 @@ import fs from 'fs'
 import { resolve } from 'path'
 import importDir from '@yimura/import-dir'
 
-import BaseModule from '../structures/modules/BaseModule.js'
-import importDir from '../util/ImportDir.js'
+import EventModule from '../structures/modules/EventModule.js'
+import CommandList from './commands/CommandList.js'
 import log from '../util/Log.js'
 
-export default class CommandRegistrar extends BaseModule {
+export default class CommandRegistrar extends EventModule {
     /**
      * @param {MainClient} mainClient
      */
@@ -18,8 +18,11 @@ export default class CommandRegistrar extends BaseModule {
         });
     }
 
+    /**
+     * @param {string} commandName
+     */
     get(commandName) {
-        this._commands.get(commandName);
+        return this.commandList.get(commandName);
     }
 
     /**
@@ -79,19 +82,19 @@ export default class CommandRegistrar extends BaseModule {
         for (let i = args.length; 0 < i; i--) {
             const
                 attempt = args.slice(0, i).join(' '),
-                match = this._commands.get(attempt);
+                match = this.commandList.get(attempt);
             if (!match) continue;
 
             const
                 instance = match,
                 index = attempt.split(' ').length,
                 trigger = args.splice(0, index);
-
             try {
                 const clone = instance.clone();
                 clone.check(msg, args, trigger.join(' '), mentioned);
+                this.emit('command', instance, msg, args, mentioned);
             } catch (e) {
-                message.channel.send(`An error occured while trying to run the following command \`${command}\`\nWith the following output: \`\`\`js\n${e.stack}\`\`\``);
+                msg.channel.send(`An error occured while trying to run the following command \`${attempt}\`\nWith the following output: \`\`\`js\n${e.stack}\`\`\``);
             }
 
             return true;
@@ -128,7 +131,8 @@ export default class CommandRegistrar extends BaseModule {
                             }
                         }
 
-                        this._commands.set(`${parentBit}${instance.name}`, instance);
+                        const name = `${parentBit}${instance.name}`;
+                        this.commandList.set(name, instance);
 
                         if (this.output && !instance.hidden) {
                             if (parentBit.length == 0) {
@@ -146,7 +150,7 @@ export default class CommandRegistrar extends BaseModule {
                         }
 
                         for (const alias of instance.aliases) {
-                            this._commands.set(`${parentBit}${alias}`, instance);
+                            this.commandList.set(`${parentBit}${alias}`, instance);
                         }
 
                         continue;
@@ -167,10 +171,10 @@ export default class CommandRegistrar extends BaseModule {
         const rawCommands = importDir(resolve('./src/commands/'), { recurse: true, noCache: true });
 
         /**
-         * @type {external:Map}
+         * @type {Map}
          * @private
          */
-        this._commands = new Map();
+        this.commandList = new CommandList();
         if (this.config.development && this.config.generate_command_json) this.output = {};
 
         for (const category in rawCommands) {
@@ -181,7 +185,7 @@ export default class CommandRegistrar extends BaseModule {
             }
         }
 
-        log.info('COMMAND', `Mapping of commands done with ${this._commands.size} commands registered (aliases included).`);
+        log.info('COMMAND', `Mapping of commands done with ${this.commandList.size} commands registered (aliases included).`);
 
         if (this.output) {
             fs.writeFile(process.cwd() + '/data/commands.json', JSON.stringify(this.output, null, '    '), { flag: 'w+' }, (err) => {
