@@ -1,4 +1,6 @@
 import fs from 'fs'
+import { resolve } from 'path'
+import importDir from '@yimura/import-dir'
 
 import BaseModule from '../structures/modules/BaseModule.js'
 import importDir from '../util/ImportDir.js'
@@ -162,7 +164,7 @@ export default class CommandRegistrar extends BaseModule {
 
     async setup() {
         // This will require all commands within this directory
-        const rawCommands = importDir('../commands/', { recurse: true, noCache: true });
+        const rawCommands = importDir(resolve('./src/commands/'), { recurse: true, noCache: true });
 
         /**
          * @type {external:Map}
