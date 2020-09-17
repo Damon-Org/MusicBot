@@ -1,4 +1,5 @@
-import importDir from '../util/ImportDir.js'
+import importDir from '@yimura/import-dir'
+import { resolve } from 'path'
 
 import log from '../util/Log.js'
 
@@ -17,7 +18,7 @@ export default class ModuleManager {
     }
 
     async load() {
-        const modules = importDir('../modules/');
+        const modules = importDir(resolve('./src/modules/'));
 
         await this._mapModules(modules);
 
