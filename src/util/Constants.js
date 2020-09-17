@@ -1,6 +1,7 @@
 export const DisconnectCodes = {
     'MESSAGE_TOO_BIG': 1009,
     'SERVER_RESTART': 1012,
+    'TRY_AGAIN_LATER': 1013,
 
     'UNKNOWN_ERROR': 4000,
     'UNKNOWN_OP': 4001,
@@ -23,7 +24,9 @@ export const OPCodes = {
     'IDENTIFY': 2,
     'BONJOUR': 3,
     'COMMUNICATION_CLOSE': 4,
-    'REPLY': 5
+    'REPLY': 5,
+    'PING': 6,
+    'PONG': 7
 };
 
 export const TargetTypes = {
