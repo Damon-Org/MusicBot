@@ -10,6 +10,8 @@ export default class Stats extends BaseCommand {
         super(...args);
 
         this.register(Stats, {
+            category: category,
+
             name: 'stats',
             aliases: [
                 'status'
