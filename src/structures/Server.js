@@ -3,6 +3,8 @@ import MusicSystem from './server/music/System.js'
 import ServerOptions from './server/ServerOptions.js'
 
 export default class Server {
+    tempStorage = new Map();
+
     constructor(mainClient, guild) {
         this.mainClient = mainClient;
 
