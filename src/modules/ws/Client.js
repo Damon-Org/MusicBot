@@ -61,7 +61,8 @@ export default class WSClient extends EventEmitter {
             op: OPCodes['IDENTIFY'],
             d: {
                 group: this._credentials.group,
-                token: this._credentials.token
+                token: this._credentials.token,
+                ping: true
             }
         }, true);
     }
@@ -116,6 +117,8 @@ export default class WSClient extends EventEmitter {
                 this.id = msg.d.uuid;
                 this.authenticated = true;
 
+                this._ping = msg.d.ping;
+                this._setPing();
 
                 log.info('WS_CLIENT', `Authenticated and received ID: ${this.id}`);
 
@@ -140,7 +143,35 @@ export default class WSClient extends EventEmitter {
 
                 break;
             }
+            case OPCodes['PING']: {
+                this.send({
+                    op: OPCodes['PONG']
+                });
+
+                this._setPing();
+
+                break;
+            }
+            case OPCodes['PONG']: {
+                clearTimeout(this._pingDisconnectTimeout);
+
+                this._setPing();
+            }
         }
+    }
+
+    _setPing() {
+        clearTimeout(this._pingTimeout);
+
+        this._pingTimeout = setTimeout(() => {
+            this.send({
+                op: OPCodes['PING']
+            });
+
+            this._pingDisconnectTimeout = setTimeout(() => {
+                this._ws.close(DisconnectCodes['GOING_AWAY']);
+            }, this._ping);
+        }, this._ping * 2);
     }
 
     /**
