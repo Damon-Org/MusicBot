@@ -4,8 +4,8 @@ import MODE from '../server/music/dj/Mode.js'
 export default class DJCommand extends BaseCommand {
     elevated = true;
 
-    constructor(...args) {
-        super(...args);
+    constructor(main) {
+        super(main);
 
         this.register(null, {
             permissions: {
