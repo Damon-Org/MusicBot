@@ -4,27 +4,30 @@ import log from '../../util/Log.js'
 
 export default class BaseCommand {
     /**
-     * @param {MainClient} mainClient
+     * @param {Main} main The program entrypoint class
      */
-    constructor(mainClient) {
-        this.mainClient = mainClient;
-    }
-
-    clone() {
-        return new this.instance(this.category, this.mainClient);
+    constructor(main) {
+        this._m = main;
     }
 
     /**
-     * @param {String} moduleName
+     * Makes a perfect clone of the command instance to prevent instance properties from being overwritten with async execution.
+     */
+    clone() {
+        return new this.instance(this.category, this._m);
+    }
+
+    /**
+     * @param {string} moduleName
      */
     getModule(moduleName) {
-        return this.mainClient.moduleManager.get(moduleName);
+        return this._m.moduleManager.get(moduleName);
     }
 
     /**
      * @param {*} instance The parent instance of this class
      * @param {Object} object
-     * @param {Boolean} internal If this is the raw register object
+     * @param {boolean} internal If this is the raw register object
      */
     register(instance, object, internal = true) {
         if (typeof object !== 'object') throw new Error('Invalid self assignment, expected object but got different type instead.');
@@ -45,23 +48,23 @@ export default class BaseCommand {
     /**
      * Check if the person calling the command has the right to do so
      * @param {Message} msgObj
-     * @param {Array<String>} args
-     * @param {String} command The string that initiated this check
-     * @param {Boolean} mentioned If the command was activated through a mention
+     * @param {Array<string>} args
+     * @param {string} command The string that initiated this check
+     * @param {boolean} mentioned If the command was activated through a mention
      */
     async check(msgObj, args, command, mentioned) {
         this.msgObj = msgObj;
         this.args = args;
 
-        if (await this.isUserBanned()) return false;
+        if (await this._isUserBanned()) return false;
 
-        if (mentioned) this.removeBotMention();
+        if (mentioned) this._removeBotMention();
 
-        if (!await this.hasSystemPermission()) return false;
-        if (!await this.canCommandRunInChannel(command)) return false;
-        if (!await this.hasPermissions()) return false;
-        if (!this.hasSelfPermissions()) return false;
-        if (!await this.argumentsSatisfied(command)) return false;
+        if (!await this._hasSystemPermission()) return false;
+        if (!await this._canCommandRunInChannel(command)) return false;
+        if (!await this._hasPermissions()) return false;
+        if (!this._hasSelfPermissions()) return false;
+        if (!await this._argumentsSatisfied(command)) return false;
 
         try {
             if (typeof this.beforeRun === 'function' && !await this.beforeRun(command)) return false;
@@ -93,7 +96,7 @@ export default class BaseCommand {
     }
 
     send(p1, p2, reply = false) {
-        if (!this.textChannel.permissionsFor(this.mainClient.user.id).has(['SEND_MESSAGES', 'ATTACH_FILES'])) {
+        if (!this.textChannel.permissionsFor(this._m.user.id).has(['SEND_MESSAGES', 'ATTACH_FILES'])) {
             const
                 guild = this.textChannel.guild,
                 embed = new this.Discord.MessageEmbed()
@@ -112,11 +115,11 @@ export default class BaseCommand {
     }
 
     get servers() {
-        return this.mainClient.serverManager;
+        return this._m.servers;
     }
 
     get users() {
-        return this.mainClient.userManager;
+        return this._m.userManager;
     }
 
     /**
@@ -145,7 +148,11 @@ export default class BaseCommand {
         return this.servers.get(this.msgObj.guild.id);
     }
 
-    async argumentsSatisfied(command) {
+    /**
+     * Checks if the amount of arguments given are enough for the command to execute properly, if not a warning message is given with a link to the documentation.
+     * @private
+     */
+    async _argumentsSatisfied(command) {
         const embed = new Discord.MessageEmbed();
         let exception = false;
 
@@ -188,9 +195,11 @@ export default class BaseCommand {
     }
 
     /**
-     * @param {external:String} command The command that invoked the request
+     * This method will check if there's a lock on the channel
+     * @private
+     * @param {string} command The command that invoked the request
      */
-    async canCommandRunInChannel(command) {
+    async _canCommandRunInChannel(command) {
         const isGuild = this.serverMember || this.msgObj.guild;
         if (!this.guild_only && !isGuild) return true;
         if (this.guild_only && !isGuild) {
@@ -211,12 +220,16 @@ export default class BaseCommand {
         return false;
     }
 
-    hasSelfPermissions() {
+    /**
+     * Checks if the bot has the required permissions to properly execute the command it was asked to execute
+     * @private
+     */
+    _hasSelfPermissions() {
         if (!this.msgObj.guild || !this.serverMember) return true;
         if (!this.self_permission) return true;
 
         if (this.self_permission['channel'] || this.self_permission['text_channel'] || this.self_permission['voice_channel']) {
-            if (this.voiceChannel && (this.self_permission['channel'] || this.self_permission['voice_channel']) && !this.voiceChannel.permissionsFor(this.mainClient.user.id).has(this.self_permission['channel'] || this.self_permission['voice_channel'])) {
+            if (this.voiceChannel && (this.self_permission['channel'] || this.self_permission['voice_channel']) && !this.voiceChannel.permissionsFor(this._m.user.id).has(this.self_permission['channel'] || this.self_permission['voice_channel'])) {
                 const embed = new Discord.MessageEmbed()
                     .setTitle("❌ Missing Permissions ❌")
                     .setDescription(`**__I__ don't have the __${this.self_permission['channel'] || this.self_permission['voice_channel']}__ permission**\nfor voice channel you're in.`)
@@ -226,7 +239,7 @@ export default class BaseCommand {
                 return false;
             }
 
-            if ((this.self_permission['channel'] || this.self_permission['voice_channel']) && !this.textChannel.permissionsFor(this.mainClient.user.id).has(this.self_permission['channel'] || this.self_permission['text_channel'])) {
+            if ((this.self_permission['channel'] || this.self_permission['voice_channel']) && !this.textChannel.permissionsFor(this._m.user.id).has(this.self_permission['channel'] || this.self_permission['text_channel'])) {
                 const embed = new Discord.MessageEmbed()
                     .setTitle("❌ Missing Permissions ❌")
                     .setDescription(`**__I__ don't have the __${this.self_permission['channel'] || this.self_permission['text_channel']}__ permission**\nfor this text channel.`)
@@ -240,7 +253,11 @@ export default class BaseCommand {
         return true;
     }
 
-    async hasPermissions() {
+    /**
+     * If the command has additional permissions to check and loop throught them
+     * @private
+     */
+    async _hasPermissions() {
         if (!this.msgObj.guild || !this.serverMember) return true;
         if (!this.permissions) return true;
 
@@ -304,22 +321,36 @@ export default class BaseCommand {
         return result;
     }
 
-    async hasSystemPermission() {
+    /**
+     * Checks if a user has the required system permissions to execute the command
+     * @private
+     */
+    async _hasSystemPermission() {
         if (!this.system_permission) return true;
         const user = this.users.get(this.user);
 
         return await user.hasPermission(this.system_permission.level, this.system_permission.condition);
     }
 
-    async isUserBanned() {
+    /**
+     * Checks if a user is banned or not
+     * @private
+     */
+    async _isUserBanned() {
         const user = this.users.get(this.user);
 
         return await user.isBanned();
     }
 
-    removeBotMention() {
-        if ((this.msgObj.content.match(new RegExp(`<@!?(${this.mainClient.user.id})>`, 'g')) || []).length == 1) {
-            this.msgObj.mentions.users.delete(this.mainClient.user.id);
+    /**
+     * Used when a command was triggered through mention instead of a prefix.
+     * This method will remove the bot's mention from the list of mentions if the bot was only mentioned once
+     * this is done to prevent commands from getting "mention" interference.
+     * @private
+     */
+    _removeBotMention() {
+        if ((this.msgObj.content.match(new RegExp(`<@!?(${this._m.user.id})>`, 'g')) || []).length == 1) {
+            this.msgObj.mentions.users.delete(this._m.user.id);
         }
     }
 }
