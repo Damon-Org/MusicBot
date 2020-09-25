@@ -1,18 +1,15 @@
 import LocalUserStorage from './server/LocalUserStorage.js'
-import MusicSystem from './server/music/System.js'
 import ServerOptions from './server/ServerOptions.js'
 
 export default class Server {
-    constructor(mainClient, guild) {
-        this.mainClient = mainClient;
+    constructor(main, guild) {
+        this._m = main;
 
         this.guild = guild;
 
         this.localUsers = new LocalUserStorage();
 
-        this.options = new ServerOptions(this);
-
-        this.music = new MusicSystem(mainClient, this);
+        this.options = new ServerOptions(main, this);
     }
 
     get id() {
@@ -21,16 +18,16 @@ export default class Server {
 
     get prefix() {
         if (!this._prefix) {
-            this._prefix = this.mainClient.getModule('guildSetting').get(this.id, 'prefix');
+            this._prefix = this._m.getModule('guildSetting').get(this.id, 'prefix');
 
-            if (!this._prefix) this._prefix = this.mainClient.getModule('commandRegistrar').defaultPrefix;
+            if (!this._prefix) this._prefix = this._m.getModule('commandRegistrar').defaultPrefix;
         }
 
         return this._prefix;
     }
 
     set prefix(new_value) {
-        this.mainClient.getModule('guildSetting').set(this.id, 'prefix', new_value);
+        this._m.getModule('guildSetting').set(this.id, 'prefix', new_value);
 
         this.options.update('guildPrefix', new_value);
 

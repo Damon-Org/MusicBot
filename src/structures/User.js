@@ -1,13 +1,13 @@
 import UserOptions from './user/UserOptions.js'
-import Util from '../util/Util.js'
+import { flatten } from '../util/Util.js'
 
 export default class User {
     /**
-     * @param {MainClient} mainClient
+     * @param {Main} main
      * @param {User} user
      */
-    constructor(mainClient, user) {
-        this.mainClient = mainClient;
+    constructor(main, user) {
+        this._m = main;
 
         this.user = user;
 
@@ -46,7 +46,7 @@ export default class User {
      * @private
      */
     async _addUserIfNotExists() {
-        const pool = this.mainClient.getModule('db').pool;
+        const pool = this._m.getModule('db').pool;
         let
             [rows, fields] = await pool.query('SELECT internal_id FROM core_users WHERE discord_id = ?', this.id),
             id;
@@ -81,7 +81,7 @@ export default class User {
         }
 
         if (!this.permissionLevel) {
-            const [rows, fields] = await this.mainClient.getModule('db').pool.query(`SELECT role_id FROM core_users WHERE discord_id=? AND not role_id = 0`, this.id);
+            const [rows, fields] = await this._m.getModule('db').pool.query(`SELECT role_id FROM core_users WHERE discord_id=? AND not role_id = 0`, this.id);
             if (rows.length >= 1)
                 this.permissionLevel = rows[0].role_id;
             else
@@ -94,7 +94,7 @@ export default class User {
 
     async isBanned() {
         if (!this.banned) {
-            const [rows, fields] = await this.mainClient.getModule('db').pool.query('SELECT ban_id FROM core_users WHERE discord_id=?', this.id);
+            const [rows, fields] = await this._m.getModule('db').pool.query('SELECT ban_id FROM core_users WHERE discord_id=?', this.id);
 
             if (rows.length >= 1 && rows[0].ban_id)
                 this.banned = true;
@@ -106,7 +106,7 @@ export default class User {
     }
 
     toJSON() {
-        return Util.flatten(this, {
+        return flatten(this, {
             user: false,
 
             banned: true,
