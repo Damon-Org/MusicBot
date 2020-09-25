@@ -1,8 +1,8 @@
 import DJCommand from './DJCommand.js'
 
 export default class MusicCommand extends DJCommand {
-    constructor(...args) {
-        super(...args);
+    constructor(main) {
+        super(main);
     }
 
     beforeRun(command) {
