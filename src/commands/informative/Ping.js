@@ -6,11 +6,11 @@ import BaseCommand from '../../structures/commands/BaseCommand.js';
  */
 export default class Ping extends BaseCommand {
     /**
-     * @param {String} category
-     * @param {MainClient} mainClient
+     * @param {string} category
+     * @param {Main} main
      */
-    constructor(category, mainClient) {
-        super(mainClient);
+    constructor(category, main) {
+        super(main);
 
         this.register(Ping, {
             category: category,
@@ -27,12 +27,12 @@ export default class Ping extends BaseCommand {
     }
 
     /**
-     * @param {String} command string representing what triggered the command
+     * @param {string} command string representing what triggered the command
      */
     async run(command) {
         const
             ping = new Date().getTime() - this.msgObj.createdTimestamp,
-            botPing = Math.round(this.mainClient.ws.ping);
+            botPing = Math.round(this._m.ws.ping);
 
         this.send('`Pinging...`').then(msg => {
             const embed = new this.Discord.MessageEmbed()
