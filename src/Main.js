@@ -1,11 +1,12 @@
-import MainClient from './client/Main.js';
+import Main from './client/Main.js';
 import log from './util/Log.js'
 
-const instance = new MainClient(process.cwd() + '/..', process.env.DISCORD_TOKEN);
+const instance = new Main(process.cwd(), process.env.DISCORD_TOKEN);
+instance.start();
 
 process.on('unhandledRejection', (err) => {
     if (!err.ignore) log.error('PROCESS', 'Error Occured:', err.stack);
 });
 
-process.on('SIGINT', () => instance.destroy());
-process.on('SIGTERM', () => instance.destroy());
+process.on('SIGINT', () => instance.shutdown());
+process.on('SIGTERM', () => instance.shutdown());
