@@ -2,11 +2,11 @@ import BaseCommand from '../../structures/commands/BaseCommand.js'
 
 export default class Help extends BaseCommand {
     /**
-     * @param {String} category
-     * @param {Array<*>} args
+     * @param {string} category
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(Help, {
             category: category,
