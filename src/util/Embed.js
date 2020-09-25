@@ -1,25 +1,25 @@
 import { MessageEmbed } from 'discord.js'
 
-export default class EmbedUtil {
-    constructor() {}
+/**
+ * @param {Message} msgObj Discord Message object
+ * @param {Object} newProps JSON object of the properties to overwrite in the embed
+ * @param {boolean} [edit=true] If the message should be directly edited with the new embed data
+ */
+export const editEmbed = (msgObj, newProps, edit = true) => {
+    if (msgObj.deleted || msgObj.embeds.length == 0) return null;
 
-    /**
-     * @param {Message} msgObj
-     * @param {Object} newProperties
-     * @param {Boolean} [edit=true] If the message should be immediatly edited with the new embed data
-     */
-    static editEmbed(msgObj, newProperties, edit = true) {
-        if (msgObj.deleted || msgObj.embeds.length == 0) return null;
+    const embedData = msgObj.embeds[0].toJSON();
 
-        const embedData = msgObj.embeds[0].toJSON();
+    Object.assign(embedData, newProperties);
 
-        Object.assign(embedData, newProperties);
+    const embed = new MessageEmbed(embedData);
 
-        const embed = new MessageEmbed(embedData);
+    if (edit) msgObj.edit(embed)
 
-        if (edit)
-            msgObj.edit(embed)
+    return embed;
 
-        return embed;
-    }
-}
+};
+
+export default {
+    editEmbed
+};
