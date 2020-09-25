@@ -2,10 +2,11 @@ import ServerUtils from '../../util/Server.js'
 
 export default class ServerOptions {
     /**
+     * @param {Main} main
      * @param {Server} server
      */
-    constructor(server) {
-        this.mainClient = server.mainClient;
+    constructor(main, server) {
+        this._m = main;
 
         this.server = server;
     }
@@ -14,14 +15,14 @@ export default class ServerOptions {
      * Will create the guild if it doesn't exist in the DB yet
      */
     create() {
-        ServerUtils.addGuild(this.mainClient.getModule('db').pool, this.server.id);
+        ServerUtils.addGuild(this._m.getModule('db').pool, this.server.id);
     }
 
     /**
      * @param {string|number} option
      */
     async delete(option) {
-        const pool = this.mainClient.getModule('db').pool;
+        const pool = this._m.getModule('db').pool;
 
         if (isNaN(option)) {
             await pool.query('DELETE S FROM core_settings S INNER JOIN core_entity_settings ON core_entity_settings.setting_id=S.setting_id INNER JOIN core_guilds ON core_guilds.guild_id=core_entity_settings.entity_id INNER JOIN core_options ON S.option_id=core_options.option_id WHERE core_guilds.serverId=? AND core_options.internal_name=?', [this.server.id, option]);
@@ -35,7 +36,7 @@ export default class ServerOptions {
      * @param {string|number} option Can be an option_id or the internal name of this option
      */
     async get(option) {
-        const pool = this.mainClient.getModule('db').pool;
+        const pool = this._m.getModule('db').pool;
         let rows, fields;
 
         if (isNaN(option)) {
@@ -58,7 +59,7 @@ export default class ServerOptions {
      * @param {*} value The new value of the option
      */
     async update(option, value) {
-        const pool = this.mainClient.getModule('db').pool;
+        const pool = this._m.getModule('db').pool;
         let rows, fields;
 
         if (isNaN(option)) {
@@ -67,7 +68,7 @@ export default class ServerOptions {
         else {
             [rows, fields] = await pool.query('SELECT S.setting_id FROM core_settings INNER JOIN core_entity_settings ON core_entity_settings.setting_id=S.setting_id INNER JOIN core_guilds ON core_guilds.guild_id=core_entity_settings.entity_id WHERE core_guilds.serverId=? AND S.option_id=?', [this.server.id, option]);
         }
-        
+
         if (rows.length == 0) {
             let result, field;
 
