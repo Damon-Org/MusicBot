@@ -19,3 +19,6 @@
 [submodule "src/modules/WebSocketClient"]
 	path = src/modules/WebSocketClient
 	url = https://github.com/Damon-Org/WebSocketClient
+[submodule "src/modules/MusicSystem"]
+	path = src/modules/MusicSystem
+	url = https://github.com/Damon-Org/MusicSystem.git
