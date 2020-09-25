@@ -1,83 +1,93 @@
-import Discord from 'discord.js'
-
+import { Client as DiscordClient } from 'discord.js'
+import ModuleManager from '../managers/ModuleManager.js'
+import ServerManager from '../managers/ServerManager.js'
+import UserManager from '../managers/UserManager.js'
 import log from '../util/Log.js'
-
-import ModuleManager from '../manager/ModuleManager.js'
-import UserManager from '../manager/UserManager.js'
-import ServerManager from '../manager/ServerManager.js'
-
 import auth from '../../data/auth.js'
 import config from '../../data/config.js'
 
-export default class MainClient extends Discord.Client {
+export default class Main extends DiscordClient {
+    _moduleManager  = new ModuleManager(this);
+    _serverManager  = new ServerManager(this);
+    _userManager    = new UserManager(this);
+    globalStorage   = new Map();
+
     /**
-     * @param {String} root_dir The root directory of the source files
-     * @param {String} token A valid Discord Bot token
+     * @param {string} root_dir The root directory of the project
+     * @param {string} token Discord Bot token
      */
     constructor(root_dir, token) {
         super(config.client_options);
 
-        /**
-         * @type {String}
-         */
-        this.root_dir = root_dir;
+        Object.assign(this, {
+            auth,
+            config,
+            log
+        });
 
-        /**
-         * @type {Number}
-         */
-        this.bootUp = Date.now();
-        /**
-         * Shard identifier based of off the bootUp Date in hex
-         * @type {String}
-         */
-        this.id = this.bootUp.toString(16).substr(-6);
-
-        this.auth = auth;
-        this.config = config;
-
-        this.login(token);
-
-        /**
-         * @type {UserManager}
-         */
-        this.userManager = new UserManager(this);
-        /**
-         * @type {ServerManager}
-         */
-        this.serverManager = new ServerManager(this);
-        /**
-         * @type {ModuleManager}
-         */
-        this.moduleManager = new ModuleManager(this);
-
-        this.on('ready', () => log.info('BOT', `Reached ready state in ${Date.now() - this.bootUp}ms`));
-
-        this.reload();
+        this._root_dir = root_dir;
+        this._token = token;
     }
 
+    /**
+     * @returns {ModuleManager}
+     */
+    get modules() {
+        return this._moduleManager;
+    }
+
+    /**
+     * @returns {string} The root directory of the project
+     */
+    get root() {
+        return this._root_dir;
+    }
+
+    /**
+     * @returns {ServerManager}
+     */
+    get servers() {
+        return this._serverManager;
+    }
+
+    /**
+     * @returns {UserManager}
+     */
+    get userManager() {
+        return this._userManager;
+    }
+
+    /**
+     * @returns {string} The version from the package.json
+     */
     get version() {
         return `v${process.argv[2]}`;
     }
 
+    /**
+     * @param {string} moduleName
+     */
     getModule(moduleName) {
-        return this.moduleManager.get(moduleName);
+        return this._moduleManager.get(moduleName);
     }
 
     /**
-     * Cleanup basically
+     * Disconnects the client and tells all modules to cleanup
      */
-    destroy() {
-        log.info('SHARD', 'Destroying shard...');
+    async shutdown() {
+        this.destroy();
 
-        super.destroy();
+        await this._moduleManager.cleanup();
 
-        process.exit();
+        process.exit(0);
     }
 
     /**
-     * All non-permanent/reloadable resources will be added in here
+     * @param {}
      */
-    reload() {
-        this.moduleManager.load();
+    async start() {
+        await this._moduleManager.load();
+
+        this.login(this._token);
     }
 }
