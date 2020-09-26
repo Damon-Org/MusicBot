@@ -34,5 +34,6 @@ export const flatten = (obj, ...props) => {
 
 export default {
     delay,
-    flatten
+    flatten,
+    isObject
 };
