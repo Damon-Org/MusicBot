@@ -1,5 +1,4 @@
 import DJCommand from '../../../structures/commands/DJCommand.js'
-import MODE from '../../../structures/server/music/dj/Mode.js'
 
 export default class DJAdd extends DJCommand {
     /**
@@ -55,7 +54,7 @@ export default class DJAdd extends DJCommand {
             return;
         }
 
-        if (this.music.djManager.mode === MODE['FREEFORALL']) {
+        if (this.music.djManager.mode === this.mode['FREEFORALL']) {
             if (!this.elevated) {
                 this.reply('as a normal user you can\'t add a DJ user without having the "DJ" role or without having the "MANAGE_GUILD" permission.')
                     .then(msg => msg.delete({timeout: 5e3}));
@@ -63,7 +62,7 @@ export default class DJAdd extends DJCommand {
                 return;
             }
 
-            this.music.djManager.setMode(MODE['MANAGED']);
+            this.music.djManager.setMode(this.mode['MANAGED']);
             this.send('The DJ mode has been set to `MANAGED`.');
         }
 

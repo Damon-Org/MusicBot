@@ -1,5 +1,4 @@
 import DJCommand from '../../../structures/commands/DJCommand.js'
-import MODE from '../../../structures/server/music/dj/Mode.js'
 
 export default class DJMode extends DJCommand {
     /**
@@ -54,9 +53,9 @@ export default class DJMode extends DJCommand {
             return;
         }
 
-        const mode = MODE[this.args[0].toUpperCase()];
+        const mode = this.mode[this.args[0].toUpperCase()];
         if (mode) {
-            if (this.elevated || mode == MODE['FREEFORALL']) {
+            if (this.elevated || mode == this.mode['FREEFORALL']) {
                 this.music.djManager.setMode(mode);
 
                 this.send(`Changed DJ mode to \`${this.args[0].toUpperCase()}\``);

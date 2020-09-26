@@ -28,13 +28,16 @@ export default class DJPersistMode extends BaseCommand {
             ],
             example: 'dj persistmode'
         });
+
+        const mode = this._m.modules.getConstants('music');
+        this.mode = mode;
     }
 
     /**
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        const mode = MODE[this.args[0].toUpperCase()];
+        const mode = this.mode[this.args[0].toUpperCase()];
         if (mode) {
             this.music.djManager.setMode(mode, true);
 
