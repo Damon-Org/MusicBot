@@ -3,6 +3,7 @@ import ModuleManager from '../managers/ModuleManager.js'
 import ServerManager from '../managers/ServerManager.js'
 import UserManager from '../managers/UserManager.js'
 import log from '../util/Log.js'
+import util from '../util/Util.js'
 import auth from '../../data/auth.js'
 import config from '../../data/config.js'
 
