@@ -1,5 +1,4 @@
 import BaseCommand from '../../../structures/commands/BaseCommand.js'
-import MODE from '../../../structures/server/music/dj/Mode.js'
 
 export default class DJList extends BaseCommand {
     /**
@@ -20,6 +19,9 @@ export default class DJList extends BaseCommand {
             params: [],
             example: 'dj list'
         });
+
+        const mode = this._m.modules.getConstants('music');
+        this.mode = mode;
     }
 
     get music() {
@@ -30,7 +32,7 @@ export default class DJList extends BaseCommand {
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        if (this.music.djManager.mode === MODE['FREEFORALL']) {
+        if (this.music.djManager.mode === this.mode['FREEFORALL']) {
             this.send('The DJ system is not active right now.')
                 .then(msg => msg.delete({timeout: 5e3}));
 

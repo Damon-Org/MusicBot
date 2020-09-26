@@ -1,5 +1,4 @@
 import BaseCommand from './BaseCommand.js'
-import MODE from '../server/music/dj/Mode.js'
 
 export default class DJCommand extends BaseCommand {
     elevated = true;
@@ -27,6 +26,9 @@ export default class DJCommand extends BaseCommand {
                 ]
             }
         }, false);
+
+        const mode = this._m.modules.getConstants('music');
+        this.mode = mode;
     }
 
     get music() {
@@ -47,7 +49,7 @@ export default class DJCommand extends BaseCommand {
     }
 
     beforeRun(command) {
-        if (command.startsWith('dj ') && this.name !== 'add' && this.music.djManager.mode == MODE['FREEFORALL']) {
+        if (command.startsWith('dj ') && this.name !== 'add' && this.music.djManager.mode == this.mode['FREEFORALL']) {
             this.reply('DJ mode can not be changed once `FREEFORALL` has been enabled, make the bot leave and rejoin to go back to `MANAGED` or `ROLE` if this was previously enabled.');
 
             return false;
