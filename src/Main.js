@@ -5,7 +5,7 @@ const instance = new Main(process.cwd(), process.env.DISCORD_TOKEN);
 instance.start();
 
 process.on('unhandledRejection', (err) => {
-    if (!err.ignore) log.error('PROCESS', 'Error Occured:', err.stack);
+    if (!err.ignore) log.error('PROCESS', 'Error Occured:', err);
 });
 
 process.on('SIGINT', () => instance.shutdown());
