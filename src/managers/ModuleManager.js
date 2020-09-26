@@ -84,15 +84,16 @@ export default class ModuleManager {
     /**
      * @private
      * @param {Object} modules
+     * @param {string} [parentName='']
      */
-    async _importModules(modules) {
+    async _importModules(modules, parentName) {
         for (const bit in modules) {
             if (modules.hasOwnProperty(bit)) {
                 if (modules[bit] instanceof Promise) {
                     try {
                         modules[bit] = (await modules[bit]).default;
                     } catch (e) {
-                        log.error('MODULES', `An error occured while importing ${bit}`, e);
+                        log.error('MODULES', `An error occured while importing ${parentName}`, e);
 
                         continue;
                     }
@@ -117,7 +118,7 @@ export default class ModuleManager {
                     }
                     continue;
                 }
-                await this._importModules(modules[bit]);
+                await this._importModules(modules[bit], bit);
             }
         }
     }
