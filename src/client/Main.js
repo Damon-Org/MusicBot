@@ -23,7 +23,8 @@ export default class Main extends DiscordClient {
         Object.assign(this, {
             auth,
             config,
-            log
+            log,
+            util
         });
 
         this._root_dir = root_dir;
