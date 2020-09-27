@@ -70,7 +70,7 @@ export default class UserPermissionLevel extends WebSocketCommand {
             return true;
         }
 
-        if (!this.mainClient.users.cache.has(userId) && !await this.mainClient.users.fetch(userId)) {
+        if (!this._m.users.cache.has(userId) && !await this._m.users.fetch(userId)) {
             this.send('Unknown user id, I may not share a server with this user.');
 
             return true;
@@ -95,7 +95,7 @@ export default class UserPermissionLevel extends WebSocketCommand {
         }
 
         if (result.timeout) {
-            this.send(`Some Shards timed out while modifying the user permission level. Only ${result.length} of ${this.mainClient.shard.count} answered.`);
+            this.send(`Some Shards timed out while modifying the user permission level. Only ${result.length} of ${this._m.shard.count} answered.`);
         }
 
         if (await user.options.setPermissionLevel(level)) {
