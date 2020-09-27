@@ -29,8 +29,8 @@ export default class DJDisable extends BaseCommand {
             example: 'dj disable'
         });
 
-        const mode = this._m.modules.getConstants('music');
-        this.mode = mode;
+        const { DJMode } = this._m.modules.getConstants('music');
+        this.mode = DJMode;
     }
 
     /**
