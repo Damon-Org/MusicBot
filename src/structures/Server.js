@@ -10,6 +10,19 @@ export default class Server {
         this.localUsers = new LocalUserStorage();
 
         this.options = new ServerOptions(main, this);
+
+        this._initServerModules();
+    }
+
+    /**
+     * Initializes all registered server modules and clones their instances into the server class
+     */
+    _initServerModules() {
+        const modules = this._m.modules.getScope('server');
+
+        for (const [ name, module ] of modules) {
+            this[name] = module.clone();
+        }
     }
 
     get id() {
