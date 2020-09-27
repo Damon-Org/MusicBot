@@ -6,6 +6,7 @@ import log from '../util/Log.js'
 import util from '../util/Util.js'
 import auth from '../../data/auth.js'
 import config from '../../data/config.js'
+import guildSettings from '../../data/guild_settings.js'
 
 export default class Main extends DiscordClient {
     _moduleManager  = new ModuleManager(this);
@@ -23,6 +24,7 @@ export default class Main extends DiscordClient {
         Object.assign(this, {
             auth,
             config,
+            guildSettings,
             log,
             util
         });
