@@ -1,9 +1,8 @@
 import MusicCommand from '../../structures/commands/MusicCommand.js'
-import EqualizerPresets from '../../structures/server/music/equalizer/Presets.js'
 
 export default class Equalizer extends MusicCommand {
     /**
-     * @param {String} category
+     * @param {string} category
      * @param {Array<*>} args
      */
     constructor(category, ...args) {
@@ -29,14 +28,17 @@ export default class Equalizer extends MusicCommand {
             ],
             example: 'eq deep'
         });
+
+        const { EqualizerBands } = this._m.modules.getConstants('music');
+        this.eqBands = EqualizerBands;
     }
 
     /**
-     * @param {String} command string representing what triggered the command
+     * @param {string} command string representing what triggered the command
      */
     async run(command) {
         if (this.music.isDamonInVC(this.voiceChannel) && this.music.queueExists()) {
-            const preset = EqualizerPresets[this.args[0]];
+            const preset = this.eqBands[this.args[0]];
 
             if (!preset) {
                 const embed = new this.Discord.MessageEmbed()
