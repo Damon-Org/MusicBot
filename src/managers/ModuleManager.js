@@ -108,7 +108,7 @@ export default class ModuleManager {
                }
            }
 
-           if (!await instance.setup()) return false;
+           if (typeof instance.setup === 'function' && !await instance.setup()) return false;
        }
 
        return true;
