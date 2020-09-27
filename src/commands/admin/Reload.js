@@ -40,12 +40,12 @@ export default class Reload extends WebSocketCommand {
 
         const response = await this.ws.sendEvent('RELOAD', 'GROUP', 'self', { target: reloadLevel ? reloadLevel : 'full' }, true, 3e3);
 
-        if (!response.timeout && response.length === this.mainClient.shard.count) {
+        if (!response.timeout && response.length === this._m.shard.count) {
             this.send('The reload has been executed successfully!');
 
             return true;
         }
-        this.send(`**${response.length}** of the **${this.mainClient.shard.count}** Shards responded with the remaining shards timing out. If retrying doesn't solve the issue, please check if all Shards still are alive.`);
+        this.send(`**${response.length}** of the **${this._m.shard.count}** Shards responded with the remaining shards timing out. If retrying doesn't solve the issue, please check if all Shards still are alive.`);
 
         return true;
     }

@@ -60,7 +60,7 @@ export default class BanUser extends WebSocketCommand {
             userId = mention.id;
         }
 
-        if (!this.mainClient.users.cache.has(userId) && !await this.mainClient.users.fetch(userId)) {
+        if (!this._m.users.cache.has(userId) && !await this._m.users.fetch(userId)) {
             this.send('Unknown user id, I may not share a server with this user.');
 
             return true;
@@ -91,7 +91,7 @@ export default class BanUser extends WebSocketCommand {
         }
 
         if (result.timeout) {
-            this.send(`Some Shards timed out while banning the user, the user might not have been banned on some Shards. Only ${result.length} of ${this.mainClient.shard.count} answered.`);
+            this.send(`Some Shards timed out while banning the user, the user might not have been banned on some Shards. Only ${result.length} of ${this._m.shard.count} answered.`);
         }
 
         const [success, banIdOrReason, internalId] = await user.options.ban(this.user.id, reason);

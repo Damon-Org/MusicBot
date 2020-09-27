@@ -29,17 +29,17 @@ export default class Stats extends BaseCommand {
     run(command) {
         const embed = new this.Discord.MessageEmbed()
             .setTitle('Statistics? Stats? Mmmm whatever...')
-            .addField('Uptime', humanReadableTime(Math.round((Date.now() - this.mainClient.bootUp) / 1000) * 1000))
+            .addField('Uptime', humanReadableTime(Math.round((Date.now() - this._m.bootUp) / 1000) * 1000))
             //.addField('Active Music Players', this.db.carrier.totalPlayers)
-            .addField('Bot Version', this.mainClient.version)
+            .addField('Bot Version', this._m.version)
             .addField('Environment Version', `Node ${process.version}`)
-            .addField('Created by', this.mainClient.config.creator);
+            .addField('Created by', this._m.config.creator);
 
-        if (this.mainClient.shard.count <= 1) {
-            embed.addField('Total Guild Count', this.mainClient.guilds.cache.size);
+        if (this._m.shard.count <= 1) {
+            embed.addField('Total Guild Count', this._m.guilds.cache.size);
         }
         else {
-            embed.addField('This instance is managing', `${this.mainClient.guilds.cache.size} servers`);
+            embed.addField('This instance is managing', `${this._m.guilds.cache.size} servers`);
             embed.addField('Total Guild Count', `${this.getModule('common').serverCount}`);
         }
 
