@@ -149,7 +149,7 @@ export default class ModuleManager {
 
                         this._addModuleToScope(instance.scope, instance);
                     } catch (e) {
-                        log.warn('MODULES', `Module is broken, ${bit}`, e);
+                        log.warn('MODULES', `Module is broken, ${parentName}`, e);
                     }
                     continue;
                 }
