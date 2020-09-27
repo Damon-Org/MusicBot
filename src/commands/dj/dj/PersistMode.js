@@ -29,8 +29,8 @@ export default class DJPersistMode extends BaseCommand {
             example: 'dj persistmode'
         });
 
-        const mode = this._m.modules.getConstants('music');
-        this.mode = mode;
+        const { DJMode } = this._m.modules.getConstants('music');
+        this.mode = DJMode;
     }
 
     /**

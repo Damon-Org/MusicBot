@@ -20,8 +20,8 @@ export default class DJList extends BaseCommand {
             example: 'dj list'
         });
 
-        const mode = this._m.modules.getConstants('music');
-        this.mode = mode;
+        const { DJMode } = this._m.modules.getConstants('music');
+        this.mode = DJMode;
     }
 
     get music() {
