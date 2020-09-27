@@ -3,6 +3,7 @@ import log from '../util/Log.js'
 
 export default class ModuleManager {
     _cache = new Map();
+    _scope = {};
 
     /**
      * @param {Main} main The program entrypoint class
@@ -29,6 +30,28 @@ export default class ModuleManager {
         return this._cache.get(moduleName);
     }
 
+    /**
+     * @param {string} scopeName
+     * @returns {Map}
+     */
+    getScope(scopeName) {
+        return this._scope[scopeName];
+    }
+
+    /**
+     * @param {string} moduleName
+     */
+    getServer(moduleName) {
+        return this._scope['server'].get(moduleName);
+    }
+
+    /**
+     * @param {string} moduleName
+     */
+    getConstants(moduleName) {
+        return this._cache.get(moduleName).constants;
+    }
+
     async load() {
         const modules = importDir(`${this._m.root}/src/modules/`, { recurse: true, recurseDepth: 1 });
 
@@ -41,6 +64,16 @@ export default class ModuleManager {
 
             return;
         }
+    }
+
+    /**
+     * @param {string} scope
+     * @param {*} module
+     */
+    _addModuleToScope(scope, module) {
+        if (!this._scope[scope]) this._scope[scope] = new Map();
+
+        this._scope[scope].set(module.name, module);
     }
 
     /**
@@ -113,6 +146,8 @@ export default class ModuleManager {
                         }
 
                         this._cache.set(instance.name, instance);
+
+                        this._addModuleToScope(instance.scope, instance);
                     } catch (e) {
                         log.warn('MODULES', `Module is broken, ${bit}`, e);
                     }
