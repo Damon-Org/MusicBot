@@ -25,3 +25,6 @@
 [submodule "src/modules/APICollections"]
 	path = src/modules/APICollections
 	url = https://github.com/Damon-Org/APICollections
+[submodule "src/modules/EventExtender"]
+	path = src/modules/EventExtender
+	url = https://github.com/Damon-Org/EventExtender
