@@ -10,7 +10,7 @@ export const editEmbed = (msgObj, newProps, edit = true) => {
 
     const embedData = msgObj.embeds[0].toJSON();
 
-    Object.assign(embedData, newProperties);
+    Object.assign(embedData, newProps);
 
     const embed = new MessageEmbed(embedData);
 
