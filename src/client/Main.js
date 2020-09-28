@@ -2,6 +2,7 @@ import { Client as DiscordClient } from 'discord.js'
 import ModuleManager from '../managers/ModuleManager.js'
 import ServerManager from '../managers/ServerManager.js'
 import UserManager from '../managers/UserManager.js'
+import embedUtils from '../util/Embed.js'
 import log from '../util/Log.js'
 import util from '../util/Util.js'
 import auth from '../../data/auth.js'
@@ -24,6 +25,7 @@ export default class Main extends DiscordClient {
         Object.assign(this, {
             auth,
             config,
+            embedUtils,
             guildSettings,
             log,
             util
