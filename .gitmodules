@@ -22,3 +22,6 @@
 [submodule "src/modules/MusicSystem"]
 	path = src/modules/MusicSystem
 	url = https://github.com/Damon-Org/MusicSystem.git
+[submodule "src/modules/APICollections"]
+	path = src/modules/APICollections
+	url = https://github.com/Damon-Org/APICollections
