@@ -1,8 +1,10 @@
 import importDir from '@yimura/import-dir'
+import ConstantsProxy from './module/ConstantsProxy.js'
 import log from '../util/Log.js'
 
 export default class ModuleManager {
     _cache = new Map();
+    _constants = ConstantsProxy(this);
     _scope = {};
 
     /**
@@ -10,6 +12,10 @@ export default class ModuleManager {
      */
     constructor(main) {
         this._m = main;
+    }
+
+    get constants() {
+        return this._constants;
     }
 
     /**
@@ -45,11 +51,8 @@ export default class ModuleManager {
         return this._scope['server'].get(moduleName);
     }
 
-    /**
-     * @param {string} moduleName
-     */
-    getConstants(moduleName) {
-        return this._cache.get(moduleName).constants;
+    has(moduleName) {
+        return this._cache.has(moduleName);
     }
 
     async load() {
