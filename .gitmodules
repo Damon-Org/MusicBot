@@ -28,3 +28,6 @@
 [submodule "src/modules/EventExtender"]
 	path = src/modules/EventExtender
 	url = https://github.com/Damon-Org/EventExtender
+[submodule "src/modules/DJSystem"]
+	path = src/modules/DJSystem
+	url = https://github.com/Damon-Org/DJSystem
