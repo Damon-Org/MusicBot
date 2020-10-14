@@ -31,3 +31,6 @@
 [submodule "src/modules/DJSystem"]
 	path = src/modules/DJSystem
 	url = https://github.com/Damon-Org/DJSystem
+[submodule "src/modules/ReactionInterface"]
+	path = src/modules/ReactionInterface
+	url = https://github.com/Damon-Org/ReactionInterface
