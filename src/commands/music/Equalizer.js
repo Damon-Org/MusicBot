@@ -28,8 +28,8 @@ export default class Equalizer extends MusicCommand {
             ],
             example: 'eq deep'
         });
-
-        const { EqualizerBands } = this._m.modules.getConstants('music');
+        
+        const { EqualizerBands } = this._m.modules.constants.music;
         this.eqBands = EqualizerBands;
     }
 

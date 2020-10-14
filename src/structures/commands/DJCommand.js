@@ -27,8 +27,12 @@ export default class DJCommand extends BaseCommand {
             }
         }, false);
 
-        const { DJMode } = this._m.modules.getConstants('music');
+        const { DJMode } = this._m.modules.constants.dj;
         this.mode = DJMode;
+    }
+
+    get dj() {
+        return this.server.dj;
     }
 
     get music() {
@@ -36,7 +40,7 @@ export default class DJCommand extends BaseCommand {
     }
 
     permission() {
-        if (this.music.queueExists() && !this.music.djManager.has(this.serverMember.id)) {
+        if (this.music.queueExists() && !this.dj.has(this.serverMember.id)) {
             this.reply(`you aren't the DJ right now, ask the active DJ to add you with \`dj add ${this.serverMember}\``)
                 .then(msg => msg.delete({timeout: 7e3}));
 
@@ -49,13 +53,13 @@ export default class DJCommand extends BaseCommand {
     }
 
     beforeRun(command) {
-        if (command.startsWith('dj ') && this.name !== 'add' && this.music.djManager.mode == this.mode['FREEFORALL']) {
+        if (command.startsWith('dj ') && this.name !== 'add' && this.dj.mode == this.mode['FREEFORALL']) {
             this.reply('DJ mode can not be changed once `FREEFORALL` has been enabled, make the bot leave and rejoin to go back to `MANAGED` or `ROLE` if this was previously enabled.');
 
             return false;
         }
 
-        if (['play', 'play next'].includes(this.name) && this.music.djManager.playlistLock) {
+        if (['play', 'play next'].includes(this.name) && this.dj.playlistLock) {
             this.reply('the playlist has been locked by the DJ, you can\'t add songs.')
                 .then(msg => msg.delete({timeout: 5e3}));
 
@@ -66,8 +70,8 @@ export default class DJCommand extends BaseCommand {
     }
 
     afterRun() {
-        if (this.music.djManager.size == 0)
-            this.music.djManager.add(this.serverMember);
+        if (this.dj.size == 0)
+            this.dj.add(this.serverMember);
 
         this.elevated = true;
 
