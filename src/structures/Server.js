@@ -21,7 +21,7 @@ export default class Server {
         const modules = this._m.modules.getScope('server');
 
         for (const [ name, module ] of modules) {
-            this[name] = module.clone();
+            this[name] = module.clone(this);
         }
     }
 
