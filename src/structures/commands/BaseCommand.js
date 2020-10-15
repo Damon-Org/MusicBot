@@ -21,7 +21,7 @@ export default class BaseCommand {
      * @param {string} moduleName
      */
     getModule(moduleName) {
-        return this._m.moduleManager.get(moduleName);
+        return this._m.modules.get(moduleName);
     }
 
     /**
@@ -130,10 +130,7 @@ export default class BaseCommand {
     }
 
      get serverMember() {
-        if (this.msgObj.member) {
-            return this.msgObj.member;
-        }
-        return null;
+        return this.msgObj?.member;
     }
     get user() {
         return this.msgObj.author;
