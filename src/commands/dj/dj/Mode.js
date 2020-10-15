@@ -56,7 +56,7 @@ export default class DJMode extends DJCommand {
         const mode = this.mode[this.args[0].toUpperCase()];
         if (mode) {
             if (this.elevated || mode == this.mode['FREEFORALL']) {
-                this.music.djManager.setMode(mode);
+                this.dj.setMode(mode);
 
                 this.send(`Changed DJ mode to \`${this.args[0].toUpperCase()}\``);
 

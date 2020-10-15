@@ -24,6 +24,10 @@ export default class DJList extends BaseCommand {
         this.mode = DJMode;
     }
 
+    get dj() {
+        return this.server.dj;
+    }
+
     get music() {
         return this.server.music;
     }
@@ -32,7 +36,7 @@ export default class DJList extends BaseCommand {
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        if (this.music.djManager.mode === this.mode['FREEFORALL']) {
+        if (this.dj.mode === this.mode['FREEFORALL']) {
             this.send('The DJ system is not active right now.')
                 .then(msg => msg.delete({timeout: 5e3}));
 
@@ -53,7 +57,7 @@ export default class DJList extends BaseCommand {
             return true;
         }
 
-        if (this.music.djManager.size == 0) {
+        if (this.dj.size == 0) {
             this.send('There appear to be no active DJ\'s. <:thinking_hard:560389998806040586>');
 
             return true;
@@ -63,7 +67,7 @@ export default class DJList extends BaseCommand {
             .setTitle('Active DJ users');
 
         let description = '';
-        for (let dj of this.music.djManager.users.values()) {
+        for (let dj of this.dj.users.values()) {
             if (description !== '') description += '\n';
 
             description += `- ${dj.member}`;
