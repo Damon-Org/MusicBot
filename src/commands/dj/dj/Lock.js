@@ -48,7 +48,7 @@ export default class DJLock extends DJCommand {
             return true;
         }
 
-        this.music.djManager.playlistLock = command === 'dj lock' ? true : false;
+        this.dj.playlistLock = command === 'dj lock' ? true : false;
         if (command === 'dj lock') {
             this.send('I\'ve locked the playlist, only DJ\'s can add songs now.');
 

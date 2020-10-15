@@ -63,7 +63,7 @@ export default class DJRemove extends DJCommand {
             return true;
         }
 
-        this.music.djManager.resign(mention);
+        this.dj.resign(mention);
 
         return true;
     }

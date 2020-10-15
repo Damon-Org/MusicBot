@@ -41,7 +41,7 @@ export default class DJLeave extends DJCommand {
             return true;
         }
 
-        this.music.djManager.resign(this.serverMember);
+        this.dj.resign(this.serverMember);
 
         this.reply('bye bye DJ. 👋');
 

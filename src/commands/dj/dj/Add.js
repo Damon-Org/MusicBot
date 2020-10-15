@@ -54,7 +54,7 @@ export default class DJAdd extends DJCommand {
             return;
         }
 
-        if (this.music.djManager.mode === this.mode['FREEFORALL']) {
+        if (this.dj.mode === this.mode['FREEFORALL']) {
             if (!this.elevated) {
                 this.reply('as a normal user you can\'t add a DJ user without having the "DJ" role or without having the "MANAGE_GUILD" permission.')
                     .then(msg => msg.delete({timeout: 5e3}));
@@ -62,11 +62,11 @@ export default class DJAdd extends DJCommand {
                 return;
             }
 
-            this.music.djManager.setMode(this.mode['MANAGED']);
+            this.dj.setMode(this.mode['MANAGED']);
             this.send('The DJ mode has been set to `MANAGED`.');
         }
 
-        this.music.djManager.add(mention);
+        this.dj.add(mention);
         this.send(`${mention} has been added as a DJ!`);
     }
 }

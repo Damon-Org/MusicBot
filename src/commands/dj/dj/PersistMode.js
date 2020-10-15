@@ -39,7 +39,7 @@ export default class DJPersistMode extends BaseCommand {
     async run(command) {
         const mode = this.mode[this.args[0].toUpperCase()];
         if (mode) {
-            this.music.djManager.setMode(mode, true);
+            this.dj.setMode(mode, true);
 
             this.send(`Changed DJ mode to \`${this.args[0].toUpperCase()}\``);
 
