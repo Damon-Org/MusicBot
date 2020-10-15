@@ -55,7 +55,7 @@ Alternatively you can pull docker containers and run the bot from those or make 
 
 When developing locally you might not want to install Node.js onto your system, for this you can build a container every time you make changes.
 
-Copy the following command from in the package.json file (since you don't have NPM you can run these commands from the package file).
+Copy the following command from in the package.json file (since you don't have Node/NPM you can't run these commands from the package file).
 ```sh
 # Build a container from the current directory
 docker build --tag damonmusic:test_build .
