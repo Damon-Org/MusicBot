@@ -22,7 +22,7 @@
 Make sure to add `--recurse-modules` behind the repository link so all submodules get pulled as well.
 
 ```sh
-git clone https://git.damon.sh/damon/music.git --recurse-modules
+git clone https://git.damon.sh/damon/music.git --recurse-submodules
 ```
 
 ### Config
