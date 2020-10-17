@@ -40,7 +40,7 @@ export default class Stats extends BaseCommand {
         }
         else {
             embed.addField('This instance is managing', `${this._m.guilds.cache.size} servers`);
-            embed.addField('Total Guild Count', `${this.getModule('common').serverCount}`);
+            embed.addField('Total Guild Count', `${this.globalStorage.get('serverCount')}`);
         }
 
         this.send(embed);

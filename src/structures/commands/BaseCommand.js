@@ -17,11 +17,8 @@ export default class BaseCommand {
         return new this.instance(this.category, this._m);
     }
 
-    /**
-     * @param {string} moduleName
-     */
-    getModule(moduleName) {
-        return this._m.modules.get(moduleName);
+    get modules() {
+        return this._m.modules;
     }
 
     /**
@@ -181,7 +178,7 @@ export default class BaseCommand {
         if (exception) {
             const prefix =  this.server.prefix;
 
-            embed.setDescription(`View the documentation of [this command on our site](${Website}/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.getModule('commandRegistrar').defaultPrefix ? '' : `&p=${encodeURI(prefix)}`})`);
+            embed.setDescription(`View the documentation of [this command on our site](${Website}/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.globalStorage.get('prefix') ? '' : `&p=${encodeURI(prefix)}`})`);
 
             this.textChannel.send(embed);
 

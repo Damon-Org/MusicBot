@@ -10,6 +10,6 @@ export default class WebSocketCommand extends BaseCommand {
     }
 
     get ws() {
-        return this.getModule('ws');
+        return this.modules.ws;
     }
 }

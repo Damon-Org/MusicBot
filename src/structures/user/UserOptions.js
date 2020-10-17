@@ -18,7 +18,7 @@ export default class UserOptions {
         }
 
         const
-            pool = this._m.getModule('db').pool,
+            pool = this._m.modules.db.pool,
             internalId = await this.user.getInternalId(),
             [rows, field] = await pool.query(`SELECT ban_id FROM core_users WHERE internal_id = ${internalId}`);
 
@@ -38,7 +38,7 @@ export default class UserOptions {
     async unban() {
         const
             internalId = await this.user.getInternalId(),
-            pool = this._m.getModule('db').pool;
+            pool = this._m.modules.db.pool;
 
         await pool.query(`UPDATE core_users SET ban_id = NULL WHERE internal_id = ?`, [internalId]);
 
@@ -51,7 +51,7 @@ export default class UserOptions {
     async setPermissionLevel(level = 0) {
         const
             internalId = await this.user.getInternalId(),
-            pool = this._m.getModule('db').pool;
+            pool = this._m.modules.db.pool;
 
         await pool.query('UPDATE core_users SET role_id=? WHERE internal_id=?', [level, internalId]);
 
