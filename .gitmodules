@@ -37,3 +37,9 @@
 [submodule "src/modules/Metrics"]
 	path = src/modules/Metrics
 	url = https://github.com/Damon-Org/Metrics
+[submodule "src/modules/TrackResolver"]
+	path = src/modules/TrackResolver
+	url = https://github.com/Damon-Org/TrackResolver
+[submodule "src/modules/TrackSpotify"]
+	path = src/modules/TrackSpotify
+	url = https://github.com/Damon-Org/TrackSpotify
