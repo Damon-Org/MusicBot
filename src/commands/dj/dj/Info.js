@@ -25,7 +25,7 @@ export default class DJInfo extends BaseCommand {
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        const prefix = this.getModule('commandRegistrar').defaultPrefix;
+        const prefix = this.globalStorage.get('prefix');
 
         const embed = new this.Discord.MessageEmbed()
             .setTitle('DJ System Information')

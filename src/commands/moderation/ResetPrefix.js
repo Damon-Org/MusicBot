@@ -39,7 +39,7 @@ export default class ResetPrefix extends BaseCommand {
     async run(command) {
         const
             oldPrefix = this.server.prefix,
-            newPrefix = this.getModule('commandRegistrar').defaultPrefix;
+            newPrefix = this.globalStorage.get('prefix');
 
         if (oldPrefix == newPrefix) {
             this.send('There\'s no custom prefix to reset.');
@@ -47,7 +47,7 @@ export default class ResetPrefix extends BaseCommand {
             return true;
         }
 
-        this.getModule('guildSetting').set(this.server.id, 'prefix', newPrefix);
+        this.modules.guildSetting.set(this.server.id, 'prefix', newPrefix);
         this.server._prefix = null;
         this.server.options.delete('guildPrefix');
 

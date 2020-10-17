@@ -2,7 +2,7 @@ import BaseCommand from '../../../structures/commands/BaseCommand.js'
 
 export default class DJPersistMode extends BaseCommand {
     /**
-     * @param {String} category
+     * @param {string} category
      * @param {Array<*>} args
      */
     constructor(category, ...args) {
@@ -29,12 +29,12 @@ export default class DJPersistMode extends BaseCommand {
             example: 'dj persistmode'
         });
 
-        const { DJMode } = this._m.modules.constants.dj;
+        const { DJMode } = this._m.modules.dj.constants;
         this.mode = DJMode;
     }
 
     /**
-     * @param {String} command string representing what triggered the command
+     * @param {string} command string representing what triggered the command
      */
     async run(command) {
         const mode = this.mode[this.args[0].toUpperCase()];

@@ -2,7 +2,7 @@ import BaseCommand from '../../../structures/commands/BaseCommand.js'
 
 export default class DJEnable extends BaseCommand {
     /**
-     * @param {String} category
+     * @param {string} category
      * @param {Array<*>} args
      */
     constructor(category, ...args) {
@@ -29,7 +29,7 @@ export default class DJEnable extends BaseCommand {
             example: 'dj enable'
         });
 
-        const { DJMode } = this._m.modules.constants.dj;
+        const { DJMode } = this._m.modules.dj.constants;
         this.mode = DJMode;
     }
 
@@ -38,7 +38,7 @@ export default class DJEnable extends BaseCommand {
      */
     async run(command) {
         const
-            guildSetting = this.getModule('guildSetting'),
+            guildSetting = this.modules.guildSetting,
             currentMode = guildSetting.get(this.server.id, 'dj_mode');
 
         if (!currentMode || currentMode == this.mode['FREEFORALL']) {

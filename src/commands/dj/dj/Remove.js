@@ -2,7 +2,7 @@ import DJCommand from '../../../structures/commands/DJCommand.js'
 
 export default class DJRemove extends DJCommand {
     /**
-     * @param {String} category
+     * @param {string} category
      * @param {Array<*>} args
      */
     constructor(category, ...args) {
@@ -38,7 +38,7 @@ export default class DJRemove extends DJCommand {
     }
 
     /**
-     * @param {String} command string representing what triggered the command
+     * @param {string} command string representing what triggered the command
      */
     async run(command) {
         if (!this.voiceChannel) {

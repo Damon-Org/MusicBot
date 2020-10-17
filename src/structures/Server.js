@@ -31,16 +31,16 @@ export default class Server {
 
     get prefix() {
         if (!this._prefix) {
-            this._prefix = this._m.getModule('guildSetting').get(this.id, 'prefix');
+            this._prefix = this._m.modules.guildSetting.get(this.id, 'prefix');
 
-            if (!this._prefix) this._prefix = this._m.getModule('commandRegistrar').defaultPrefix;
+            if (!this._prefix) this._prefix = this._m.globalStorage.get('prefix');
         }
 
         return this._prefix;
     }
 
     set prefix(new_value) {
-        this._m.getModule('guildSetting').set(this.id, 'prefix', new_value);
+        this._m.modules.guildSetting.set(this.id, 'prefix', new_value);
 
         this.options.update('guildPrefix', new_value);
 

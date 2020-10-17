@@ -27,7 +27,7 @@ export default class DJCommand extends BaseCommand {
             }
         }, false);
 
-        const { DJMode } = this._m.modules.constants.dj;
+        const { DJMode } = this._m.modules.dj.constants;
         this.mode = DJMode;
     }
 

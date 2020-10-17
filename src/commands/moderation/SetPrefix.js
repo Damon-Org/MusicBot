@@ -46,10 +46,10 @@ export default class SetPrefix extends BaseCommand {
     async run(command) {
         const
             newPrefix = this.args[0],
-            prefix = this.getModule('commandRegistrar').defaultPrefix;
+            prefix = this.globalStorage.get('prefix');
 
         if (!newPrefix || newPrefix == prefix) {
-            this.getModule('guildSetting').set(this.server.id, 'prefix', newPrefix);
+            this.modules.guildSetting.set(this.server.id, 'prefix', newPrefix);
             this.server._prefix = null;
             this.server.options.delete('guildPrefix');
 
