@@ -43,3 +43,6 @@
 [submodule "src/modules/TrackSpotify"]
 	path = src/modules/TrackSpotify
 	url = https://github.com/Damon-Org/TrackSpotify
+[submodule "src/modules/TrackDeezer"]
+	path = src/modules/TrackDeezer
+	url = https://github.com/Damon-Org/TrackDeezer
