@@ -16,9 +16,6 @@
 [submodule "src/modules/Presence"]
 	path = src/modules/Presence
 	url = https://github.com/Damon-Org/Presence
-[submodule "src/modules/WebSocketClient"]
-	path = src/modules/WebSocketClient
-	url = https://github.com/Damon-Org/WebSocketClient
 [submodule "src/modules/MusicSystem"]
 	path = src/modules/MusicSystem
 	url = https://github.com/Damon-Org/MusicSystem.git
@@ -46,3 +43,6 @@
 [submodule "src/modules/TrackDeezer"]
 	path = src/modules/TrackDeezer
 	url = https://github.com/Damon-Org/TrackDeezer
+[submodule "src/modules/WebSocketClient"]
+	path = src/modules/WebSocketClient
+	url = https://github.com/Damon-Org/WebSocketClient
