@@ -46,3 +46,6 @@
 [submodule "src/modules/WebSocketClient"]
 	path = src/modules/WebSocketClient
 	url = https://github.com/Damon-Org/WebSocketClient
+[submodule "src/modules/MongoDB"]
+	path = src/modules/MongoDB
+	url = https://github.com/Damon-Org/MongoDB
