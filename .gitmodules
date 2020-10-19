@@ -49,3 +49,6 @@
 [submodule "src/modules/MongoDB"]
 	path = src/modules/MongoDB
 	url = https://github.com/Damon-Org/MongoDB
+[submodule "src/modules/ServerSetting"]
+	path = src/modules/ServerSetting
+	url = https://github.com/Damon-Org/ServerSetting
