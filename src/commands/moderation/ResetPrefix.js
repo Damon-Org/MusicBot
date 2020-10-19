@@ -2,7 +2,7 @@ import BaseCommand from '../../structures/commands/BaseCommand.js'
 
 export default class ResetPrefix extends BaseCommand {
     /**
-     * @param {external:String} category
+     * @param {string} category
      * @param {Array<*>} args
      */
     constructor(category, ...args) {
@@ -34,24 +34,22 @@ export default class ResetPrefix extends BaseCommand {
     }
 
     /**
-     * @param {external:String} command string representing what triggered the command
+     * @param {string} command string representing what triggered the command
      */
     async run(command) {
         const
-            oldPrefix = this.server.prefix,
-            newPrefix = this.globalStorage.get('prefix');
+            oldPrefix = this.server.setting.data.prefix,
+            prefix = this.globalStorage.get('prefix');
 
-        if (oldPrefix == newPrefix) {
+        if (oldPrefix == prefix) {
             this.send('There\'s no custom prefix to reset.');
 
             return true;
         }
 
-        this.modules.guildSetting.set(this.server.id, 'prefix', newPrefix);
-        this.server._prefix = null;
-        this.server.options.delete('guildPrefix');
+        await this.server.setting.update({ prefix });
 
-        this.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${newPrefix}\``)
+        this.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${prefix}\``)
             .then(msg => msg.pin());
 
         return true;

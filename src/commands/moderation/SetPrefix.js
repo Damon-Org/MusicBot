@@ -2,7 +2,7 @@ import BaseCommand from '../../structures/commands/BaseCommand.js'
 
 export default class SetPrefix extends BaseCommand {
     /**
-     * @param {String} category
+     * @param {string} category
      * @param {Array<*>} args
      */
     constructor(category, ...args) {
@@ -41,30 +41,35 @@ export default class SetPrefix extends BaseCommand {
     }
 
     /**
-     * @param {String} command string representing what triggered the command
+     * @param {string} command string representing what triggered the command
      */
     async run(command) {
-        const
-            newPrefix = this.args[0],
-            prefix = this.globalStorage.get('prefix');
+        const prefix = this.args[0];
+        const defaultPrefix = this.globalStorage.get('prefix');
 
-        if (!newPrefix || newPrefix == prefix) {
-            this.modules.guildSetting.set(this.server.id, 'prefix', newPrefix);
-            this.server._prefix = null;
-            this.server.options.delete('guildPrefix');
+        if (!prefix || prefix == defaultPrefix) {
+            await this.server.setting.update({ prefix });
 
-            this.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${prefix}\``)
+            this.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${defaultPrefix}\``)
                 .then(msg => msg.pin());
 
             return true;
         }
 
-        if (/^[\x00-\x7F]*$/.test(newPrefix) && newPrefix.length <= 6) {
-            const oldPrefix = this.server.prefix;
+        if (/^[\x00-\x7F]*$/.test(prefix) && prefix.length <= 6) {
+            let oldPrefix = this.server.setting.data?.prefix;
+            if (!oldPrefix) oldPrefix = this.globalStorage.get('prefix');
 
-            this.server.prefix = newPrefix;
+            if (oldPrefix == prefix) {
+                this.send('The prefix has not been updated as it is the same prefix as before.')
+                    .then(msg => msg.delete({ timeout: 5e3 }));
 
-            this.send(`The command prefix for **Damon Music** has been changed in this server has been changed from \`${oldPrefix}\` to \`${newPrefix}\``)
+                return true;
+            }
+
+            await this.server.setting.update({ prefix });
+
+            this.send(`The command prefix for **Damon Music** has been changed in this server has been changed from \`${oldPrefix}\` to \`${prefix}\``)
                 .then(msg => msg.pin());
 
             return true;
