@@ -1,6 +1,3 @@
-import UserOptions from './user/UserOptions.js'
-import { flatten } from '../util/Util.js'
-
 export default class User {
     /**
      * @param {Main} main
@@ -11,62 +8,22 @@ export default class User {
 
         this.user = user;
 
-        this.options = new UserOptions(this);
-        this.storage = new Map();
+        this._initUserModules();
+    }
+
+    /**
+     * Initializes all registered server modules and clones their instances into the server class
+     */
+    _initUserModules() {
+        const modules = this._m.modules.getScope('user');
+
+        for (const [ name, module ] of modules) {
+            this[name] = module.clone(this);
+        }
     }
 
     get id() {
         return this.user.id;
-    }
-
-    get banned() {
-        return this.storage.get('banned');
-    }
-
-    /**
-     * @param {boolean} toggle
-     */
-    set banned(toggle) {
-        this.storage.set('banned', toggle);
-    }
-
-    get permissionLevel() {
-        return this.storage.get('permissionLevel');
-    }
-
-    /**
-     * @param {number} level
-     */
-    set permissionLevel(level) {
-        this.storage.set('permissionLevel', level);
-    }
-
-    /**
-     * Adds the user to the Database if they haven't been added already
-     * @private
-     */
-    async _addUserIfNotExists() {
-        const pool = this._m.modules.db.pool;
-        let
-            [rows, fields] = await pool.query('SELECT internal_id FROM core_users WHERE discord_id = ?', this.id),
-            id;
-
-        if (rows.length == 0) {
-            [rows, fields] = await pool.query('INSERT INTO core_users (discord_id) VALUES (?)', this.id);
-
-            id = rows.insertId;
-        }
-
-        if (!id) id = rows[0].internal_id;
-
-        return id;
-    }
-
-    async getInternalId() {
-        if (!this._internalId) {
-            this._internalId = await this._addUserIfNotExists();
-        }
-        return this._internalId;
     }
 
     /**
@@ -80,37 +37,19 @@ export default class User {
             return false;
         }
 
-        if (!this.permissionLevel) {
-            const [rows, fields] = await this._m.modules.db.pool.query(`SELECT role_id FROM core_users WHERE discord_id=? AND not role_id = 0`, this.id);
-            if (rows.length >= 1)
-                this.permissionLevel = rows[0].role_id;
-            else
-                this.permissionLevel = 0;
-        }
+        // at this point the user's data should be fetched
+        const permLevel = this.settings.data.level;
+
         // eval("5 <= 4") == false
         // eval("5 <= 6") == true
-        return eval(this.permissionLevel + condition + level);
+        return eval(permLevel + condition + level);
     }
 
     async isBanned() {
-        if (!this.banned) {
-            const [rows, fields] = await this._m.modules.db.pool.query('SELECT ban_id FROM core_users WHERE discord_id=?', this.id);
+        await this.settings.awaitData();
 
-            if (rows.length >= 1 && rows[0].ban_id)
-                this.banned = true;
-            else
-                this.banned = false;
-        }
+        if (!this.settings.data.ban_case) return false;
 
-        return this.banned;
-    }
-
-    toJSON() {
-        return flatten(this, {
-            user: false,
-
-            banned: true,
-            permissionLevel: true
-        });
+        return this.settings.data.ban_case.banned;
     }
 }
