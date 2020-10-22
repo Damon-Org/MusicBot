@@ -52,3 +52,6 @@
 [submodule "src/modules/ServerSetting"]
 	path = src/modules/ServerSetting
 	url = https://github.com/Damon-Org/ServerSetting
+[submodule "src/modules/UserSetting"]
+	path = src/modules/UserSetting
+	url = https://github.com/Damon-Org/UserSetting
