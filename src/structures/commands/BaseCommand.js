@@ -1,45 +1,107 @@
-import Discord from 'discord.js'
-import { Website } from '../../util/Constants.js'
-import log from '../../util/Log.js'
+import Discord, { MessageEmbed } from 'discord.js'
+import CommandArgument from './command/Argument.js'
 
 export default class BaseCommand {
+    _args = [];
+    _msg;
+    _instance;
+    raw = {};
+
     /**
-     * @param {Main} main The program entrypoint class
+     * @param {Main} main
      */
     constructor(main) {
         this._m = main;
     }
 
+/**
+ * Getters
+ */
     /**
-     * Makes a perfect clone of the command instance to prevent instance properties from being overwritten with async execution.
+     * @type {Discord}
+     */
+    get Discord() {
+        return Discord;
+    }
+
+    /**
+     * @type {Map}
+     */
+    get globalStorage() {
+        return this._m.globalStorage;
+    }
+
+    /**
+     * @type {Message}
+     */
+    get msgObj() {
+        return this._msg;
+    }
+
+    /**
+     * @type {GuildMember}
+     */
+    get serverMember() {
+        return this._msg?.member;
+    }
+
+    /**
+     * @type {Server}
+     */
+    get server() {
+        return this.servers.get(this._msg.guild);
+    }
+
+    /**
+     * @type {ServerManager}
+     */
+    get servers() {
+        return this._m.servers;
+    }
+
+    /**
+     * @type {TextChannel}
+     */
+    get textChannel() {
+        return this._msg?.channel;
+    }
+
+    /**
+     * @type {User}
+     */
+    get user() {
+        return this.users.get(this._msg.author);
+    }
+
+    /**
+     * @type {UserManager}
+     */
+    get users() {
+        this._m.userManager;
+    }
+
+    /**
+     * @type {VoiceChannel}
+     */
+    get voiceChannel() {
+        return this.serverMember?.voice.channel;
+    }
+
+/**
+ * Core Functionality Functions
+ */
+    /**
+     * Assigns all the arguments into one object
+     */
+    assign(...args) {
+        return Object.assign(...args);
+    }
+
+    /**
+     * Clones the command instance perfectly to keep different command flows seperated
      */
     clone() {
-        return new this.instance(this.category, this._m);
-    }
-
-    get modules() {
-        return this._m.modules;
-    }
-
-    /**
-     * @param {*} instance The parent instance of this class
-     * @param {Object} object
-     * @param {boolean} internal If this is the raw register object
-     */
-    register(instance, object, internal = true) {
-        if (typeof object !== 'object') throw new Error('Invalid self assignment, expected object but got different type instead.');
-
-        Object.assign(this, object);
-
-        if (internal) {
-            this.instance = instance;
-
-            delete object.category;
-            this.rawData = object;
-        }
-        else if (this.rawData) {
-            Object.assign(this.rawData, object);
-        }
+        return new this._instance(this.category, this._m);
     }
 
     /**
@@ -49,19 +111,16 @@ export default class BaseCommand {
      * @param {string} command The string that initiated this check
      * @param {boolean} mentioned If the command was activated through a mention
      */
-    async check(msgObj, args, command, mentioned) {
-        this.msgObj = msgObj;
-        this.args = args;
-
-        if (await this._isUserBanned()) return false;
+    async exec(msgObj, args, command, mentioned) {
+        this._msg = msgObj;
+        this._setArgs(args);
 
         if (mentioned) this._removeBotMention();
 
-        if (!await this._hasSystemPermission()) return false;
         if (!await this._canCommandRunInChannel(command)) return false;
         if (!await this._hasPermissions()) return false;
         if (!this._hasSelfPermissions()) return false;
-        if (!await this._argumentsSatisfied(command)) return false;
+        if (!this._argumentsSatisfied(command)) return false;
 
         try {
             if (typeof this.beforeRun === 'function' && !await this.beforeRun(command)) return false;
@@ -69,8 +128,6 @@ export default class BaseCommand {
             else return await this.run(command);
         } catch (e) {
             log.error('CMD', 'Check error occured:', e.stack);
-            e.ignore = true;
-            throw e;
         } finally {
             // Force our cleanup regardless of errors
             if (typeof this.afterRun === 'function') return await this.afterRun();
@@ -78,11 +135,28 @@ export default class BaseCommand {
     }
 
     /**
-     * Send message shorthands
+     * @param {Class} instance The utmost class instance of the command
+     * @param {Object} object The object containing all the command details, arguments, requirements, ...
+     * @param {boolean} [isInstance=true] If an instance is passed
      */
+    register(instance, object, isInstance = true) {
+        if (typeof object !== 'object') throw new Error('Invalid self assignment, expected object but got different type instead.');
+
+        this.assign(this, object);
+
+        if (!isInstance) return this.assign(this.raw, object);
+
+        this._instance = instance;
+
+        delete object.category;
+        this.raw = object;
+    }
+/**
+ * Shorthands
+ */
     async dm(p1, p2) {
         try {
-            return await this.user.send(p1, p2);
+            return await this._msg.author.send(p1, p2);
         } catch (e) {
             throw e;
         }
@@ -94,9 +168,8 @@ export default class BaseCommand {
 
     send(p1, p2, reply = false) {
         if (!this.textChannel.permissionsFor(this._m.user.id).has(['SEND_MESSAGES', 'ATTACH_FILES'])) {
-            const
-                guild = this.textChannel.guild,
-                embed = new this.Discord.MessageEmbed()
+            const guild = this.textChannel.guild;
+            const embed = new MessageEmbed()
                     .setAuthor(guild.name, guild.iconURL({size: 64}), `https://discordapp.com/channels/${guild.id}/${this.textChannel.id}`)
                     .setTitle('Missing permission')
                     .setDescription('I do not have permission to send messages or attach files.');
@@ -106,87 +179,53 @@ export default class BaseCommand {
         }
 
         if (reply) {
-            return this.msgObj.reply(p1, p2);
+            return this._msg.reply(p1, p2);
         }
         return this.textChannel.send(p1, p2);
     }
 
-    get globalStorage() {
-        return this._m.globalStorage;
-    }
-
-    get servers() {
-        return this._m.servers;
-    }
-
-    get users() {
-        return this._m.userManager;
-    }
-
+/**
+ * Private functions required for the proper execution of the command
+ */
     /**
-     * Discord Shorthands
+     * @param {string} title
+     * @returns {boolean} False by default
      */
-    get Discord() {
-        return Discord;
-    }
+    _argumentException(title) {
+        let description = '';
 
-     get serverMember() {
-        return this.msgObj?.member;
-    }
-    get user() {
-        return this.msgObj.author;
-    }
-    get textChannel() {
-        return this.msgObj.channel;
-    }
-    get voiceChannel() {
-        return this.serverMember?.voice.channel;
-    }
-    get server() {
-        return this.servers.get(this.msgObj.guild.id);
-    }
+        for (let i = 0; i < this._args.length; i++) {
+            const argument = this._args[i];
 
-    /**
-     * Checks if the amount of arguments given are enough for the command to execute properly, if not a warning message is given with a link to the documentation.
-     * @private
-     */
-    async _argumentsSatisfied(command) {
-        const embed = new Discord.MessageEmbed();
-        let exception = false;
+            if (!argument.valid()) break;
 
-        if (this.args.length > this.params.length && !this.params[0]) {
-            embed.setTitle('This command does not expect any arguments.');
-
-            exception = true;
+            description += `\`\`\`${argument.required ? 'md' : 'ini' }\n${argument.toUserString()}\`\`\``;
         }
 
-        for (let i = 0; i < this.args.length && !exception; i++) {
+        const embed = new MessageEmbed()
+            .setTitle(title)
+            .setDescription()
+            .setColor('#ff0000');
+
+        this._msg.channel.send(embed);
+
+        return false;
+    }
+
+    _argumentsSatisfied(command) {
+        if (this._args.length > this.params.length && !this.params[0]) {
+            return this._argumentException('This command does not expect any arguments.');
+        }
+
+        for (let i = 0; i < this._args.length; i++) {
             if (!this.params[i] && !this.params[i-1].allow_sentence) {
-                embed.setTitle('Too many arguments.');
-
-                exception = true;
-
-                break;
+                return this._argumentException('Too many arguments.');
             }
             if (this.params[i].allow_sentence) break;
 
-            if (i+1 == this.args.length && this.params[i+1] && this.params[i+1].required) {
-                embed.setTitle('Not enough arguments.');
-
-                exception = true;
-
-                break;
+            if (i+1 == this._args.length && this.params[i+1] && this.params[i+1].required) {
+                return this._argumentException('Not enough arguments.');
             }
-        }
-
-        if (exception) {
-            const prefix =  this.server.prefix;
-
-            embed.setDescription(`View the documentation of [this command on our site](${Website}/#/commands?c=${encodeURI(this.name)}&child=${encodeURI(command.replace(this.name, '').trim())}${prefix == this.globalStorage.get('prefix') ? '' : `&p=${encodeURI(prefix)}`})`);
-
-            this.textChannel.send(embed);
-
-            return false;
         }
 
         return true;
@@ -228,7 +267,7 @@ export default class BaseCommand {
 
         if (this.self_permission['channel'] || this.self_permission['text_channel'] || this.self_permission['voice_channel']) {
             if (this.voiceChannel && (this.self_permission['channel'] || this.self_permission['voice_channel']) && !this.voiceChannel.permissionsFor(this._m.user.id).has(this.self_permission['channel'] || this.self_permission['voice_channel'])) {
-                const embed = new Discord.MessageEmbed()
+                const embed = new MessageEmbed()
                     .setTitle("❌ Missing Permissions ❌")
                     .setDescription(`**__I__ don't have the __${this.self_permission['channel'] || this.self_permission['voice_channel']}__ permission**\nfor voice channel you're in.`)
                     .setColor("#ffff00")
@@ -238,7 +277,7 @@ export default class BaseCommand {
             }
 
             if ((this.self_permission['channel'] || this.self_permission['voice_channel']) && !this.textChannel.permissionsFor(this._m.user.id).has(this.self_permission['channel'] || this.self_permission['text_channel'])) {
-                const embed = new Discord.MessageEmbed()
+                const embed = new MessageEmbed()
                     .setTitle("❌ Missing Permissions ❌")
                     .setDescription(`**__I__ don't have the __${this.self_permission['channel'] || this.self_permission['text_channel']}__ permission**\nfor this text channel.`)
                     .setColor("#ffff00")
@@ -349,6 +388,15 @@ export default class BaseCommand {
     _removeBotMention() {
         if ((this.msgObj.content.match(new RegExp(`<@!?(${this._m.user.id})>`, 'g')) || []).length == 1) {
             this.msgObj.mentions.users.delete(this._m.user.id);
+        }
+    }
+
+    /**
+     * @param {string[]} args
+     */
+    _setArgs(args) {
+        for (let i = 0; i < args.length; i++) {
+            this._args[i] = new CommandArgument(args[i] || null, this.params[i] || null);
         }
     }
 }
