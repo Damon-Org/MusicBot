@@ -17,6 +17,10 @@ export default class BaseCommand {
 /**
  * Getters
  */
+    get args() {
+        return this._args;
+    }
+
     /**
      * @type {Discord}
      */
@@ -29,6 +33,10 @@ export default class BaseCommand {
      */
     get globalStorage() {
         return this._m.globalStorage;
+    }
+
+    get log() {
+        return this._m.log;
     }
 
     /**
@@ -120,14 +128,14 @@ export default class BaseCommand {
         if (!await this._canCommandRunInChannel(command)) return false;
         if (!await this._hasPermissions()) return false;
         if (!this._hasSelfPermissions()) return false;
-        if (!this._argumentsSatisfied(command)) return false;
+        if (!this._argumentsSatisfied()) return false;
 
         try {
             if (typeof this.beforeRun === 'function' && !await this.beforeRun(command)) return false;
             if (typeof this.afterRun === 'function') await this.run(command);
             else return await this.run(command);
         } catch (e) {
-            log.error('CMD', 'Check error occured:', e.stack);
+            this.log.error('CMD', 'Check error occured:', e.stack);
         } finally {
             // Force our cleanup regardless of errors
             if (typeof this.afterRun === 'function') return await this.afterRun();
@@ -194,6 +202,8 @@ export default class BaseCommand {
     _argumentException(title) {
         let description = '';
 
+        console.log('yes');
+
         for (let i = 0; i < this._args.length; i++) {
             const argument = this._args[i];
 
@@ -204,7 +214,7 @@ export default class BaseCommand {
 
         const embed = new MessageEmbed()
             .setTitle(title)
-            .setDescription()
+            .setDescription(description)
             .setColor('#ff0000');
 
         this._msg.channel.send(embed);
@@ -212,7 +222,7 @@ export default class BaseCommand {
         return false;
     }
 
-    _argumentsSatisfied(command) {
+    _argumentsSatisfied() {
         if (this._args.length > this.params.length && !this.params[0]) {
             return this._argumentException('This command does not expect any arguments.');
         }
@@ -396,6 +406,11 @@ export default class BaseCommand {
      */
     _setArgs(args) {
         for (let i = 0; i < args.length; i++) {
+            if (this.params[i].allow_sentence) {
+                this._args[i] = new CommandArgument(args.slice(i, args.length).join(' '), this.params || null);
+
+                break;
+            }
             this._args[i] = new CommandArgument(args[i] || null, this.params[i] || null);
         }
     }
