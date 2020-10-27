@@ -31,7 +31,7 @@ export default class CommandArgument {
                 this._parsed = new Number(this._arg);
                 break;
             default:
-
+                this._parsed = this._arg;
         }
     }
 
