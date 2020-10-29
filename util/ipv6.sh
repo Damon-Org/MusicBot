@@ -1,27 +1,67 @@
+#!/usr/bin/env bash
+
+script_path='/etc/ipv6.sh'
+test -f $script_path > /dev/null 2>&1
+if [[ $? -ne 0 ]]; then
+    echo "Creating startup script at $script_path"
+
+    cat $BASH_SOURCE > $script_path
+    chmod a+x $script_path
+
+    echo "Creating service..."
+    service_path='/etc/systemd/system/ip.service'
+    echo "[Unit]
+    Description=IPv6 NDPPD service
+
+    [Service]
+    User=root
+    ExecStart=$script_path
+    Restart=always
+
+    [Install]
+    WantedBy=multi-user.target" > $service_path
+
+    echo "Starting service..."
+    systemctl enable ip
+    systemctl start ip
+
+    exit 0
+fi
+
 ndppd_config="/etc/ndppd.conf"
-if test -f "$ndppd_config"; then
-    echo "ndppd has already been setup before, stopping setup..."
-    exit 2
+test -f $ndppd_config > /dev/null 2>&1
+if [[ $? -eq 0 ]]; then
+    echo "IPv6 Setup script has already been ran before, starting service..."
+
+    ipv6=$(curl -s6 http://icanhazip.com)
+
+    echo 1 > /proc/sys/net/ipv6/ip_nonlocal_bind
+    ip -6 route add local "$ipv6/64" dev lo
+
+    ndppd
+
+    exit 0
 fi
 
-apt update && apt upgrade -y
-apt install -y make g++ curl
+ipv6=$(curl -s6 http://icanhazip.com)
+if [[ $? -ne 0 ]]; then
+    echo "Failed to curl over IPv6 to http://icanhazip.com, does this machine have an IPv6 subnet?"
 
-wget https://github.com/DanielAdolfsson/ndppd/archive/0.2.5.tar.gz -O - | tar xz
-cd ndppd-0.2.5
-make
-make install
-
-ipv6=$(curl -6 http://icanhazip.com/)
-
-if [[ $ipv6 | grep -q '*curl:*']]; then
-    echo "Failed public IPv6 lookup"
-    exit 2
+    exit 1
 fi
 
-cd
+echo "IPv6 has been succesfully queried."
 
-echo "route-ttl 30000\r\n
+type -P ndppd > /dev/null 2>&1
+if [[ $? -ne 0 ]]; then
+    echo "ndppd is not installed, installing..."
+
+    apt update && apt install ndppd -y
+fi
+
+echo "Creating ndppd.conf"
+
+echo "route-ttl 30000
 proxy ens3 {
     router yes
     timeout 500
@@ -31,14 +71,11 @@ proxy ens3 {
     }
 }" > $ndppd_config
 
+echo "Enabling IPv6 non local binding..."
+
 echo 1 > /proc/sys/net/ipv6/ip_nonlocal_bind
 ip -6 route add local "$ipv6/64" dev lo
 
-ndppd -d
+echo "Startin ndppd daemon"
 
-echo "Installing cronjob for ndppd..."
-
-crontab -l > mycron
-echo "@reboot ndppd -d" >> mycron
-crontab mycron
-rm mycron
+ndppd
