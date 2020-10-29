@@ -36,30 +36,32 @@ export default class Volume extends MusicCommand {
      */
     async run(command) {
         if (this.music.isDamonInVC(this.voiceChannel)) {
-            if (this.args[0] == undefined || this.args[0].length == 0) {
+            const volume = this.args[0].toString();
+
+            if (volume == undefined || volume.length == 0) {
                 this.reply('please give a value, command format: `volume #number`.')
                     .then(msg => msg.delete({timeout: 5e3}));
 
                 return true;
             }
 
-            if (isNaN(this.args[0]) || this.args[0].includes(',')) {
+            if (isNaN(volume) || volume.includes(',')) {
                 this.reply('invalid volume level, make sure you give a number and that there\'s no `,` in that number.')
                     .then(msg => msg.delete({timeout: 5e3}));
 
                 return true;
             }
 
-            const volume = parseInt(this.args[0], 10);
-            if (volume < 5 || volume > 200) {
+            const vol = parseInt(volume);
+            if (vol < 5 || vol > 200) {
                 this.reply('invalid volume level, please give a value between 5 and 200')
                     .then(msg => msg.delete({timeout: 5e3}));
 
                 return true;
             }
 
-            if (this.music.setVolume(volume)) {
-                this.send(`Volume level has been changed to \`${volume}\`.`);
+            if (this.music.setVolume(vol)) {
+                this.send(`Volume level has been changed to \`${vol}\`.`);
 
                 return true;
             }
