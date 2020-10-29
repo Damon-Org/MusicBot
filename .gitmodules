@@ -4,12 +4,6 @@
 [submodule "src/modules/CommandRegistrar"]
 	path = src/modules/CommandRegistrar
 	url = https://github.com/Damon-Org/CommandRegistrar
-[submodule "src/modules/DB"]
-	path = src/modules/DB
-	url = https://github.com/Damon-Org/DB
-[submodule "src/modules/GuildSettings"]
-	path = src/modules/GuildSettings
-	url = https://github.com/Damon-Org/GuildSettings
 [submodule "src/modules/LavaLink"]
 	path = src/modules/LavaLink
 	url = https://github.com/Damon-Org/LavaLink
