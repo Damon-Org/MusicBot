@@ -1,4 +1,7 @@
 {
+    "admin": {
+        "commands": []
+    },
     "dj": {
         "commands": [],
         "children": {
@@ -322,7 +325,7 @@
                 "aliases": [
                     "eq"
                 ],
-                "description": "Change the equalizer to one of the presets.",
+                "description": "Change the equalizer of the music player, do d!equalizer to get the equalizer presets that are available.",
                 "usage": "eq <preset>",
                 "params": [
                     {
@@ -342,7 +345,7 @@
                     "exit",
                     "stop"
                 ],
-                "description": "Bot will stop music playback and leave channel",
+                "description": "Make the bot leave the voice channel.",
                 "usage": "leave",
                 "params": [],
                 "example": "leave"
@@ -351,7 +354,7 @@
                 "guild_only": true,
                 "name": "pause",
                 "aliases": [],
-                "description": "Music playback will be paused.",
+                "description": "Pause music playback, use d!resume to resume playback.",
                 "usage": "pause",
                 "params": [],
                 "example": "pause"
@@ -362,12 +365,12 @@
                 "aliases": [
                     "p"
                 ],
-                "description": "Adds the song you request to queue and plays it.",
+                "description": "Search a song on YouTube or give a link from YouTube, SoundCloud, Spotify... to add to the queue.",
                 "usage": "play <search>",
                 "params": [
                     {
                         "name": "search",
-                        "description": "Search on YouTube or use a YouTube link.",
+                        "description": "Search on YouTube or use a link to add to the queue.",
                         "type": "string",
                         "required": true,
                         "allow_sentence": true
@@ -401,7 +404,7 @@
                 "aliases": [
                     "pt"
                 ],
-                "description": "Shows how long the bot has been playing music.",
+                "description": "Returns how long the bot has been playing audio for.",
                 "usage": "playtime",
                 "params": [],
                 "example": "playtime"
@@ -412,7 +415,7 @@
                 "aliases": [
                     "back"
                 ],
-                "description": "Will start playing the previous song in queue.",
+                "description": "Play the previous song in queue.",
                 "usage": "previous",
                 "params": [],
                 "example": "previous"
@@ -423,7 +426,7 @@
                 "aliases": [
                     "q"
                 ],
-                "description": "Will show a queue of all songs.",
+                "description": "Show all the queue'd songs",
                 "usage": "queue [page-number]",
                 "params": [
                     {
@@ -443,8 +446,8 @@
                     "remove song",
                     "removesong"
                 ],
-                "description": "Removes a song from the queue",
-                "usage": "remove [song-number]",
+                "description": "Remove a song by giving the number of the song in queue.",
+                "usage": "remove [#queue-number]",
                 "params": [
                     {
                         "name": "song-number",
@@ -461,7 +464,7 @@
                 "aliases": [
                     "loop"
                 ],
-                "description": "Will repeat the currently playing song.",
+                "description": "Repeat the active song.",
                 "usage": "repeat",
                 "params": [],
                 "example": "repeat"
@@ -495,7 +498,7 @@
                 "guild_only": true,
                 "name": "restart",
                 "aliases": [],
-                "description": "The queue will be rewinded to the start.",
+                "description": "Stop music playback and start playing from the start of the queue.",
                 "usage": "leave",
                 "params": [],
                 "example": "restart"
@@ -504,7 +507,7 @@
                 "guild_only": true,
                 "name": "resume",
                 "aliases": [],
-                "description": "Music playback will be resumed.",
+                "description": "Resume music playback.",
                 "usage": "resume",
                 "params": [],
                 "example": "resume"
@@ -513,7 +516,7 @@
                 "guild_only": true,
                 "name": "reverse",
                 "aliases": [],
-                "description": "Reverse the queue.",
+                "description": "Reverse the queue, use d!restart to make the queue start from the beginning.",
                 "usage": "reverse",
                 "params": [],
                 "example": "reverse"
@@ -522,7 +525,7 @@
                 "guild_only": true,
                 "name": "shuffle",
                 "aliases": [],
-                "description": "Shuffle songs in queue.",
+                "description": "Shuffle all the songs currently in the queue.",
                 "usage": "shuffle",
                 "params": [],
                 "example": "shuffle"
@@ -534,7 +537,7 @@
                     "next",
                     "s"
                 ],
-                "description": "Will skip the currently playing song.",
+                "description": "Skip the active song and start playing the next in queue.",
                 "usage": "skip",
                 "params": [],
                 "example": "skip"
@@ -545,7 +548,7 @@
                 "aliases": [
                     "skipto"
                 ],
-                "description": "Removes a song from the queue",
+                "description": "Skip to a specific song nummer in queue.",
                 "usage": "skip to <#queue-number>",
                 "params": [
                     {
@@ -564,7 +567,7 @@
                     "vol",
                     "v"
                 ],
-                "description": "Change the music volume.",
+                "description": "Change the volume of the music player.",
                 "usage": "volume [volume]",
                 "params": [
                     {
