@@ -22,6 +22,8 @@ export default class Main extends DiscordClient {
     constructor(root_dir, token) {
         super(config.client_options);
 
+        this.bootUp = Date.now();
+
         Object.assign(this, {
             auth,
             config,
