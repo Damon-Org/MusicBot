@@ -49,18 +49,25 @@ export default class Lock extends BaseCommand {
     async run(command) {
         const
             channel = this.msgObj.mentions.channels.first() || this.textChannel,
-            type = this.args[0];
+            type = this.args[0].toString();
 
-        if (type == 'music') {
-            this.server.options.update('lockMusicChannel', channel.id);
-            this.server._lockedChannels['music'] = channel.id;
+        if (['dj', 'music'].includes(type)) {
+            const otherChannels = this.server.setting.data.lockedChannels.filter(lockedChannel => lockedChannel.category !== type);
+            otherChannels.push({
+                category: type,
+                channelId: channel.id
+            });
+
+            await this.server.setting.update({
+                lockedChannels: otherChannels
+            });
 
             this.reply(`channel lock has been enabled for ${type} on channel ${channel}`);
 
             return true;
         }
 
-        this.reply(`unknown category "${type}", try again with a valid category.`);
+        this.reply(`unknown category "${type}", try again with a valid command category.`);
 
         return true;
     }
