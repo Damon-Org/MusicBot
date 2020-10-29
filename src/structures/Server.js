@@ -1,5 +1,4 @@
 import LocalUserStorage from './server/LocalUserStorage.js'
-import ServerOptions from './server/ServerOptions.js'
 
 export default class Server {
     constructor(main, guild) {
@@ -8,8 +7,6 @@ export default class Server {
         this.guild = guild;
 
         this.localUsers = new LocalUserStorage();
-
-        this.options = new ServerOptions(main, this);
 
         this._initServerModules();
     }
