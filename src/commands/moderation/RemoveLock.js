@@ -45,18 +45,21 @@ export default class RemoveLock extends BaseCommand {
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        const type = this.args[0];
+        const type = this.args[0].toString();
 
-        if (type == 'music') {
-            this.server.options.delete('lockMusicChannel');
-            this.server._lockedChannels['music'] = null;
+        if (['dj', 'music'].includes(type)) {
+            const otherChannels = this.server.setting.data.lockedChannels.filter(lockedChannel => lockedChannel.category !== type);
+
+            await this.server.setting.update({
+                lockedChannels: otherChannels
+            });
 
             this.reply(`channel lock has been disabled for ${type}.`);
 
             return true;
         }
 
-        this.reply(`unknown category "${type}", try again with a valid category.`);
+        this.reply(`unknown category "${type}", try again with a valid command category.`);
 
         return true;
     }

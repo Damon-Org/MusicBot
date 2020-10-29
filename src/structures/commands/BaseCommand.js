@@ -255,8 +255,8 @@ export default class BaseCommand {
             return false;
         }
 
-        const lockedChannel = (await this.server.getLockedChannels())[this.category];
-        if (lockedChannel == undefined || lockedChannel == null || lockedChannel == 'null' || lockedChannel == this.textChannel.id) {
+        const lockedChannel = await this.server.getLockedChannelForCategory(this.category);
+        if (!lockedChannel || lockedChannel === this.textChannel.id) {
             return true;
         }
 

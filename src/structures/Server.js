@@ -29,15 +29,12 @@ export default class Server {
         return this.guild.id;
     }
 
-    async getLockedChannels() {
-        if (!this._lockedChannels) {
-            const music = await this.options.get(1);
+    /**
+     * @param {string} category
+     */
+    async getLockedChannelForCategory(category) {
+        await this.setting.awaitData();
 
-            this._lockedChannels = {
-                music: music
-            };
-        }
-
-        return this._lockedChannels;
+        return this.setting.data.lockedChannels.find(lockedChannel => lockedChannel.category === category)?.channelId;
     }
 }
