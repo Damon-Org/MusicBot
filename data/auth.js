@@ -10,27 +10,37 @@ export default {
                 "clientSecret": "4de0243f5d864a3dbbfb81af5901a57d"
             }
         },
-        "db": {
+        "mongodb": {
             "prod": {
-                "connectionLimit": 5000,
-                "host": "home.damon.sh",
-                "user": "db_admin",
-                "password": "s7E1$EA41%$vu6",
-                "database": "damon_new",
-                "debug": false,
-                "supportBigNumbers": true,
-                "bigNumberStrings": true
+                "auth": {
+                    "host": "home.damon.sh",
+                    "user": "db_chirp_user",
+                    "password": "ZuayQE6x7WJM97I8CxrpuSmpSgFC0cJO",
+                    "database": "chirp",
+                    "port": "27017"
+                },
+                "options": {
+                    "useNewUrlParser": true,
+                    "useUnifiedTopology": true,
+                    "useFindAndModify": false,
+                    "useCreateIndex": true
+                }
             },
             "dev": {
-                "connectionLimit": 100,
-                "host": "home.damon.sh",
-                "user": "db_admin",
-                "password": "s7E1$EA41%$vu6",
-                "database": "damon_new",
-                "debug": false,
-                "supportBigNumbers": true,
-                "bigNumberStrings": true
-            }
+                "auth": {
+                    "host": "home.damon.sh",
+                    "user": "db_chirp_user",
+                    "password": "ZuayQE6x7WJM97I8CxrpuSmpSgFC0cJO",
+                    "database": "chirp",
+                    "port": "27017"
+                },
+                "options": {
+                    "useNewUrlParser": true,
+                    "useUnifiedTopology": true,
+                    "useFindAndModify": false,
+                    "useCreateIndex": true
+                }
+            },
         },
 
         "lavalink": [
