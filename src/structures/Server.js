@@ -1,25 +1,17 @@
+import Scope from './Scope.js'
 import LocalUserStorage from './server/LocalUserStorage.js'
 
-export default class Server {
+export default class Server extends Scope {
     constructor(main, guild) {
+        super();
+
         this._m = main;
 
         this.guild = guild;
 
         this.localUsers = new LocalUserStorage();
 
-        this._initServerModules();
-    }
-
-    /**
-     * Initializes all registered server modules and clones their instances into the server class
-     */
-    _initServerModules() {
-        const modules = this._m.modules.getScope('server');
-
-        for (const [ name, module ] of modules) {
-            this[name] = module.clone(this);
-        }
+        this.initScope('server');
     }
 
     get id() {
@@ -30,8 +22,8 @@ export default class Server {
      * @param {string} category
      */
     async getLockedChannelForCategory(category) {
-        await this.setting.awaitData();
+        await this.settings.awaitData();
 
-        return this.setting.data.lockedChannels.find(lockedChannel => lockedChannel.category === category)?.channelId;
+        return this.settings.data.lockedChannels.find(lockedChannel => lockedChannel.category === category)?.channelId;
     }
 }

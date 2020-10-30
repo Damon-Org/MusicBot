@@ -1,25 +1,18 @@
-export default class User {
+import Scope from './Scope.js'
+
+export default class User extends Scope {
     /**
      * @param {Main} main
      * @param {User} user
      */
     constructor(main, user) {
+        super();
+
         this._m = main;
 
         this.user = user;
 
-        this._initUserModules();
-    }
-
-    /**
-     * Initializes all registered server modules and clones their instances into the server class
-     */
-    _initUserModules() {
-        const modules = this._m.modules.getScope('user');
-
-        for (const [ name, module ] of modules) {
-            this[name] = module.clone(this);
-        }
+        this.initScope('user');
     }
 
     get id() {
