@@ -52,13 +52,13 @@ export default class Lock extends BaseCommand {
             type = this.args[0].toString();
 
         if (['dj', 'music'].includes(type)) {
-            const otherChannels = this.server.setting.data.lockedChannels.filter(lockedChannel => lockedChannel.category !== type);
+            const otherChannels = this.server.settings.data.lockedChannels.filter(lockedChannel => lockedChannel.category !== type);
             otherChannels.push({
                 category: type,
                 channelId: channel.id
             });
 
-            await this.server.setting.update({
+            await this.server.settings.update({
                 lockedChannels: otherChannels
             });
 

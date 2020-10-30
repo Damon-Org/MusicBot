@@ -38,7 +38,7 @@ export default class ResetPrefix extends BaseCommand {
      */
     async run(command) {
         const
-            oldPrefix = this.server.setting.data.prefix,
+            oldPrefix = this.server.settings.data.prefix,
             prefix = this.globalStorage.get('prefix');
 
         if (oldPrefix == prefix) {
@@ -47,7 +47,7 @@ export default class ResetPrefix extends BaseCommand {
             return true;
         }
 
-        await this.server.setting.update({ prefix });
+        await this.server.settings.update({ prefix });
 
         this.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${prefix}\``)
             .then(msg => msg.pin());

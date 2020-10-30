@@ -48,7 +48,7 @@ export default class SetPrefix extends BaseCommand {
         const defaultPrefix = this.globalStorage.get('prefix');
 
         if (!prefix || prefix == defaultPrefix) {
-            await this.server.setting.update({ prefix });
+            await this.server.settings.update({ prefix });
 
             this.send(`The command prefix for **Damon Music** has been reset to the default prefix \`${defaultPrefix}\``)
                 .then(msg => msg.pin());
@@ -57,7 +57,7 @@ export default class SetPrefix extends BaseCommand {
         }
 
         if (/^[\x00-\x7F]*$/.test(prefix) && prefix.length <= 6) {
-            let oldPrefix = this.server.setting.data?.prefix;
+            let oldPrefix = this.server.settings.data?.prefix;
             if (!oldPrefix) oldPrefix = this.globalStorage.get('prefix');
 
             if (oldPrefix == prefix) {
@@ -67,7 +67,7 @@ export default class SetPrefix extends BaseCommand {
                 return true;
             }
 
-            await this.server.setting.update({ prefix });
+            await this.server.settings.update({ prefix });
 
             this.send(`The command prefix for **Damon Music** has been changed in this server has been changed from \`${oldPrefix}\` to \`${prefix}\``)
                 .then(msg => msg.pin());
