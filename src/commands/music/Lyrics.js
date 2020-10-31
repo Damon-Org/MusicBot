@@ -18,14 +18,14 @@ export default class Lyrics extends MusicCommand {
             aliases: [
                 'l'
             ],
-            description: 'Finds the lyrics of the given song.',
-            usage: 'lyrics <query>',
+            description: 'Finds the lyrics of the current song, or searches lyrics for a given song.',
+            usage: 'lyrics <query (optional)>',
             params: [
                 {
                     name: 'query',
                     description: 'E.g. The name of the artist and the song.',
                     type: 'string',
-                    required: true,
+                    required: false,
                     allow_sentence: true
                 }
             ],
