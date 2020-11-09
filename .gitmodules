@@ -49,3 +49,6 @@
 [submodule "src/modules/UserSetting"]
 	path = src/modules/UserSetting
 	url = https://github.com/Damon-Org/UserSetting
+[submodule "src/modules/Lyrics"]
+	path = src/modules/Lyrics
+	url = https://github.com/Damon-Org/Lyrics
