@@ -35,8 +35,15 @@ export default class BaseCommand {
         return this._m.globalStorage;
     }
 
+    /**
+     * @type {Log}
+     */
     get log() {
         return this._m.log;
+    }
+
+    get modules() {
+        return this._m.modules;
     }
 
     /**
