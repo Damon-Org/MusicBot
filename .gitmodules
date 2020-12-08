@@ -52,3 +52,6 @@
 [submodule "src/modules/Lyrics"]
 	path = src/modules/Lyrics
 	url = https://github.com/Damon-Org/Lyrics
+[submodule "src/modules/CasaLinkClient"]
+	path = src/modules/CasaLinkClient
+	url = https://github.com/Damon-Org/CasaLinkClient
