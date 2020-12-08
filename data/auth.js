@@ -10,6 +10,16 @@ export default {
                 "clientSecret": "4de0243f5d864a3dbbfb81af5901a57d"
             }
         },
+
+        "casalink": [
+            {
+                "name": "CasaLink_Test",
+                "host": "127.0.0.1",
+                "port": 13333,
+                "token": "DsBEHzSssAc8oOEwZdRk7UM374c8KZM0"
+            }
+        ],
+
         "mongodb": {
             "prod": {
                 "auth": {
