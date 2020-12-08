@@ -4,13 +4,15 @@ import MusicCommand from '../../structures/commands/MusicCommand.js'
 
 export default class Lyrics extends MusicCommand {
     /**
-     * @param {String} category
-     * @param {Array<String>} args
+     * @param {string} category
+     * @param {Array<*>} args
      */
     constructor(category, ...args) {
         super(...args);
 
         this.register(Lyrics, {
+            disabled: true,
+
             category: category,
             guild_only: true,
 
@@ -34,14 +36,13 @@ export default class Lyrics extends MusicCommand {
     }
 
     /**
-     * @param {String} command string representing what triggered the command
+     * @param {string} command string representing what triggered the command
      */
     async run(command) {
         const active = this.music.queue.active();
 
-        let title = null,
-            artist = null,
-            lyric = null;
+        let title = null;
+        let lyric = null;
 
         if (this.args.length == 0) {
             if (active === null) {
@@ -51,18 +52,17 @@ export default class Lyrics extends MusicCommand {
                 return false;
             }
 
-            title = active.name;
-            artist = active.artists[0].name;
+            title = active.title;
         }
 
-        if (title && artist)
-            lyric = await this._m.modules.lyrics.fetch(`${title} ${artist}`);
+        if (title)
+            lyric = await this.modules.lyrics.fetch(title);
         else
-            lyric = await this._m.modules.lyrics.fetch(this.args);
+            lyric = await this.modules.lyrics.fetch(this.args.join(' '));
 
         if (!lyric) {
-             this.reply('Could not find any lyrics for that song.')
-                    .then(msg => msg.delete({timeout: 5e3}));
+            this.reply('Could not find any lyrics for that song.')
+                .then(msg => msg.delete({timeout: 5e3}));
 
             return false;
         }
@@ -70,11 +70,11 @@ export default class Lyrics extends MusicCommand {
         // TODO: Prevent it from cutting words in half
         for (let i = 0; i < lyric.length; i++) {
             const richEmbed = new MessageEmbed()
-                    .setDescription(lyric[i])
-                    .setColor('#ff6038');
+                .setDescription(lyric[i])
+                .setColor('#ff6038');
 
             if (i === 0)
-                richEmbed.setTitle(`Lyrics for ${(title && artist) ? title + ' - ' + artist : this.args}`);
+                richEmbed.setTitle(`Lyrics for ${title ? title : this.args.join(' ')}`);
 
             this.reply(richEmbed);
         }
