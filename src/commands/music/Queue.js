@@ -38,9 +38,8 @@ export default class Queue extends BaseCommand {
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        const
-            server = this.msgObj.guild,
-            maxPrequeue = this.music.queue.maxPrequeue;
+        const server = this.msgObj.guild;
+        const maxPrequeue = this.music.queue.maxPrequeue;
 
         if (!this.music.queueExists()) {
             this.reply('No music is playing currently.')
@@ -50,24 +49,24 @@ export default class Queue extends BaseCommand {
         }
 
         const pageSize = 10;
-        let
-            page = 0,
-            bottomLimit = 0,
-            topLimit = 0;
+        const number = this.args[0].toString();
+        let page = 0;
+        let bottomLimit = 0;
+        let topLimit = 0;
 
-        if (this.args[0] == undefined || this.args[0].length == 0) {
-            bottomLimit = maxPrequeue + (pageSize * page) - (pageSize / 2),
+        if (number == undefined || number.length == 0) {
+            bottomLimit = maxPrequeue + (pageSize * page) - (pageSize / 2);
             topLimit = maxPrequeue + (pageSize * page) + (pageSize / 2);
         }
         else {
-            if (isNaN(this.args[0]) || this.args[0].includes('.') || this.args[0].includes(',')) {
+            if (isNaN(number) || number.includes('.') || number.includes(',')) {
                 this.reply('sorry, I can\'t seem to find any tracks on the page you gave me.')
                     .then(msg => msg.delete({timeout: 5e3}));
 
                 return true;
             }
 
-            page = parseInt(this.args[0]);
+            page = parseInt(number);
 
             if (page > 0) {
                 page--;
