@@ -43,8 +43,6 @@ export default class PlayNext extends MusicCommand {
             return false;
         }
 
-        const noticeMsg = this.send('🔍 `Looking up your request...` 🔍');
-
-        return this.music.util.handleRequest(this.args, this.msgObj, this.serverMember, this.voiceChannel, noticeMsg, true);
+        return this.music.handle(this.args, this.msgObj, this.serverMember, this.voiceChannel, true);
     }
 }

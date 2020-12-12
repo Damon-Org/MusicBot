@@ -41,7 +41,7 @@ export default class Queue extends BaseCommand {
         const server = this.msgObj.guild;
         const maxPrequeue = this.music.queue.maxPrequeue;
 
-        if (!this.music.queueExists()) {
+        if (!this.music.active()) {
             this.reply('No music is playing currently.')
                 .then(msg => msg.delete({timeout: 5e3}));
 
@@ -49,12 +49,12 @@ export default class Queue extends BaseCommand {
         }
 
         const pageSize = 10;
-        const number = this.args[0].toString();
+        const number = this.args[0] ? this.args[0].toString() : null;
         let page = 0;
         let bottomLimit = 0;
         let topLimit = 0;
 
-        if (number == undefined || number.length == 0) {
+        if (!number || number.length == 0) {
             bottomLimit = maxPrequeue + (pageSize * page) - (pageSize / 2);
             topLimit = maxPrequeue + (pageSize * page) + (pageSize / 2);
         }
@@ -84,7 +84,7 @@ export default class Queue extends BaseCommand {
             }
         }
 
-        if (this.music.queueExists()) {
+        if (this.music.active()) {
             const length = this.music.queue.length;
             let embedDescription = '';
 

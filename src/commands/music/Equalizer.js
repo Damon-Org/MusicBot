@@ -37,7 +37,7 @@ export default class Equalizer extends MusicCommand {
      * @param {string} command string representing what triggered the command
      */
     async run(command) {
-        if (this.music.isDamonInVC(this.voiceChannel) && this.music.queueExists()) {
+        if (this.music.isDamonInVC(this.voiceChannel) && this.music.active()) {
             const preset = this.eqBands[this.args[0]];
 
             if (!preset) {

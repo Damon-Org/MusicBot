@@ -2,8 +2,8 @@ import MusicCommand from '../../structures/commands/MusicCommand.js'
 
 export default class Play extends MusicCommand {
     /**
-     * @param {String} category
-     * @param {Array<String>} args
+     * @param {string} category
+     * @param {Array<string>} args
      */
     constructor(category, ...args) {
         super(...args);
@@ -32,7 +32,7 @@ export default class Play extends MusicCommand {
     }
 
     /**
-     * @param {String} command string representing what triggered the command
+     * @param {string} command string representing what triggered the command
      */
     async run(command) {
         if (this.args.length == 0) {
@@ -42,8 +42,6 @@ export default class Play extends MusicCommand {
             return false;
         }
 
-        const noticeMsg = this.send('🔍 `Looking up your request...` 🔍');
-
-        return this.music.util.handleRequest(this.args, this.msgObj, this.serverMember, this.voiceChannel, noticeMsg);
+        return this.music.handle(this.args, this.msgObj, this.serverMember, this.voiceChannel);
     }
 }

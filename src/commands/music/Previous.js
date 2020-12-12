@@ -28,7 +28,7 @@ export default class Previous extends MusicCommand {
      */
     async run(command) {
         if (this.music.isDamonInVC(this.voiceChannel)) {
-            this.music.playPrevious();
+            this.music.playPreviousTrack();
 
             this.msgObj.react('⏮️');
 

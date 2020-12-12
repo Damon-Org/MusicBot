@@ -34,7 +34,7 @@ export default class DJLock extends DJCommand {
             return true;
         }
 
-        if (!this.music.queueExists()) {
+        if (!this.music.active()) {
             this.reply('tell me to play some music for you before using this command. 🎵')
                 .then(msg => msg.delete({timeout: 5e3}));
 

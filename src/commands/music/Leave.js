@@ -29,14 +29,14 @@ export default class Leave extends MusicCommand {
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        if (!this.voiceChannel && !this.music.shutdown.type()) {
+        if (!this.voiceChannel && !this.music.shutdown.type) {
             this.reply('where are you? I can\'t seem to find you in any voice channel. <:thinking_hard:560389998806040586>')
                 .then(msg => msg.delete({timeout: 5e3}));
 
             return true;
         }
 
-        if (this.music.isDamonInVC(this.voiceChannel) || this.music.shutdown.type()) {
+        if (this.music.isDamonInVC(this.voiceChannel) || this.music.shutdown.type) {
             this.msgObj.react('👋');
 
             this.music.shutdown.instant();
