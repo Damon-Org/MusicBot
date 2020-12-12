@@ -40,7 +40,7 @@ export default class DJCommand extends BaseCommand {
     }
 
     permission() {
-        if (this.music.queueExists() && !this.dj.has(this.serverMember.id)) {
+        if (this.music.active() && !this.dj.has(this.serverMember.id)) {
             this.reply(`you aren't the DJ right now, ask the active DJ to add you with \`dj add ${this.serverMember}\``)
                 .then(msg => msg.delete({timeout: 7e3}));
 

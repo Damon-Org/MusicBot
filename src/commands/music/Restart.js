@@ -15,7 +15,7 @@ export default class Restart extends MusicCommand {
             name: 'restart',
             aliases: [],
             description: 'Stop music playback and start playing from the start of the queue.',
-            usage: 'leave',
+            usage: 'restart',
             params: [],
             example: 'restart'
         });
@@ -25,17 +25,17 @@ export default class Restart extends MusicCommand {
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        if (this.music.isDamonInVC(this.voiceChannel) && this.music.queueExists()) {
+        if (this.music.isDamonInVC(this.voiceChannel) && this.music.active()) {
             this.send('The queue has been reset to the start.');
 
             this.music.queue.rewind();
-            this.music.doNotSkip = true;
+            this.music.setState('SWITCHING');
 
             this.music.repeat = false;
 
-            if (this.music.shutdown.type() == 'leave') {
+            if (this.music.shutdown.type == 'leave') {
                 this.music.shutdown.cancel();
-                this.music.playNext();
+                this.music.playNextTrack();
 
                 return true;
             }

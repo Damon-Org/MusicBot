@@ -46,7 +46,7 @@ export default class DJMode extends DJCommand {
             return;
         }
 
-        if (!this.music.queueExists()) {
+        if (!this.music.active()) {
             this.send('The DJ mode can only be changed while music is playing.')
                 .then(msg => msg.delete({timeout: 5e3}));
 

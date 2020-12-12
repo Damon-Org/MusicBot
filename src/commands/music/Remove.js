@@ -19,13 +19,14 @@ export default class Remove extends MusicCommand {
                 'removesong'
             ],
             description: 'Remove a song by giving the number of the song in queue.',
-            usage: 'remove [#queue-number]',
+            usage: 'remove [query]',
             params: [
                 {
-                    name: 'song-number',
-                    description: 'Number of a song in queuer',
-                    type: 'number',
-                    default: 'Will remove the currently playing song from queue'
+                    name: 'query',
+                    description: 'Title of the song or the queue number',
+                    type: 'string',
+                    default: 'Will remove the currently playing song from queue',
+                    allow_sentence: true
                 }
             ],
             example: 'remove 3'
@@ -37,19 +38,15 @@ export default class Remove extends MusicCommand {
      */
     async run(command) {
         if (this.music.isDamonInVC(this.voiceChannel)) {
-            if (this.music.removeSong(this.args[0])) {
-                if (!this.args[0] || this.args[0] == '' || this.args[0] == 1) {
-                    this.reply('the currently playing song has been removed.');
+            const track = this.music.removeSong(this.args[0]);
 
-                    return true;
-                }
-
-                this.reply('the selected song has been removed.');
+            if (track) {
+                this.reply(`removed **${track.title}** from the queue.`);
 
                 return true;
             }
 
-            this.reply(`invalid song number. \nThe number of the song has to exist in queue, check queue with ${this.server.prefix}q <# page number>.`)
+            this.reply('invalid track title or invalid queue number.')
                 .then(msg => msg.delete({timeout: 5e3}));
 
             return true;

@@ -12,7 +12,7 @@ export default class MusicCommand extends DJCommand {
             return false;
         }
 
-        if (this.music.queueExists()) {
+        if (this.music.active()) {
             const voiceChannel = this.music.voiceChannel;
             if (!voiceChannel) {
                 this.music.reset();
