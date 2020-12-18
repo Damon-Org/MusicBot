@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 script_path='/etc/ipv6.sh'
+subnet_size='64'
+
+service_name='ip'
+service_path="/etc/systemd/system/$service_name.service"
+
+
 test -f $script_path > /dev/null 2>&1
 if [[ $? -ne 0 ]]; then
     echo "Creating startup script at $script_path"
@@ -9,7 +15,7 @@ if [[ $? -ne 0 ]]; then
     chmod a+x $script_path
 
     echo "Creating service..."
-    service_path='/etc/systemd/system/ip.service'
+
     echo "[Unit]
     Description=IPv6 NDPPD service
 
@@ -22,8 +28,8 @@ if [[ $? -ne 0 ]]; then
     WantedBy=multi-user.target" > $service_path
 
     echo "Starting service..."
-    systemctl enable ip
-    systemctl start ip
+    systemctl enable $service_name
+    systemctl start $service_name
 
     exit 0
 fi
@@ -36,7 +42,7 @@ if [[ $? -eq 0 ]]; then
     ipv6=$(curl -s6 http://icanhazip.com)
 
     echo 1 > /proc/sys/net/ipv6/ip_nonlocal_bind
-    ip -6 route add local "$ipv6/64" dev lo
+    ip -6 route add local "$ipv6/$subnet_size" dev lo
 
     ndppd
 
@@ -66,7 +72,7 @@ proxy ens3 {
     router yes
     timeout 500
     ttl 30000
-    rule $ipv6/64 {
+    rule $ipv6/$subnet_size {
         static
     }
 }" > $ndppd_config
@@ -74,8 +80,8 @@ proxy ens3 {
 echo "Enabling IPv6 non local binding..."
 
 echo 1 > /proc/sys/net/ipv6/ip_nonlocal_bind
-ip -6 route add local "$ipv6/64" dev lo
+ip -6 route add local "$ipv6/$subnet_size" dev lo
 
-echo "Startin ndppd daemon"
+echo "Starting ndppd daemon"
 
 ndppd
