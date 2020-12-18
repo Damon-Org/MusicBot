@@ -352,6 +352,25 @@
             },
             {
                 "guild_only": true,
+                "name": "lyrics",
+                "aliases": [
+                    "l"
+                ],
+                "description": "Finds the lyrics of the current song, or searches lyrics for a given song.",
+                "usage": "lyrics <query (optional)>",
+                "params": [
+                    {
+                        "name": "query",
+                        "description": "E.g. The name of the artist and the song.",
+                        "type": "string",
+                        "required": false,
+                        "allow_sentence": true
+                    }
+                ],
+                "example": "lyrics Alvaro Soler La Cintura"
+            },
+            {
+                "guild_only": true,
                 "name": "pause",
                 "aliases": [],
                 "description": "Pause music playback, use d!resume to resume playback.",
@@ -578,6 +597,27 @@
                     }
                 ],
                 "example": "volume 50"
+            }
+        ]
+    },
+    "tests": {
+        "commands": [
+            {
+                "guild_only": true,
+                "name": "test",
+                "aliases": [],
+                "description": "Finds the lyrics of the current song, or searches lyrics for a given song.",
+                "usage": "lyrics <query (optional)>",
+                "params": [
+                    {
+                        "name": "query",
+                        "description": "E.g. The name of the artist and the song.",
+                        "type": "string",
+                        "required": false,
+                        "allow_sentence": true
+                    }
+                ],
+                "example": "lyrics Alvaro Soler La Cintura"
             }
         ]
     }
