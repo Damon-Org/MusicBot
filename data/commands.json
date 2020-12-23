@@ -352,25 +352,6 @@
             },
             {
                 "guild_only": true,
-                "name": "lyrics",
-                "aliases": [
-                    "l"
-                ],
-                "description": "Finds the lyrics of the current song, or searches lyrics for a given song.",
-                "usage": "lyrics <query (optional)>",
-                "params": [
-                    {
-                        "name": "query",
-                        "description": "E.g. The name of the artist and the song.",
-                        "type": "string",
-                        "required": false,
-                        "allow_sentence": true
-                    }
-                ],
-                "example": "lyrics Alvaro Soler La Cintura"
-            },
-            {
-                "guild_only": true,
                 "name": "pause",
                 "aliases": [],
                 "description": "Pause music playback, use d!resume to resume playback.",
@@ -466,13 +447,14 @@
                     "removesong"
                 ],
                 "description": "Remove a song by giving the number of the song in queue.",
-                "usage": "remove [#queue-number]",
+                "usage": "remove [query]",
                 "params": [
                     {
-                        "name": "song-number",
-                        "description": "Number of a song in queuer",
-                        "type": "number",
-                        "default": "Will remove the currently playing song from queue"
+                        "name": "query",
+                        "description": "Title of the song or the queue number",
+                        "type": "string",
+                        "default": "Will remove the currently playing song from queue",
+                        "allow_sentence": true
                     }
                 ],
                 "example": "remove 3"
@@ -518,7 +500,7 @@
                 "name": "restart",
                 "aliases": [],
                 "description": "Stop music playback and start playing from the start of the queue.",
-                "usage": "leave",
+                "usage": "restart",
                 "params": [],
                 "example": "restart"
             },
@@ -597,27 +579,6 @@
                     }
                 ],
                 "example": "volume 50"
-            }
-        ]
-    },
-    "tests": {
-        "commands": [
-            {
-                "guild_only": true,
-                "name": "test",
-                "aliases": [],
-                "description": "Finds the lyrics of the current song, or searches lyrics for a given song.",
-                "usage": "lyrics <query (optional)>",
-                "params": [
-                    {
-                        "name": "query",
-                        "description": "E.g. The name of the artist and the song.",
-                        "type": "string",
-                        "required": false,
-                        "allow_sentence": true
-                    }
-                ],
-                "example": "lyrics Alvaro Soler La Cintura"
             }
         ]
     }
