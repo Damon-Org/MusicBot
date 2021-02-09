@@ -19,7 +19,7 @@ export default class Main extends DiscordClient {
      * @param {string} root_dir The root directory of the project
      * @param {string} token Discord Bot token
      */
-    constructor(root_dir, token) {
+    constructor(token) {
         super(config.client_options);
 
         this.bootUp = Date.now();
@@ -33,7 +33,6 @@ export default class Main extends DiscordClient {
             util
         });
 
-        this._root_dir = root_dir;
         this._token = token;
     }
 
@@ -42,13 +41,6 @@ export default class Main extends DiscordClient {
      */
     get modules() {
         return this._moduleManager;
-    }
-
-    /**
-     * @returns {string} The root directory of the project
-     */
-    get root() {
-        return this._root_dir;
     }
 
     /**
@@ -75,8 +67,10 @@ export default class Main extends DiscordClient {
     /**
      * Disconnects the client and tells all modules to cleanup
      */
-    async shutdown() {
+    async shutdown(termination = 'INTERNAL') {
         this.destroy();
+
+        this.log('MAIN', `Received "${termination}", shutting down...`);
 
         await this._moduleManager.cleanup();
 
