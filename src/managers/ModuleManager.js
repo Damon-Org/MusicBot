@@ -1,5 +1,5 @@
 import ImportDir from '@yimura/import-dir'
-import ModuleProxy from './module/Proxy.js'
+import ModuleProxy from './module/ModuleProxy.js'
 import log from '../util/Log.js'
 import { resolve } from 'path'
 
@@ -106,7 +106,7 @@ export default class ModuleManager extends ModuleProxy {
                         }
                     }
 
-                    if (typeof this._m.on === 'function') this._m.on(_event.name, instance[_event.call].bind());
+                    if (typeof this._m.on === 'function') this._m.on(_event.name, instance[_event.call].bind(instance));
                 }
             }
         }
