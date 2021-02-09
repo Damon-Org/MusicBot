@@ -4,4 +4,5 @@ services:
     build: .
     init: true
     volumes:
-      - ./data:/data
+      - ./data:/usr/src/app/data
+      - ./log:/usr/src/app/log
