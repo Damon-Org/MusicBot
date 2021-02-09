@@ -19,8 +19,8 @@
 [submodule "src/modules/EventExtender"]
 	path = src/modules/EventExtender
 	url = git@github.com:Damon-Org/EventExtender.git
-[submodule "src/modules:DJSystem"]
-	path = src/modules:DJSystem
+[submodule "src/modules/DJSystem"]
+	path = src/modules/DJSystem
 	url = git@github.com:Damon-Org/DJSystem.git
 [submodule "src/modules/ReactionInterface"]
 	path = src/modules/ReactionInterface
