@@ -155,7 +155,7 @@
     "DJ": [
         {
             "guild_only": true,
-            "name": "add",
+            "name": "dj add",
             "aliases": [],
             "description": "Add a DJ user.",
             "usage": "dj add <@ mention>",
@@ -171,7 +171,7 @@
         },
         {
             "guild_only": true,
-            "name": "disable",
+            "name": "dj disable",
             "aliases": [],
             "description": "Disable the DJ system.",
             "usage": "dj disable",
@@ -189,7 +189,7 @@
         },
         {
             "guild_only": true,
-            "name": "enable",
+            "name": "dj enable",
             "aliases": [],
             "description": "Enable the DJ system.",
             "usage": "dj enable",
@@ -207,7 +207,7 @@
         },
         {
             "guild_only": true,
-            "name": "info",
+            "name": "dj info",
             "aliases": [],
             "description": "Shows some information about the DJ system and which modes exists.",
             "usage": "dj info",
@@ -216,7 +216,7 @@
         },
         {
             "guild_only": true,
-            "name": "list",
+            "name": "dj list",
             "aliases": [],
             "description": "Shows a list of all users that are currently DJ.",
             "usage": "dj list",
@@ -225,9 +225,9 @@
         },
         {
             "guild_only": true,
-            "name": "lock",
+            "name": "dj lock",
             "aliases": [
-                "unlock"
+                "dj unlock"
             ],
             "description": "Lock the playlist from being modified by non DJ users.",
             "usage": "dj lock",
@@ -236,7 +236,7 @@
         },
         {
             "guild_only": true,
-            "name": "mode",
+            "name": "dj mode",
             "aliases": [],
             "description": "Change the DJ mode.",
             "usage": "dj mode <# mode>",
@@ -252,9 +252,9 @@
         },
         {
             "guild_only": true,
-            "name": "persistmode",
+            "name": "dj persistmode",
             "aliases": [
-                "persist mode"
+                "dj persist mode"
             ],
             "description": "This will enforce a set DJ mode on the server.",
             "usage": "dj persistmode <# mode>",
@@ -270,7 +270,7 @@
         },
         {
             "guild_only": true,
-            "name": "remove",
+            "name": "dj remove",
             "aliases": [],
             "description": "This command forcefully resigns a DJ from his position.",
             "usage": "dj remove <@ mention>",
@@ -295,7 +295,7 @@
         },
         {
             "guild_only": true,
-            "name": "leave",
+            "name": "dj leave",
             "aliases": [
                 "resign"
             ],
