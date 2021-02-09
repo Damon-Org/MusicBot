@@ -27,7 +27,7 @@
     "deezer-web-api": "^1.7.2",
     "discord.js": "^12.3.1",
     "humanize-duration": "^3.23.1",
-    "mongoose": "^5.10.9",
+    "mongoose": "^5.11.15",
     "mysql2": "^2.1.0",
     "shoukaku": "^1.5.2",
     "spotify-web-api-node": "^4.0.0",
