@@ -1,6 +1,7 @@
-version: 3.9
+version: "3.9"
 services:
   damon:
     build: .
     init: true
-    volumes: ./data:/data
+    volumes:
+      - ./data:/data
