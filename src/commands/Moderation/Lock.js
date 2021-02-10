@@ -24,9 +24,9 @@ export default class Lock extends BaseCommand {
                     required: true
                 },
                 {
-                    name: '# channel',
+                    name: 'channel',
                     description: 'Mention a channel with #channelname',
-                    type: 'reference',
+                    type: 'channel',
                     default: 'Takes the channel the command was ran in'
                 }
             ],
