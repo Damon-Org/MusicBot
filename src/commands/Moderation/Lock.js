@@ -47,9 +47,8 @@ export default class Lock extends BaseCommand {
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        const
-            channel = this.msgObj.mentions.channels.first() || this.textChannel,
-            type = this.args[0].toString();
+        const channel = this.args[1] || this.textChannel;
+        const type = this.args[0];
 
         if (['dj', 'music'].includes(type)) {
             const otherChannels = this.server.settings.data.lockedChannels.filter(lockedChannel => lockedChannel.category !== type);
