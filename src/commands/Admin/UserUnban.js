@@ -23,7 +23,7 @@ export default class UnbanUser extends WebSocketCommand {
                 {
                     name: 'user',
                     description: 'The user to be unbanned.',
-                    type: 'mention',
+                    type: 'user',
                     required: true
                 }
             ],
