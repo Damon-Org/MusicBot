@@ -119,11 +119,11 @@ export default class BaseCommand extends Map {
      * @param {boolean} mentioned 
      */
     async exec(msgObj, args, command, mentioned) {
+        if (mentioned) this._removeBotMention();
+
         this._msg = msgObj;
         this._parseArguments(args);
         if (!this._checkArguments()) return false;
-
-        if (mentioned) this._removeBotMention();
 
         if (!await this._canCommandRunInChannel(command)) return false;
         if (!await this._hasPermissions()) return false;
@@ -169,14 +169,15 @@ export default class BaseCommand extends Map {
      */
     _argumentValidationError(title, index = null) {
         const embed = new Discord.MessageEmbed();
-        embed.setTitle('Command: ' + this.name);
+        embed.setTitle(this.name);
         embed.setAuthor(title);
         embed.setDescription(this.description);
 
-        this.params.forEach((param) => {
-            embed.addField('Name', param.name);
+        this.params.forEach((param, index) => {
+            // embed.addField('#', index, true);
+            embed.addField('Name', param.name, true);
             embed.addField('Type', param.type, true);
-            embed.addField('Description', param.type, true);
+            embed.addField('Description', param.description, true);
         });
 
         this.send(embed);
@@ -207,13 +208,14 @@ export default class BaseCommand extends Map {
     _checkArguments() {
         if (this.args.length > this.params.length) return this._argumentValidationError('Too many arguments.');
 
-        this.args.forEach((arg, i) => {
+        for (let i = 0; i < this.args.length; i++) {
+            const arg = this.args[i];
             const param = this.params[i];
 
             if (param.required && !arg) {
                 return this._argumentValidationError('Missing arguments', i);
             }
-        });
+        }
 
         return true;
     }
@@ -263,11 +265,11 @@ export default class BaseCommand extends Map {
 
         let result = true;
 
-        for (let level of this.permissions.levels) {
-            const type = level.type.toUpperCase();
+        for (const level of this.permissions.levels) {
+            const type = level.type.toUpperCase().trim();
 
             switch (type) {
-                case 'SERVER':
+                case "SERVER":
                     if (!this.serverMember.hasPermission(level.name)) {
                         if (or) {
                             result = false;
@@ -282,8 +284,9 @@ export default class BaseCommand extends Map {
                     }
     
                     if (or) return true;
+                    break;
             
-                case 'ROLE':
+                case "ROLE":
                     if (this.serverMember.roles.cache.find(x => x.name.toLowerCase() === level.name)) {
                         if (or) {
                             result = false;
@@ -298,20 +301,22 @@ export default class BaseCommand extends Map {
                     }
     
                     if (or) return true;
+                    break;
 
-                case 'COMMAND_HANDLED':
-                    if (!await this.permission()) {
+                case "COMMAND_HANDLED":
+                    if (typeof this.permission === 'function' && !await this.permission()) {
                         result = false;
     
                         continue;
                     }
     
                     if (or) return true;
+                    break;
 
                 default:
-                    log.error('CMD', `Command '${this.name}' permissions incorrectly configured, unknown type: ${level.type}`);
+                    this.log.error('CMD', `Command '${this.name}' permissions incorrectly configured, unknown type: ${level.type}`);
 
-                    this.send('The developer has incorrectly configured the permissions of this command, contact the developer if this problem keeps occuring.');
+                    this.send('This command has incorrectly configured permissions, contact the developer if this problem keeps occuring.');
 
                     return false;
             }
