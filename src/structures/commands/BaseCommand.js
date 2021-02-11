@@ -45,6 +45,10 @@ export default class BaseCommand extends Map {
         return this.servers.get(this.msgObj.guild);
     }
 
+    get servers() {
+        return this._m.servers;
+    }
+
     get textChannel() {
         return this.msgObj.channel;
     }
@@ -171,14 +175,13 @@ export default class BaseCommand extends Map {
         const embed = new Discord.MessageEmbed();
         embed.setTitle(this.name);
         embed.setAuthor(title);
-        embed.setDescription(this.description);
+        let description = this.description;
 
         this.params.forEach((param, index) => {
-            // embed.addField('#', index, true);
-            embed.addField('Name', param.name, true);
-            embed.addField('Type', param.type, true);
-            embed.addField('Description', param.description, true);
+            description += `\`\`\`cpp\n[${index + 1}] <${param.type}> "${param.description}"\n${param.required ? '#required' : 'defaults: '}${param.default ?  param.default : ''}\`\`\``;
         });
+
+        embed.setDescription(description);
 
         this.send(embed);
 
