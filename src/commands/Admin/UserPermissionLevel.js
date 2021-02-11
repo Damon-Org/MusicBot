@@ -21,13 +21,13 @@ export default class UserPermissionLevel extends WebSocketCommand {
                 {
                     name: 'user',
                     description: 'The user to be modified.',
-                    type: 'mention',
+                    type: 'user',
                     required: true
                 },
                 {
                     name: 'permission_level',
                     description: 'The new permission level for the user.',
-                    type: 'number',
+                    type: 'int',
                     required: true
                 }
             ],

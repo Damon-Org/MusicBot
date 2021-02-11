@@ -23,7 +23,7 @@ export default class BanUser extends WebSocketCommand {
                 {
                     name: 'user',
                     description: 'The user to be banned.',
-                    type: 'mention',
+                    type: 'user',
                     required: true
                 },
                 {
