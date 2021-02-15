@@ -31,7 +31,7 @@ export default class BanUser extends WebSocketCommand {
                     description: 'The reason why a user was banned.',
                     type: 'string',
                     default: null,
-                    allow_sentence: true
+                    is_sentence: true
                 }
             ],
             system_permission: {
