@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "docker-compose build && docker-compose up -d",
-    "test": "docker-compose build && docker-compose up",
+    "start": "docker-compose up --build -d",
+    "test": "docker-compose build && docker-compose up --build",
     "submodule-update": "git submodule foreach git pull",
     "submodule-init": "git submodule foreach git checkout master"
   },
@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@yimura/import-dir": "^0.1.10",
-    "@yimura/scraper": "^0.2.3",
+    "@yimura/scraper": "^1.0.0",
     "deezer-web-api": "^1.7.2",
     "discord.js": "^12.3.1",
     "humanize-duration": "^3.23.1",
