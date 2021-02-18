@@ -14,11 +14,27 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2021-08-18, Version v1.0.2
+
+### Notable Changes
+
+ * MusicSystem max queue has been bumped to 500.
+ * Fixed some typos in MusicSystem
+
 ## 2021-08-18, Version 1.0.1
 
 ### Notable Changes
 
  * Forgot to add servers to the database when the bot joined them.
+
+## 2021-08-17, Version 1.0.0
+
+### Notable Changes
+
+ * Support for Deezer has been added
+ * You can now queue the top 10 tracks of an artist from Spotify
+ * Bumped queue max length from 300 to 500
+ * Reliability improvements
 
 ## 2020-09-08, Version v0.7.3 (**7e23c094356f7a3d64b99b603a5f10dfe7f4bbf3**)
 
