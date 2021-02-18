@@ -14,6 +14,12 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2021-08-18, Version 1.0.1
+
+### Notable Changes
+
+ * Forgot to add servers to the database when the bot joined them.
+
 ## 2020-09-08, Version v0.7.3 (**7e23c094356f7a3d64b99b603a5f10dfe7f4bbf3**)
 
 ### Notable Changes
