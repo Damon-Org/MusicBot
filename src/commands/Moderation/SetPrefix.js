@@ -44,7 +44,7 @@ export default class SetPrefix extends BaseCommand {
      * @param {string} command string representing what triggered the command
      */
     async run(command) {
-        const prefix = this.args[0].toString();
+        const prefix = this.args[0];
         const defaultPrefix = this.globalStorage.get('prefix');
 
         if (!prefix || prefix == defaultPrefix) {

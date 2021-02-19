@@ -45,7 +45,7 @@ export default class RemoveLock extends BaseCommand {
      * @param {String} command string representing what triggered the command
      */
     async run(command) {
-        const type = this.args[0].toString();
+        const type = this.args[0];
 
         if (['dj', 'music'].includes(type)) {
             const otherChannels = this.server.settings.data.lockedChannels.filter(lockedChannel => lockedChannel.category !== type);
