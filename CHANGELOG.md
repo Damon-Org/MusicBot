@@ -14,6 +14,13 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2021-08-19, Version v1.0.3
+
+### Notable Changes
+
+ * Fixed an edge case crash on Spotify track resolving
+ * Removed old CommandArgument.toString() as commands are pre-parsed
+
 ## 2021-08-18, Version v1.0.2
 
 ### Notable Changes
