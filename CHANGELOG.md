@@ -14,27 +14,33 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
-## 2021-08-19, Version v1.0.3
+## 2021-02-27, Version v1.0.4
+
+### Notable Changes
+
+ * Fixed a problem related to arguments having `is_sentence` enabled.
+
+## 2021-02-19, Version v1.0.3
 
 ### Notable Changes
 
  * Fixed an edge case crash on Spotify track resolving
  * Removed old CommandArgument.toString() as commands are pre-parsed
 
-## 2021-08-18, Version v1.0.2
+## 2021-02-18, Version v1.0.2
 
 ### Notable Changes
 
  * MusicSystem max queue has been bumped to 500.
  * Fixed some typos in MusicSystem
 
-## 2021-08-18, Version 1.0.1
+## 2021-02-18, Version 1.0.1
 
 ### Notable Changes
 
  * Forgot to add servers to the database when the bot joined them.
 
-## 2021-08-17, Version 1.0.0
+## 2021-02-17, Version 1.0.0
 
 ### Notable Changes
 

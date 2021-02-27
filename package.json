@@ -1,6 +1,6 @@
 {
   "name": "damon_base",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An extended base code for a Discord bot",
   "main": "index.js",
   "type": "module",
