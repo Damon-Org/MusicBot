@@ -46,7 +46,7 @@ export default class BanUser extends WebSocketCommand {
      * @param {string} command string representing what triggered the command
      */
     async run(command) {
-        const reason = !this.args[1] ? null : this.args.slice(1).join(' ');
+        const reason = !this.args[1] ? null : this.args[1].join(' ');
         let userId = this.args[0];
 
         if (isNaN(this.args[0])) {
