@@ -14,6 +14,13 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2021-03-18, Version v1.0.6
+
+### Notable Changes
+
+ * Fixed an issue with the queue command failing to parse pages
+ * Fixed a problem where the prefix of a server would be undefined
+
 ## 2021-03-06, Version v1.0.5
 
 ### Notable Changes
