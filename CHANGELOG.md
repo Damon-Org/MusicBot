@@ -14,6 +14,12 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2021-04-01, Version v1.0.7
+
+### Notable Changes
+
+ * Fixed an edge case crash in SpotifyResolver=>ResolvableTrack#138
+
 ## 2021-03-18, Version v1.0.6
 
 ### Notable Changes
