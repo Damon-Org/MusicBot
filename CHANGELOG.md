@@ -19,6 +19,7 @@ Major versions starting with a **0** will have **minor** interpreted as major's 
 ### Notable Changes
 
  * Fixed an edge case crash in SpotifyResolver=>ResolvableTrack#138
+ * Fixed a crash in EventExtender with VoiceChannel being null
 
 ## 2021-03-18, Version v1.0.6
 
