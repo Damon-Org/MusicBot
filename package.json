@@ -1,12 +1,13 @@
 {
   "name": "damon_base",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "An extended base code for a Discord bot",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "docker-compose up --build -d",
     "test": "docker-compose build && docker-compose up --build",
+    "submodule-latest": "git submodule foreach git checkout master && git submodule foreach git pull",
     "submodule-update": "git submodule foreach git pull",
     "submodule-init": "git submodule foreach git checkout master"
   },
