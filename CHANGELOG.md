@@ -14,6 +14,15 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2021-04-27, Version v1.0.8
+
+### Notable Changes
+
+ * Development bot token was revoked due to a mistake, renewed token in auth file.
+ * Metrics module has been simplified due to modules being better mapped and initialized.
+ * Docker files have been slightly modified for better management and server deployment.
+ * Fixed an edge case crash in MusicUtils
+
 ## 2021-04-01, Version v1.0.7
 
 ### Notable Changes
