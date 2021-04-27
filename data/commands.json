@@ -56,9 +56,9 @@
                     "required": true
                 },
                 {
-                    "name": "# channel",
+                    "name": "channel",
                     "description": "Mention a channel with #channelname",
-                    "type": "reference",
+                    "type": "channel",
                     "default": "Takes the channel the command was ran in"
                 }
             ],
@@ -161,9 +161,9 @@
             "usage": "dj add <@ mention>",
             "params": [
                 {
-                    "name": "mention",
+                    "name": "user",
                     "description": "The user to be added.",
-                    "type": "mention",
+                    "type": "user",
                     "required": true
                 }
             ],
@@ -244,7 +244,7 @@
                 {
                     "name": "mode",
                     "description": "The new mode to be used for DJ's",
-                    "type": "number",
+                    "type": "string",
                     "required": true
                 }
             ],
@@ -262,7 +262,7 @@
                 {
                     "name": "mode",
                     "description": "The new mode to be used for DJ's",
-                    "type": "number",
+                    "type": "string",
                     "required": true
                 }
             ],
@@ -276,9 +276,9 @@
             "usage": "dj remove <@ mention>",
             "params": [
                 {
-                    "name": "mention",
+                    "name": "user",
                     "description": "The user to be forcefully resigned.",
-                    "type": "mention",
+                    "type": "user",
                     "required": true
                 }
             ],
@@ -360,7 +360,7 @@
                     "description": "Search on YouTube or use a link to add to the queue.",
                     "type": "string",
                     "required": true,
-                    "allow_sentence": true
+                    "is_sentence": true
                 }
             ],
             "example": "play https://www.youtube.com/watch?v=rVHn3GOXvzk"
@@ -380,7 +380,7 @@
                     "description": "Search on YouTube or use a YouTube link.",
                     "type": "string",
                     "required": true,
-                    "allow_sentence": true
+                    "is_sentence": true
                 }
             ],
             "example": "play https://www.youtube.com/watch?v=rVHn3GOXvzk"
@@ -419,7 +419,7 @@
                 {
                     "name": "page-number",
                     "description": "Queue page number",
-                    "type": "number",
+                    "type": "int",
                     "default": "Shows the first page of queue"
                 }
             ],
@@ -441,7 +441,7 @@
                     "description": "Title of the song or the queue number",
                     "type": "string",
                     "default": "Will remove the currently playing song from queue",
-                    "allow_sentence": true
+                    "is_sentence": true
                 }
             ],
             "example": "remove 3"
@@ -542,7 +542,7 @@
                 {
                     "name": "queue-number",
                     "description": "Number of a song in queue",
-                    "type": "number",
+                    "type": "int",
                     "required": true
                 }
             ],
@@ -561,7 +561,7 @@
                 {
                     "name": "volume",
                     "description": "A number ranging from 1 to 200",
-                    "type": "number",
+                    "type": "int",
                     "default": "Will show the current volume."
                 }
             ],
