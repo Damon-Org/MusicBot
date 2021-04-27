@@ -1,7 +1,7 @@
 export default {
     "token": {
         "prod": "NTQ0NTIyMDU0OTMwNzkyNDQ5.XdExdA.-j0hmybYVhANIqhK6GPIY0BVXn4",
-        "dev": "NTY3NzM2ODE5MzA3NzczOTYy.XQP_2w.nIbgKE5z8Lul5fEDXM3_askeMJY"
+        "dev": "NTY3NzM2ODE5MzA3NzczOTYy.XLX4HQ.uYJMoDW7exHo4j4hztTEKiC4xIA"
     },
     "credentials": {
         "api": {
@@ -58,7 +58,7 @@ export default {
                 "name": "Damon_LavaLink",
                 "host": "lavalink.damon.sh",
                 "port": 6978,
-                "auth": "3s^l82aZ2i8p^1X%"
+                "auth": "A92737A23C655D954F7610FF4BE7F880e"
             }
         ],
 
