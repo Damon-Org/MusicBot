@@ -14,6 +14,15 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2021-04-29, Version v1.0.9
+
+### Notable Changes
+
+ * Formatting changes to logger
+ * Added/fixed verbose logging
+ * Fixed an error on songs that are set on repeat,
+ the music bot will attempt to run a timeout to kill music while the bot still plays music.
+
 ## 2021-04-27, Version v1.0.8
 
 ### Notable Changes
