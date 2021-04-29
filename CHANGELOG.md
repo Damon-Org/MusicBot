@@ -14,6 +14,14 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2021-04-30, Version v1.0.10
+
+### Notable Changes
+
+ * Fixed an error on bot shutdown
+ * Fixed an error on CommandHandler when exceeding the maximum all number of arguments.
+ * Covered for possible errors for after the music system gets reset and the bot still tries to send a message
+
 ## 2021-04-29, Version v1.0.9
 
 ### Notable Changes
