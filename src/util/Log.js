@@ -65,23 +65,23 @@ export default class log {
 
     }
 
-    static info(...args) {
-        log._log('info', ...args);
-    }
-
-    static verbose(...args) {
-        log.info(...args);
-    }
-
-    static warn(...args) {
-        log._log('warning', ...args);
+    static critical(...args) {
+        log._log('critical', ...args);
     }
 
     static error(...args) {
         log._log('error', ...args);
     }
 
-    static critical(...args) {
-        log._log('critical', ...args);
+    static info(...args) {
+        log._log('info', ...args);
+    }
+
+    static verbose(...args) {
+        log._log('verbose', ...args);
+    }
+
+    static warn(...args) {
+        log._log('warning', ...args);
     }
 }
