@@ -70,7 +70,7 @@ export default class Main extends DiscordClient {
     async shutdown(termination = 'INTERNAL') {
         this.destroy();
 
-        this.log('MAIN', `Received "${termination}", shutting down...`);
+        this.log.info('MAIN', `Received "${termination}", shutting down...`);
 
         await this._moduleManager.cleanup();
 
