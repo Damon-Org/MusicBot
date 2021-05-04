@@ -37,9 +37,6 @@
 [submodule "src/modules/TrackDeezer"]
 	path = src/modules/TrackDeezer
 	url = git@github.com:Damon-Org/TrackDeezer.git
-[submodule "src/modules/WebSocketClient"]
-	path = src/modules/WebSocketClient
-	url = git@github.com:Damon-Org/WebSocketClient.git
 [submodule "src/modules/MongoDB"]
 	path = src/modules/MongoDB
 	url = git@github.com:Damon-Org/MongoDB.git
@@ -55,3 +52,6 @@
 [submodule "src/modules/CasaLinkClient"]
 	path = src/modules/CasaLinkClient
 	url = git@github.com:Damon-Org/CasaLinkClient.git
+[submodule "src/modules/SocketClient"]
+	path = src/modules/SocketClient
+	url = git@github.com:Damon-Org/SocketClient.git
