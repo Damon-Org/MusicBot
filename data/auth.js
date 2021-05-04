@@ -62,6 +62,13 @@ export default {
             }
         ],
 
+        "socket": {
+            "group": "damon",
+            "host": "192.168.0.228",
+            "port": "42069",
+            "token": "arPiaKDXFcoy$S*u74B!@mCbe6fLiuMB"
+        },
+
         "ws": {
             "group": "damon",
             "host": "home.damon.sh",
