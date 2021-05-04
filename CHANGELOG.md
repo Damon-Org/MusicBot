@@ -14,6 +14,12 @@ Following (beta):
 
 Major versions starting with a **0** will have **minor** interpreted as major's and a bump of this number will be seen as a total rewrite
 
+## 2021-05-04, Version v1.0.11
+
+### Notable Changes
+
+ * Fixed shuffle command from hard crashing the bot accross the entire shard or process.
+
 ## 2021-04-30, Version v1.0.10
 
 ### Notable Changes
