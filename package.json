@@ -23,7 +23,7 @@
   "author": "Yimura",
   "license": "MIT",
   "dependencies": {
-    "@yimura/import-dir": "^0.1.10",
+    "@yimura/import-dir": "^0.1.12",
     "@yimura/scraper": "^1.0.0",
     "deezer-web-api": "^1.7.2",
     "discord.js": "^12.3.1",
