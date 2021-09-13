@@ -1,12 +1,41 @@
-import Main from './client/Main.js';
-import log from './util/Log.js'
+import auth from '@/data/auth.js'
+import config from '@/data/config.js'
+import Log from './util/Log.js'
+import { ShardingManager } from 'discord.js'
 
-const instance = new Main(process.env.DISCORD_TOKEN);
-instance.start();
+export default class Main extends ShardingManager {
+    constructor() {
+        super('./src/Client.js', {
+            token: config.development ? auth.token.dev : auth.token.prod,
+            respawn: !config.development,
+            execArgv: [
+                '--experimental-loader=./util/loader.js'
+            ]
+        });
 
-process.on('unhandledRejection', (err) => {
-    if (!err.ignore) log.error('PROCESS', 'Error Occured:', err);
-});
+        this.on('shardCreate', this.shardCreated.bind(this));
+    }
 
-process.on('SIGINT', () => instance.shutdown('SIGINT'));
-process.on('SIGTERM', () => instance.shutdown('SIGTERM'));
+    /**
+     * @returns {Log}
+     */
+    get log() {
+        return Log;
+    }
+
+    exit() {
+        for (const shard of this.shards.values())
+            if (shard.ready)
+                shard.kill();
+
+        process.exit();
+    }
+
+    async start() {
+        this.spawn();
+    }
+
+    shardCreated(shard) {
+        this.log.info('SHARD_MANAGER', `Shard ${shard.id + 1}/${this.totalShards} has started.`);
+    }
+}

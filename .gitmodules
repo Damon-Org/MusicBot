@@ -1,57 +1,39 @@
 [submodule "src/modules/CommandHandler"]
 	path = src/modules/CommandHandler
-	url = git@github.com:Damon-Org/CommandHandler.git
+	url = https://github.com/Damon-Org/CommandHandler
 [submodule "src/modules/CommandRegistrar"]
 	path = src/modules/CommandRegistrar
-	url = git@github.com:Damon-Org/CommandRegistrar.git
-[submodule "src/modules/LavaLink"]
-	path = src/modules/LavaLink
-	url = git@github.com:Damon-Org/LavaLink.git
-[submodule "src/modules/Presence"]
-	path = src/modules/Presence
-	url = git@github.com:Damon-Org/Presence.git
+	url = https://github.com/Damon-Org/CommandRegistrar
 [submodule "src/modules/MusicSystem"]
 	path = src/modules/MusicSystem
-	url = git@github.com:Damon-Org/MusicSystem.git
-[submodule "src/modules/APICollections"]
-	path = src/modules/APICollections
-	url = git@github.com:Damon-Org/APICollections.git
-[submodule "src/modules/EventExtender"]
-	path = src/modules/EventExtender
-	url = git@github.com:Damon-Org/EventExtender.git
+	url = git@github.com:Damon-Org/MusicSystem
 [submodule "src/modules/DJSystem"]
 	path = src/modules/DJSystem
-	url = git@github.com:Damon-Org/DJSystem.git
-[submodule "src/modules/ReactionInterface"]
-	path = src/modules/ReactionInterface
-	url = git@github.com:Damon-Org/ReactionInterface.git
-[submodule "src/modules/Metrics"]
-	path = src/modules/Metrics
-	url = git@github.com:Damon-Org/Metrics.git
+	url = https://github.com/Damon-Org/DJSystem
+[submodule "src/modules/APICollections"]
+	path = src/modules/APICollections
+	url = https://github.com/Damon-Org/APICollections
+[submodule "src/modules/EventExtender"]
+	path = src/modules/EventExtender
+	url = https://github.com/Damon-Org/EventExtender
+[submodule "src/modules/LavaLink"]
+	path = src/modules/LavaLink
+	url = https://github.com/Damon-Org/LavaLink
 [submodule "src/modules/TrackResolver"]
 	path = src/modules/TrackResolver
-	url = git@github.com:Damon-Org/TrackResolver.git
+	url = https://github.com/Damon-Org/TrackResolver
 [submodule "src/modules/TrackSpotify"]
 	path = src/modules/TrackSpotify
-	url = git@github.com:Damon-Org/TrackSpotify.git
+	url = https://github.com/Damon-Org/TrackSpotify
 [submodule "src/modules/TrackDeezer"]
 	path = src/modules/TrackDeezer
-	url = git@github.com:Damon-Org/TrackDeezer.git
-[submodule "src/modules/MongoDB"]
-	path = src/modules/MongoDB
-	url = git@github.com:Damon-Org/MongoDB.git
+	url = https://github.com/Damon-Org/TrackDeezer
 [submodule "src/modules/ServerSetting"]
 	path = src/modules/ServerSetting
-	url = git@github.com:Damon-Org/ServerSetting.git
-[submodule "src/modules/UserSetting"]
-	path = src/modules/UserSetting
-	url = git@github.com:Damon-Org/UserSetting.git
-[submodule "src/modules/Lyrics"]
-	path = src/modules/Lyrics
-	url = git@github.com:Damon-Org/Lyrics.git
-[submodule "src/modules/CasaLinkClient"]
-	path = src/modules/CasaLinkClient
-	url = git@github.com:Damon-Org/CasaLinkClient.git
-[submodule "src/modules/SocketClient"]
-	path = src/modules/SocketClient
-	url = git@github.com:Damon-Org/SocketClient.git
+	url = https://github.com/Damon-Org/ServerSetting
+[submodule "src/modules/MongoDB"]
+	path = src/modules/MongoDB
+	url = https://github.com/Damon-Org/MongoDB
+[submodule "src/modules/ReactionInterface"]
+	path = src/modules/ReactionInterface
+	url = https://github.com/Damon-Org/ReactionInterface

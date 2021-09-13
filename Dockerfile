@@ -1,12 +1,11 @@
-FROM node:latest
+FROM node:current-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package.json .
-COPY package-lock.json .
 
-RUN npm i
+RUN npm i --silent
 
 COPY . .
 
-ENTRYPOINT ["node", "."]
+ENTRYPOINT [ "node", "--experimental-loader=./util/loader.js", "." ]

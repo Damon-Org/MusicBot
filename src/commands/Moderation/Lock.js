@@ -1,4 +1,4 @@
-import BaseCommand from '../../structures/commands/BaseCommand.js'
+import BaseCommand from '@/src/structures/commands/BaseCommand.js'
 
 export default class Lock extends BaseCommand {
     /**

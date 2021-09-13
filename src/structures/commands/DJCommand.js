@@ -61,7 +61,7 @@ export default class DJCommand extends BaseCommand {
 
         if (['play', 'play next'].includes(this.name) && this.dj.playlistLock) {
             this.reply('the playlist has been locked by the DJ, you can\'t add songs.')
-                .then(msg => msg.delete({timeout: 5e3}));
+                .then(msg => setTimeout(msg.delete, 5e3));
 
             return false;
         }

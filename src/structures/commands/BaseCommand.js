@@ -97,6 +97,10 @@ export default class BaseCommand extends Map {
         return this.textChannel.send(p1, p2);
     }
 
+    sendEmbed(embed) {
+        this.send({ embeds: [ embed ]});
+    }
+
 /**
  * Required for normal operation of commands
  */
@@ -183,7 +187,7 @@ export default class BaseCommand extends Map {
 
         embed.setDescription(description);
 
-        this.send(embed);
+        this.send({ embeds: [embed] });
 
         return false;
     }
@@ -237,7 +241,7 @@ export default class BaseCommand extends Map {
                     .setTitle("❌ Missing Permissions ❌")
                     .setDescription(`**__I__ don't have the __${this.self_permission['channel'] || this.self_permission['voice_channel']}__ permission**\nfor voice channel you're in.`)
                     .setColor("#ffff00")
-                this.textChannel.send(embed);
+                this.textChannel.send({embeds: [embed]});
 
                 return false;
             }
@@ -247,7 +251,7 @@ export default class BaseCommand extends Map {
                     .setTitle("❌ Missing Permissions ❌")
                     .setDescription(`**__I__ don't have the __${this.self_permission['channel'] || this.self_permission['text_channel']}__ permission**\nfor this text channel.`)
                     .setColor("#ffff00")
-                this.textChannel.send(embed);
+                this.textChannel.send({embeds: [embed]});
 
                 return false;
             }
@@ -273,7 +277,7 @@ export default class BaseCommand extends Map {
 
             switch (type) {
                 case "SERVER":
-                    if (!this.serverMember.hasPermission(level.name)) {
+                    if (!this.serverMember.permissions.has(level.name)) {
                         if (or) {
                             result = false;
     
@@ -281,7 +285,7 @@ export default class BaseCommand extends Map {
                         }
     
                         this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` permission(s).`)
-                            .then(msg => msg.delete({timeout: 5e3}));
+                            .then(msg => setTimeout(msg.delete, 5e3));
     
                         return false;
                     }
@@ -298,7 +302,7 @@ export default class BaseCommand extends Map {
                         }
     
                         this.msgObj.reply(`you do not have permission to use this command.\nYou need the \`${level.name}\` role to use this command.`)
-                            .then(msg => msg.delete({timeout: 5e3}));
+                            .then(msg => setTimeout(msg.delete, 5e3));
     
                         return false;
                     }

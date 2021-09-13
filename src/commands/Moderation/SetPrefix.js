@@ -1,4 +1,4 @@
-import BaseCommand from '../../structures/commands/BaseCommand.js'
+import BaseCommand from '@/src/structures/commands/BaseCommand.js'
 
 export default class SetPrefix extends BaseCommand {
     /**
@@ -76,7 +76,7 @@ export default class SetPrefix extends BaseCommand {
         }
 
         this.reply('new prefix is not a valid ASCII character or is longer than 6 characters, make sure you aren\'t using unicode or emoji\'s as a prefix.')
-            .then(msg => msg.delete({timeout: 5e3}));
+            .then(msg => setTimeout(msg.delete, 5e3));
 
         return true;
     }

@@ -1,4 +1,4 @@
-import WebSocketCommand from '../../structures/commands/WebSocketCommand.js'
+import WebSocketCommand from '@/src/structures/commands/WebSocketCommand.js'
 
 export default class Reload extends WebSocketCommand {
     /**

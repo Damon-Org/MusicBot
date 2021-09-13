@@ -1,4 +1,4 @@
-import BaseCommand from '../../structures/commands/BaseCommand.js'
+import BaseCommand from '@/src/structures/commands/BaseCommand.js'
 
 export default class Help extends BaseCommand {
     /**
@@ -32,6 +32,8 @@ export default class Help extends BaseCommand {
             .setColor('#32cd32')
             .setFooter('Powered by the 🔥 of the gods');
 
-        this.send(embed);
+        this.sendEmbed(embed);
+
+        return true;
     }
 }

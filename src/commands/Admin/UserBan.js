@@ -1,5 +1,5 @@
-import WebSocketCommand from '../../structures/commands/WebSocketCommand.js'
-import Util from '../../util/Util.js'
+import WebSocketCommand from '@/src/structures/commands/WebSocketCommand.js'
+import Util from '@/src/util/Util.js'
 
 export default class BanUser extends WebSocketCommand {
     /**
@@ -104,7 +104,7 @@ export default class BanUser extends WebSocketCommand {
                 .addField('Ban ID', banIdOrReason)
                 .addField('User Internal ID', internalId);
 
-            this.send(embed);
+            this.sendEmbed(embed);
 
             return true;
         }

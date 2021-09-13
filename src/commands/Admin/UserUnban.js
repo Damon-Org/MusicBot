@@ -1,5 +1,5 @@
-import WebSocketCommand from '../../structures/commands/WebSocketCommand.js'
-import Util from '../../util/Util.js'
+import WebSocketCommand from '@/src/structures/commands/WebSocketCommand.js'
+import Util from '@/src/util/Util.js'
 
 export default class UnbanUser extends WebSocketCommand {
     /**
