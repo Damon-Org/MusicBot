@@ -1,13 +1,13 @@
-import BaseCommand from '@/src/structures/commands/BaseCommand.js'
+import Modules from '@/src/Modules.js'
 import humanReadableTime from 'humanize-duration'
 
-export default class Stats extends BaseCommand {
+export default class Stats extends Modules.commandRegistrar.BaseCommand {
     /**
-     * @param {String} category
-     * @param {Array<*>} args
+     * @param {string} category
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(Stats, {
             category: category,
@@ -24,9 +24,9 @@ export default class Stats extends BaseCommand {
     }
 
     /**
-     * @param {String} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const creator = await this._m.users.fetch(this._m.config.creator);
 
         const embed = new this.Discord.MessageEmbed()

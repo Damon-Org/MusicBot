@@ -1,12 +1,12 @@
-import BaseCommand from '@/src/structures/commands/BaseCommand.js'
+import Modules from '@/src/Modules.js'
 
-export default class ResetPrefix extends BaseCommand {
+export default class ResetPrefix extends Modules.commandRegistrar.BaseCommand {
     /**
      * @param {string} category
-     * @param {Array<*>} args
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(ResetPrefix, {
             category: category,
@@ -34,9 +34,9 @@ export default class ResetPrefix extends BaseCommand {
     }
 
     /**
-     * @param {string} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const
             oldPrefix = this.server.settings.data.prefix,
             prefix = this.globalStorage.get('prefix');

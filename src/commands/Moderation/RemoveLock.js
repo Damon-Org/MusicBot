@@ -1,12 +1,12 @@
-import BaseCommand from '@/src/structures/commands/BaseCommand.js'
+import Modules from '@/src/Modules.js'
 
-export default class RemoveLock extends BaseCommand {
+export default class RemoveLock extends Modules.commandRegistrar.BaseCommand {
     /**
-     * @param {String} category
-     * @param {Array<*>} args
+     * @param {string} category
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(RemoveLock, {
             category: category,
@@ -42,9 +42,9 @@ export default class RemoveLock extends BaseCommand {
     }
 
     /**
-     * @param {String} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const type = this.args[0];
 
         if (['dj', 'music'].includes(type)) {

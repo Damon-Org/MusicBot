@@ -1,10 +1,10 @@
-import BaseCommand from '@/src/structures/commands/BaseCommand.js';
+import Modules from '@/src/Modules.js'
 
 /**
  * @category Commands
  * @extends BaseCommand
  */
-export default class Ping extends BaseCommand {
+export default class Ping extends Modules.commandRegistrar.BaseCommand {
     /**
      * @param {string} category
      * @param {Main} main
@@ -27,9 +27,9 @@ export default class Ping extends BaseCommand {
     }
 
     /**
-     * @param {string} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const
             ping = new Date().getTime() - this.msgObj.createdTimestamp,
             botPing = Math.round(this._m.ws.ping);

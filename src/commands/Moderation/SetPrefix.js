@@ -1,12 +1,12 @@
-import BaseCommand from '@/src/structures/commands/BaseCommand.js'
+import Modules from '@/src/Modules.js'
 
-export default class SetPrefix extends BaseCommand {
+export default class SetPrefix extends Modules.commandRegistrar.BaseCommand {
     /**
      * @param {string} category
-     * @param {Array<*>} args
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(SetPrefix, {
             category: category,
@@ -41,9 +41,9 @@ export default class SetPrefix extends BaseCommand {
     }
 
     /**
-     * @param {string} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const prefix = this.args[0];
         const defaultPrefix = this.globalStorage.get('prefix');
 

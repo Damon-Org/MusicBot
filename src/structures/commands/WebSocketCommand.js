@@ -1,6 +1,6 @@
-import BaseCommand from './BaseCommand.js'
+import Modules from '@/src/Modules.js'
 
-export default class WebSocketCommand extends BaseCommand {
+export default class WebSocketCommand extends Modules.commandRegistrar.BaseCommand {
     constructor(...args) {
         super(...args);
     }

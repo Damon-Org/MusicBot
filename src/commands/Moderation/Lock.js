@@ -1,12 +1,12 @@
-import BaseCommand from '@/src/structures/commands/BaseCommand.js'
+import Modules from '@/src/Modules.js'
 
-export default class Lock extends BaseCommand {
+export default class Lock extends Modules.commandRegistrar.BaseCommand {
     /**
-     * @param {String} category
-     * @param {Array<*>} args
+     * @param {string} category
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(Lock, {
             category: category,
@@ -44,9 +44,9 @@ export default class Lock extends BaseCommand {
     }
 
     /**
-     * @param {String} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const channel = this.args[1] || this.textChannel;
         const type = this.args[0];
 
