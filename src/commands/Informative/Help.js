@@ -1,4 +1,5 @@
 import Modules from '@/src/Modules.js'
+import { MessageEmbed, MessageButton, MessageActionRow } from 'discord.js'
 
 export default class Help extends Modules.commandRegistrar.BaseCommand {
     /**
@@ -31,18 +32,30 @@ export default class Help extends Modules.commandRegistrar.BaseCommand {
     }
 
     /**
-     * @param {String} trigger string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
     run(trigger) {
         const name = this.get('name');
         if (!name) {
-            const embed = new this.Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setTitle('Need help?')
-                .setDescription('Damon site with a list of commands: https://music.damon.sh/\nVisit me in my [Discord server](https://discord.gg/EG4zHFR)')
+                .setDescription('Click one of the links below.')
                 .setColor('#32cd32')
                 .setFooter('Powered by the 🔥 of the gods');
 
-            this.sendEmbed(embed);
+            const siteButton = new MessageButton()
+                .setLabel('Commands')
+                .setStyle('LINK')
+                .setURL('https://music.damon.sh');
+            const discordButton = new MessageButton()
+                .setLabel('Discord Server')
+                .setStyle('LINK')
+                .setURL('https://discord.gg/EG4zHFR');
+            const component = new MessageActionRow()
+                .addComponents(siteButton)
+                .addComponents(discordButton);
+
+            this.send({ embeds: [ embed ], components: [ component ] });
 
             return true;
         }
