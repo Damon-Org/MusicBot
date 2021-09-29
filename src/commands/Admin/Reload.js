@@ -3,10 +3,10 @@ import WebSocketCommand from '@/src/structures/commands/WebSocketCommand.js'
 export default class Reload extends WebSocketCommand {
     /**
      * @param {string} category
-     * @param {Array<*>} args
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(Reload, {
             category: category,
@@ -33,9 +33,9 @@ export default class Reload extends WebSocketCommand {
     }
 
     /**
-     * @param {string} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const reloadLevel = this.args[0];
 
         const response = await this.ws.sendEvent('RELOAD', 'GROUP', 'self', { target: reloadLevel ? reloadLevel : 'full' }, true, 3e3);

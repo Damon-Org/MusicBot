@@ -4,10 +4,10 @@ import Util from '@/src/util/Util.js'
 export default class UserPermissionLevel extends WebSocketCommand {
     /**
      * @param {string} category
-     * @param {Array<*>} args
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(UserPermissionLevel, {
             category: category,
@@ -40,9 +40,9 @@ export default class UserPermissionLevel extends WebSocketCommand {
     }
 
     /**
-     * @param {string} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const level = this.args[1];
         let userId = this.args[0];
 

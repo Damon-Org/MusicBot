@@ -4,10 +4,10 @@ import Util from '@/src/util/Util.js'
 export default class BanUser extends WebSocketCommand {
     /**
      * @param {string} category
-     * @param {Array<*>} args
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(BanUser, {
             category: category,
@@ -43,9 +43,9 @@ export default class BanUser extends WebSocketCommand {
     }
 
     /**
-     * @param {string} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const reason = !this.args[1] ? null : this.args[1].join(' ');
         let userId = this.args[0];
 
