@@ -1,7 +1,7 @@
-import WebSocketCommand from '@/src/structures/commands/WebSocketCommand.js'
+import AdministratorCommand from '@/src/structures/commands/AdministratorCommand.js'
 import Util from '@/src/util/Util.js'
 
-export default class UserPermissionLevel extends WebSocketCommand {
+export default class UserPermissionLevel extends AdministratorCommand {
     /**
      * @param {string} category
      * @param {Main} main
@@ -31,12 +31,12 @@ export default class UserPermissionLevel extends WebSocketCommand {
                     required: true
                 }
             ],
-            system_permission: {
-                level: 2,
-                condition: '>='
-            },
             example: ''
         });
+    }
+
+    get admin_level() {
+        return 3;
     }
 
     /**

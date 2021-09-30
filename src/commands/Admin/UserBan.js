@@ -1,7 +1,7 @@
-import WebSocketCommand from '@/src/structures/commands/WebSocketCommand.js'
+import AdministratorCommand from '@/src/structures/commands/AdministratorCommand.js'
 import Util from '@/src/util/Util.js'
 
-export default class BanUser extends WebSocketCommand {
+export default class BanUser extends AdministratorCommand {
     /**
      * @param {string} category
      * @param {Main} main
@@ -34,12 +34,12 @@ export default class BanUser extends WebSocketCommand {
                     is_sentence: true
                 }
             ],
-            system_permission: {
-                level: 2,
-                condition: '>='
-            },
             example: ''
         });
+    }
+
+    get admin_level() {
+        return 2;
     }
 
     /**

@@ -1,6 +1,6 @@
-import WebSocketCommand from '@/src/structures/commands/WebSocketCommand.js'
+import AdministratorCommand from '@/src/structures/commands/AdministratorCommand.js'
 
-export default class Reload extends WebSocketCommand {
+export default class Reload extends AdministratorCommand {
     /**
      * @param {string} category
      * @param {Main} main
@@ -24,12 +24,12 @@ export default class Reload extends WebSocketCommand {
                     default: 'Full reload of all modules and commands.'
                 }
             ],
-            system_permission: {
-                level: 3,
-                condition: '>='
-            },
             example: ''
         });
+    }
+
+    get admin_level() {
+        return 3;
     }
 
     /**
