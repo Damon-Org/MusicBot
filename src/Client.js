@@ -6,11 +6,13 @@ import EmbedUtils from './util/Embed.js'
 import Log from './util/Log.js'
 import Modules from './Modules.js'
 import ServerManager from './managers/ServerManager.js'
+import UserManager from './managers/UserManager.js'
 import Util from './util/Util.js'
 
 class Client extends DiscordClient {
     _gs = new Map();
     _serverManager = new ServerManager(this);
+    _userManager = new UserManager(this);
 
     constructor() {
         super({
@@ -48,6 +50,10 @@ class Client extends DiscordClient {
 
     get servers() {
         return this._serverManager;
+    }
+
+    get userManager() {
+        return this._userManager;
     }
 
     get version() {
