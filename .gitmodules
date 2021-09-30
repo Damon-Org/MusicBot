@@ -37,3 +37,6 @@
 [submodule "src/modules/ReactionInterface"]
 	path = src/modules/ReactionInterface
 	url = https://github.com/Damon-Org/ReactionInterface
+[submodule "src/modules/UserSettings"]
+	path = src/modules/UserSettings
+	url = https://github.com/Damon-Org/UserSetting.git
