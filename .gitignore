@@ -1,4 +1,5 @@
 data/auth.js
+data/commands.json
 
 log/*
 !log/.gitkeep
