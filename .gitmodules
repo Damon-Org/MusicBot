@@ -43,3 +43,6 @@
 [submodule "src/modules/Presence"]
 	path = src/modules/Presence
 	url = https://github.com/Damon-Org/Presence
+[submodule "src/modules/Metrics"]
+	path = src/modules/Metrics
+	url = https://github.com/Damon-Org/Metrics
