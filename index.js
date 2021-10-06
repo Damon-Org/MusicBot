@@ -1,25 +1,8 @@
-import { ShardingManager } from 'discord.js'
-import auth from './data/auth.js'
-import config from './data/config.js'
-import fs from 'fs'
+import Main from '@/src/Main.js'
 
-const shardManager = new ShardingManager(`${process.cwd()}/src/Main.js`, {
-    token: config.development ? auth.token.dev : auth.token.prod,
-    respawn: !config.development,
-    shardArgs: [
-        JSON.parse(fs.readFileSync(`${process.cwd()}/package.json`)).version
-    ]
-});
+const main = new Main();
+main.start();
 
-shardManager.spawn();
+['beforeExit', 'SIGUSR1', 'SIGUSR2', 'SIGINT', 'SIGTERM'].map(_ => process.once(_, main.exit.bind(main)));
 
-shardManager.on('shardCreate', shard => console.log(`[SHARD_MANAGER] Shard ${shard.id + 1}/${shardManager.totalShards} is starting...`));
-
-const shutdown = async () => {
-    await shardManager.killAll();
-
-    process.exit();
-};
-
-process.on('SIGINT', shutdown);
-process.on('SIGTERM', shutdown);
+process.on('unhandledRejection', (err) => main.log.error('PROCESS', 'Unhandled exception:', err));

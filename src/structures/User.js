@@ -3,7 +3,7 @@ import Scope from './Scope.js'
 export default class User extends Scope {
     /**
      * @param {Main} main
-     * @param {User} user
+     * @param {User} user Discord User
      */
     constructor(main, user) {
         super();
@@ -26,9 +26,8 @@ export default class User extends Scope {
     async hasPermission(level, condition) {
         if (!['<', '<=', '==', '>', '>='].includes(condition)) {
             throw new Error('Invalid condition was passed!');
-
-            return false;
         }
+        await this.settings.awaitData();
 
         // at this point the user's data should be fetched
         const permLevel = this.settings.data.level;

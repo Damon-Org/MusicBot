@@ -1,9 +1,8 @@
-version: "3.9"
+version: "3.5"
 services:
-  damon:
-    container_name: damon
+  music:
     build: .
     init: true
     volumes:
-      - ./data:/usr/src/app/data
-      - ./log:/usr/src/app/log
+      - ./data:/app/data
+      - ./log:/app/log

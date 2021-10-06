@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs'
+
 export const delay = (timeout) => new Promise((resolve, reject) => setTimeout(resolve, timeout));
 
 const isObject = d => typeof d === 'object' && d !== null;
@@ -32,8 +34,18 @@ export const flatten = (obj, ...props) => {
     return out;
 };
 
+export const loadJson = (path) => {
+    try {
+        return JSON.parse(readFileSync(process.cwd() + path));
+    }
+    catch (err) {
+        return null;
+    }
+}
+
 export default {
     delay,
     flatten,
+    loadJson,
     isObject
 };

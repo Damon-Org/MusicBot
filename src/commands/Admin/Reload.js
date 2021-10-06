@@ -1,12 +1,12 @@
-import WebSocketCommand from '../../structures/commands/WebSocketCommand.js'
+import AdministratorCommand from '@/src/structures/commands/AdministratorCommand.js'
 
-export default class Reload extends WebSocketCommand {
+export default class Reload extends AdministratorCommand {
     /**
      * @param {string} category
-     * @param {Array<*>} args
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(Reload, {
             category: category,
@@ -24,18 +24,18 @@ export default class Reload extends WebSocketCommand {
                     default: 'Full reload of all modules and commands.'
                 }
             ],
-            system_permission: {
-                level: 3,
-                condition: '>='
-            },
             example: ''
         });
     }
 
+    get admin_level() {
+        return 3;
+    }
+
     /**
-     * @param {string} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const reloadLevel = this.args[0];
 
         const response = await this.ws.sendEvent('RELOAD', 'GROUP', 'self', { target: reloadLevel ? reloadLevel : 'full' }, true, 3e3);

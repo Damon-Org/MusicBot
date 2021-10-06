@@ -1,4 +1,4 @@
-import User from '../structures/User.js'
+import User from '@/src/structures/User.js'
 
 /**
  * A map of user structures mapped by their discord id

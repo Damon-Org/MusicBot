@@ -1,38 +1,35 @@
 {
-  "name": "damon_base",
-  "version": "1.0.11",
-  "description": "An extended base code for a Discord bot",
+  "name": "music",
+  "version": "2.0.0",
+  "description": "Spyral Music Bot",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "docker-compose up --build -d",
-    "test": "docker-compose build && docker-compose up --build",
-    "submodule-latest": "git submodule foreach git checkout master && git submodule foreach git pull",
-    "submodule-update": "git submodule foreach git pull",
-    "submodule-init": "git submodule foreach git checkout master"
+    "test": "docker-compose up --build"
   },
   "repository": {
     "type": "git",
-    "url": "https://git.damon.sh/Yimura/damon_base"
+    "url": "git+https://github.com/Damon-Org/MusicBot.git"
   },
   "keywords": [
-    "discord",
-    "api",
-    "base"
+    "music",
+    "spyral"
   ],
-  "author": "Yimura",
+  "author": "yimura",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Damon-Org/MusicBot/issues"
+  },
+  "homepage": "https://github.com/Damon-Org/MusicBot#readme",
   "dependencies": {
     "@yimura/import-dir": "^0.1.12",
-    "@yimura/scraper": "^1.0.0",
+    "@yimura/scraper": "^1.2.3",
     "deezer-web-api": "^1.7.2",
-    "discord.js": "^12.3.1",
-    "humanize-duration": "^3.23.1",
-    "mongoose": "^5.11.15",
-    "mysql2": "^2.1.0",
-    "shoukaku": "^1.5.2",
-    "spotify-web-api-node": "^4.0.0",
-    "string-similarity": "^4.0.3",
-    "uuid": "^8.2.0"
+    "discord.js": "^13.1.0",
+    "humanize-duration": "^3.27.0",
+    "mongoose": "^6.0.2",
+    "shoukaku": "^2.0.4",
+    "spotify-web-api-node": "^5.0.2",
+    "string-similarity": "^4.0.4"
   }
 }

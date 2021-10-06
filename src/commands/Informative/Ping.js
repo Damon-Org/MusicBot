@@ -1,10 +1,10 @@
-import BaseCommand from '../../structures/commands/BaseCommand.js';
+import Modules from '@/src/Modules.js'
 
 /**
  * @category Commands
  * @extends BaseCommand
  */
-export default class Ping extends BaseCommand {
+export default class Ping extends Modules.commandRegistrar.BaseCommand {
     /**
      * @param {string} category
      * @param {Main} main
@@ -27,22 +27,22 @@ export default class Ping extends BaseCommand {
     }
 
     /**
-     * @param {string} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const
             ping = new Date().getTime() - this.msgObj.createdTimestamp,
             botPing = Math.round(this._m.ws.ping);
 
-        this.send('`Pinging...`').then(msg => {
-            const embed = new this.Discord.MessageEmbed()
-                .setTitle('Pong! 🏓')
-                .addField('Ping to Discord', `${botPing}ms`)
-                .addField('Response time', `${ping}ms`)
-                .addField('Reply time', `${msg.createdTimestamp - this.msgObj.createdTimestamp}ms`)
-                .setColor('#252422');
-            msg.edit('', embed);
-        });
+        const msg = await this.send('`Pinging...`');
+        msg.delete();
+        const embed = new this.Discord.MessageEmbed()
+            .setTitle('Pong! 🏓')
+            .addField('Ping to Discord', `${botPing}ms`)
+            .addField('Response time', `${ping}ms`)
+            .addField('Reply time', `${msg.createdTimestamp - this.msgObj.createdTimestamp}ms`)
+            .setColor('#252422');
+        this.sendEmbed(embed);
 
         return true;
     }

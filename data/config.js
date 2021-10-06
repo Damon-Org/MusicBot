@@ -1,64 +1,39 @@
 export default {
-    "development": false,
-    "generate_command_json": true,
+    development: true,
+    generate_command_json: true,
 
-    "creator": "Yimura#6969",
+    creator: "243072972326305798",
+    permission_bit: 238348632,
 
-    "client_options": {
-        "disableMentions": "everyone",
-
-        "messageCacheMaxSize": 100,
-        "messageCacheLifetime": 86400,
-        "messageSweepInterval": 86400,
-
-        "retryLimit": 1,
-
-        "ws": {
-            "intents": 13953
-        }
+    allow_mention_prefix: true,
+    default_prefix: {
+        dev: 's!',
+        prod: 'd!'
     },
 
-    "allow_mention_prefix": true,
-    "default_prefix": {
-        "prod": "d!",
-        "dev": "dev!"
-    },
-
-    "permission_bit": 238348632,
-
-    "presence_settings": {
-        "switch_interval": 25e3,
-        "presences": [
+    presence_settings: {
+        switch_interval: 25e3,
+        activities: [
             {
-                "activity": {
-                    "type": "WATCHING",
-                    "name": "version ${version}"
-                }
+                type: "WATCHING",
+                name: "s!help"
             },
             {
-                "activity": {
-                    "type": "LISTENING",
-                    "name": "d!help"
-                }
+                type: "WATCHING",
+                name: "version ${version}"
             },
             {
-                "activity": {
-                    "type": "WATCHING",
-                    "name": "us on https://music.damon.sh"
-                }
+                type:  "WATCHING",
+                name: "us on spyral.gg"
             },
             {
-                "activity": {
-                    "type": "PLAYING",
-                    "name": "with all the commands on https://music.damon.sh/#/commands"
-                }
+                type:  "PLAYING",
+                name: "with all the commands on commands.spyral.gg"
             },
             {
-                "activity": {
-                    "type": "WATCHING",
-                    "name": "over ${serverCount} guilds"
-                }
+                type:  "WATCHING",
+                name: "over ${serverCount} guilds"
             }
         ]
     }
-}
+};

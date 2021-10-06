@@ -1,13 +1,13 @@
-import WebSocketCommand from '../../structures/commands/WebSocketCommand.js'
-import Util from '../../util/Util.js'
+import AdministratorCommand from '@/src/structures/commands/AdministratorCommand.js'
+import Util from '@/src/util/Util.js'
 
-export default class UnbanUser extends WebSocketCommand {
+export default class UnbanUser extends AdministratorCommand {
     /**
      * @param {string} category
-     * @param {Array<*>} args
+     * @param {Main} main
      */
-    constructor(category, ...args) {
-        super(...args);
+    constructor(category, main) {
+        super(main);
 
         this.register(UnbanUser, {
             category: category,
@@ -27,18 +27,18 @@ export default class UnbanUser extends WebSocketCommand {
                     required: true
                 }
             ],
-            system_permission: {
-                level: 2,
-                condition: '>='
-            },
             example: ''
         });
     }
 
+    get admin_level() {
+        return 2;
+    }
+
     /**
-     * @param {string} command string representing what triggered the command
+     * @param {string} trigger string representing what triggered the command
      */
-    async run(command) {
+    async run(trigger) {
         const reason = !this.args[1] ? null : this.args.slice(1).join(' ');
         let userId = this.args[0];
 

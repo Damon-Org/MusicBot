@@ -14,7 +14,7 @@ export const editEmbed = (msgObj, newProps, edit = true) => {
 
     const embed = new MessageEmbed(embedData);
 
-    if (edit) msgObj.edit(embed)
+    if (edit) msgObj.edit({ embeds: [ embed ]})
 
     return embed;
 
