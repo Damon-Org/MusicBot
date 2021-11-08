@@ -46,3 +46,6 @@
 [submodule "src/modules/Metrics"]
 	path = src/modules/Metrics
 	url = https://github.com/Damon-Org/Metrics
+[submodule "src/modules/Reminder"]
+	path = src/modules/Reminder
+	url = https://github.com/Damon-Org/Reminder
