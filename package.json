@@ -1,6 +1,6 @@
 {
   "name": "music",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Spyral Music Bot",
   "main": "index.js",
   "type": "module",
